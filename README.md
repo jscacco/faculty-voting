@@ -31,9 +31,9 @@ CS 410, Fall 2020
   * Note that viewing/voting are seperate - those with viewing memberships can view polls and results, but not vote
 - Hosts can assign co-host
   * Co-hosts can add/rearrange polls, start quick-polls, close polls (we should discuss limitations of co-hosts, if there are any)
-- **Disscus if hosts and co-hosts should be able to vote (we may be able to understand this in the meeting tonight)
+- **Disscus if hosts and co-hosts should be able to vote (we may be able to understand this in the meeting tonight)**
 - Sessions remain unviewable until published by the host 
-  * **Discuss what happens when a session is published -- either session room code is created to be sent to individuals or session room code appears on users 'Dashboard'
+  * **Discuss what happens when a session is published -- either session room code is created to be sent to individuals or session room code appears on users 'Dashboard'**
 
 ##### Creating a Poll/Session Structure
 - Various types of polls: Y/N, multiple choice, short answer
@@ -44,14 +44,14 @@ CS 410, Fall 2020
   * Agenda can be reordered by simply dragging polls to their desired order
  
 ##### Joining a Session 
-- **Options for joining a session
+- **Options for joining a session**
   * User recieves session room code from the Host and enters a session similar to Kahoot (system checks to see if can enter/what type of room user)
   * User enters session room by clicking on the active session on their dashboard
 
 ##### Anonimity 
 - Anonimity begins as soon as a user enters a session
 - Whether or not the user is a viewer or voter is assest exterior to the voting room, once inside knowledge of a non-host user is binary: view or voter
-- **Discuss: should a host be aware of who has entered the room (not what they vote) or how many people are in the room
+- **Discuss: should a host be aware of who has entered the room (not what they vote) or how many people are in the room**
 
 #### In-Session
 ##### Viewing Polls
@@ -66,16 +66,16 @@ CS 410, Fall 2020
   * Use a 2-click system to ensure no mistaken polls 
     * Options for this could be: choose option / submit, choose option / pop-up "Are you sure?"
   * After each vote, confirmation of recorded vote (either check mark or popup or both)
-- **Users cannot see results until a poll is closed -- allows them to recast their votes without being swayed
+- **Users cannot see results until a poll is closed -- allows them to recast their votes without being swayed**
 - During the voting proccess hosts can use either a time limit or manually close the polls
-  * **Discuss: Offer some graphic for hosts/viewers of voting progress? -- actuall results or 'fuzzy' results
+  * **Discuss: Offer some graphic for hosts/viewers of voting progress? -- actuall results or 'fuzzy' results**
   * closing a poll seals the results and allows voters to view results
  
 ##### Dynamic Polling 
 - Hosts/co-hosts can alter the session while published/active
 - Add new polls
 - Remove polls 
-  * **Discuss if should be able to remove closed polls
+  * **Discuss if should be able to remove closed polls**
 - Only pending polls can be altered 
   * Change wording of poll
   * Change ordering of pending adgenda
