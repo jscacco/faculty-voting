@@ -39,7 +39,7 @@ CS 410, Fall 2020
 - Various types of polls: Y/N, multiple choice, short answer
   * Each type of poll has an 'Abstain' option 
   * Multiple choice questions can also have a write in section 
-    * **Discuss whether it should be all multiple choice or only those designated by the host
+    * **Discuss whether it should be all multiple choice or only those designated by the host**
 - Within a session room, polls are displayed in an 'agenda' (ordered list of polls)
   * Agenda can be reordered by simply dragging polls to their desired order
  
