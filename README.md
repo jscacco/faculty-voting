@@ -90,3 +90,18 @@ CS 410, Fall 2020
   * prevents any new edits (poll additions/removals/changes)
 - All poll results are available and able to convert them to a PDF
  
+### Faculty Voting Meeting Notes
+- Meeting is not recorded
+- Any faculty member that teaches more than half-time is able to vote
+- Current system
+  * Anonymous 
+  * Users see polling in percentages
+  * Hosts see actual numbers -- I think?
+- quick poll example
+  * amending the minutes
+- Y/N/Abstain
+- Results - can see numbers/percentages
+- User - select choice, then submit
+- Viewer - can see choices, no submit
+  * can see results
+- **Strash suggestion: Movement documents integrated into vote**
