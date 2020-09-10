@@ -3,7 +3,9 @@
 Make sure Node.js is installed (so you can run npm commands)
 
 `cd code/`
+
 `npm install`
+
 `npm start`
 
 This works on my computer (chrome window will pop-up with my gibborish) -- you may need to install some stuff, text me!
