@@ -9,8 +9,11 @@ class App extends Component {
     return (
       <div>
         <Jumbo color={Colors.Blue} small>
-          TEsts asdf
+          This is the jumbo text, used for headers and such...
         </Jumbo>
+        <Body color={Colors.Red} large>
+          This is the body, used for everything else! Note that sizing can change.
+        </Body>
       </div>
     );
   }
