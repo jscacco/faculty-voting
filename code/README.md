@@ -1,3 +1,16 @@
+## Lou's Guide to Building
+
+Make sure Node.js is installed (so you can run npm commands)
+
+`
+cd code/
+npm install
+npm start
+`
+
+This works on my computer (chrome window will pop-up with my gibborish) -- you may need to install some stuff, text me!
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
