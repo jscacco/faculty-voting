@@ -17,7 +17,7 @@ import RoomCode from './pages/RoomCode'
 class App extends Component {
   render(){
     return (
-      <RoomCode/>
+      <RoomCode />
     );
   }
 }

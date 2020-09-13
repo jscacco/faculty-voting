@@ -16,7 +16,6 @@ const defaultProps = {
 }
 
 const CardComponent = styled.div`
-
   background-color: ${({color}) => color};
   border-radius: 20px;
   height: ${({height}) => height ?`${height}px` : `auto`};
