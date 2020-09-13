@@ -13,7 +13,6 @@ const propTypes = {
 };
 
 const defaultProps = {
-  value: '',
   handleChange: undefined,
   handleSubmit: undefined
 };
