@@ -52,26 +52,26 @@ const Button = (props) => {
           textColor, extraLarge, large, medium, small } = props;
 
   const buttonConfig = {
-    extraLarge: { buttonHeight: `48px`,
-                  padding: `22px`,
+    extraLarge: { buttonHeight: `58px`,
+                  padding: `28px`,
                   text: (<BodyText extraLarge color={textColor}>
                            {children}
                          </BodyText>)
                 },
-    large: { buttonHeight: `40px`,
-             padding: `16px`,
+    large: { buttonHeight: `48px`,
+             padding: `22px`,
              text: (<BodyText large color={textColor}>
                       {children}
                     </BodyText>)
             },
-    medium: { buttonHeight: `32px`,
-              padding: `14px`,
+    medium: { buttonHeight: `40px`,
+              padding: `16px`,
              text: (<BodyText medium color={textColor}>
                       {children}
                     </BodyText>)
             },
-    small: { buttonHeight: `28px`,
-             padding: `10px`,
+    small: { buttonHeight: `32px`,
+             padding: `14px`,
              text: (<BodyText small color={textColor}>
                       {children}
                     </BodyText>)
@@ -86,10 +86,10 @@ const Button = (props) => {
   else { config = buttonConfig.medium }
 
   return(
-    <ButtonComponent width={width}
+    <ButtonComponent
                      padding={config.padding}
-                     backgroundColor={backgroundColor}
-                     buttonHeight={config.buttonHeight}>
+                     buttonHeight={config.buttonHeight}
+                     {...props}>
       {config.text}
     </ButtonComponent>
   )

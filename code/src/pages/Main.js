@@ -18,19 +18,58 @@ const PageWrapper = styled.div`
   bottom: 0;
 `;
 
+class MainScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {selectedBubble: null};
+    //
+    this.handleOptionClick = this.handleOptionClick.bind(this);
+  }
 
-const MainScreen = (props) => {
+  handleOptionClick = (id) => {
+    if (this.state.selectedBubble === id) {
+      this.setState({selectedBubble: null});
+    }
+    else { this.setState({selectedBubble: id}); }
+  }
 
-  return(
-    <PageWrapper>
-      <VotingCard medium
-                  width={600}
-                  title={'Poll Title'}
-                  description={'Description of the poll... very informative.'}
-                  options={['Option 1', 'Option 2', 'Option 3']}/>
-    </PageWrapper>
-  )
+  //
+  // handleSubmit = (event) => {
+  //   //alert('You are entering room: ' + this.state.value);
+  //   history.push('/Main')
+  //   event.preventDefault();
+  // }
 
+  render() {
+    return (
+        <PageWrapper>
+          <VotingCard medium
+                      width={600}
+                      title={'Poll Title'}
+                      description={'Description of the poll... very informative.'}
+                      options={['Option 1', 'Option 2', 'Option 3']}
+                      handleOptionClick={this.handleOptionClick}
+                      selectedBubble={this.state.selectedBubble}/>
+        </PageWrapper>
+      );
+  }
 };
+
+
+
+
+// const MainScreen = (props) => {
+//
+//   return(
+//     <PageWrapper>
+//       <VotingCard medium
+//                   width={600}
+//                   title={'Poll Title'}
+//                   description={'Description of the poll... very informative.'}
+//                   options={['Option 1', 'Option 2', 'Option 3']}/>
+//     </PageWrapper>
+//   )
+//
+// };
 
 export default MainScreen;

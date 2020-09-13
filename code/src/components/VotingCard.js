@@ -12,9 +12,9 @@ import Card             from './Card';
 import Button           from './Button';
 
 const ComponentWrapper = styled.div`
-  ${({small}) => small && `padding-bottom: 16px`}
-  ${({medium}) => medium && `padding-bottom: 20px`}
-  ${({large}) => large && `padding-bottom: 26px`}
+  ${({small}) => small && `padding-bottom: 20px`}
+  ${({medium}) => medium && `padding-bottom: 26px`}
+  ${({large}) => large && `padding-bottom: 32px`}
 `;
 
 const ButtonWrapper = styled.div`
@@ -29,8 +29,8 @@ const renderTitle = (props) => {
 
   return (
     <ComponentWrapper small={small} medium={medium} large={large}>
-      <Jumbo fourExtraSmall={small} threeExtraSmall={medium}
-             twoExtraSmall={large} color={Colors.Blue}>
+      <Jumbo threeExtraSmall={small} twoExtraSmall={medium}
+             extraSmall={large} color={Colors.Blue}>
         {title}
       </Jumbo>
     </ComponentWrapper>
@@ -73,12 +73,13 @@ const renderButton = (props) => {
 
 const renderOptions = (props) => {
 
-  const { options, small, medium, large } = props;
+  const { handleOptionClick, selectedBubble, options, small, medium, large } = props;
 
   return (
     <ComponentWrapper small={small} medium={medium} large={large}>
-      <OptionGroup small={small} medium={medium} large={large}
-                   options={options} borderColor={Colors.Blue}
+      <OptionGroup handleOptionClick={handleOptionClick} selectedBubble={selectedBubble}
+                   small={small} medium={medium} large={large}
+                   options={options} backgroundColor={Colors.Blue} borderColor={Colors.Blue}
                    textColor={Colors.black}/>
     </ComponentWrapper>
   )

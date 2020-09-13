@@ -8,30 +8,34 @@ import Option           from './Option';
 
 const propTypes = {
   options: PropTypes.arrayOf(PropTypes.string),
+  handleOptionClick: PropTypes.func,
   backgroundColor: ExtraPropTypes.color,
   borderColor: ExtraPropTypes.color,
   textColor: ExtraPropTypes.color
 };
 
 const defaultProps = {
-  options: []
+  options: [],
+  handleOptionClick: undefined
 };
 
 const GroupWrapper = styled.div``;
 
 const OptionWrapper = styled.div`
-  ${({lastChild, large, extraLarge}) => !lastChild && (large || extraLarge) ? `padding-bottom: 18px` : `padding-bottom: 12px`}
+  ${({lastChild, large, extraLarge}) => !lastChild && (large || extraLarge) ? `padding-bottom: 24px` : `padding-bottom: 18px`}
 `;
 
 const renderOptions = ( props ) => {
-  const { options, ...rest } = props;
+  const { options, handleOptionClick, selectedBubble, ...rest } = props;
 
   return options.map((item, index) => {
     const lastChild = index === options.length - 1;
 
+    let selected = (index === selectedBubble) ? true : false;
+
     return (
       <OptionWrapper lastChild={lastChild} {...rest}>
-        <Option {...rest}>
+        <Option onClick={(event) => handleOptionClick(index)} selected={selected} {...rest}>
           {item}
         </Option>
       </OptionWrapper>

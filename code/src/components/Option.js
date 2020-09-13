@@ -8,19 +8,22 @@ import Body             from './theme/Body';
 import Bubble           from './Bubble';
 
 const propTypes = {
+  id: PropTypes.int,
   children: PropTypes.node,
+  selected: PropTypes.bool,
   backgroundColor: ExtraPropTypes.color,
   borderColor: ExtraPropTypes.color,
   textColor: ExtraPropTypes.color,
+  extraSmall: PropTypes.bool,
   small: PropTypes.bool,
   medium: PropTypes.bool,
   large: PropTypes.bool,
-  extraLarge: PropTypes.bool,
 };
 
 const defaultProps = {
   borderColor: Colors.Black,
   textColor: Colors.Black,
+  backgroundColor: Colors.Black
 };
 
 const TextWrapper = styled.div`
@@ -42,37 +45,17 @@ const OptionWrapper = styled.div`
   justify-content: flex-start;
 `;
 
+const optionConfig = {
+  small: { padding: `12px`},
+  medium: { padding: `16px`},
+  large: { padding: `20px`},
+  extraLarge: { padding: `28px`},
+};
+
 const Option = (props) => {
 
-  const { children, backgroundColor, borderColor, textColor,
+  const { onClick, children, backgroundColor, borderColor, textColor, selected,
           small, medium, large, extraLarge } = props;
-
-  const optionConfig = {
-    small: { bubble: <Bubble backgroundColor={backgroundColor}
-                             borderColor={borderColor} small/>,
-             text: <Body color={textColor} small>
-                      {children}
-                   </Body>,
-             padding: `10px`},
-    medium: { bubble: <Bubble backgroundColor={backgroundColor}
-                            borderColor={borderColor} medium/>,
-              text: <Body color={textColor} medium>
-                       {children}
-                    </Body>,
-              padding: `12px`},
-    large: { bubble: <Bubble backgroundColor={backgroundColor}
-                             borderColor={borderColor} large/>,
-             text: <Body color={textColor} large>
-                      {children}
-                   </Body>,
-             padding: `14px`},
-    extraLarge: { bubble: <Bubble backgroundColor={backgroundColor}
-                                borderColor={borderColor} extraLarge/>,
-                  text: <Body color={textColor} extraLarge>
-                           {children}
-                        </Body>,
-                  padding: `16px`},
-  };
 
   let config;
 
@@ -84,10 +67,14 @@ const Option = (props) => {
   return (
     <OptionWrapper>
       <BubbleWrapper padding={config.padding}>
-        {config.bubble}
+        <Bubble onClick={onClick} backgroundColor={backgroundColor} borderColor={borderColor} selected={selected}
+                small={small} medium={medium} large={large} extraLarge={extraLarge}/>
       </BubbleWrapper>
       <TextWrapper>
-        {config.text}
+        <Body color={textColor}
+              small={small} medium={medium} large={large} extraLarge={extraLarge}>
+             {children}
+          </Body>
       </TextWrapper>
     </OptionWrapper>
   )

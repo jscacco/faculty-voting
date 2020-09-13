@@ -25,11 +25,11 @@ const defaultProps = {
 const fontConfig = {
   fontFamily: Fonts.WorkSans,
   fontWeight: 'bold',
-  extraSmall: { fontSize: 12, lineHeight: 18 },
-  small: { fontSize: 14, lineHeight: 20 },
-  medium: { fontSize: 16, lineHeight: 22 },
-  large: { fontSize: 20, lineHeight: 28 },
-  extraLarge: { fontSize: 26, lineHeight: 36 }
+  extraSmall: { fontSize: 14, lineHeight: 20  },
+  small: { fontSize: 16, lineHeight: 22 },
+  medium: { fontSize: 20, lineHeight: 28  },
+  large: { fontSize: 26, lineHeight: 36 },
+  extraLarge: { fontSize: 32, lineHeight: 42 }
 };
 const BodyWrapper = styled(Text)`
   font-weight: ${fontConfig.fontWeight};

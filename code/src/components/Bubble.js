@@ -7,6 +7,7 @@ import { Colors }       from './theme/Colors';
 import Body             from './theme/Body';
 
 const propTypes = {
+  id: PropTypes.int,
   width: PropTypes.string,
   height: PropTypes.string,
   backgroundColor: ExtraPropTypes.color,
@@ -16,19 +17,35 @@ const propTypes = {
   medium: PropTypes.bool,
   small: PropTypes.bool,
   onClick: PropTypes.func,
+  selected: PropTypes.bool
 };
 
 const defaultProps = {
-  backgroundColor: undefined,
+  backgroundColor: Colors.Charcol,
   borderColor: Colors.White,
-  onClick: undefined
+  onClick: undefined,
 
 };
 
-const BubbleComponent = styled.button`
-  background: ${({backgroundColor}) => backgroundColor || `none`};
+const BubbleWrapper = styled.div`
   position: relative;
   display: inline-block;
+`;
+
+const BubbleBackground = styled.div`
+  position: absolute;
+  top: ${({top}) => top};
+  left: ${({left}) => left};
+  background-color: ${({backgroundColor}) => backgroundColor};
+  border-color: none;
+  border-radius: 50%;
+  height: ${({height}) => height};
+  width: ${({width}) => width};
+`;
+
+const BubbleComponent = styled.button`
+  background: none;
+  position: relative;
   cursor: pointer;
   outline: none;
   border: solid ${({border}) => border};
@@ -38,24 +55,55 @@ const BubbleComponent = styled.button`
   width: ${({width}) => width};
 `;
 
-const Bubble = (props) => {
-  const { backgroundColor, borderColor,
-         extraLarge, large, medium, small } = props;
+const bubbleConfig = {
+  extraLarge: { height: `32px`,
+                width: `32px`,
+                border: `3px`,
+                background: { height: `19px`,
+                              width: `19px`,
+                              top: `7px`,
+                              left: `6px`
+                            }
+              },
+  large: { height: `26px`,
+          width: `26px`,
+          border: `2px`,
+          background: { height: `16px`,
+                        width: `16px`,
+                        top: `5px`,
+                        left: `5px`
+                      }
+         },
+  medium: { height: `20px`,
+           width: `20px`,
+           border: `2px`,
+           background: { height: `12px`,
+                         width: `12px`,
+                         top: `4px`,
+                         left: `4px`},
+          },
+  small: { height: `16px`,
+            width: `16px`,
+            border: `1px`,
+            background: { height: `8px`,
+                          width: `8px`,
+                          top: `5px`,
+                          left: `4px`}
+         },
+};
 
-  const bubbleConfig = {
-    extraLarge: { height: `25px`,
-                  width: `25px`,
-                  border: `2px`},
-    large: { height: `20px`,
-              width: `20px`,
-              border: `2px`},
-    medium: { height: `16px`,
-              width: `16px`,
-              border: `1px`},
-    small: { height: `14px`,
-             width: `14px`,
-             border: `1px`}
-  };
+const renderSelected = (selected, backgroundConfig, backgroundColor) => {
+  if (selected) {
+    return (<BubbleBackground height={backgroundConfig.height}
+                      backgroundColor={backgroundColor}
+                      width={backgroundConfig.width}
+                      top={backgroundConfig.top}
+                      left={backgroundConfig.left}/>);}
+}
+
+const Bubble = (props) => {
+  const { onClick, backgroundColor, borderColor, selected,
+         extraLarge, large, medium, small } = props;
 
   let config;
 
@@ -64,14 +112,18 @@ const Bubble = (props) => {
   else if (small) { config = bubbleConfig.small }
   else { config = bubbleConfig.medium }
 
-  console.log(config.bubbleSize)
+  const backgroundConfig = config.background;
 
   return(
-    <BubbleComponent height={config.height}
-                     width={config.width}
-                     border={config.border}
-                     backgroundColor={backgroundColor}
-                     borderColor={borderColor}/>
+    <BubbleWrapper>
+      {renderSelected(selected, backgroundConfig, backgroundColor)}
+      <BubbleComponent height={config.height}
+                       width={config.width}
+                       border={config.border}
+                       borderColor={borderColor}
+                       onClick={onClick}>
+      </BubbleComponent>
+    </BubbleWrapper>
   )
 };
 
