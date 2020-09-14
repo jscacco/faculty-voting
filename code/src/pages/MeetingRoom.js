@@ -1,5 +1,6 @@
 import React                from 'react';
 import styled               from 'styled-components';
+import PollAgendaCard       from '../components/PollAgendaCard';
 
 import { Colors }           from '../components/theme/Colors';
 import history              from '../history'
@@ -13,19 +14,37 @@ const PageWrapper = styled.div`
   bottom: 0;
 `;
 
+const User = () => {
+  return <p>User</p>
+}
+
 class MeetingRoomScreen extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {polls: []};
+  }
+
+  addPoll = () => {
+    this.setState({
+      polls: [...this.state.polls, <PollAgendaCard width={800}
+                                                   type="Y/N"
+                                                   title="Ammend wording on clause XYZ"
+                                                   closed={true}
+                                                   small={true} />]
+    })
   }
 
   render() {
-    return (
-      <PageWrapper>
-        <p> meeting room screen </p>
-      </PageWrapper>
-    );
-  }
 
+
+    return (
+        <PageWrapper>
+          {this.state.polls}
+          <button onClick={this.addPoll}>Add Poll</button>
+        </PageWrapper>
+      );
+  }
 };
 
 export default MeetingRoomScreen;

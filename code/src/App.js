@@ -4,6 +4,7 @@ import Body from './components/theme/Body';
 import {Jumbo} from './components/theme/Jumbo';
 import { Colors } from './components/theme/Colors';
 import RoomCode from './pages/RoomCode'
+import MeetingRoom from './pages/MeetingRoom'
 
 // <div>
 //   <Jumbo color={Colors.Blue} small>
@@ -17,7 +18,7 @@ import RoomCode from './pages/RoomCode'
 class App extends Component {
   render(){
     return (
-      <RoomCode />
+      <MeetingRoom />
     );
   }
 }
