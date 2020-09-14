@@ -29,14 +29,14 @@ class RoomCodeScreen extends React.Component {
 
   handleSubmit = (event) => {
     alert('You are entering room: ' + this.state.value);
-    history.push('/Main')
+    history.push('/Main');
     event.preventDefault();
   }
 
   render() {
     return (
       <PageWrapper>
-            <RoomCodeForm title="Enter your room code" width={600} value={this.value} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
+            <RoomCodeForm title="HamVotes" width={600} value={this.value} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
       </PageWrapper>
     );
   }

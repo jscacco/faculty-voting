@@ -1,5 +1,5 @@
 import React            from 'react';
-import styled           from 'styled-components';
+import styled, { css }  from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
@@ -42,6 +42,9 @@ const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+
+  transform: translate(0, 65%);
+
 `;
 
 const TextInputWrapper = styled.div`
@@ -51,11 +54,26 @@ const TextInputWrapper = styled.div`
   text-align: center;
 `;
 
+const Form = styled.form`
+  width: 100%;
+  height: 25px;
+`;
+
+const Input = styled.input`
+  width: 200px;
+  height: 25px;
+  padding: 8px;
+  font-size: 18px;
+`;
+
 const TitleWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   text-align: center;
+
+  transform: translate(0%, -30%);
+
 `;
 
 const renderTitle = (props) => {
@@ -76,9 +94,9 @@ const renderInput = (props) => {
 
   return (
     <TextInputWrapper>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={value} onChange={handleChange} />
-      </form>
+      <Form onSubmit={handleSubmit}>
+        <Input type="text" value={value} onChange={handleChange} placeholder="Enter Room Code" />
+      </Form>
     </TextInputWrapper>
   )
 };
