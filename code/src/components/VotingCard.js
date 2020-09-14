@@ -17,7 +17,7 @@ const ComponentWrapper = styled.div`
   ${({large}) => large && `padding-bottom: 32px`}
 `;
 
-const ButtonWrapper = styled.div`
+const CenterWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -53,7 +53,8 @@ const renderDescription = (props) => {
 
 const renderButton = (props) => {
 
-  const { small, medium, large } = props;
+  const { small, medium, large,
+          handleSubmit, unselected, submit, submitted, resubmit } = props;
 
   let width;
 
@@ -61,13 +62,35 @@ const renderButton = (props) => {
   else if ( small ) { width = 125 }
   else { width = 150 }
 
-  return(
-    <ButtonWrapper>
-      <Button small={small} medium={medium} large={large} width={width}>
-        SUBMIT
-      </Button>
-    </ButtonWrapper>
+  let text;
+  let color;
+  if (submit) {
+    text = 'SUBMIT';
+    color = Colors.Yellow;
+  }
+  else if (submitted) {
+    text='SUBMITTED';
+    color = Colors.Green;
+  }
+  else if (resubmit) {
+    text = 'RESUBMIT';
+    color = Colors.Yellow;
+  }
+  else { text='ERROR';
+         color = Colors.Red;};
 
+  if (unselected) { color = Colors.Red };
+
+  return(
+    <ComponentWrapper small={small} medium={medium} large={large}>
+      <CenterWrapper>
+        <Button onClick={handleSubmit} disabled={unselected || submitted}
+                small={small} medium={medium} large={large}
+                width={width} backgroundColor={color}>
+          {text}
+        </Button>
+      </CenterWrapper>
+    </ComponentWrapper>
   )
 };
 
@@ -83,6 +106,35 @@ const renderOptions = (props) => {
                    textColor={Colors.black}/>
     </ComponentWrapper>
   )
+};
+
+const renderText = (props) => {
+
+  const { small, medium, large,
+          handleSubmit, unselected, submit, submitted, resubmit } = props;
+
+  let text;
+  if (unselected) {
+    text = 'Please make a selection.'
+  }
+  else if (submit) {
+    text = 'Please press submit to record your response.';
+  }
+  else if (submitted) {
+    text='Your response has been recorded.';
+  }
+  else if (resubmit) {
+    text = 'Press submit to resubmit your response.';
+  }
+  else { text='There has been an error.';};
+
+  return(
+    <CenterWrapper>
+      <Body extraSmall={small} small={medium} medium={large} color={Colors.Black}>
+        {text}
+      </Body>
+    </CenterWrapper>
+  )
 }
 
 const VotingCard = (props) => {
@@ -95,6 +147,7 @@ const VotingCard = (props) => {
       {renderDescription(props)}
       {renderOptions(props)}
       {renderButton(props)}
+      {renderText(props)}
     </Card>
   )
 

@@ -34,7 +34,7 @@ const ButtonComponent = styled.button`
   background: ${({backgroundColor}) => backgroundColor};
   position: relative;
   display: inline-block;
-  cursor: pointer;
+  cursor: ${({disabled}) => disabled ? `default` : `pointer`};
   outline: none;
   border: 0;
   vertical-align: middle;

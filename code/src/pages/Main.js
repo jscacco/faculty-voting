@@ -21,9 +21,13 @@ const PageWrapper = styled.div`
 class MainScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {selectedBubble: null};
+    this.state = {selectedBubble: null,
+                  submittedBubble: null,
+                  voted: false,
+                  vote: null};
     //
     this.handleOptionClick = this.handleOptionClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleOptionClick = (id) => {
@@ -33,14 +37,25 @@ class MainScreen extends React.Component {
     else { this.setState({selectedBubble: id}); }
   }
 
-  //
-  // handleSubmit = (event) => {
-  //   //alert('You are entering room: ' + this.state.value);
-  //   history.push('/Main')
-  //   event.preventDefault();
-  // }
+
+  handleSubmit = (event) => {
+    if (this.state.selectedBubble && !this.state.voted){
+      this.setState({voted: true,
+                     vote: this.state.selectedBubble});
+    }
+    else if (this.state.selectedBubble != this.state.submittedBubble){
+      this.setState({voted: true,
+                     vote: this.state.selectedBubble});
+    }
+  }
 
   render() {
+
+    const unselected = this.state.selectedBubble === null;
+    const submit = !this.state.voted;
+    const submitted = this.state.selectedBubble === this.state.vote;
+    const resubmit = this.state.selectedBubble != this.state.vote;
+
     return (
         <PageWrapper>
           <VotingCard medium
@@ -49,7 +64,9 @@ class MainScreen extends React.Component {
                       description={'Description of the poll... very informative.'}
                       options={['Option 1', 'Option 2', 'Option 3']}
                       handleOptionClick={this.handleOptionClick}
-                      selectedBubble={this.state.selectedBubble}/>
+                      selectedBubble={this.state.selectedBubble}
+                      handleSubmit={this.handleSubmit}
+                      unselected={unselected} submit={submit} resubmit={resubmit} submitted={submitted}/>
         </PageWrapper>
       );
   }

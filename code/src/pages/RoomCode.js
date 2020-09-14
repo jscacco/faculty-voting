@@ -1,10 +1,10 @@
 import React                from 'react';
 import styled               from 'styled-components';
-import ParticlesBg          from 'particles-bg'
+import ParticlesBg          from 'particles-bg';
 
 import { Colors }           from '../components/theme/Colors';
 import RoomCodeForm         from '../components/RoomCodeForm';
-import history              from '../history'
+import history              from '../history';
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
