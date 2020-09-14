@@ -1,9 +1,10 @@
-import React    from 'react';
-import styled   from 'styled-components';
+import React                from 'react';
+import styled               from 'styled-components';
+import ParticlesBg          from 'particles-bg'
 
-import { Colors } from '../components/theme/Colors';
-import RoomCodeForm from '../components/RoomCodeForm';
-import history          from '../history'
+import { Colors }           from '../components/theme/Colors';
+import RoomCodeForm         from '../components/RoomCodeForm';
+import history              from '../history'
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -35,9 +36,10 @@ class RoomCodeScreen extends React.Component {
 
   render() {
     return (
-      <PageWrapper>
-            <RoomCodeForm title="HamVotes" width={600} value={this.value} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
-      </PageWrapper>
+      <>
+        <RoomCodeForm title="HamVotes" width={0} color={"transparen"} value={this.value} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
+        <ParticlesBg type="random" bg={true} />
+      </>
     );
   }
 };
