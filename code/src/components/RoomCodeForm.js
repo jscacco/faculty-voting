@@ -30,6 +30,12 @@ const ComponentWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const ButtonWrapper = styled.div`
@@ -72,7 +78,6 @@ const renderInput = (props) => {
     <TextInputWrapper>
       <form onSubmit={handleSubmit}>
         <input type="text" value={value} onChange={handleChange} />
-        <input type="submit" value="Submit" />
       </form>
     </TextInputWrapper>
   )
@@ -90,8 +95,8 @@ const renderButton = (props) => {
 
   return(
     <ButtonWrapper>
-      <Button small={small} medium={medium} large={large} width={width} onClick={() => handleSubmit}>
-        SUBMIT
+      <Button small={small} medium={medium} large={large} width={width} onClick={handleSubmit}>
+         SUBMIT
       </Button>
     </ButtonWrapper>
 
