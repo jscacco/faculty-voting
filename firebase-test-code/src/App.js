@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import firebase from './firebase'
+import firebase from './fire'
 
 import TimesList from './components/times-list'
 import AddTimeEntryForm from './components/add-time-entry-form'

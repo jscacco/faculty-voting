@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import firebase from '../firebase'
+import firebase from '../fire'
 
 const SORT_OPTIONS = {
     'TIME_ASC': {column: 'time_seconds', direction: "asc"},

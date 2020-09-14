@@ -8,6 +8,7 @@ import Option from '../components/Option';
 import OptionGroup from '../components/OptionGroup';
 import Card from '../components/Card';
 import VotingCard from '../components/VotingCard';
+import firebase from '../firebase'
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -24,6 +25,7 @@ class MainScreen extends React.Component {
     this.state = {selectedBubble: null};
     //
     this.handleOptionClick = this.handleOptionClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleOptionClick = (id) => {
@@ -33,12 +35,12 @@ class MainScreen extends React.Component {
     else { this.setState({selectedBubble: id}); }
   }
 
-  //
-  // handleSubmit = (event) => {
-  //   //alert('You are entering room: ' + this.state.value);
-  //   history.push('/Main')
-  //   event.preventDefault();
-  // }
+  
+   handleSubmit = (event) => {
+     alert('You voted: ' + this.state.selectedBubble);
+     event.preventDefault();
+     
+   }
 
   render() {
     return (
@@ -47,7 +49,7 @@ class MainScreen extends React.Component {
                       width={600}
                       title={'Poll Title'}
                       description={'Description of the poll... very informative.'}
-                      options={['Option 1', 'Option 2', 'Option 3']}
+                      options={['Yes', 'No', 'Abstain']}
                       handleOptionClick={this.handleOptionClick}
                       selectedBubble={this.state.selectedBubble}/>
         </PageWrapper>

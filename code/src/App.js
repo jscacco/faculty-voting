@@ -3,7 +3,8 @@ import Main from './pages/Main';
 import Body from './components/theme/Body';
 import {Jumbo} from './components/theme/Jumbo';
 import { Colors } from './components/theme/Colors';
-import RoomCode from './pages/RoomCode'
+import RoomCode from './pages/RoomCode';
+import firebase from './firebase';
 
 // <div>
 //   <Jumbo color={Colors.Blue} small>

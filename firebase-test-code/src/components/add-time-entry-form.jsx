@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import firebase from '../firebase'
+import firebase from '../fire'
 
 const AddTimeEntryForm = () => {
     const [title, setTitle] = useState('')
