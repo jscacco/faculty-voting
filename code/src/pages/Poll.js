@@ -18,7 +18,7 @@ const PageWrapper = styled.div`
   bottom: 0;
 `;
 
-class MainScreen extends React.Component {
+class PollScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {selectedBubble: null,
@@ -75,7 +75,7 @@ class MainScreen extends React.Component {
 
 
 
-// const MainScreen = (props) => {
+// const PollScreen = (props) => {
 //
 //   return(
 //     <PageWrapper>
@@ -89,4 +89,4 @@ class MainScreen extends React.Component {
 //
 // };
 
-export default MainScreen;
+export default PollScreen;
