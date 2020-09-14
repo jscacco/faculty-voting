@@ -33,7 +33,7 @@ class MainScreen extends React.Component {
       this.setState({selectedBubble: null});
     }
     else { this.setState({selectedBubble: id}); }
-  }
+  } 
 
   
    handleSubmit = (event) => {
