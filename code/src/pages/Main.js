@@ -37,10 +37,36 @@ class MainScreen extends React.Component {
 
   
    handleSubmit = (event) => {
-     alert('You voted: ' + this.state.selectedBubble);
      event.preventDefault();
-     
-   }
+     var yes_votes
+     var no_votes
+     var abstain_votes
+     var docRef = firebase.firestore().collection("0").doc("general-poll")
+     docRef.get().then(snap =>{
+      if (this.state.selectedBubble == 0) {
+        alert('You voted: Yes!');
+        docRef.update({
+          yes: Number(snap.data()['yes'].toString()) + 1
+        })
+       }
+       else if (this.state.selectedBubble == 1) {
+        alert('You voted: No!');
+        docRef.update({
+          no: Number(snap.data()['no'].toString()) + 1
+        })
+      }
+      else if (this.state.selectedBubble == 2) {
+        alert('You voted: Abstain!');
+        docRef.update({
+          abstain: Number(snap.data()['abstain'].toString()) + 1
+        })
+      }
+       //console.log(snap.data()['no'].toString())
+       //yes_votes = snap.data()['yes'].toString()
+      // no_votes = snap.data()['no'].toString()
+       //abstain_votes = snap.data()['abstain'].toString()
+     })
+  }
 
   render() {
     return (
@@ -51,6 +77,7 @@ class MainScreen extends React.Component {
                       description={'Description of the poll... very informative.'}
                       options={['Yes', 'No', 'Abstain']}
                       handleOptionClick={this.handleOptionClick}
+                      handleSubmit={this.handleSubmit}
                       selectedBubble={this.state.selectedBubble}/>
         </PageWrapper>
       );

@@ -35,7 +35,8 @@ class RoomCodeScreen extends React.Component {
     firebase
             .firestore()
             .collection(this.state.value)
-            .add({
+            .doc("general-poll")
+            .set({
               yes: 0, 
               no: 0, 
               abstain: 0})

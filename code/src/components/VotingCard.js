@@ -53,7 +53,7 @@ const renderDescription = (props) => {
 
 const renderButton = (props) => {
 
-  const { small, medium, large } = props;
+  const { small, medium, large, handleSubmit } = props;
 
   let width;
 
@@ -63,7 +63,7 @@ const renderButton = (props) => {
 
   return(
     <ButtonWrapper>
-      <Button small={small} medium={medium} large={large} width={width}>
+      <Button small={small} medium={medium} large={large} width={width} onClick={handleSubmit}>
         SUBMIT
       </Button>
     </ButtonWrapper>
@@ -87,7 +87,7 @@ const renderOptions = (props) => {
 
 const VotingCard = (props) => {
 
-  const { width } = props;
+  const { width, handleSubmit } = props;
 
   return (
     <Card width={width}>
