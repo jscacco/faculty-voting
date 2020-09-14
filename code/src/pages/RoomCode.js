@@ -37,7 +37,7 @@ class RoomCodeScreen extends React.Component {
   render() {
     return (
       <>
-        <RoomCodeForm title="HamVotes" width={0} color={"transparen"} value={this.value} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
+        <RoomCodeForm title="HamPolls" width={0} color={"transparen"} value={this.value} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
         <ParticlesBg type="random" bg={true} />
       </>
     );
