@@ -5,6 +5,7 @@ import ParticlesBg          from 'particles-bg';
 import { Colors }           from '../components/theme/Colors';
 import RoomCodeForm         from '../components/RoomCodeForm';
 import history              from '../history';
+import firebase from '../firebase'
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -32,6 +33,14 @@ class RoomCodeScreen extends React.Component {
     alert('You are entering room: ' + this.state.value);
     history.push('/Poll');
     event.preventDefault();
+    firebase
+            .firestore()
+            .collection(this.state.value)
+            .doc("general-poll")
+            .set({
+              yes: 0, 
+              no: 0, 
+              abstain: 0})
   }
 
   render() {
