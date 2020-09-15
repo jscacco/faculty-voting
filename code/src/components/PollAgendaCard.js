@@ -17,10 +17,14 @@ const ComponentWrapper = styled.div`
   ${({large}) => large && `padding-bottom: 32px`}
 `;
 
-const CenterWrapper = styled.div`
+const SpacingWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
+`;
+
+const MarginWrapper = styled.div`
+  margin-bottom: 5px;
 `;
 
 const renderType = (props) => {
@@ -28,7 +32,7 @@ const renderType = (props) => {
   const { type, small, medium, large } = props;
 
   return (
-    <ComponentWrapper small={small} medium={medium} large={large}>
+    <ComponentWrapper small={small} medium={medium} large={large} width={100}>
       <Body small={small} medium={medium}
             large={large} color={Colors.Black}>
         {type}
@@ -121,17 +125,19 @@ const renderButton = (props) => {
 
 const PollAgendaCard = (props) => {
 
-  const { width, type, title, status } = props;
+  const { width, height, type, title, status } = props;
 
   return (
-    <Card width={width}>
-      <CenterWrapper>
-        {renderType(props)}
-        {renderTitle(props)}
-        {renderStatus(props)}
-        {renderButton(props)}
-      </CenterWrapper>
-    </Card>
+    <MarginWrapper>
+      <Card width={width} height={height}>
+        <SpacingWrapper>
+          {renderType(props)}
+          {renderTitle(props)}
+          {renderStatus(props)}
+          {renderButton(props)}
+        </SpacingWrapper>
+      </Card>
+    </MarginWrapper>
   )
 
 };

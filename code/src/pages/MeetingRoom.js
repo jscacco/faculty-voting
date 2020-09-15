@@ -5,6 +5,8 @@ import PollAgendaCard       from '../components/PollAgendaCard';
 import { Colors }           from '../components/theme/Colors';
 import history              from '../history'
 
+import Button               from '../components/Button'
+
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
   position: absolute;
@@ -14,9 +16,19 @@ const PageWrapper = styled.div`
   bottom: 0;
 `;
 
-const User = () => {
-  return <p>User</p>
-}
+const CenterWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+`;
+
+const AgendaWrapper = styled.div`
+  margin: 0;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+`;
 
 class MeetingRoomScreen extends React.Component {
   constructor(props) {
@@ -28,10 +40,16 @@ class MeetingRoomScreen extends React.Component {
   addPoll = () => {
     this.setState({
       polls: [...this.state.polls, <PollAgendaCard width={800}
+                                                   height={10}
                                                    type="Y/N"
                                                    title="Ammend wording on clause XYZ"
                                                    closed={true}
-                                                   small={true} />]
+                                                   small={true} />, <PollAgendaCard width={800}
+                                                                                                height={10}
+                                                                                                type="Y/N"
+                                                                                                title="Clause XYZ"
+                                                                                                closed={true}
+                                                                                                small={true} />]
     })
   }
 
@@ -40,8 +58,14 @@ class MeetingRoomScreen extends React.Component {
 
     return (
         <PageWrapper>
-          {this.state.polls}
-          <button onClick={this.addPoll}>Add Poll</button>
+          <AgendaWrapper>
+            {this.state.polls}
+            <CenterWrapper>
+              <Button small={true} onClick={this.addPoll}>
+                ADD POLL
+              </Button>
+            </CenterWrapper>
+          </AgendaWrapper>
         </PageWrapper>
       );
   }

@@ -17,7 +17,7 @@ const defaultProps = {
 
 const AgendaItemComponent = styled.div`
   background-color: ${({color}) => color};
-  border-radius: 20px;
+  border-radius: 5px;
   height: ${({height}) => height ?`${height}px` : `auto`};
   width: ${({width}) => width ? `${width}px` : `100%`};
   padding: 35px;
