@@ -21,6 +21,7 @@ class MeetingRoomScreen extends React.Component {
     super(props);
 
     this.state = {
+      // State values for creating a new poll
       optionComponents: [<Input placeholder={'Option'}
                                 onChange={this.handleChange}/>,
                          <Input placeholder={'Option'}
