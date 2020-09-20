@@ -16,6 +16,9 @@ const PageWrapper = styled.div`
   bottom: 0;
 `;
 
+var code = "";
+var poll_id = 0;
+
 class RoomCodeScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -31,7 +34,7 @@ class RoomCodeScreen extends React.Component {
 
   handleSubmit = (event) => {
     alert('You are entering room: ' + this.state.value);
-    history.push('/Poll');
+    history.push('/Poll')
     event.preventDefault();
     firebase
             .firestore()
@@ -41,6 +44,7 @@ class RoomCodeScreen extends React.Component {
               yes: 0, 
               no: 0, 
               abstain: 0})
+    code = this.state.value;
   }
 
   render() {
@@ -54,3 +58,4 @@ class RoomCodeScreen extends React.Component {
 };
 
 export default RoomCodeScreen;
+export {code, poll_id};

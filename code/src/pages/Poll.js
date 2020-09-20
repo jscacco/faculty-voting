@@ -9,6 +9,7 @@ import OptionGroup from '../components/OptionGroup';
 import Card from '../components/Card';
 import VotingCard from '../components/VotingCard';
 import firebase from '../firebase'
+import {code} from './RoomCode'
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -39,12 +40,10 @@ class PollScreen extends React.Component {
     else { this.setState({selectedBubble: id}); }
   }
 
-
   handleSubmit = (event) => {
     event.preventDefault();
     var num_votes;
-    var docRef = firebase.firestore().collection("abc123").doc("general-poll");
-    
+    var docRef = firebase.firestore().collection(code).doc("general-poll");
     if (this.state.selectedBubble && !this.state.voted){
       this.setState({voted: true,
                      vote: this.state.selectedBubble});
@@ -56,6 +55,7 @@ class PollScreen extends React.Component {
     }
 
     docRef.get().then(snap =>{
+      console.log(snap);
       if (this.state.vote == 0) {
         docRef.update({
           yes: Number(snap.data()['yes'].toString()) + 1
