@@ -6,7 +6,6 @@ import history              from '../history';
 import HostControlPanel     from '../components/HostControlPanel';
 import Input            from '../components/inputs/Input'
 
-
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
   position: absolute;
