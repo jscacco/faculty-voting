@@ -2,7 +2,8 @@ import React                from 'react';
 import styled               from 'styled-components';
 
 import { Colors }           from '../components/theme/Colors';
-import history              from '../history'
+import history              from '../history';
+import HostControlPanel     from '../components/HostControlPanel';
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -21,7 +22,8 @@ class MeetingRoomScreen extends React.Component {
   render() {
     return (
       <PageWrapper>
-        <p> meeting room screen </p>
+        <HostControlPanel width={300} title="Create a Poll" />
+
       </PageWrapper>
     );
   }
