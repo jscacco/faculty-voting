@@ -49,21 +49,25 @@ const renderTitle = (props) => {
 };
 
 const renderTitleInput = props => {
-  const {small, medium, large } = props;
+  const { small, medium, large,
+          handleTitleChange } = props;
 
   return (
     <ComponentWrapper small={small} medium={medium} large={large}>
-      <Input placeholder={'Enter poll title'}/>
+      <Input placeholder={'Enter poll title'}
+             onChange={handleTitleChange}/>
     </ComponentWrapper>
   )
 };
 
 const renderDescriptionInput = props => {
-  const { small, medium, large } = props;
+  const { small, medium, large,
+          handleDescriptionChange } = props;
 
   return (
     <ComponentWrapper small={small} medium={medium} large={large}>
-      <TextArea placeholder={'Enter poll description'}/>
+      <Input type={'textarea'} placeholder={'Enter poll description'}
+             onChange={handleDescriptionChange}/>
     </ComponentWrapper>
   )
 };
@@ -101,14 +105,19 @@ const renderResultViewingCheckbox = props => {
   )
 };
 
+function handleCreatPoll(props) {
+
+}
+
 const renderCreateButton = props => {
-  const { small, medium, large } = props;
+  const { small, medium, large,
+          handleSubmit } = props;
 
   return (
     <ComponentWrapper>
       <CenterWrapper>
         <Button small={small} medium={medium} large={large}
-                width={150} >
+                width={150} onClick={handleSubmit}>
           {'Create Poll'}
         </Button>
       </CenterWrapper>
@@ -119,7 +128,8 @@ const renderCreateButton = props => {
 const HostControlPanel = (props) => {
 
   const { width, title, small, medium, large, options,
-          handleSubmit, handleCreateOption } = props;
+          handleSubmit, handleCreateOption,
+          handleTitleChange, handleDescriptionChange } = props;
 
   return (
     <Card width={width}>

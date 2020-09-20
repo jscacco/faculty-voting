@@ -21,22 +21,66 @@ class MeetingRoomScreen extends React.Component {
     super(props);
 
     this.state = {
-      options: [<Input placeholder={'Option'}/>, <Input placeholder={'Option'}/>]
+      optionComponents: [<Input placeholder={'Option'}
+                                onChange={this.handleChange}/>,
+                         <Input placeholder={'Option'}
+                                onChange={this.handleChange}/>],
+      options: [],
+      pollTitle: '',
+      pollDescription: ''
     }
   }
 
   addOption = () => {
     this.setState({
-      options: [...this.state.options, <Input placeholder={'Option'}/>]
+      optionComponents: [...this.state.optionComponents,
+                         <Input placeholder={'Option'}
+                                onChange={this.handleOptionChange}/>]
     })
+
     console.log('Option added')
-    console.log(this.state.options.length)
+    console.log(this.state.optionComponents.length)
+  }
+
+  handleTitleChange = (event) => {
+    this.setState({
+      pollTitle: event.target.value
+    })
+
+    console.log('New title: ' + this.state.pollTitle)
+  }
+
+  handleDescriptionChange = (event) => {
+    this.setState({
+      pollDescription: event.target.value
+    })
+
+    console.log('New Desc: ' + this.state.pollDescription)
+  }
+
+  handleOptionChange = (event) => {
+    console.log('Option value being changed')
+
+    console.log(event.target.value)
+    for (const component of this.state.optionComponents) {
+      console.log(component.value)
+    }
+  }
+
+  handleCreatePoll = () => {
+    alert('Creating poll ' + this.state.description + ' ' + this.state.description)
   }
 
   render() {
     return (
       <PageWrapper>
-        <HostControlPanel width={300} title="Create a Poll" handleCreateOption={this.addOption} options={this.state.options} />
+        <HostControlPanel width={300} title="Create a Poll"
+                          handleSubmit={this.handleCreatePoll}
+                          handleCreateOption={this.addOption}
+                          handleOptionChange={this.handleOptionChange}
+                          handleTitleChange={this.handleTitleChange}
+                          handleDescriptionChange={this.handleDescriptionChange}
+                          options={this.state.optionComponents} />
       </PageWrapper>
     );
   }
