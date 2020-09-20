@@ -29,6 +29,7 @@ const SideBySideWrapper = styled.div`
   justify-content: flex-start;
 `;
 
+
 const CenterWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -68,16 +69,21 @@ const renderDescriptionInput = props => {
 };
 
 const renderPollOptionsInput = props => {
-  const { small, medium, large }  = props;
+  const { small, medium, large,
+          handleCreateOption, options }  = props;
 
   return (
     <ComponentWrapper small={small} medium={medium} large={large}>
       <Jumbo fiveExtraSmall color={Colors.Blue}>
         {'Enter Poll Options'}
       </Jumbo>
-      <Input placeholder={'Option 1'}/>
-      <Input placeholder={'Option 2'}/>
-      <Input placeholder={'Option 3'}/>
+      {options}
+      <CenterWrapper>
+        <Button small={small} medium={small} large={small}
+                width={150} onClick={handleCreateOption}>
+          {'Add Option'}
+        </Button>
+      </CenterWrapper>
     </ComponentWrapper>
   )
 };
@@ -112,8 +118,8 @@ const renderCreateButton = props => {
 
 const HostControlPanel = (props) => {
 
-  const { width, title, small, medium, large,
-          handleSubmit } = props;
+  const { width, title, small, medium, large, options,
+          handleSubmit, handleCreateOption } = props;
 
   return (
     <Card width={width}>
