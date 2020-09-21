@@ -29,7 +29,8 @@ class MeetingRoomScreen extends React.Component {
                                 onChange={this.handleChange}/>],
       options: [],
       pollTitle: '',
-      pollDescription: ''
+      pollDescription: '',
+      showResults: true
     }
   }
 
@@ -70,6 +71,7 @@ class MeetingRoomScreen extends React.Component {
   }
 
   handleCreatePoll = () => {
+    var results = true;
     alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
   
     firebase
@@ -77,14 +79,18 @@ class MeetingRoomScreen extends React.Component {
             .collection(code)
             .doc(this.state.pollTitle)
             .set({
-              description: this.state.pollDescription});
-    firebase
-            .firestore()
-            .collection(code)
-            .doc(this.state.pollTitle)
-            .collection('poll')
-            .doc('general-poll')
-            .set({});
+              description: this.state.pollDescription,
+              showResult: results});
+
+    for (var opt of this.state.options) {
+      firebase
+        .firestore()
+        .collection(code)
+        .doc(this.state.pollTitle)
+        .collection('poll')
+        .doc('general-poll')
+        .set({});
+    }
   }
 
   render() {
