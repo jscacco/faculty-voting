@@ -4,7 +4,9 @@ import styled               from 'styled-components';
 import { Colors }           from '../components/theme/Colors';
 import history              from '../history';
 import HostControlPanel     from '../components/HostControlPanel';
-import Input            from '../components/inputs/Input'
+import Input                from '../components/inputs/Input';
+import firebase             from '../firebase';
+import {code}               from './RoomCode';
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -68,7 +70,21 @@ class MeetingRoomScreen extends React.Component {
   }
 
   handleCreatePoll = () => {
-    alert('Creating poll ' + this.state.description + ' ' + this.state.description)
+    alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
+  
+    firebase
+            .firestore()
+            .collection(code)
+            .doc(this.state.pollTitle)
+            .set({
+              description: this.state.pollDescription});
+    firebase
+            .firestore()
+            .collection(code)
+            .doc(this.state.pollTitle)
+            .collection('poll')
+            .doc('general-poll')
+            .set({});
   }
 
   render() {
