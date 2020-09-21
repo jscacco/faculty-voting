@@ -37,19 +37,28 @@ class SingleChoiceGroup extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { selected: null }
+    this.state = { selected: Array(props.children.length).fill(false) }
 
     this._handleClick = this._handleClick.bind(this);
     this._renderOptions = this._renderOptions.bind(this);
   };
 
 
-  async _handleClick( event, id ) {
+  _handleClick = ( event, id ) => {
 
-    if (this.state.selected === id) { await this.setState({...this.state, selected: null}); }
-    else { await this.setState({...this.state, selected: id}); }
+    if (this.state.selected[id]) {
+      let newSelected = this.state.selected;
+      newSelected[id] = false;
+      this.setState({...this.state, selected: newSelected});
+    }
+    else {
+      let newSelected = this.state.selected;
+      newSelected[id] = true;
+      this.setState({...this.state, selected: newSelected});
+    }
 
-    if (this.props.updateSelected) { this.props.updateSelected(this.state.selected) }
+    console.log(this.state)
+    if (this.props.updateSelected) { this.props.updateSelected(this.state.selected)}
 
   };
 
@@ -59,7 +68,7 @@ class SingleChoiceGroup extends React.Component {
     return children.map((item, index) => {
 
       const onClick = (event) => this._handleClick(event, index);
-      const clicked = this.state.selected === index;
+      const clicked = this.state.selected[index];
 
       const itemProps = { onClick: onClick,
                           clicked: clicked};
