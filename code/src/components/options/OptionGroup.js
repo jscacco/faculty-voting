@@ -29,7 +29,7 @@ const _renderOptions = ( props ) => {
 
     return (
       <OptionWrapper lastChild={lastChild} {...rest}>
-        {item}
+        {React.cloneElement(item, {...rest})}
       </OptionWrapper>
     )
   })

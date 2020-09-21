@@ -10,6 +10,7 @@ import Body            from '../theme/Body';
 const propTypes = {
   children: PropTypes.node,
   onClick: PropTypes.func,
+  clicked: PropTypes.bool,
 
   buttonType: PropTypes.oneOf(['bubble', 'checkbox']),
   buttonColor: ExtraPropTypes.color,
@@ -23,6 +24,7 @@ const propTypes = {
 
 const defaultProps = {
   onClick: undefined,
+  clicked: false,
 };
 
 const TextOption = (props) => {

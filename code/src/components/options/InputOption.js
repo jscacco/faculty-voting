@@ -9,6 +9,7 @@ import Input            from '../inputs/Input';
 
 const propTypes = {
   onClick: PropTypes.func,
+  clicked: PropTypes.bool,
 
   buttonType: PropTypes.oneOf(['bubble', 'checkbox']),
   buttonColor: ExtraPropTypes.color,
@@ -26,6 +27,7 @@ const propTypes = {
 
 const defaultProps = {
   onClick: undefined,
+  clicked: false,
   inputType: 'inputfield',
 };
 
