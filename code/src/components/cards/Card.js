@@ -19,7 +19,7 @@ const CardComponent = styled.div`
   background-color: ${({color}) => color};
   border-radius: 20px;
   height: ${({height}) => height ?`${height}px` : `auto`};
-  width: ${({width}) => width ? `${width}px` : `100%`};
+  width: ${({width}) => width ? `${width}px` : `auto`};
   padding: 35px;
 `;
 

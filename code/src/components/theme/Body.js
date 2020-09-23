@@ -8,8 +8,11 @@ import { Fonts }        from './Fonts';
 import { Colors }       from './Colors';
 
 const propTypes = {
-  color: ExtraPropTypes.color,
+  children: PropTypes.node.isRequired,
   primative: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h6', 'span', 'p']),
+
+  color: ExtraPropTypes.color,
+
   extraSmall: PropTypes.bool,
   small: PropTypes.bool,
   medium: PropTypes.bool,
@@ -18,19 +21,22 @@ const propTypes = {
 };
 
 const defaultProps = {
+  primitive: 'p',
+
   color: Colors.Black,
-  primitive: 'p'
 };
 
 const fontConfig = {
   fontFamily: Fonts.WorkSans,
   fontWeight: 'bold',
+
   extraSmall: { fontSize: 14, lineHeight: 20  },
   small: { fontSize: 16, lineHeight: 22 },
   medium: { fontSize: 20, lineHeight: 28  },
   large: { fontSize: 26, lineHeight: 36 },
   extraLarge: { fontSize: 32, lineHeight: 42 }
 };
+
 const BodyWrapper = styled(Text)`
   font-weight: ${fontConfig.fontWeight};
   font-family: ${fontConfig.fontFamily};
@@ -38,9 +44,10 @@ const BodyWrapper = styled(Text)`
   white-space: pre-line;
 `;
 
-const Body = (props) => {
+const Body = ( props ) => {
+
   const { primitive, extraLarge, large, medium, small, extraSmall,
-          children, width, color, ...rest } = props;
+          children, color, ...rest } = props;
 
   let sizeConfig = {};
   if (extraLarge) { sizeConfig = fontConfig.extraLarge }

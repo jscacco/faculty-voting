@@ -1,13 +1,11 @@
 import React            from 'react';
-import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
-import Icon       from '../theme/Icon';
+import Icon             from '../theme/Icon';
 
 const propTypes = {
-  onClick: PropTypes.func,
   clicked: PropTypes.bool,
 
   color: ExtraPropTypes.color,
@@ -20,9 +18,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  onClick: undefined,
   clicked: false,
-  color: Colors.Black,
 };
 
 const sizeConfig = {
@@ -34,17 +30,13 @@ const sizeConfig = {
 };
 
 const renderClicked = ( props ) => (
-  <Icon onClick={props.onClick}
-        type={'bubble'}
-        size={props.size}
-        color={props.color} />
+  <Icon type={'bubble'}
+        {...props}/>
 );
 
 const renderUnClicked = ( props ) => (
-  <Icon onClick={props.onClick}
-        type={'circle'}
-        size={props.size}
-        color={props.color} />
+  <Icon type={'circle'}
+        {...props} />
 );
 
 const Bubble = ( props ) => {
@@ -59,9 +51,11 @@ const Bubble = ( props ) => {
   else if (extraSmall) { size = size.extraSmall }
   else { size = sizeConfig.medium }
 
-  return(clicked ? renderClicked({ ...props, size: size }) : renderUnClicked({ ...props, size: size }));
-
-}
+  return (
+    clicked ? renderClicked({ ...props, size: size }) :
+              renderUnClicked({ ...props, size: size })
+  );
+};
 
 Bubble.propTypes = propTypes;
 Bubble.defaultProps = defaultProps;

@@ -1,5 +1,4 @@
 import React            from 'react';
-import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
@@ -22,7 +21,6 @@ const propTypes = {
 
 const defaultProps = {
   onClick: undefined,
-
   color: Colors.Black,
 };
 

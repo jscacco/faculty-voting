@@ -13,7 +13,6 @@ const propTypes = {
   buttonType: PropTypes.oneOf(['bubble', 'checkbox']),
   buttonColor: ExtraPropTypes.color,
 
-  inputType: PropTypes.oneOf(['inputfield', 'textarea']),
   fontColor: ExtraPropTypes.color,
   backgroundColor: ExtraPropTypes.color,
   borderColor: ExtraPropTypes.color,
@@ -28,10 +27,10 @@ const defaultProps = {
   buttonType: 'bubble',
   buttonColor: ExtraPropTypes.color,
 
-  inputType: 'inputfield',
   fontColor: Colors.Black,
   borderColor: Colors.Blue,
 };
+
 class SingleChoiceGroup extends React.Component {
 
   constructor(props) {

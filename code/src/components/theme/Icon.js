@@ -6,27 +6,36 @@ import ExtraPropTypes                 from 'react-extra-prop-types';
 import { MdCheckBoxOutlineBlank,
          MdCheckBox,
          MdRadioButtonUnchecked,
-         MdRadioButtonChecked }       from 'react-icons/md';
+         MdRadioButtonChecked,
+         MdDone }                       from 'react-icons/md';
 
 const propTypes = {
-  type: PropTypes.oneOf(['box', 'checkbox', 'circle', 'bubble'])
+  type: PropTypes.oneOf(['box', 'checkbox', 'circle', 'bubble', 'check']).isRequired,
+  onClick: PropTypes.func,
+
+  color: ExtraPropTypes.color,
+  size: PropTypes.string,
 };
 
-const defaultProps = {};
+const defaultProps = {
+  onClick: undefined,
+};
 
-const Icon = (props) => {
+const Icon = ( props ) => {
 
   const { type, ...rest } = props;
 
   switch (type) {
     case 'checkbox':
-      return(<MdCheckBox {...rest}/>)
+      return( <MdCheckBox {...rest}/> )
     case 'circle':
-      return(<MdRadioButtonUnchecked {...rest}/>)
+      return( <MdRadioButtonUnchecked {...rest}/> )
     case 'bubble':
-      return(<MdRadioButtonChecked {...rest}/>)
+      return(< MdRadioButtonChecked {...rest}/> )
+    case 'check':
+      return( <MdDone {...rest}/> )
     default:
-      return(<MdCheckBoxOutlineBlank {...rest}/>)
+      return( <MdCheckBoxOutlineBlank {...rest}/> )
   };
 };
 

@@ -15,10 +15,13 @@ const propTypes = {
 const defaultProps = {
 };
 
-const GroupWrapper = styled.div``;
+const GroupWrapper = styled.div`
+  width: auto;
+`;
 
 const OptionWrapper = styled.div`
-  ${({lastChild, large, extraLarge}) => !lastChild && (large || extraLarge) ? `padding-bottom: 24px` : `padding-bottom: 18px`}
+  ${({lastChild, large, extraLarge}) => !lastChild && (large || extraLarge) ? `padding-bottom: 24px;` : `padding-bottom: 18px;`}
+  width: auto;
 `;
 
 const _renderOptions = ( props ) => {
