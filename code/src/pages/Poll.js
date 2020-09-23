@@ -19,7 +19,9 @@ const PageWrapper = styled.div`
 `;
 
 
-// FIREBASE NEEDS
+// FIREBASE NEEDS - it doesn't necessarily matter what format the data is stored
+// in firebase, this is how i am thinking of it right now, we need to add some
+// more functionality to handle unqiue inputs per user
 
  // poll = { type: 'single' || 'multiple',
  //          title: 'Poll title',
@@ -30,13 +32,13 @@ const PageWrapper = styled.div`
  //              value: 'Poll text' || InputValue}
  //          ],
  //          results: {
- //            optionid: { tally: 0 }
+ //            'Some id': { tally: 0 } // 'Some id' is from options
  //          }
  //        }
 
 const getPollInfo = () => {
 
-  // obtain poll info from firebase
+  // obtain poll info from firebase, want to return in the format bellow
 
   return {
     type: 'multiple',
@@ -60,7 +62,7 @@ const updateFirebase = ( props ) => {
 
   const { options, submittedOptions } = props;
 
-  // updateFirebase
+  // updateFirebase - specifically the results
 
 }
 
