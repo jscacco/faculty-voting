@@ -20,6 +20,8 @@ import InputOption       from '../options/InputOption';
 import TextOption from '../options/TextOption';
 
 const propTypes = {
+  getVote: PropTypes.func,
+
   title: PropTypes.string,
   description: PropTypes.string,
 
@@ -141,6 +143,8 @@ class SngleVoteCard extends React.Component {
 
     await this.setState({ ...this.state,
                           submittedOptions: this.state.selectedOptions });
+
+    if (this.props.getVote) {this.props.getVote({...this.state})}
   };
 
   _renderSubmitButton = () => {
