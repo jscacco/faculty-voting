@@ -4,11 +4,11 @@ import styled               from 'styled-components';
 import { Colors }           from '../components/theme/Colors';
 import history              from '../history';
 import HostControlPanel     from '../components/HostControlPanel';
+import firebase             from '../firebase';
+import {code}               from './RoomCode';
 import Input                from '../components/inputs/Input'
 import Agenda               from '../components/Agenda'
 import AgendaItem           from '../components/AgendaItem'
-
-
 import PollItem             from '../components/PollItem'
 
 const PageWrapper = styled.div`
@@ -36,6 +36,10 @@ class MeetingRoomScreen extends React.Component {
                                 onChange={this.handleChange}/>,
                          <Input placeholder={'Option'}
                                 onChange={this.handleChange}/>],
+      options: [],
+      pollTitle: '',
+      pollDescription: '',
+      showResults: true,
       poll: new PollItem(),
       agenda: <Agenda width={750} />,
     }
@@ -53,12 +57,18 @@ class MeetingRoomScreen extends React.Component {
   }
 
   handleTitleChange = (event) => {
+    this.setState({
+      pollTitle: event.target.value
+    })
     this.state.poll.setTitle(event.target.value)
 
     console.log('New title: ' + this.state.poll.title)
   }
 
   handleDescriptionChange = (event) => {
+    this.setState({
+      pollDescription: event.target.value
+    })
     this.state.poll.setDescription(event.target.value)
 
     console.log('New Desc: ' + this.state.poll.description)
@@ -71,11 +81,32 @@ class MeetingRoomScreen extends React.Component {
   }
 
   handleCreatePoll = () => {
-    alert('Creating poll ' + this.state.poll.title + ' ' + this.state.poll.description)
+    var results = true;
+    alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
+  
+    firebase
+            .firestore()
+            .collection(code)
+            .doc(this.state.pollTitle)
+            .set({
+              description: this.state.pollDescription,
+              showResult: results});
 
-    // this.state.agenda.setState({
-    //   polls: [...this.state.agenda.state.polls, <AgendaItem width={600} />]
-    // })
+    var count = 1;
+    var opitonNum;
+    for (var opt of this.state.options) {
+      optionNum = "Option" + count.toString()
+      firebase
+        .firestore()
+        .collection(code)
+        .doc(this.state.pollTitle)
+        .collection('results')
+        .doc(opitonNum)
+        .set({
+          name: "name of option",
+          value: 0
+        });
+    }
   }
 
   render() {

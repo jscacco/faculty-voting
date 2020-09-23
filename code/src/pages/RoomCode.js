@@ -5,6 +5,7 @@ import ParticlesBg          from 'particles-bg';
 import { Colors }           from '../components/theme/Colors';
 import RoomCodeForm         from '../components/RoomCodeForm';
 import history              from '../history';
+import firebase             from '../firebase';
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -14,6 +15,8 @@ const PageWrapper = styled.div`
   top: 0;
   bottom: 0;
 `;
+
+var code = "";
 
 class RoomCodeScreen extends React.Component {
   constructor(props) {
@@ -30,8 +33,17 @@ class RoomCodeScreen extends React.Component {
 
   handleSubmit = (event) => {
     alert('You are entering room: ' + this.state.value);
-    history.push('/Poll');
+    history.push('/MeetingRoom');
     event.preventDefault();
+    firebase
+            .firestore()
+            .collection(this.state.value)
+            .doc("general-poll")
+            .set({
+              yes: 0, 
+              no: 0, 
+              abstain: 0});
+    code = this.state.value;
   }
 
   render() {
@@ -45,3 +57,4 @@ class RoomCodeScreen extends React.Component {
 };
 
 export default RoomCodeScreen;
+export {code};
