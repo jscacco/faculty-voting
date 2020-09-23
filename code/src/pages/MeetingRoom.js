@@ -4,9 +4,12 @@ import styled               from 'styled-components';
 import { Colors }           from '../components/theme/Colors';
 import history              from '../history';
 import HostControlPanel     from '../components/HostControlPanel';
-import Input                from '../components/inputs/Input';
 import firebase             from '../firebase';
 import {code}               from './RoomCode';
+import Input                from '../components/inputs/Input'
+import Agenda               from '../components/Agenda'
+import AgendaItem           from '../components/AgendaItem'
+import PollItem             from '../components/PollItem'
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -15,6 +18,12 @@ const PageWrapper = styled.div`
   left: 0;
   top: 0;
   bottom: 0;
+`;
+
+const SideBySideWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 `;
 
 class MeetingRoomScreen extends React.Component {
@@ -30,7 +39,9 @@ class MeetingRoomScreen extends React.Component {
       options: [],
       pollTitle: '',
       pollDescription: '',
-      showResults: true
+      showResults: true,
+      poll: new PollItem(),
+      agenda: <Agenda width={750} />,
     }
   }
 
@@ -46,28 +57,21 @@ class MeetingRoomScreen extends React.Component {
   }
 
   handleTitleChange = (event) => {
-    this.setState({
-      pollTitle: event.target.value
-    })
+    this.state.poll.setTitle(event.target.value)
 
-    console.log('New title: ' + this.state.pollTitle)
+    console.log('New title: ' + this.state.poll.title)
   }
 
   handleDescriptionChange = (event) => {
-    this.setState({
-      pollDescription: event.target.value
-    })
+    this.state.poll.setDescription(event.target.value)
 
-    console.log('New Desc: ' + this.state.pollDescription)
+    console.log('New Desc: ' + this.state.poll.description)
   }
 
   handleOptionChange = (event) => {
     console.log('Option value being changed')
 
     console.log(event.target.value)
-    for (const component of this.state.optionComponents) {
-      console.log(component.value)
-    }
   }
 
   handleCreatePoll = () => {
@@ -96,13 +100,16 @@ class MeetingRoomScreen extends React.Component {
   render() {
     return (
       <PageWrapper>
-        <HostControlPanel width={300} title="Create a Poll"
-                          handleSubmit={this.handleCreatePoll}
-                          handleCreateOption={this.addOption}
-                          handleOptionChange={this.handleOptionChange}
-                          handleTitleChange={this.handleTitleChange}
-                          handleDescriptionChange={this.handleDescriptionChange}
-                          options={this.state.optionComponents} />
+        <SideBySideWrapper>
+          <HostControlPanel width={300} title="Create a Poll"
+                            handleSubmit={this.handleCreatePoll}
+                            handleCreateOption={this.addOption}
+                            handleOptionChange={this.handleOptionChange}
+                            handleTitleChange={this.handleTitleChange}
+                            handleDescriptionChange={this.handleDescriptionChange}
+                            options={this.state.optionComponents} />
+          {this.state.agenda}
+        </SideBySideWrapper>
       </PageWrapper>
     );
   }
