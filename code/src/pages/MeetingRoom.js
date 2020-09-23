@@ -57,12 +57,18 @@ class MeetingRoomScreen extends React.Component {
   }
 
   handleTitleChange = (event) => {
+    this.setState({
+      pollTitle: event.target.value
+    })
     this.state.poll.setTitle(event.target.value)
 
     console.log('New title: ' + this.state.poll.title)
   }
 
   handleDescriptionChange = (event) => {
+    this.setState({
+      pollDescription: event.target.value
+    })
     this.state.poll.setDescription(event.target.value)
 
     console.log('New Desc: ' + this.state.poll.description)
@@ -86,14 +92,20 @@ class MeetingRoomScreen extends React.Component {
               description: this.state.pollDescription,
               showResult: results});
 
+    var count = 1;
+    var opitonNum;
     for (var opt of this.state.options) {
+      optionNum = "Option" + count.toString()
       firebase
         .firestore()
         .collection(code)
         .doc(this.state.pollTitle)
-        .collection('poll')
-        .doc('general-poll')
-        .set({});
+        .collection('results')
+        .doc(opitonNum)
+        .set({
+          name: "name of option",
+          value: 0
+        });
     }
   }
 
