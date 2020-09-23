@@ -29,7 +29,7 @@ const SideBySideWrapper = styled.div`
 class MeetingRoomScreen extends React.Component {
   constructor(props) {
     super(props);
-
+    var order = 1;
     this.state = {
       // State values for creating a new poll
       optionComponents: [<Input placeholder={'Option'}
@@ -81,27 +81,29 @@ class MeetingRoomScreen extends React.Component {
   }
 
   handleCreatePoll = () => {
-    var results = true;
+    this.state.poll.setOrder(order);
+    order += 1;
+
     alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
   
     firebase
             .firestore()
             .collection(code)
-            .doc(this.state.pollTitle)
+            .doc(this.state.poll.title)
             .set({
-              description: this.state.pollDescription,
-              showResult: results});
+              description: this.state.poll.description,
+              showResult: this.state.poll.showResults,
+              order: this.state.poll.order});
 
-    var count = 1;
-    var opitonNum;
+    var optionNum;
     for (var opt of this.state.options) {
       optionNum = "Option" + count.toString()
       firebase
         .firestore()
         .collection(code)
-        .doc(this.state.pollTitle)
+        .doc(this.state.poll.title)
         .collection('results')
-        .doc(opitonNum)
+        .doc(optionNum)
         .set({
           name: "name of option",
           value: 0

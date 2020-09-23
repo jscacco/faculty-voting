@@ -9,6 +9,7 @@ export default class PollItem {
     this.title = '';
     this.description = '';
     this.showResults = true;
+    this.order = -1;
   }
 
   logData() {
@@ -35,5 +36,9 @@ export default class PollItem {
 
   setShowResults(bool) {
     this.showResults = bool
+  }
+
+  setOrder(order) {
+    this.order = order
   }
 }
