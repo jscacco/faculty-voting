@@ -83,7 +83,7 @@ class MeetingRoomScreen extends React.Component {
   handleCreatePoll = () => {
     var results = true;
     alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
-  
+
     firebase
             .firestore()
             .collection(code)
@@ -93,7 +93,7 @@ class MeetingRoomScreen extends React.Component {
               showResult: results});
 
     var count = 1;
-    var opitonNum;
+    var optionNum;
     for (var opt of this.state.options) {
       optionNum = "Option" + count.toString()
       firebase
@@ -101,7 +101,7 @@ class MeetingRoomScreen extends React.Component {
         .collection(code)
         .doc(this.state.pollTitle)
         .collection('results')
-        .doc(opitonNum)
+        .doc(optionNum)
         .set({
           name: "name of option",
           value: 0

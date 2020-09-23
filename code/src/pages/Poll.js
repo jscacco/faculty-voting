@@ -2,12 +2,10 @@ import React    from 'react';
 import styled   from 'styled-components';
 
 import { Colors } from '../components/theme/Colors';
-import Button from '../components/Button';
-import Bubble from '../components/Bubble';
-import Option from '../components/Option';
-import OptionGroup from '../components/OptionGroup';
-import Card from '../components/Card';
-import VotingCard from '../components/VotingCard';
+
+import MultiVoteCard from '../components/cards/MultiVoteCard';
+import SnglVoteCard from '../components/cards/SnglVoteCard';
+
 import firebase from '../firebase';
 import {code} from './RoomCode';
 
@@ -20,115 +18,169 @@ const PageWrapper = styled.div`
   bottom: 0;
 `;
 
-class PollScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {selectedBubble: null,
-                  submittedBubble: null,
-                  voted: false,
-                  last_vote: null,
-                  vote: null};
-    //
-    this.handleOptionClick = this.handleOptionClick.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+
+// FIREBASE NEEDS
+
+ // poll = { type: 'single' || 'multiple',
+ //          title: 'Poll title',
+ //          description: 'Poll description',
+ //          options: [
+ //            { id: 'Some id',
+ //              type: 'text' || 'input' || 'textarea',
+ //              value: 'Poll text' || InputValue}
+ //          ],
+ //          results: {
+ //            optionid: { tally: 0 }
+ //          }
+ //        }
+
+const getPollInfo = () => {
+
+  // obtain poll info from firebase
+
+  return {
+    type: 'multiple',
+    title: 'Poll Title',
+    description: 'Descriptive description of ze poll...',
+    options: [
+      { type: 'text',
+        value: 'Option 1' },
+      { type: 'text',
+        value: 'Option 2' },
+      { type: 'input',
+        value: null }
+    ]
   }
 
-  handleOptionClick = (id) => {
-    if (this.state.selectedBubble === id) {
-      this.setState({selectedBubble: null});
-    }
-    else { this.setState({selectedBubble: id}); }
-  }
+}
 
+const updateFirebase = ( props ) => {
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    var docRef = firebase.firestore().collection(code).doc("general-poll");
+  console.log(props);
 
-    if (this.state.selectedBubble && !this.state.voted){
-      this.setState({voted: true,
-                     vote: this.state.selectedBubble});
-    }
-    else if (this.state.selectedBubble != this.state.submittedBubble){
-      this.setState({voted: true,
-                     last_vote: this.state.vote,
-                     vote: this.state.selectedBubble});
-    }
+  const { options, submittedOptions } = props;
 
-    docRef.get().then(snap =>{
-      console.log(snap);
-      if (this.state.vote == 0) {
-        docRef.update({
-          yes: Number(snap.data()['yes'].toString()) + 1
-        });
-       }
-       else if (this.state.vote == 1) {
-        docRef.update({
-          no: Number(snap.data()['no'].toString()) + 1
-        });
-      }
-      else if (this.state.vote == 2) {
-        docRef.update({
-          abstain: Number(snap.data()['abstain'].toString()) + 1
-        });
-      }
+  // updateFirebase
 
-      if (this.state.last_vote == 0) {
-        docRef.update({
-          yes: Number(snap.data()['yes'].toString()) - 1
-        });
-       }
-       else if (this.state.last_vote == 1) {
-        docRef.update({
-          no: Number(snap.data()['no'].toString()) - 1
-        });
-      }
-      else if (this.state.last_vote == 2) {
-        docRef.update({
-          abstain: Number(snap.data()['abstain'].toString()) - 1
-        });
-      }
-     });
-  }
+}
 
-  render() {
+const renderSingle = ( props ) => (
 
-    const unselected = this.state.selectedBubble === null;
-    const submit = !this.state.voted;
-    const submitted = this.state.selectedBubble === this.state.vote;
-    const resubmit = this.state.selectedBubble != this.state.vote;
+  <SnglVoteCard {...props}
+                getVote={updateFirebase}
+                medium/>
+);
 
-    return (
-        <PageWrapper>
-          <VotingCard medium
-                      width={600}
-                      title={'Poll Title'}
-                      description={'Description of the poll... very informative.'}
-                      options={['Yes', 'No', 'Abstain']}
-                      handleOptionClick={this.handleOptionClick}
-                      selectedBubble={this.state.selectedBubble}
-                      handleSubmit={this.handleSubmit}
-                      unselected={unselected} submit={submit} resubmit={resubmit} submitted={submitted}/>
-        </PageWrapper>
-      );
-  }
+const renderMultiple = ( props ) => (
+  <MultiVoteCard {...props}
+                 getVote={updateFirebase}
+                 medium/>
+);
+
+const PollScreen = (props) => {
+
+  const { type, ...rest } = getPollInfo();
+
+  return(
+    <PageWrapper>
+      {type === 'single' ? renderSingle(rest) : renderMultiple(rest)}
+    </PageWrapper>
+  )
+
 };
 
-
-
-
-// const PollScreen = (props) => {
-//
-//   return(
-//     <PageWrapper>
-//       <VotingCard medium
-//                   width={600}
-//                   title={'Poll Title'}
-//                   description={'Description of the poll... very informative.'}
-//                   options={['Option 1', 'Option 2', 'Option 3']}/>
-//     </PageWrapper>
-//   )
-//
-// };
-
 export default PollScreen;
+
+// class PollScreen extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {selectedBubble: null,
+//                   submittedBubble: null,
+//                   voted: false,
+//                   last_vote: null,
+//                   vote: null};
+//     //
+//     this.handleOptionClick = this.handleOptionClick.bind(this);
+//     this.handleSubmit = this.handleSubmit.bind(this);
+//   }
+//
+//   handleOptionClick = (id) => {
+//     if (this.state.selectedBubble === id) {
+//       this.setState({selectedBubble: null});
+//     }
+//     else { this.setState({selectedBubble: id}); }
+//   }
+//
+//
+//   handleSubmit = (event) => {
+//     event.preventDefault();
+//     var docRef = firebase.firestore().collection(code).doc("general-poll");
+//
+//     if (this.state.selectedBubble && !this.state.voted){
+//       this.setState({voted: true,
+//                      vote: this.state.selectedBubble});
+//     }
+//     else if (this.state.selectedBubble != this.state.submittedBubble){
+//       this.setState({voted: true,
+//                      last_vote: this.state.vote,
+//                      vote: this.state.selectedBubble});
+//     }
+//
+//     docRef.get().then(snap =>{
+//       console.log(snap);
+//       if (this.state.vote == 0) {
+//         docRef.update({
+//           yes: Number(snap.data()['yes'].toString()) + 1
+//         });
+//        }
+//        else if (this.state.vote == 1) {
+//         docRef.update({
+//           no: Number(snap.data()['no'].toString()) + 1
+//         });
+//       }
+//       else if (this.state.vote == 2) {
+//         docRef.update({
+//           abstain: Number(snap.data()['abstain'].toString()) + 1
+//         });
+//       }
+//
+//       if (this.state.last_vote == 0) {
+//         docRef.update({
+//           yes: Number(snap.data()['yes'].toString()) - 1
+//         });
+//        }
+//        else if (this.state.last_vote == 1) {
+//         docRef.update({
+//           no: Number(snap.data()['no'].toString()) - 1
+//         });
+//       }
+//       else if (this.state.last_vote == 2) {
+//         docRef.update({
+//           abstain: Number(snap.data()['abstain'].toString()) - 1
+//         });
+//       }
+//      });
+//   }
+//
+//   render() {
+//
+//     const unselected = this.state.selectedBubble === null;
+//     const submit = !this.state.voted;
+//     const submitted = this.state.selectedBubble === this.state.vote;
+//     const resubmit = this.state.selectedBubble != this.state.vote;
+//
+//     return (
+//         <PageWrapper>
+//           <VotingCard medium
+//                       width={600}
+//                       title={'Poll Title'}
+//                       description={'Description of the poll... very informative.'}
+//                       options={['Yes', 'No', 'Abstain']}
+//                       handleOptionClick={this.handleOptionClick}
+//                       selectedBubble={this.state.selectedBubble}
+//                       handleSubmit={this.handleSubmit}
+//                       unselected={unselected} submit={submit} resubmit={resubmit} submitted={submitted}/>
+//         </PageWrapper>
+//       );
+//   }
+// };

@@ -1,5 +1,4 @@
 import React            from 'react';
-import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
@@ -22,7 +21,6 @@ const propTypes = {
 
 const defaultProps = {
   onClick: undefined,
-
   color: Colors.Black,
 };
 
@@ -39,8 +37,10 @@ class IconButton extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { clicked: false };
+    if (this.props.remote) { this.state = { clicked: this.props.getClickStatus() }; }
+    else {this.state = { clicked: false };}
 
+    this._handleClick = this._handleClick.bind(this);
     this._renderClicked = this._renderClicked.bind(this);
     this._renderUnClicked = this._renderUnClicked.bind(this);
   };
@@ -49,8 +49,13 @@ class IconButton extends React.Component {
 
     const { clicked } = this.state;
 
-    this.setState({ clicked: !clicked });
+    if (this.props.remote) { this.setState({ ...this.state,
+                                             clicked: this.props.getClickStatus() }); }
+    else { this.setState({ ...this.state,
+                           clicked: !clicked }); }
+
     if (this.props.onClick) { this.props.onClick(event); };
+
   };
 
   _renderClicked = (size) => (
@@ -69,7 +74,9 @@ class IconButton extends React.Component {
 
   render() {
 
-    const { extraLarge, large, medium, small, extraSmall } = this.props;
+    console.log('rrr');
+
+    const { extraLarge, large, medium, small, extraSmall, remote} = this.props;
 
     let size;
 

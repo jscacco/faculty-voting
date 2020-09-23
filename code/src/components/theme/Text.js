@@ -1,14 +1,20 @@
-import React      from 'react';
-import styled     from 'styled-components';
-import PropTypes  from 'prop-types';
+import React            from 'react';
+import styled           from 'styled-components';
+import PropTypes        from 'prop-types';
+import ExtraPropTypes		from 'react-extra-prop-types';
+
 
 const propTypes = {
   primitive: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node.isRequired,
+
+  color: ExtraPropTypes.color,
+  fontSize: PropTypes.int,
+  lineHeight: PropTypes.int,
 };
 
 const defaultProps = {
-  primitive: 'span'
+  primitive: 'span',
 };
 
 const TextWrapper = styled.span`
@@ -18,11 +24,16 @@ const TextWrapper = styled.span`
   margin: 0;
 `;
 
-const Text = ({ primitive, children, ...props }) => (
-  <TextWrapper as={primitive} {...props}>
-    {children}
-  </TextWrapper>
-);
+const Text = ( props ) => {
+
+  const { primitive, children, ...rest } = props;
+
+  return (
+    <TextWrapper as={primitive} {...rest}>
+      {children}
+    </TextWrapper>
+  );
+};
 
 Text.propTypes = propTypes;
 Text.defaultProps = defaultProps;
