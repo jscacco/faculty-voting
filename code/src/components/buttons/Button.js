@@ -64,8 +64,10 @@ const buttonConfig = {
 
 const Button = ( props ) => {
 
-  const { children, backgroundColor,textColor,
-          extraLarge, large, medium, small, extraSmall } = props;
+  const { textColor, onClick, ...rest } = props
+
+  const { children, backgroundColor,
+          extraLarge, large, medium, small, extraSmall } = rest;
 
   let config;
 
@@ -79,7 +81,7 @@ const Button = ( props ) => {
     <ButtonComponent padding={config.padding}
                      buttonHeight={config.buttonHeight}
                      {...props}>
-      <BodyText color={textColor} {...props}/>
+      <BodyText color={textColor} {...rest}/>
     </ButtonComponent>
   );
 };
