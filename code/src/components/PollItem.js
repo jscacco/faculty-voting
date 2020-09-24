@@ -10,6 +10,7 @@ export default class PollItem {
     this.description = '';
     this.showResults = true;
     this.order = -1;
+    this.optionMap = {};
   }
 
   logData() {
@@ -40,5 +41,11 @@ export default class PollItem {
 
   setOrder(order) {
     this.order = order
+  }
+
+  setOptions() {
+    for(var i = 0; i < this.options.length; i++) {
+      this.optionMap[this.options[i]] = 0
+    }
   }
 }

@@ -10,6 +10,7 @@ import Input                from '../components/inputs/Input'
 import Agenda               from '../components/Agenda'
 import AgendaItem           from '../components/AgendaItem'
 import PollItem             from '../components/PollItem'
+import addPollFire                 from '../fire-funcs'
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -43,6 +44,9 @@ class MeetingRoomScreen extends React.Component {
       poll: new PollItem(),
       agenda: <Agenda width={750} />,
     }
+    this.state.poll.setOrder(order);
+    // This doesn't work
+    order += 1;
   }
 
   addOption = () => {
@@ -81,34 +85,36 @@ class MeetingRoomScreen extends React.Component {
   }
 
   handleCreatePoll = () => {
-    this.state.poll.setOrder(order);
-    order += 1;
-
     alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
   
-    firebase
-      .firestore()
-      .collection(code)
-      .doc(this.state.poll.title)
-      .set({
-        description: this.state.poll.description,
-        showResult: this.state.poll.showResults,
-        order: this.state.poll.order});
+    //var name = 'yes'
+    //this.state.poll.optMap[name] = 0
+    this.state.poll.setOptions()
+    addPollFire(code, this.state.poll)
 
-    var optionNum;
-    for (var opt of this.state.options) {
-      optionNum = "Option" + count.toString()
-      firebase
-        .firestore()
-        .collection(code)
-        .doc(this.state.poll.title)
-        .collection('results')
-        .doc(optionNum)
-        .set({
-          name: "name of option",
-          value: 0
-        });
-    }
+    //firebase
+    //  .firestore()
+    //  .collection(code)
+    //  .doc(this.state.poll.title)
+    //  .set({
+    //    description: this.state.poll.description,
+    //    showResult: this.state.poll.showResults,
+    //    order: this.state.poll.order});
+
+    //var optionNum;
+    //for (var opt of this.state.options) {
+    //  optionNum = "Option" + this.state.poll.order.toString()
+    //  firebase
+    //    .firestore()
+    //    .collection(code)
+    //    .doc(this.state.poll.title)
+    //    .collection('results')
+    //    .doc(optionNum)
+    //    .set({
+    //      name: "name of option",
+    //      value: 0
+    //    });
+    //}
   }
 
   render() {

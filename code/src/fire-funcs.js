@@ -1,5 +1,5 @@
-import firebase             from '../firebase';
-import {code} from './RoomCode';
+import firebase             from './firebase';
+import {code}               from './pages/RoomCode';
 
 
 //               (roomCode, pollTitle, "yes", 0)
@@ -13,16 +13,35 @@ function sendFire(collectionName, docName, fieldName, fieldValue) {
             value: fieldValue});
 }
 
-function addPollFire(collectionName, docName, option, fieldName, fieldValue) {
+//const addPollFire = function addPollFire(collectionName, docName, option, fieldName, fieldValue) {
+//    firebase
+//        .firestore()
+//        .collection(collectionName)
+//        .doc(docName)
+//        .collection("results")
+//        .doc(option)
+//        .set({
+//            name: fieldName,
+//            value: fieldValue});
+//}
+
+const addPollFire = function addPollFire(collectionName, poll) {
+    firebase
+      .firestore()
+      .collection(collectionName)
+      .doc(poll.title)
+      .set({
+        description: poll.description,
+        showResult: poll.showResults,
+        order: poll.order});
+
     firebase
         .firestore()
         .collection(collectionName)
-        .doc(docName)
+        .doc(poll.title)
         .collection("results")
-        .doc(option)
-        .set({
-            name: fieldName,
-            value: fieldValue});
+        .doc("Option" + poll.order.toString())
+        .set(poll.optMap);
 }
 
 function getPollInfo() {
@@ -37,3 +56,5 @@ function getPollInfo() {
 //       yes: Number(snap.data()['yes'].toString()) + 1
 //     });
 //     }
+
+export default addPollFire;
