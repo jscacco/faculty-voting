@@ -10,7 +10,8 @@ import Input                from '../components/inputs/Input'
 import Agenda               from '../components/Agenda'
 import AgendaItem           from '../components/AgendaItem'
 import PollItem             from '../components/PollItem'
-import addPollFire                 from '../fire-funcs'
+import addPollFire          from '../fire-funcs'
+import {getPollInf}          from '../fire-funcs';
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -34,10 +35,10 @@ class MeetingRoomScreen extends React.Component {
     this.state = {
       // State values for creating a new poll
       optionComponents: [<Input placeholder={'Option'}
-                                onChange={this.handleChange}/>,
+                                onChange={this.handleOptionChange}/>,
                          <Input placeholder={'Option'}
-                                onChange={this.handleChange}/>],
-      options: [],
+                                onChange={this.handleOptionChange}/>],
+      options: {},
       pollTitle: '',
       pollDescription: '',
       showResults: true,
@@ -80,18 +81,23 @@ class MeetingRoomScreen extends React.Component {
 
   handleOptionChange = (event) => {
     console.log('Option value being changed')
-
     console.log(event.target.value)
   }
 
   handleCreatePoll = () => {
     alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
   
-    //var name = 'yes'
-    //this.state.poll.optMap[name] = 0
     this.state.poll.setOptions()
-    addPollFire(code, this.state.poll)
+    this.state.poll.setType('single')
 
+    for(var opt in this.state.optionComponents) {
+      console.log(opt.placeholder)
+    }
+
+    addPollFire(code, this.state.poll)
+    var newPoll = getPollInf(code, this.state.pollTitle)
+    newPoll.logData()
+  }
     //firebase
     //  .firestore()
     //  .collection(code)
@@ -115,7 +121,7 @@ class MeetingRoomScreen extends React.Component {
     //      value: 0
     //    });
     //}
-  }
+  
 
   render() {
     return (

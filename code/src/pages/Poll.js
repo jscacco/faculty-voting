@@ -8,6 +8,8 @@ import SnglVoteCard from '../components/cards/SnglVoteCard';
 
 import firebase from '../firebase';
 import {code} from './RoomCode';
+import {getPollInf} from '../fire-funcs';
+
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};

@@ -1,3 +1,4 @@
+import PollItem             from './components/PollItem';
 import firebase             from './firebase';
 import {code}               from './pages/RoomCode';
 
@@ -13,18 +14,6 @@ function sendFire(collectionName, docName, fieldName, fieldValue) {
             value: fieldValue});
 }
 
-//const addPollFire = function addPollFire(collectionName, docName, option, fieldName, fieldValue) {
-//    firebase
-//        .firestore()
-//        .collection(collectionName)
-//        .doc(docName)
-//        .collection("results")
-//        .doc(option)
-//        .set({
-//            name: fieldName,
-//            value: fieldValue});
-//}
-
 const addPollFire = function addPollFire(collectionName, poll) {
     firebase
       .firestore()
@@ -32,8 +21,10 @@ const addPollFire = function addPollFire(collectionName, poll) {
       .doc(poll.title)
       .set({
         description: poll.description,
-        showResult: poll.showResults,
-        order: poll.order});
+        showResults: poll.showResults,
+        order: poll.order,
+        status: poll.status,
+        type: poll.type});
 
     firebase
         .firestore()
@@ -41,11 +32,25 @@ const addPollFire = function addPollFire(collectionName, poll) {
         .doc(poll.title)
         .collection("results")
         .doc("Option" + poll.order.toString())
-        .set(poll.optMap);
+        .set(poll.optionMap);
 }
 
-function getPollInfo() {
+const getPollInf = function getPollInf(collectionName, pollTitle) {
+    var poll = new PollItem();
+    var docRef = firebase.firestore().collection(collectionName).doc(pollTitle);
 
+    docRef.get().then(snap =>{
+        console.log(snap.data());
+
+        poll.setDescription(snap.data()['description'].toString())
+        poll.setShowResults(snap.data()['showResults'].toString())
+        poll.setOrder(snap.data()['order'].toString())
+        poll.setType(snap.data()['type'].toString())
+        poll.setStatus(snap.data()['status'].toString())
+    });
+
+    poll.setTitle(pollTitle);
+    return poll;
 }
 
 // firebase.firestore().collection(code).doc("general-poll");
@@ -58,3 +63,4 @@ function getPollInfo() {
 //     }
 
 export default addPollFire;
+export {getPollInf};
