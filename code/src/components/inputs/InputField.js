@@ -42,7 +42,7 @@ const InputFieldComponent = styled.input`
   font-size: ${({fontSize}) => fontSize}px;
   color: ${({fontColor}) => fontColor};
   line-height: ${({lineHeight}) => lineHeight}px;
-  width: 100%;
+  width: auto;
   height: ${({height}) => height}px;
   padding: 12px 20px;
   box-sizing: border-box;
@@ -51,7 +51,6 @@ const InputFieldComponent = styled.input`
   background-color: ${({backgroundColor}) => backgroundColor ? backgroundColor : `none`};
   overflow: visable;
   resize: none;
-
   ::placeholder {
     color: ${Colors.LightBlue};
   }

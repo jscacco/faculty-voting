@@ -51,7 +51,6 @@ const TextAreaComponent = styled.textarea`
   background-color: ${({backgroundColor}) => backgroundColor ? backgroundColor : `none`};
   overflow: visable;
   resize: none;
-
   ::placeholder {
     color: ${Colors.LightBlue};
   }

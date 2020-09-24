@@ -62,7 +62,8 @@ const buttonConfig = {
            padding: `12px`},
 };
 
-const Button = (props) => {
+const Button = ( props ) => {
+
   const { children, backgroundColor,textColor,
           extraLarge, large, medium, small, extraSmall } = props;
 

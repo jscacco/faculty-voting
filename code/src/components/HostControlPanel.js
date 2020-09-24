@@ -5,7 +5,7 @@ import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from './theme/Colors';
 import Body             from './theme/Body';
-import {Jumbo}             from './theme/Jumbo';
+import Jumbo             from './theme/Jumbo';
 import Text             from './theme/Text'
 
 import OptionGroup      from './OptionGroup';

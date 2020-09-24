@@ -1,15 +1,19 @@
-import React			from 'react';
-import styled	 		from 'styled-components';
-import PropTypes 		from 'prop-types';
-import ExtraPropTypes	from 'react-extra-prop-types';
+import React						from 'react';
+import styled	 					from 'styled-components';
+import PropTypes 				from 'prop-types';
+import ExtraPropTypes		from 'react-extra-prop-types';
 
 import { Colors }       from './Colors';
-import { Fonts } 		from './Fonts';
-import Text 			from './Text';
+import { Fonts } 				from './Fonts';
+
+import Text 						from './Text';
 
 const propTypes = {
-	color: ExtraPropTypes.color,
+	children: PropTypes.node,
 	primitive: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span', 'p']),
+
+	color: ExtraPropTypes.color,
+
 	fiveExtraSmall: PropTypes.bool,
 	fourExtraSmall: PropTypes.bool,
 	threeExtraSmall: PropTypes.bool,
@@ -31,6 +35,7 @@ const defaultProps = {
 const fontConfig = {
   fontFamily: Fonts.Montserrat,
 	fontWeight: '900',
+
 	threeExtraLarge: { fontSize: 160, lineHeight: 160},
 	twoExtraLarge: { fontSize: 140, lineHeight: 140},
 	extraLarge: { fontSize: 120, lineHeight: 120},
@@ -52,22 +57,23 @@ const JumboComponent = styled(Text)`
 `;
 
 
-const Jumbo = ({
-	color,
-	primitive,
-	children,
-	threeExtraLarge,
-	twoExtraLarge,
-	extraLarge,
-	large,
-	medium,
-	small,
-	extraSmall,
-	twoExtraSmall,
-	threeExtraSmall,
-	fourExtraSmall,
-	fiveExtraSmall,
-	...rest }) => {
+const Jumbo = ( props ) => {
+
+	const { color,
+		      primitive,
+		      children,
+					threeExtraLarge,
+					twoExtraLarge,
+					extraLarge,
+					large,
+					medium,
+					small,
+					extraSmall,
+					twoExtraSmall,
+					threeExtraSmall,
+					fourExtraSmall,
+					fiveExtraSmall,
+					...rest } = props
 
 	let sizeConfig = {};
 
@@ -95,17 +101,17 @@ const Jumbo = ({
 		sizeConfig = fontConfig.extraLarge;
   }
 
-	return (<JumboComponent
-	color={color}
-	primitive={primitive}
-	fontSize={sizeConfig.fontSize}
-	lineHeight={sizeConfig.lineHeight}
-	{...rest}>
-		{children}
-	</JumboComponent>);
+	return (
+		<JumboComponent color={color}
+										primitive={primitive}
+										fontSize={sizeConfig.fontSize}
+										lineHeight={sizeConfig.lineHeight}
+										{...rest}>
+	      {children}
+		</JumboComponent>);
 };
 
 Jumbo.propTypes = propTypes;
 Jumbo.defaultProps = defaultProps;
 
-export { Jumbo };
+export default Jumbo;

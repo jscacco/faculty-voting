@@ -7,7 +7,7 @@ import { Colors }       from './theme/Colors';
 import Body             from './theme/Body';
 import Card             from './Card';
 import Button           from './Button';
-import {Jumbo}             from './theme/Jumbo';
+import Jumbo             from './theme/Jumbo';
 
 
 
