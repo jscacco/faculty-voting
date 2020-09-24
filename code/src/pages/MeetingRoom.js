@@ -87,13 +87,13 @@ class MeetingRoomScreen extends React.Component {
     alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
   
     firebase
-            .firestore()
-            .collection(code)
-            .doc(this.state.poll.title)
-            .set({
-              description: this.state.poll.description,
-              showResult: this.state.poll.showResults,
-              order: this.state.poll.order});
+      .firestore()
+      .collection(code)
+      .doc(this.state.poll.title)
+      .set({
+        description: this.state.poll.description,
+        showResult: this.state.poll.showResults,
+        order: this.state.poll.order});
 
     var optionNum;
     for (var opt of this.state.options) {
