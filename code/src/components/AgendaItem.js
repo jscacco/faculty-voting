@@ -5,7 +5,7 @@ import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from './theme/Colors';
 import Body             from './theme/Body';
-import {Jumbo}             from './theme/Jumbo';
+import Jumbo             from './theme/Jumbo';
 import Text             from './theme/Text'
 
 import OptionGroup      from './OptionGroup';
@@ -36,13 +36,48 @@ const CenterWrapper = styled.div`
   justify-content: center;
 `;
 
+const renderTitle = (props) => {
+  const { pollItem } = props;
+
+  return (
+    <Jumbo fiveExtraSmall={true} color={Colors.White}>
+      Title
+    </Jumbo>
+  );
+}
+
+const renderStatus = (props) => {
+  const { pollItem } = props;
+
+  return (
+    <Jumbo fiveExtraSmall={true} color={Colors.White}>
+      Status
+    </Jumbo>
+  );
+}
+
+const renderButton = (props) => {
+  const { pollItem } = props;
+
+  return (
+    <Button extraSmall={true}>
+      Vote
+    </Button>
+  );
+}
+
 const AgendaItem = (props) => {
 
-  const { width, title, small, medium, large,
+  const { width, small, medium, large,
           pollItem } = props;
 
   return (
     <Card width={width} color={Colors.LightBlue}>
+      <SideBySideWrapper>
+        {renderTitle(props)}
+        {renderStatus(props)}
+        {renderButton(props)}
+      </SideBySideWrapper>
     </Card>
   )
 };

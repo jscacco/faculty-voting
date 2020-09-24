@@ -11,6 +11,7 @@ import Text             from './theme/Text'
 import OptionGroup      from './OptionGroup';
 import Card             from './Card';
 import Button           from './Button';
+import PollItem         from './PollItem';
 
 import AgendaItem       from './AgendaItem'
 
@@ -38,19 +39,11 @@ class Agenda extends React.Component {
     super(props);
 
     this.state = {
-      polls: [<AgendaItem width={600}/>]
+      polls: [<AgendaItem width={600} pollItem={new PollItem()}/>]
     }
   }
 
-  addPoll() { //poll) {
-    this.setState({
-      polls: [...this.state.polls, <AgendaItem width={600} />] // pollItem={poll} />]
-    });
-  }
-
-  getState() {
-    return this.state
-  }
+  
 
   render() {
     return (
