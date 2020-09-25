@@ -41,7 +41,7 @@ class MeetingRoomScreen extends React.Component {
       pollDescription: '',
       showResults: true,
       poll: new PollItem(),
-      agenda: <Agenda width={750} />,
+      agenda: <Agenda width={750} roomCode={code}/>,
     }
   }
 
@@ -81,6 +81,10 @@ class MeetingRoomScreen extends React.Component {
   }
 
   handleCreatePoll = () => {
+    for (var component of this.state.optionComponents)
+      console.log(component.value)
+
+
     var results = true;
     alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
 
