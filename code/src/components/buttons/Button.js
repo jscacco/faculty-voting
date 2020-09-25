@@ -64,22 +64,21 @@ const buttonConfig = {
 
 const Button = ( props ) => {
 
-  const { children, backgroundColor,textColor,
-          extraLarge, large, medium, small, extraSmall } = props;
+  const { children, backgroundColor,textColor, onClick, ...rest} = props;
 
   let config;
 
-  if (extraLarge) { config = buttonConfig.extraLarge }
-  else if (large) { config = buttonConfig.large }
-  else if (small) { config = buttonConfig.small }
-  else if (extraSmall) { config = buttonConfig.extraSmall }
+  if (props.extraLarge) { config = buttonConfig.extraLarge }
+  else if (props.large) { config = buttonConfig.large }
+  else if (props.small) { config = buttonConfig.small }
+  else if (props.extraSmall) { config = buttonConfig.extraSmall }
   else { config = buttonConfig.medium }
 
   return(
     <ButtonComponent padding={config.padding}
                      buttonHeight={config.buttonHeight}
                      {...props}>
-      <BodyText color={textColor} {...props}/>
+      <BodyText color={textColor} children={children} {...rest}/>
     </ButtonComponent>
   );
 };
