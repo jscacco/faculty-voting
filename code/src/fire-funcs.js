@@ -53,6 +53,17 @@ const getPollInf = function getPollInf(collectionName, pollTitle) {
     return poll;
 }
 
+const getAllPolls = function getPolls(collectionName) {
+    firebase.firestore().collection(collectionName).get().then((snap) => {
+        const docs = []
+        snap.forEach((doc) => {
+            console.log(doc.id)
+            docs.push(getPollInf(collectionName, doc.id))
+        })
+        console.log(docs)
+    })
+}
+
 // firebase.firestore().collection(code).doc("general-poll");
 // docRef.get().then(snap =>{
 //    console.log(snap);
@@ -63,4 +74,4 @@ const getPollInf = function getPollInf(collectionName, pollTitle) {
 //     }
 
 export default addPollFire;
-export {getPollInf};
+export {getPollInf, getAllPolls};
