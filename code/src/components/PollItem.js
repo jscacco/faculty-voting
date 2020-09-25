@@ -9,12 +9,24 @@ export default class PollItem {
     this.title = '';
     this.description = '';
     this.showResults = true;
+    this.order = -1;
+    this.optionMap = {};
+    this.type = '';
+    this.status = 'pending';
   }
 
   logData() {
-    console.log("Title: " + this.state.title);
-    console.log("Description: " + this.state.description);
-    console.log("Options: " + this.state.options);
+    console.log("Title: " + this.title);
+    console.log("Description: " + this.description);
+    console.log("Options: " + this.options);
+  }
+
+  setType(typ) {
+    this.type = typ
+  }
+
+  setStatus(status) {
+    this.status = status
   }
 
   setTitle(title) {
@@ -26,7 +38,7 @@ export default class PollItem {
   }
 
   addOption(option){
-    this.options = [...this.state.options, option]
+    this.options = [...this.options, option]
   }
 
   removeOption(option){
@@ -35,5 +47,24 @@ export default class PollItem {
 
   setShowResults(bool) {
     this.showResults = bool
+  }
+
+  setOrder(order) {
+    this.order = order
+  }
+
+  setOptions() {
+    for(var i = 0; i < this.options.length; i++) {
+      this.optionMap[this.options[i]] = 0
+    }
+  }
+
+  getInfo() {
+    return {
+      type: this.type,
+      title: this.title,
+      description: this.description,
+      options: this.options
+    }
   }
 }
