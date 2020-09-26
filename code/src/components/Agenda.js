@@ -13,7 +13,9 @@ import Card             from './Card';
 import Button           from './Button';
 import PollItem         from './PollItem';
 
-import AgendaItem       from './AgendaItem'
+import { getAllPolls }   from '../FirebaseUtil';
+
+import AgendaItem       from './AgendaItem';
 
 const ComponentWrapper = styled.div`
   ${({small}) => small && `padding-bottom: 20px`}
@@ -39,13 +41,26 @@ class Agenda extends React.Component {
     super(props);
 
     this.state = {
-      polls: [<AgendaItem width={600} pollItem={new PollItem()}/>]
+      roomCode: '123',
+      polls: []
     }
   }
 
-  
+  fetchPolls() {
+    let pollItems = getAllPolls(this.state.roomCode);
+    console.log(pollItems);
+
+    for (var poll in pollItems){
+      this.setState({
+        polls: [...this.state.polls, <AgendaItem pollItem={poll} />]
+      })
+    }
+  }
+
 
   render() {
+    // this.fetchPolls();
+
     return (
       <Card width={750}>
         {this.state.polls}

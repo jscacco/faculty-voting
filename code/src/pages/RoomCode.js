@@ -35,14 +35,14 @@ class RoomCodeScreen extends React.Component {
     alert('You are entering room: ' + this.state.value);
     history.push('/MeetingRoom');
     event.preventDefault();
-    firebase
-            .firestore()
-            .collection(this.state.value)
-            .doc("general-poll")
-            .set({
-              yes: 0, 
-              no: 0, 
-              abstain: 0});
+    // firebase
+    //         .firestore()
+    //         .collection(this.state.value)
+    //         .doc("general-poll")
+    //         .set({
+    //           yes: 0,
+    //           no: 0,
+    //           abstain: 0});
     code = this.state.value;
   }
 
