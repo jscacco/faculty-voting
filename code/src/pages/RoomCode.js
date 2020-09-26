@@ -33,8 +33,8 @@ class RoomCodeScreen extends React.Component {
 
   handleSubmit = (event) => {
     alert('You are entering room: ' + this.state.value);
-    history.push('/Poll');
-    //history.push('/MeetingRoom');
+    //history.push('/Poll');
+    history.push('/MeetingRoom');
     event.preventDefault();
 
     // Stores roomCode so we can use it in other pages

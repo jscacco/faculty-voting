@@ -10,7 +10,7 @@ import Input                from '../components/inputs/Input'
 import Agenda               from '../components/Agenda'
 import AgendaItem           from '../components/AgendaItem'
 import PollItem             from '../components/PollItem'
-import addPollFire          from '../FirebaseUtil'
+import addPollFire, { getAllPolls }          from '../FirebaseUtil'
 import {getPollInf}          from '../FirebaseUtil';
 
 const PageWrapper = styled.div`
@@ -94,24 +94,27 @@ class MeetingRoomScreen extends React.Component {
   }
 
   handleCreatePoll = () => {
-    alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
+    if(this.state.pollTitle != '') {
+      alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
 
-    for(var i = 0; i < this.state.options.length; i++) {
-      var opt = {}
-      opt[this.state.options[i].value] = 0
-      this.state.poll.addOption(opt)
-    }
+      for(var i = 0; i < this.state.options.length; i++) {
+        var opt = {}
+        opt[this.state.options[i].value] = 0
+        this.state.poll.addOption(opt)
+      }
+      
+      this.state.poll.setType('single')
     
-    this.state.poll.setType('single')
-   
-    /*for(var opt in this.state.optionComponents) {
-      console.log(opt.placeholder)
-    }*/
+      /*for(var opt in this.state.optionComponents) {
+        console.log(opt.placeholder)
+      }*/
 
-    addPollFire(code, this.state.poll)
-    var newPoll = getPollInf(code, this.state.pollTitle)
-    //newPoll.logData()
-    //console.log(newPoll)
+      addPollFire(code, this.state.poll)
+      //var newPoll = getPollInf(code, this.state.pollTitle)
+      //newPoll.logData()
+      //console.log(newPoll)
+      console.log(getAllPolls(code))
+    }
   }
 
   render() {
