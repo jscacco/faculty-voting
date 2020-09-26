@@ -21,28 +21,11 @@ const PageWrapper = styled.div`
 `;
 
 
-// FIREBASE NEEDS - it doesn't necessarily matter what format the data is stored
-// in firebase, this is how i am thinking of it right now, we need to add some
-// more functionality to handle unqiue inputs per user
-
- // poll = { type: 'single' || 'multiple',
- //          title: 'Poll title',
- //          description: 'Poll description',
- //          options: [
- //            { id: 'Some id',
- //              type: 'text' || 'input' || 'textarea',
- //              value: 'Poll text' || InputValue}
- //          ],
- //          results: {
- //            'Some id': { tally: 0 } // 'Some id' is from options
- //          }
- //        }
-
-const getPollInfo = () => {
-
-  // obtain poll info from firebase, want to return in the format bellow
-
-  return {
+const getInitInfo = (pollName) => {
+  
+  // hard coded for now, need to get this information from firebase and return in this structure
+  
+  const pollInfo = {
     type: 'multiple',
     title: 'Poll Title',
     description: 'Descriptive description of ze poll...',
@@ -53,44 +36,93 @@ const getPollInfo = () => {
         value: 'Option 2' },
       { type: 'input',
         value: null }
-    ]
+    ],
+  };
+
+  return pollInfo
+}
+
+class PollScreen extends React.Component {
+  constructor(props) {
+    super(props);
+
+    const pollInfo = getInitInfo(this.props.pollName);
+
+    this.state = { ...pollInfo,
+                   submission: null,};
+
+    this.updateMultiple = this.updateMultiple.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.renderSingle = this.renderSingle.bind(this);
+    this.renderMultiple = this.renderMultiple.bind(this);
+
+  };
+
+  updateMultiple = (submitUpdate) => {
+    
+    // submittedOptions is an array of length options.length, each index is true/false if the corresponding option (options[index]) is voted on
+
+    const { submittedOptions, options } = submitUpdate;
+    const prevSubmission = this.state.submission;
+    
+    for (let i = 0; i < options.length; i++) {
+      if (prevSubmission === null) {
+        console.log('updateFirebase'); 
+      } 
+      else if (prevSubmission[i] != submittedOptions[i]){
+        // updateFirebase
+        // remove prev vote / submit new vote
+        console.log('updateFirebase')
+      }
+    }
   }
 
-}
 
-const updateFirebase = ( props ) => {
+  async handleSubmit(submitUpdate) {
 
-  console.log(props);
+    // THIS FUNCTION IS ONLY CALLED IF THERE IS A NEW SUBMIT
 
-  const { options, submittedOptions } = props;
+    const { submittedOptions, options } = submitUpdate;
 
-  // updateFirebase - specifically the results
+    if (this.state.type === 'multiple') {
+      this.updateMultiple(submitUpdate)
+    }
+    else { // SINGLE
+      console.log('updateFirebase')
+    }
 
-}
+    await this.setState({ ...this.state,
+                          submission: submittedOptions });
 
-const renderSingle = ( props ) => (
+    console.log(this.state)
 
-  <SnglVoteCard {...props}
-                getVote={updateFirebase}
-                medium/>
-);
+  }
 
-const renderMultiple = ( props ) => (
-  <MultiVoteCard {...props}
-                 getVote={updateFirebase}
-                 medium/>
-);
+  renderSingle = () => (
 
-const PollScreen = (props) => {
+    <SnglVoteCard title={this.state.title}
+                  description={this.state.description}
+                  options={this.state.options}
+                  getVote={(submitUpdate) => this.handleSubmit(submitUpdate)}
+                  medium/>
+  );
 
-  const { type, ...rest } = getPollInfo();
+  renderMultiple = () => (
+    <MultiVoteCard title={this.state.title}
+                   description={this.state.description}
+                   options={this.state.options}
+                   getVote={(submitUpdate) => this.handleSubmit(submitUpdate)}
+                   medium/>
+  );
 
-  return(
-    <PageWrapper>
-      {type === 'single' ? renderSingle(rest) : renderMultiple(rest)}
-    </PageWrapper>
-  )
+  render() {
 
+    return (
+        <PageWrapper>
+        {this.state.type === 'single' ? this.renderSingle() : this.renderMultiple()}
+        </PageWrapper>
+      );
+  }
 };
 
 export default PollScreen;

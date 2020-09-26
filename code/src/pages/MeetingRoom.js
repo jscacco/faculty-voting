@@ -34,31 +34,34 @@ class MeetingRoomScreen extends React.Component {
     var order = 1;
     this.state = {
       // State values for creating a new poll
-      optionComponents: [<Input placeholder={'Option'}
-                                onChange={this.handleOptionChange}/>,
-                         <Input placeholder={'Option'}
-                                onChange={this.handleOptionChange}/>],
-      options: {},
+      // optionComponents: [<Input placeholder={'Option'}
+      //                           onChange={this.handleChange}/>,
+      //                    <Input placeholder={'Option'}
+      //                           onChange={this.handleChange}/>],
+      options: ['', ''],
+      numOptions: 2,
       pollTitle: '',
       pollDescription: '',
       showResults: true,
       poll: new PollItem(),
-      agenda: <Agenda width={750} />,
+      agenda: <Agenda width={750} roomCode={code}/>,
     }
     this.state.poll.setOrder(order);
-    // This doesn't work
-    order += 1;
+
+    this.handleOptionChange = this.handleOptionChange.bind(this)
   }
 
   addOption = () => {
     this.setState({
-      optionComponents: [...this.state.optionComponents,
-                         <Input placeholder={'Option'}
-                                onChange={this.handleOptionChange}/>]
+      // optionComponents: [...this.state.optionComponents,
+      //                    <Input placeholder={'Option'}
+      //                           onChange={this.handleOptionChange}/>]
+      numOptions: this.state.numOptions + 1,
+      options: [...this.state.options, 'Option ' + this.state.numOptions]
     })
 
     console.log('Option added')
-    console.log(this.state.optionComponents.length)
+    console.log(this.state.options.length)
   }
 
   handleTitleChange = (event) => {
@@ -79,12 +82,24 @@ class MeetingRoomScreen extends React.Component {
     console.log('New Desc: ' + this.state.poll.description)
   }
 
-  handleOptionChange = (event) => {
+  handleOptionChange = (event, index) => {
     console.log('Option value being changed')
+    console.log(index)
     console.log(event.target.value)
+
+    let newOptions = this.state.options;
+    const newOption = {...newOptions[index],
+                       value: event.target.value};
+    newOptions[index] = newOption;
   }
 
   handleCreatePoll = () => {
+    // console.log('Options:')
+    for (var i in this.state.options)
+      console.log(this.state.options[i].value)
+
+
+    var results = true;
     alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
   
     this.state.poll.setOptions()
@@ -133,7 +148,7 @@ class MeetingRoomScreen extends React.Component {
                             handleOptionChange={this.handleOptionChange}
                             handleTitleChange={this.handleTitleChange}
                             handleDescriptionChange={this.handleDescriptionChange}
-                            options={this.state.optionComponents} />
+                            options={this.state.options} />
           {this.state.agenda}
         </SideBySideWrapper>
       </PageWrapper>
