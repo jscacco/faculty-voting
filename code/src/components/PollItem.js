@@ -10,7 +10,6 @@ export default class PollItem {
     this.description = '';
     this.showResults = true;
     this.order = -1;
-    this.optionMap = {};
     this.type = '';
     this.status = 'pending';
   }
@@ -53,10 +52,8 @@ export default class PollItem {
     this.order = order
   }
 
-  setOptions() {
-    for(var i = 0; i < this.options.length; i++) {
-      this.optionMap[this.options[i]] = 0
-    }
+  setOptions(options) {
+    this.options = options
   }
 
   getInfo() {

@@ -33,16 +33,11 @@ class RoomCodeScreen extends React.Component {
 
   handleSubmit = (event) => {
     alert('You are entering room: ' + this.state.value);
+    //history.push('/Poll');
     history.push('/MeetingRoom');
     event.preventDefault();
-    // firebase
-    //         .firestore()
-    //         .collection(this.state.value)
-    //         .doc("general-poll")
-    //         .set({
-    //           yes: 0,
-    //           no: 0,
-    //           abstain: 0});
+
+    // Stores roomCode so we can use it in other pages
     code = this.state.value;
   }
 

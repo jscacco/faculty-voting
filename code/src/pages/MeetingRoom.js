@@ -10,6 +10,8 @@ import Input                from '../components/inputs/Input'
 import Agenda               from '../components/Agenda'
 import AgendaItem           from '../components/AgendaItem'
 import PollItem             from '../components/PollItem'
+import addPollFire, { getAllPolls }          from '../FirebaseUtil'
+import {getPollInf}          from '../FirebaseUtil';
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -29,7 +31,7 @@ const SideBySideWrapper = styled.div`
 class MeetingRoomScreen extends React.Component {
   constructor(props) {
     super(props);
-
+    var order = 1;
     this.state = {
       // State values for creating a new poll
       // optionComponents: [<Input placeholder={'Option'}
@@ -44,6 +46,7 @@ class MeetingRoomScreen extends React.Component {
       poll: new PollItem(),
       agenda: <Agenda width={750} roomCode={code}/>,
     }
+    this.state.poll.setOrder(order);
 
     this.handleOptionChange = this.handleOptionChange.bind(this)
   }
@@ -91,36 +94,26 @@ class MeetingRoomScreen extends React.Component {
   }
 
   handleCreatePoll = () => {
-    // console.log('Options:')
-    for (var i in this.state.options)
-      console.log(this.state.options[i].value)
+    if(this.state.pollTitle != '') {
+      alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
 
+      for(var i = 0; i < this.state.options.length; i++) {
+        var opt = {}
+        opt[this.state.options[i].value] = 0
+        this.state.poll.addOption(opt)
+      }
+      
+      this.state.poll.setType('single')
+    
+      /*for(var opt in this.state.optionComponents) {
+        console.log(opt.placeholder)
+      }*/
 
-    var results = true;
-    alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
-
-    firebase
-            .firestore()
-            .collection(code)
-            .doc(this.state.pollTitle)
-            .set({
-              description: this.state.pollDescription,
-              showResult: results});
-
-    var count = 1;
-    var optionNum;
-    for (var opt of this.state.options) {
-      optionNum = "Option" + count.toString()
-      firebase
-        .firestore()
-        .collection(code)
-        .doc(this.state.pollTitle)
-        .collection('results')
-        .doc(optionNum)
-        .set({
-          name: "name of option",
-          value: 0
-        });
+      addPollFire(code, this.state.poll)
+      //var newPoll = getPollInf(code, this.state.pollTitle)
+      //newPoll.logData()
+      //console.log(newPoll)
+      console.log(getAllPolls(code))
     }
   }
 
