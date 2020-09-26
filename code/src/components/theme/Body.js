@@ -52,9 +52,9 @@ const Body = ( props ) => {
   let sizeConfig = {};
   if (extraLarge) { sizeConfig = fontConfig.extraLarge }
   else if (large) { sizeConfig = fontConfig.large }
+  else if (medium) { sizeConfig = fontConfig.medium }
   else if (small) { sizeConfig = fontConfig.small }
-  else if (extraSmall) { sizeConfig = fontConfig.extraSmall }
-  else { sizeConfig = fontConfig.medium }
+  else { sizeConfig = fontConfig.extraSmall }
 
   return(
     <BodyWrapper color={color}
