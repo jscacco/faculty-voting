@@ -10,8 +10,8 @@ import Input                from '../components/inputs/Input'
 import Agenda               from '../components/Agenda'
 import AgendaItem           from '../components/AgendaItem'
 import PollItem             from '../components/PollItem'
-import addPollFire          from '../fire-funcs'
-import {getPollInf}          from '../fire-funcs';
+import addPollFire          from '../FirebaseUtil'
+import {getPollInf}          from '../FirebaseUtil';
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -94,49 +94,25 @@ class MeetingRoomScreen extends React.Component {
   }
 
   handleCreatePoll = () => {
-    // console.log('Options:')
-    for (var i in this.state.options)
-      console.log(this.state.options[i].value)
-
-
-    var results = true;
     alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
-  
-    this.state.poll.setOptions()
-    this.state.poll.setType('single')
 
-    for(var opt in this.state.optionComponents) {
-      console.log(opt.placeholder)
+    for(var i = 0; i < this.state.options.length; i++) {
+      var opt = {}
+      opt[this.state.options[i].value] = 0
+      this.state.poll.addOption(opt)
     }
+    
+    this.state.poll.setType('single')
+   
+    /*for(var opt in this.state.optionComponents) {
+      console.log(opt.placeholder)
+    }*/
 
     addPollFire(code, this.state.poll)
     var newPoll = getPollInf(code, this.state.pollTitle)
-    newPoll.logData()
+    //newPoll.logData()
+    //console.log(newPoll)
   }
-    //firebase
-    //  .firestore()
-    //  .collection(code)
-    //  .doc(this.state.poll.title)
-    //  .set({
-    //    description: this.state.poll.description,
-    //    showResult: this.state.poll.showResults,
-    //    order: this.state.poll.order});
-
-    //var optionNum;
-    //for (var opt of this.state.options) {
-    //  optionNum = "Option" + this.state.poll.order.toString()
-    //  firebase
-    //    .firestore()
-    //    .collection(code)
-    //    .doc(this.state.poll.title)
-    //    .collection('results')
-    //    .doc(optionNum)
-    //    .set({
-    //      name: "name of option",
-    //      value: 0
-    //    });
-    //}
-  
 
   render() {
     return (

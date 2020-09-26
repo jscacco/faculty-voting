@@ -7,8 +7,8 @@ import MultiVoteCard from '../components/cards/MultiVoteCard';
 import SnglVoteCard from '../components/cards/SnglVoteCard';
 
 import firebase from '../firebase';
-import {code} from './RoomCode';
-import {getPollInf} from '../fire-funcs';
+import { code } from './RoomCode';
+import { getPollInf, updatePoll } from '../FirebaseUtil';
 
 
 const PageWrapper = styled.div`
@@ -40,6 +40,7 @@ const getInitInfo = (pollName) => {
   };
 
   return pollInfo
+  //return getPollInf(code, pollName).getInfo()
 }
 
 class PollScreen extends React.Component {
@@ -55,7 +56,7 @@ class PollScreen extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderSingle = this.renderSingle.bind(this);
     this.renderMultiple = this.renderMultiple.bind(this);
-
+    this.pollName = this.props.pollName;
   };
 
   updateMultiple = (submitUpdate) => {
@@ -65,13 +66,26 @@ class PollScreen extends React.Component {
     const { submittedOptions, options } = submitUpdate;
     const prevSubmission = this.state.submission;
     
+    console.log(options)
+    console.log(submittedOptions)
+    console.log(prevSubmission)
+
     for (let i = 0; i < options.length; i++) {
       if (prevSubmission === null) {
+        if (submittedOptions[i]) {
+          updatePoll(code, this.pollName, options[i].value, i + 1, 1);
+        }
         console.log('updateFirebase'); 
       } 
       else if (prevSubmission[i] != submittedOptions[i]){
         // updateFirebase
         // remove prev vote / submit new vote
+        if (submittedOptions[i]) {
+          updatePoll(code, this.pollName, options[i].value, i + 1, 1);
+        }
+        else if (prevSubmission[i]) {
+          updatePoll(code, this.pollName, options[i].value, i + 1, -1);
+        }
         console.log('updateFirebase')
       }
     }
