@@ -74,22 +74,28 @@ const renderDescriptionInput = props => {
 
 const renderPollOptionsInput = props => {
   const { small, medium, large,
-          handleCreateOption, options }  = props;
+          handleCreateOption, handleOptionChange, options }  = props;
+
+  const optionComponents = options.map((item, index) => {
+    return <Input placeholder={'Option ' + (index+1)}
+                  onChange={(event) => handleOptionChange(event, index)} />
+  })
+
 
   return (
-    <ComponentWrapper small={small} medium={medium} large={large}>
-      <Jumbo fiveExtraSmall color={Colors.Blue}>
-        {'Enter Poll Options'}
-      </Jumbo>
-      {options}
-      <CenterWrapper>
-        <Button small={small} medium={small} large={small}
-                width={150} onClick={handleCreateOption}>
-          {'Add Option'}
-        </Button>
-      </CenterWrapper>
-    </ComponentWrapper>
-  )
+      <ComponentWrapper small={small} medium={medium} large={large}>
+        <Jumbo fiveExtraSmall color={Colors.Blue}>
+          {'Enter Poll Options'}
+        </Jumbo>
+         {optionComponents}
+        <CenterWrapper>
+          <Button small={small} medium={small} large={small}
+                  width={150} onClick={handleCreateOption}>
+            {'Add Option'}
+          </Button>
+        </CenterWrapper>
+      </ComponentWrapper>
+    )
 };
 
 const renderResultViewingCheckbox = props => {

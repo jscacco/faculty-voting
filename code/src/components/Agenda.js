@@ -59,7 +59,7 @@ class Agenda extends React.Component {
 
 
   render() {
-    this.fetchPolls();
+    // this.fetchPolls();
 
     return (
       <Card width={750}>
