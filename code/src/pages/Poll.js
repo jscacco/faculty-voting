@@ -1,6 +1,10 @@
 import React    from 'react';
 import styled   from 'styled-components';
 
+import { connect } from 'react-redux';
+
+import * as actions from '../store/actions/index'
+
 import { Colors } from '../components/theme/Colors';
 
 import MultiVoteCard from '../components/cards/MultiVoteCard';
@@ -19,79 +23,142 @@ const PageWrapper = styled.div`
 `;
 
 
-// FIREBASE NEEDS - it doesn't necessarily matter what format the data is stored
-// in firebase, this is how i am thinking of it right now, we need to add some
-// more functionality to handle unqiue inputs per user
+// const getInitInfo = (pollName) => {
+//
+//   const pollInfo = {
+//     type: 'multiple',
+//     title: 'Poll Title',
+//     description: 'Descriptive description of ze poll...',
+//     options: [
+//       { type: 'text',
+//         value: 'Option 1' },
+//       { type: 'text',
+//         value: 'Option 2' },
+//       { type: 'input',
+//         value: null }
+//     ],
+//   };
+//
+//   return pollInfo
+// }
+//
+// class PollScreen extends React.Component {
+//   constructor(props) {
+//     super(props);
+//
+//     const pollInfo = getInitInfo(this.props.pollName);
+//
+//     this.state = { ...pollInfo,
+//                    submission: null,};
+//
+//     this.updateMultiple = this.updateMultiple.bind(this);
+//     this.handleSubmit = this.handleSubmit.bind(this);
+//     this.renderSingle = this.renderSingle.bind(this);
+//     this.renderMultiple = this.renderMultiple.bind(this);
+//
+//   };
+//
+//   updateMultiple = (submitUpdate) => {
+//
+//     const { submittedOptions, options } = submitUpdate;
+//     const prevSubmission = this.state.submission;
+//
+//     if (prevSubmission === null) {
+//       console.log('updateFirebase')
+//       return;
+//     }
+//     for (let i = 0; i < options.length; i++) {
+//       if (prevSubmission[i] != submittedOptions[i]){
+//         // updateFirebase
+//         console.log('updateFirebase')
+//       }
+//     }
+//   }
+//
+//
+//   async handleSubmit(submitUpdate) {
+//
+//     // THIS FUNCTION IS ONLY CALLED IF THERE IS A NEW SUBMIT
+//
+//     const { submittedOptions, options } = submitUpdate;
+//
+//     if (this.state.type === 'multiple') {
+//       this.updateMultiple(submitUpdate)
+//     }
+//     else { // SINGLE
+//       console.log('updateFirebase')
+//     }
+//
+//     await this.setState({ ...this.state,
+//                           submission: submittedOptions });
+//
+//     console.log(this.state)
+//
+//   }
+//
+//   renderSingle = () => (
+//
+//     <SnglVoteCard title={this.state.title}
+//                   description={this.state.description}
+//                   options={this.state.options}
+//                   getVote={(submitUpdate) => this.handleSubmit(submitUpdate)}
+//                   medium/>
+//   );
+//
+//   renderMultiple = () => (
+//     <MultiVoteCard title={this.state.title}
+//                    description={this.state.description}
+//                    options={this.state.options}
+//                    getVote={(submitUpdate) => this.handleSubmit(submitUpdate)}
+//                    medium/>
+//   );
+//
+//   render() {
+//
+//     console.log(this.props);
+//
+//     // const test = { 'test': 'ok'};
+//     // const tv = 'test';
+//     //
+//     // console.log(test.{'test'});
+//
+//     return (
+//         <PageWrapper>
+//         {this.state.type === 'single' ? this.renderSingle() : this.renderMultiple()}
+//         </PageWrapper>
+//       );
+//   }
+// };
 
- // poll = { type: 'single' || 'multiple',
- //          title: 'Poll title',
- //          description: 'Poll description',
- //          options: [
- //            { id: 'Some id',
- //              type: 'text' || 'input' || 'textarea',
- //              value: 'Poll text' || InputValue}
- //          ],
- //          results: {
- //            'Some id': { tally: 0 } // 'Some id' is from options
- //          }
- //        }
+class PollScreen extends React.Component {
 
-const getPollInfo = () => {
+  componentDidMount () {
+    this.props.onFetchPoll();
 
-  // obtain poll info from firebase, want to return in the format bellow
-
-  return {
-    type: 'multiple',
-    title: 'Poll Title',
-    description: 'Descriptive description of ze poll...',
-    options: [
-      { type: 'text',
-        value: 'Option 1' },
-      { type: 'text',
-        value: 'Option 2' },
-      { type: 'input',
-        value: null }
-    ]
   }
 
+  render (props) {
+    console.log(props)
+    return (
+      <p> test </p>
+    )
+  }
 }
 
-const updateFirebase = ( props ) => {
-
-  console.log(props);
-
-  const { options, submittedOptions } = props;
-
-  // updateFirebase - specifically the results
-
+const mapStateToProps = (state) => {
+  return {
+    poll: state.poll.poll,
+    loading: state.poll.loading
+  }
 }
 
-const renderSingle = ( props ) => (
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchPoll: () => dispatch({type: 'FETCH_POLL_START'})
+  }
+}
 
-  <SnglVoteCard {...props}
-                getVote={updateFirebase}
-                medium/>
-);
-
-const renderMultiple = ( props ) => (
-  <MultiVoteCard {...props}
-                 getVote={updateFirebase}
-                 medium/>
-);
-
-const PollScreen = (props) => {
-
-  const { type, ...rest } = getPollInfo();
-
-  return(
-    <PageWrapper>
-      {type === 'single' ? renderSingle(rest) : renderMultiple(rest)}
-    </PageWrapper>
-  )
-
-};
-
-export default PollScreen;
+export default connect(mapStateToProps, mapDispatchToProps)(PollScreen);
 
 // class PollScreen extends React.Component {
 //   constructor(props) {
