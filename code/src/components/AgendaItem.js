@@ -26,7 +26,7 @@ const ComponentWrapper = styled.div`
 const SideBySideWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-evenly;
 `;
 
 
@@ -41,7 +41,7 @@ const renderTitle = (props) => {
 
   return (
     <Jumbo fiveExtraSmall={true} color={Colors.White}>
-      Title
+      {pollItem.title}
     </Jumbo>
   );
 }
@@ -51,7 +51,7 @@ const renderStatus = (props) => {
 
   return (
     <Jumbo fiveExtraSmall={true} color={Colors.White}>
-      Status
+      {pollItem.status}
     </Jumbo>
   );
 }

@@ -74,10 +74,10 @@ const getAllPolls = function getPolls(collectionName) {
     const docs = []
     firebase.firestore().collection(collectionName).get().then((snap) => {
         snap.forEach((doc) => {
-            console.log(doc.id)
+            // console.log(doc.id)
             docs.push(getPollInf(collectionName, doc.id))
         })
-        console.log(docs)
+        // console.log(docs)
     })
 
     return docs;

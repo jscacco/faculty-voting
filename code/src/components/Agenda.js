@@ -13,6 +13,8 @@ import Card             from './Card';
 import Button           from './Button';
 import PollItem         from './PollItem';
 
+import {code}               from '../pages/RoomCode';
+
 import { getAllPolls }   from '../FirebaseUtil';
 
 import AgendaItem       from './AgendaItem';
@@ -36,38 +38,28 @@ const CenterWrapper = styled.div`
   justify-content: center;
 `;
 
-class Agenda extends React.Component {
-  constructor(props) {
-    super(props);
+const renderPolls = (props) => {
+  const { width, polls } = props;
 
-    this.state = {
-      roomCode: '123',
-      polls: []
-    }
-  }
+  const agendaItems = polls.map((poll) => {
+    return <AgendaItem width={width-50} pollItem={poll} />
+  })
 
-  fetchPolls() {
-    let pollItems = getAllPolls(this.state.roomCode);
-    console.log(pollItems);
+  return (
+    <>
+      {agendaItems}
+    </>
+  )
+}
 
-    for (var poll in pollItems){
-      this.setState({
-        polls: [...this.state.polls, <AgendaItem pollItem={poll} />]
-      })
-    }
-  }
+const Agenda = (props) => {
+  const { width, polls } = props;
 
-
-  render() {
-    // this.fetchPolls();
-
-    return (
-      <Card width={750}>
-        {this.state.polls}
-      </Card>
-    );
-  }
-
+  return (
+    <Card width={width}>
+      {renderPolls(props)}
+    </Card>
+  )
 };
 
 export default Agenda;

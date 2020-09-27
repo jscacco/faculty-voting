@@ -44,11 +44,13 @@ class MeetingRoomScreen extends React.Component {
       pollDescription: '',
       showResults: true,
       poll: new PollItem(),
-      agenda: <Agenda width={750} roomCode={code}/>,
+      agenda: getAllPolls(code)
     }
     this.state.poll.setOrder(order);
 
     this.handleOptionChange = this.handleOptionChange.bind(this)
+
+    console.log(this.state.agenda)
   }
 
   addOption = () => {
@@ -102,9 +104,9 @@ class MeetingRoomScreen extends React.Component {
         opt[this.state.options[i].value] = 0
         this.state.poll.addOption(opt)
       }
-      
+
       this.state.poll.setType('single')
-    
+
       /*for(var opt in this.state.optionComponents) {
         console.log(opt.placeholder)
       }*/
@@ -128,7 +130,7 @@ class MeetingRoomScreen extends React.Component {
                             handleTitleChange={this.handleTitleChange}
                             handleDescriptionChange={this.handleDescriptionChange}
                             options={this.state.options} />
-          {this.state.agenda}
+          <Agenda polls={this.state.agenda} />
         </SideBySideWrapper>
       </PageWrapper>
     );
