@@ -26,7 +26,7 @@ const ComponentWrapper = styled.div`
 const SideBySideWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
 `;
 
 

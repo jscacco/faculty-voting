@@ -41,17 +41,23 @@ const CenterWrapper = styled.div`
 const renderPolls = (props) => {
   const { polls } = props;
 
-  console.log("Polls listed below")
-  console.log(polls)
-  console.log(polls.result)
+  var comps = []
+  if(polls.constructor === Array) {
+    comps = polls.map((poll) => {
+      return <AgendaItem pollItem={poll} />
+    })
+  }
+
+  return (
+    <ComponentWrapper>
+      {comps}
+    </ComponentWrapper>
+  )
 }
 
 
 const Agenda = (props) => {
   const { width, polls } = props;
-
-  console.log('Agenda rendering...')
-  console.log(polls)
 
   return (
     <Card width={width}>
