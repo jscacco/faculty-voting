@@ -34,36 +34,34 @@ class MeetingRoomScreen extends React.Component {
     var order = 1;
     this.state = {
       // State values for creating a new poll
-      // optionComponents: [<Input placeholder={'Option'}
-      //                           onChange={this.handleChange}/>,
-      //                    <Input placeholder={'Option'}
-      //                           onChange={this.handleChange}/>],
       options: ['', ''],
       numOptions: 2,
       pollTitle: '',
       pollDescription: '',
       showResults: true,
       poll: new PollItem(),
+
+      // State for the meeting agenda
       agenda: getAllPolls(code)
     }
+    console.log('AGENDA ')
+    console.log(this.state.agenda)
     this.state.poll.setOrder(order);
 
     this.handleOptionChange = this.handleOptionChange.bind(this)
+    this.handleTitleChange = this.handleTitleChange.bind(this)
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
 
-    console.log(this.state.agenda)
   }
 
   addOption = () => {
     this.setState({
-      // optionComponents: [...this.state.optionComponents,
-      //                    <Input placeholder={'Option'}
-      //                           onChange={this.handleOptionChange}/>]
       numOptions: this.state.numOptions + 1,
       options: [...this.state.options, 'Option ' + this.state.numOptions]
     })
-
-    console.log('Option added')
-    console.log(this.state.options.length)
+    //
+    // console.log('Option added')
+    // console.log(this.state.options.length)
   }
 
   handleTitleChange = (event) => {
@@ -72,7 +70,7 @@ class MeetingRoomScreen extends React.Component {
     })
     this.state.poll.setTitle(event.target.value)
 
-    console.log('New title: ' + this.state.poll.title)
+    // console.log('New title: ' + this.state.poll.title)
   }
 
   handleDescriptionChange = (event) => {
@@ -81,13 +79,13 @@ class MeetingRoomScreen extends React.Component {
     })
     this.state.poll.setDescription(event.target.value)
 
-    console.log('New Desc: ' + this.state.poll.description)
+    // console.log('New Desc: ' + this.state.poll.description)
   }
 
   handleOptionChange = (event, index) => {
-    console.log('Option value being changed')
-    console.log(index)
-    console.log(event.target.value)
+    // console.log('Option value being changed')
+    // console.log(index)
+    // console.log(event.target.value)
 
     let newOptions = this.state.options;
     const newOption = {...newOptions[index],
@@ -97,7 +95,7 @@ class MeetingRoomScreen extends React.Component {
 
   handleCreatePoll = () => {
     if(this.state.pollTitle != '') {
-      alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
+      // alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
 
       for(var i = 0; i < this.state.options.length; i++) {
         var opt = {}
@@ -107,19 +105,20 @@ class MeetingRoomScreen extends React.Component {
 
       this.state.poll.setType('single')
 
-      /*for(var opt in this.state.optionComponents) {
-        console.log(opt.placeholder)
-      }*/
-
       addPollFire(code, this.state.poll)
-      //var newPoll = getPollInf(code, this.state.pollTitle)
-      //newPoll.logData()
-      //console.log(newPoll)
-      console.log(getAllPolls(code))
+
+      this.setState({
+        options: ['', ''],
+        numOptions: 2
+      })
+      // console.log(getAllPolls(code))
     }
   }
 
   render() {
+    console.log('AGENDA ')
+    console.log(this.state.agenda.length)
+
     return (
       <PageWrapper>
         <SideBySideWrapper>

@@ -42,7 +42,8 @@ const renderPolls = (props) => {
   const { width, polls } = props;
 
   const agendaItems = polls.map((poll) => {
-    return <AgendaItem width={width-50} pollItem={poll} />
+    console.log(poll)
+    return <AgendaItem width={(500)} pollItem={poll} />
   })
 
   return (
@@ -54,6 +55,8 @@ const renderPolls = (props) => {
 
 const Agenda = (props) => {
   const { width, polls } = props;
+
+  console.log(polls)
 
   return (
     <Card width={width}>

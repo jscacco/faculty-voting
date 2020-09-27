@@ -71,7 +71,7 @@ const getAllPolls = function getPolls(collectionName) {
     // Returns a list containing PollItems for each poll that exists
     // collectionName - String: The Room Code
 
-    const docs = []
+    const docs = new Array()
     firebase.firestore().collection(collectionName).get().then((snap) => {
         snap.forEach((doc) => {
             // console.log(doc.id)
