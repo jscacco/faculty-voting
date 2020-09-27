@@ -60,7 +60,7 @@ class MeetingRoomScreen extends React.Component {
 
 
   async fetchPolls() {
-      let polls = getAllPolls('123')
+      let polls = getAllPolls(code)
       setTimeout(() => {
         this.setState({
           allPolls: polls,

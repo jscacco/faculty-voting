@@ -44,7 +44,7 @@ const renderPolls = (props) => {
   var comps = []
   if(polls.constructor === Array) {
     comps = polls.map((poll) => {
-      return <AgendaItem pollItem={poll} />
+      return <AgendaItem pollItem={poll} width={600} />
     })
   }
 
