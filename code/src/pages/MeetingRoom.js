@@ -1,17 +1,18 @@
-import React                from 'react';
-import styled               from 'styled-components';
+import React                          from 'react';
+import styled                         from 'styled-components';
 
-import { Colors }           from '../components/theme/Colors';
-import history              from '../history';
-import HostControlPanel     from '../components/HostControlPanel';
-import firebase             from '../firebase';
-import {code}               from './RoomCode';
-import Input                from '../components/inputs/Input'
-import Agenda               from '../components/Agenda'
-import AgendaItem           from '../components/AgendaItem'
-import PollItem             from '../components/PollItem'
-import addPollFire, { getAllPolls }          from '../FirebaseUtil'
-import {getPollInf}          from '../FirebaseUtil';
+import { Colors }                     from '../components/theme/Colors';
+import history                        from '../history';
+import HostControlPanel               from '../components/HostControlPanel';
+import firebase                       from '../firebase';
+import {code}                         from './RoomCode';
+import Input                          from '../components/inputs/Input'
+import Agenda                         from '../components/Agenda'
+import AgendaItem                     from '../components/AgendaItem'
+import PollItem                       from '../components/PollItem'
+import addPollFire, { getAllPolls }   from '../FirebaseUtil'
+import {getPollInf}                   from '../FirebaseUtil';
+
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -28,6 +29,7 @@ const SideBySideWrapper = styled.div`
   justify-content: flex-start;
 `;
 
+
 class MeetingRoomScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -42,61 +44,67 @@ class MeetingRoomScreen extends React.Component {
       poll: new PollItem(),
 
       // State for the meeting agenda
-      agenda: getAllPolls(code)
+      allPolls: null
     }
-    console.log('AGENDA ')
-    console.log(this.state.agenda)
     this.state.poll.setOrder(order);
 
     this.handleOptionChange = this.handleOptionChange.bind(this)
     this.handleTitleChange = this.handleTitleChange.bind(this)
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
-
   }
+
+
+  async componentDidMount() {
+    await this.fetchPolls().then(result => this.setState({ allPolls: result.result }))
+  }
+
+
+  async fetchPolls() {
+      let polls = getAllPolls('123')
+      setTimeout(() => {
+        this.setState({
+          allPolls: polls,
+          loading: false
+        })
+      }, 2000)
+      return polls
+  }
+
 
   addOption = () => {
     this.setState({
       numOptions: this.state.numOptions + 1,
       options: [...this.state.options, 'Option ' + this.state.numOptions]
     })
-    //
-    // console.log('Option added')
-    // console.log(this.state.options.length)
   }
+
 
   handleTitleChange = (event) => {
     this.setState({
       pollTitle: event.target.value
     })
     this.state.poll.setTitle(event.target.value)
-
-    // console.log('New title: ' + this.state.poll.title)
   }
+
 
   handleDescriptionChange = (event) => {
     this.setState({
       pollDescription: event.target.value
     })
     this.state.poll.setDescription(event.target.value)
-
-    // console.log('New Desc: ' + this.state.poll.description)
   }
 
-  handleOptionChange = (event, index) => {
-    // console.log('Option value being changed')
-    // console.log(index)
-    // console.log(event.target.value)
 
+  handleOptionChange = (event, index) => {
     let newOptions = this.state.options;
     const newOption = {...newOptions[index],
                        value: event.target.value};
     newOptions[index] = newOption;
   }
 
+
   handleCreatePoll = () => {
     if(this.state.pollTitle != '') {
-      // alert('Creating poll ' + this.state.pollTitle + ' ' + this.state.pollDescription)
-
       for(var i = 0; i < this.state.options.length; i++) {
         var opt = {}
         opt[this.state.options[i].value] = 0
@@ -111,15 +119,15 @@ class MeetingRoomScreen extends React.Component {
         options: ['', ''],
         numOptions: 2
       })
-      // console.log(getAllPolls(code))
     }
   }
 
-  render() {
-    console.log('AGENDA ')
-    console.log(this.state.agenda.length)
 
-    return (
+  render() {
+    if(this.state.allPolls && this.state.allPolls.constructor === Promise)
+      this.state.allPolls.then((result) => this.setState({allPolls: result}))
+
+    return this.state.allPolls ? (
       <PageWrapper>
         <SideBySideWrapper>
           <HostControlPanel width={300} title="Create a Poll"
@@ -129,10 +137,14 @@ class MeetingRoomScreen extends React.Component {
                             handleTitleChange={this.handleTitleChange}
                             handleDescriptionChange={this.handleDescriptionChange}
                             options={this.state.options} />
-          <Agenda polls={this.state.agenda} />
+          <Agenda polls={this.state.allPolls} />
         </SideBySideWrapper>
       </PageWrapper>
-    );
+      ) : (
+        <span> Loading agenda... </span>
+      )
+
+
   }
 
 };
