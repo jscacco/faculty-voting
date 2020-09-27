@@ -1,17 +1,18 @@
-import React                from 'react';
-import styled               from 'styled-components';
+import React                          from 'react';
+import styled                         from 'styled-components';
 
-import { Colors }           from '../components/theme/Colors';
-import history              from '../history';
-import HostControlPanel     from '../components/HostControlPanel';
-import firebase             from '../firebase';
-import {code}               from './RoomCode';
-import Input                from '../components/inputs/Input'
-import Agenda               from '../components/Agenda'
-import AgendaItem           from '../components/AgendaItem'
-import PollItem             from '../components/PollItem'
-import addPollFire, { getAllPolls }          from '../FirebaseUtil'
-import {getPollInf}          from '../FirebaseUtil';
+import { Colors }                     from '../components/theme/Colors';
+import history                        from '../history';
+import HostControlPanel               from '../components/HostControlPanel';
+import firebase                       from '../firebase';
+import {code}                         from './RoomCode';
+import Input                          from '../components/inputs/Input'
+import Agenda                         from '../components/Agenda'
+import AgendaItem                     from '../components/AgendaItem'
+import PollItem                       from '../components/PollItem'
+import addPollFire, { getAllPolls }   from '../FirebaseUtil'
+import {getPollInf}                   from '../FirebaseUtil';
+
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -27,68 +28,6 @@ const SideBySideWrapper = styled.div`
   flex-direction: row;
   justify-content: flex-start;
 `;
-
-
-// class MeetingRoomScreen extends React.Component {
-//   constructor(props) {
-//     super(props)
-//
-//     this.state = {
-//       loading: true,
-//       allPolls: null,
-//       agenda: []
-//     }
-//
-//
-//   }
-//
-//   async componentDidMount() {
-//     await this.fetchPolls().then(result => this.setState({ allPolls: result.result }))
-//   }
-//
-//   async fetchPolls() {
-//       let polls = getAllPolls('123')
-//       setTimeout(() => {
-//         this.setState({
-//           allPolls: polls,
-//           loading: false
-//         })
-//       }, 2000)
-//       return polls
-//   }
-//
-//   render() {
-//     console.log("Meeting room rendering...")
-//     console.log("Agenda:")
-//
-//
-//     if(this.state.allPolls && this.state.allPolls.constructor === Promise) {
-//       this.state.allPolls.then((result) => this.setState({allPolls: result}))
-//       console.log("in here")
-//       console.log(this.state.allPolls)
-//     }
-//
-//
-//     console.log(this.state.allPolls)
-//
-//
-//     return !this.state.allPolls ?
-//     (
-//       <span> Loading... </span>
-//     ) :
-//     (
-//       <PageWrapper>
-//         <Agenda width={450} polls={this.state.allPolls}/>
-//       </PageWrapper>
-//     )
-//   }
-// }
-//
-//
-// export default MeetingRoomScreen;
-
-
-
 
 
 class MeetingRoomScreen extends React.Component {
@@ -112,7 +51,6 @@ class MeetingRoomScreen extends React.Component {
     this.handleOptionChange = this.handleOptionChange.bind(this)
     this.handleTitleChange = this.handleTitleChange.bind(this)
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
-
   }
 
 
@@ -186,11 +124,8 @@ class MeetingRoomScreen extends React.Component {
 
 
   render() {
-    if(this.state.allPolls && this.state.allPolls.constructor === Promise) {
+    if(this.state.allPolls && this.state.allPolls.constructor === Promise)
       this.state.allPolls.then((result) => this.setState({allPolls: result}))
-      console.log("in here")
-      console.log(this.state.allPolls)
-    }
 
     return this.state.allPolls ? (
       <PageWrapper>
