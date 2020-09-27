@@ -39,23 +39,18 @@ const CenterWrapper = styled.div`
 `;
 
 const renderPolls = (props) => {
-  const { width, polls } = props;
+  const { polls } = props;
 
-  const agendaItems = polls.map((poll) => {
-    console.log(poll)
-    return <AgendaItem width={(500)} pollItem={poll} />
-  })
-
-  return (
-    <>
-      {agendaItems}
-    </>
-  )
+  console.log("Polls listed below")
+  console.log(polls)
+  console.log(polls.result)
 }
+
 
 const Agenda = (props) => {
   const { width, polls } = props;
 
+  console.log('Agenda rendering...')
   console.log(polls)
 
   return (

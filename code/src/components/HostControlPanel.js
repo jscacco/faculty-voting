@@ -111,10 +111,6 @@ const renderResultViewingCheckbox = props => {
   )
 };
 
-function handleCreatPoll(props) {
-
-}
-
 const renderCreateButton = props => {
   const { small, medium, large,
           handleSubmit } = props;

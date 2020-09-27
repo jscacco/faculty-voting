@@ -67,19 +67,20 @@ const getPollInf = function getPollInf(collectionName, pollTitle) {
     return poll;
 }
 
-const getAllPolls = function getPolls(collectionName) {
+const getAllPolls = async function getPolls(collectionName) {
     // Returns a list containing PollItems for each poll that exists
     // collectionName - String: The Room Code
-
-    const docs = new Array()
+    console.log('< getAllPolls() >')
+    var docs = new Array()
+    // console.log(docs)
     firebase.firestore().collection(collectionName).get().then((snap) => {
         snap.forEach((doc) => {
             // console.log(doc.id)
             docs.push(getPollInf(collectionName, doc.id))
+            console.log("inside")
         })
-        // console.log(docs)
     })
-
+    console.log("</ getAllPolls() >")
     return docs;
 }
 
