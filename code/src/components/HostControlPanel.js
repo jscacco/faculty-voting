@@ -25,6 +25,7 @@ const ComponentWrapper = styled.div`
   ${({small}) => small && `padding-bottom: 20px`}
   ${({medium}) => medium && `padding-bottom: 26px`}
   ${({large}) => large && `padding-bottom: 32px`}
+  margin-bottom: 5px;
 `;
 
 const SideBySideWrapper = styled.div`
@@ -98,10 +99,10 @@ const renderPollOptionsInput = props => {
         </Jumbo>
          {optionComponents}
         <CenterWrapper>
-          <Button small={small} medium={small} large={small}
-                  width={150} onClick={handleCreateOption}>
-            {'Add Option'}
-          </Button>
+            <Button small={small} medium={small} large={small}
+                    width={150} onClick={handleCreateOption}>
+              {'Add Option'}
+            </Button>
         </CenterWrapper>
       </ComponentWrapper>
     )

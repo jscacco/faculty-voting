@@ -55,13 +55,28 @@ const CenterWrapper = styled.div`
   justify-content: center;
 `;
 
+const ColoredLine = ({ color }) => (
+    <hr
+        style={{
+            color: color,
+            backgroundColor: color,
+            height: 1
+        }}
+    />
+);
+
 const renderPolls = (props) => {
   const { polls } = props;
 
   var comps = []
   if(polls.constructor === Array) {
     comps = polls.map((poll) => {
-      return <AgendaItem pollItem={poll} width={600} />
+      return (
+        <>
+          <ColoredLine color={Colors.LightGrey} />
+          <AgendaItem pollItem={poll} width={600} />
+        </>
+      )
     })
   }
 

@@ -48,13 +48,28 @@ const CenterWrapper = styled.div`
   justify-content: center;
 `;
 
+const TitleWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 1%;
+  transform: translate(0%, -50%);
+  height: 5%;
+`;
+
+const StatusWrapper = styled.div`
+  /* position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(500%, -50%); */
+`;
+
 const renderTitle = (props) => {
   const { pollItem } = props;
 
   return (
-    <Jumbo fiveExtraSmall={true} color={Colors.Charcol}>
-      {pollItem.title}
-    </Jumbo>
+      <Jumbo fiveExtraSmall={true} color={Colors.Charcol}>
+        {pollItem.title}
+      </Jumbo>
   );
 }
 
@@ -62,9 +77,11 @@ const renderStatus = (props) => {
   const { pollItem } = props;
 
   return (
-    <Jumbo fiveExtraSmall={true} color={Colors.Charcol}>
-      {pollItem.status}
-    </Jumbo>
+    <StatusWrapper>
+      <Jumbo fiveExtraSmall={true} color={Colors.Charcol}>
+        {pollItem.status}
+      </Jumbo>
+    </StatusWrapper>
   );
 }
 
@@ -85,15 +102,13 @@ const AgendaItem = (props) => {
 
   return (
     <SpacingWrapper>
-      <BottomBorder>
-          <SideBySideWrapper>
-            <BottomBorder>
-              {renderTitle(props)}
-            </BottomBorder>
-              {renderStatus(props)}
-              {renderButton(props)}
-          </SideBySideWrapper>
-      </BottomBorder>
+        <SideBySideWrapper>
+          <BottomBorder>
+            {renderTitle(props)}
+          </BottomBorder>
+            {renderStatus(props)}
+            {renderButton(props)}
+        </SideBySideWrapper>
     </SpacingWrapper>
   )
 };
