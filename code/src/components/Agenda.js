@@ -18,12 +18,29 @@ import {code}               from '../pages/RoomCode';
 import { getAllPolls }   from '../FirebaseUtil';
 
 import AgendaItem       from './AgendaItem';
+import AgendaColumnHeaders from './AgendaColumnHeaders';
 
 const ComponentWrapper = styled.div`
   ${({small}) => small && `padding-bottom: 20px`}
   ${({medium}) => medium && `padding-bottom: 26px`}
   ${({large}) => large && `padding-bottom: 32px`}
 `;
+
+const AgendaWrapper = styled.div`
+  background: ${Colors.White};
+  position: relative;
+  width: 60%;
+  margin: 15px;
+  border-radius: 5px;
+`;
+
+const Scroll = styled.div`
+  overflow: scroll;
+  position: absolute;
+  height: calc(100% - 75px);
+  width: 100%;
+`;
+
 
 const SideBySideWrapper = styled.div`
   display: flex;
@@ -60,9 +77,12 @@ const Agenda = (props) => {
   const { width, polls } = props;
 
   return (
-    <Card width={width}>
+    <AgendaWrapper>
+      <AgendaColumnHeaders />
+      <Scroll>
       {renderPolls(props)}
-    </Card>
+      </Scroll>
+    </AgendaWrapper>
   )
 };
 

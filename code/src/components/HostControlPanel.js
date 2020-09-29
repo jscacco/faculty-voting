@@ -17,6 +17,10 @@ import CheckBox         from './buttons/CheckBox'
 import Option           from './options/Option'
 
 
+const ItemWrapper = styled.div`
+  margin: 15px;
+`;
+
 const ComponentWrapper = styled.div`
   ${({small}) => small && `padding-bottom: 20px`}
   ${({medium}) => medium && `padding-bottom: 26px`}
@@ -29,6 +33,11 @@ const SideBySideWrapper = styled.div`
   justify-content: flex-start;
 `;
 
+const SpacingWrapper = styled.div`
+  position: relative;
+  width: 20%;
+  height: 40%;
+`;
 
 const CenterWrapper = styled.div`
   display: flex;
@@ -134,6 +143,7 @@ const HostControlPanel = (props) => {
           handleTitleChange, handleDescriptionChange } = props;
 
   return (
+    <ItemWrapper>
     <Card width={width}>
       {renderTitle(props)}
       {renderTitleInput(props)}
@@ -142,6 +152,7 @@ const HostControlPanel = (props) => {
       {renderResultViewingCheckbox(props)}
       {renderCreateButton(props)}
     </Card>
+    </ItemWrapper>
   )
 };
 

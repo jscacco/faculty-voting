@@ -29,6 +29,7 @@ const SideBySideWrapper = styled.div`
   justify-content: space-between; */
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
+  grid-gap: 20px;
 `;
 
 const BottomBorder = styled.div`
@@ -38,8 +39,7 @@ const BottomBorder = styled.div`
 const SpacingWrapper = styled.div`
   position: relative;
   width: 80%;
-  margin-bottom: 15px;
-  margin-left:15px;
+  margin: 15px;
 `;
 
 const CenterWrapper = styled.div`
@@ -49,21 +49,17 @@ const CenterWrapper = styled.div`
 `;
 
 const renderTitle = (props) => {
-  const { pollItem } = props;
-
   return (
-    <Jumbo fiveExtraSmall={true} color={Colors.Charcol}>
-      {pollItem.title}
+    <Jumbo threeExtraSmall={true} color={Colors.LightBlue}>
+      Poll Title
     </Jumbo>
   );
 }
 
 const renderStatus = (props) => {
-  const { pollItem } = props;
-
   return (
-    <Jumbo fiveExtraSmall={true} color={Colors.Charcol}>
-      {pollItem.status}
+    <Jumbo threeExtraSmall={true} color={Colors.LightBlue}>
+      Status
     </Jumbo>
   );
 }
@@ -72,30 +68,25 @@ const renderButton = (props) => {
   const { pollItem } = props;
 
   return (
-    <Button extraSmall={true}>
-      Vote
-    </Button>
+    <Jumbo threeExtraSmall={true} color={Colors.LightBlue}>
+      Action
+    </Jumbo>
   );
 }
 
-const AgendaItem = (props) => {
+const AgendaColumnHeaders = (props) => {
 
-  const { width, small, medium, large,
-          pollItem } = props;
+  const { width, small, medium, large,} = props;
 
   return (
     <SpacingWrapper>
-      <BottomBorder>
-          <SideBySideWrapper>
-            <BottomBorder>
-              {renderTitle(props)}
-            </BottomBorder>
-              {renderStatus(props)}
-              {renderButton(props)}
-          </SideBySideWrapper>
-      </BottomBorder>
+      <SideBySideWrapper>
+        {renderTitle(props)}
+        {renderStatus(props)}
+        {renderButton(props)}
+      </SideBySideWrapper>
     </SpacingWrapper>
   )
 };
 
-export default AgendaItem;
+export default AgendaColumnHeaders;
