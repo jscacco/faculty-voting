@@ -39,24 +39,25 @@ const CenterWrapper = styled.div`
 `;
 
 const renderPolls = (props) => {
-  const { width, polls } = props;
+  const { polls } = props;
 
-  const agendaItems = polls.map((poll) => {
-    console.log(poll)
-    return <AgendaItem width={(500)} pollItem={poll} />
-  })
+  var comps = []
+  if(polls.constructor === Array) {
+    comps = polls.map((poll) => {
+      return <AgendaItem pollItem={poll} width={600} />
+    })
+  }
 
   return (
-    <>
-      {agendaItems}
-    </>
+    <ComponentWrapper>
+      {comps}
+    </ComponentWrapper>
   )
 }
 
+
 const Agenda = (props) => {
   const { width, polls } = props;
-
-  console.log(polls)
 
   return (
     <Card width={width}>
