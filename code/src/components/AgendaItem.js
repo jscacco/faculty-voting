@@ -17,6 +17,7 @@ import CheckBox         from './buttons/CheckBox'
 import Option           from './options/Option'
 
 
+
 const ComponentWrapper = styled.div`
   ${({small}) => small && `padding-bottom: 20px`}
   ${({medium}) => medium && `padding-bottom: 26px`}
@@ -24,11 +25,23 @@ const ComponentWrapper = styled.div`
 `;
 
 const SideBySideWrapper = styled.div`
-  display: flex;
+  /* display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-between; */
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
 `;
 
+const BottomBorder = styled.div`
+  borderBottom: "1px solid ${Colors.LightGrey}"
+`;
+
+const SpacingWrapper = styled.div`
+  position: relative;
+  width: 80%;
+  margin-bottom: 15px;
+  margin-left:15px;
+`;
 
 const CenterWrapper = styled.div`
   display: flex;
@@ -36,23 +49,71 @@ const CenterWrapper = styled.div`
   justify-content: center;
 `;
 
+const TitleWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 1%;
+  transform: translate(0%, -50%);
+  height: 5%;
+`;
+
+const StatusWrapper = styled.div``;
+
+const PendingCircle = styled.div`
+  height: 10px;
+  width: 10px;
+  background-color: ${Colors.LightGrey};
+  border-radius: 50%;
+  display: inline-block;
+  margin-right:10px;
+`;
+
+const OpenCircle = styled.div`
+  height: 10px;
+  width: 10px;
+  background-color: ${Colors.Green};
+  border-radius: 50%;
+  display: inline-block;
+  margin-right:10px;
+`;
+
+const ClosedCircle = styled.div`
+  height: 10px;
+  width: 10px;
+  background-color: ${Colors.Red};
+  border-radius: 50%;
+  display: inline-block;
+  margin-right:10px;
+`;
+
 const renderTitle = (props) => {
   const { pollItem } = props;
 
   return (
-    <Jumbo fiveExtraSmall={true} color={Colors.White}>
-      {pollItem.title}
-    </Jumbo>
+      <Body medium={true} color={Colors.Charcol}>
+        {pollItem.title}
+      </Body>
   );
 }
 
 const renderStatus = (props) => {
   const { pollItem } = props;
 
+  var circle = (<PendingCircle></PendingCircle>)
+
+  if (pollItem.status == 'open') {
+    circle = (<OpenCircle></OpenCircle>)
+  } else if (pollItem.status == 'closed') {
+    circle = (<ClosedCircle></ClosedCircle>)
+  }
+
   return (
-    <Jumbo fiveExtraSmall={true} color={Colors.White}>
-      {pollItem.status}
-    </Jumbo>
+    <StatusWrapper>
+      <Body medium={true} color={Colors.Charcol}>
+        {circle}
+        {pollItem.status}
+      </Body>
+    </StatusWrapper>
   );
 }
 
@@ -60,7 +121,7 @@ const renderButton = (props) => {
   const { pollItem } = props;
 
   return (
-    <Button extraSmall={true}>
+    <Button twoExtraSmall>
       Vote
     </Button>
   );
@@ -72,13 +133,15 @@ const AgendaItem = (props) => {
           pollItem } = props;
 
   return (
-    <Card width={width} color={Colors.LightBlue}>
-      <SideBySideWrapper>
-        {renderTitle(props)}
-        {renderStatus(props)}
-        {renderButton(props)}
-      </SideBySideWrapper>
-    </Card>
+    <SpacingWrapper>
+        <SideBySideWrapper>
+          <BottomBorder>
+            {renderTitle(props)}
+          </BottomBorder>
+            {renderStatus(props)}
+            {renderButton(props)}
+        </SideBySideWrapper>
+    </SpacingWrapper>
   )
 };
 

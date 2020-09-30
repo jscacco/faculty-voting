@@ -17,7 +17,8 @@ const propTypes = {
   large: PropTypes.bool,
   medium: PropTypes.bool,
   small: PropTypes.bool,
-  extraSmall: PropTypes.bool
+  extraSmall: PropTypes.bool,
+  twoExtraSmall: PropTypes.bool
 };
 
 const defaultProps = {
@@ -60,6 +61,8 @@ const buttonConfig = {
            padding: `14px`},
   extraSmall: { buttonHeight: `28px`,
            padding: `12px`},
+  twoExtraSmall: { buttonHeight: '5px',
+           padding: '8px'}
 };
 
 const Button = ( props ) => {
@@ -72,6 +75,7 @@ const Button = ( props ) => {
   else if (props.large) { config = buttonConfig.large }
   else if (props.small) { config = buttonConfig.small }
   else if (props.extraSmall) { config = buttonConfig.extraSmall }
+  else if (props.twoExtraSmall) { config = buttonConfig.twoExtraSmall }
   else { config = buttonConfig.medium }
 
   return(

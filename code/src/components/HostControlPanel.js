@@ -21,6 +21,7 @@ const ComponentWrapper = styled.div`
   ${({small}) => small && `padding-bottom: 20px`}
   ${({medium}) => medium && `padding-bottom: 26px`}
   ${({large}) => large && `padding-bottom: 32px`}
+  margin-bottom: 5px;
 `;
 
 const SideBySideWrapper = styled.div`
@@ -29,11 +30,26 @@ const SideBySideWrapper = styled.div`
   justify-content: flex-start;
 `;
 
+const SpacingWrapper = styled.div`
+  position: relative;
+  width: 20%;
+  height: 40%;
+`;
 
 const CenterWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+`;
+
+const ItemWrapper = styled.div`
+  background: ${Colors.White};
+  position: relative;
+  margin-left: 15px;
+  /* border-radius: 5px; */
+  padding: 15px;
+  border-color: ${Colors.LightGrey};
+  border-bottom-style: solid;
 `;
 
 const renderTitle = (props) => {
@@ -89,10 +105,10 @@ const renderPollOptionsInput = props => {
         </Jumbo>
          {optionComponents}
         <CenterWrapper>
-          <Button small={small} medium={small} large={small}
-                  width={150} onClick={handleCreateOption}>
-            {'Add Option'}
-          </Button>
+            <Button small={small} medium={small} large={small}
+                    width={150} onClick={handleCreateOption}>
+              {'Add Option'}
+            </Button>
         </CenterWrapper>
       </ComponentWrapper>
     )
@@ -134,14 +150,14 @@ const HostControlPanel = (props) => {
           handleTitleChange, handleDescriptionChange } = props;
 
   return (
-    <Card width={width}>
+    <ItemWrapper>
       {renderTitle(props)}
       {renderTitleInput(props)}
       {renderDescriptionInput(props)}
       {renderPollOptionsInput(props)}
       {renderResultViewingCheckbox(props)}
       {renderCreateButton(props)}
-    </Card>
+    </ItemWrapper>
   )
 };
 

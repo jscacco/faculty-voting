@@ -5,28 +5,56 @@ import { Colors }                     from '../components/theme/Colors';
 import history                        from '../history';
 import HostControlPanel               from '../components/HostControlPanel';
 import firebase                       from '../firebase';
-import {code}                         from './RoomCode';
+// import {code}                         from './RoomCode';
 import Input                          from '../components/inputs/Input'
 import Agenda                         from '../components/Agenda'
 import AgendaItem                     from '../components/AgendaItem'
 import PollItem                       from '../components/PollItem'
 import addPollFire, { getAllPolls }   from '../FirebaseUtil'
 import {getPollInf}                   from '../FirebaseUtil';
+import AgendaColumnHeaders from '../components/AgendaColumnHeaders';
 
+
+const code = '123';
 
 const PageWrapper = styled.div`
-  background-color: ${Colors.LightBlue};
-  position: absolute;
+  background-color: ${Colors.White};
   right: 0;
   left: 0;
   top: 0;
   bottom: 0;
+  height: 100%;
+
+  position: fixed;
+  overflow: hidden;
+  height: 100vh;
 `;
 
 const SideBySideWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+`;
+
+const ControlSpacingWrapper = styled.div`
+  position: relative;
+  height: 100%;
+  margin-bottom: 15px;
+  width: 25%;
+`;
+
+const AgendaSpacingWrapper = styled.div`
+  border-color: ${Colors.LightGrey};
+  border-left-style: solid;
+  height: 100vh;
+  width: 100%;
+`;
+
+
+const HeaderWrapper = styled.div`
+  background: ${Colors.White};
+  margin: 15px;
+  border-radius: 5px;
 `;
 
 
@@ -120,6 +148,7 @@ class MeetingRoomScreen extends React.Component {
         numOptions: 2
       })
     }
+    alert("created");
   }
 
 
@@ -130,6 +159,7 @@ class MeetingRoomScreen extends React.Component {
     return this.state.allPolls ? (
       <PageWrapper>
         <SideBySideWrapper>
+        <ControlSpacingWrapper>
           <HostControlPanel width={300} title="Create a Poll"
                             handleSubmit={this.handleCreatePoll}
                             handleCreateOption={this.addOption}
@@ -137,7 +167,10 @@ class MeetingRoomScreen extends React.Component {
                             handleTitleChange={this.handleTitleChange}
                             handleDescriptionChange={this.handleDescriptionChange}
                             options={this.state.options} />
-          <Agenda polls={this.state.allPolls} />
+          </ControlSpacingWrapper>
+          <AgendaSpacingWrapper>
+            <Agenda polls={this.state.allPolls}/>
+          </AgendaSpacingWrapper>
         </SideBySideWrapper>
       </PageWrapper>
       ) : (
