@@ -29,15 +29,14 @@ const ComponentWrapper = styled.div`
 const AgendaWrapper = styled.div`
   background: ${Colors.White};
   position: relative;
-  width: 60%;
-  margin: 15px;
-  border-radius: 5px;
+  border-color: ${Colors.LightGrey};
+  width: 100%;
 `;
 
 const Scroll = styled.div`
   overflow: scroll;
   position: absolute;
-  height: calc(100% - 75px);
+  height: calc(100vh - 75px);
   width: 100%;
 `;
 
@@ -60,7 +59,7 @@ const ColoredLine = ({ color }) => (
         style={{
             color: color,
             backgroundColor: color,
-            height: 1
+            height: .5
         }}
     />
 );

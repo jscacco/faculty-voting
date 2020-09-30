@@ -17,6 +17,7 @@ import CheckBox         from './buttons/CheckBox'
 import Option           from './options/Option'
 
 
+
 const ComponentWrapper = styled.div`
   ${({small}) => small && `padding-bottom: 20px`}
   ${({medium}) => medium && `padding-bottom: 26px`}
@@ -56,31 +57,62 @@ const TitleWrapper = styled.div`
   height: 5%;
 `;
 
-const StatusWrapper = styled.div`
-  /* position: absolute;
-  top: 50%;
-  left: 0%;
-  transform: translate(500%, -50%); */
+const StatusWrapper = styled.div``;
+
+const PendingCircle = styled.div`
+  height: 10px;
+  width: 10px;
+  background-color: ${Colors.LightGrey};
+  border-radius: 50%;
+  display: inline-block;
+  margin-right:10px;
+`;
+
+const OpenCircle = styled.div`
+  height: 10px;
+  width: 10px;
+  background-color: ${Colors.Green};
+  border-radius: 50%;
+  display: inline-block;
+  margin-right:10px;
+`;
+
+const ClosedCircle = styled.div`
+  height: 10px;
+  width: 10px;
+  background-color: ${Colors.Red};
+  border-radius: 50%;
+  display: inline-block;
+  margin-right:10px;
 `;
 
 const renderTitle = (props) => {
   const { pollItem } = props;
 
   return (
-      <Jumbo fiveExtraSmall={true} color={Colors.Charcol}>
+      <Body small={true} color={Colors.Charcol}>
         {pollItem.title}
-      </Jumbo>
+      </Body>
   );
 }
 
 const renderStatus = (props) => {
   const { pollItem } = props;
 
+  var circle = (<PendingCircle></PendingCircle>)
+
+  if (pollItem.status == 'open') {
+    circle = (<OpenCircle></OpenCircle>)
+  } else if (pollItem.status == 'closed') {
+    circle = (<ClosedCircle></ClosedCircle>)
+  }
+
   return (
     <StatusWrapper>
-      <Jumbo fiveExtraSmall={true} color={Colors.Charcol}>
+      <Body small={true} color={Colors.Charcol}>
+        {circle}
         {pollItem.status}
-      </Jumbo>
+      </Body>
     </StatusWrapper>
   );
 }
@@ -89,7 +121,7 @@ const renderButton = (props) => {
   const { pollItem } = props;
 
   return (
-    <Button extraSmall={true}>
+    <Button extraSmall>
       Vote
     </Button>
   );

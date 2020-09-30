@@ -18,12 +18,16 @@ import AgendaColumnHeaders from '../components/AgendaColumnHeaders';
 const code = '123';
 
 const PageWrapper = styled.div`
-  background-color: ${Colors.LightGrey};
-  position: absolute;
+  background-color: ${Colors.White};
   right: 0;
   left: 0;
   top: 0;
   bottom: 0;
+  height: 100%;
+
+  position: fixed;
+  overflow: hidden;
+  height: 100vh;
 `;
 
 const SideBySideWrapper = styled.div`
@@ -34,9 +38,18 @@ const SideBySideWrapper = styled.div`
 
 const ControlSpacingWrapper = styled.div`
   position: relative;
-  height: 40%;
+  height: 100%;
   margin-bottom: 15px;
+  width: 25%;
 `;
+
+const AgendaSpacingWrapper = styled.div`
+  border-color: ${Colors.LightGrey};
+  border-left-style: solid;
+  height: 100vh;
+  width: 100%;
+`;
+
 
 const HeaderWrapper = styled.div`
   background: ${Colors.White};
@@ -154,7 +167,9 @@ class MeetingRoomScreen extends React.Component {
                             handleDescriptionChange={this.handleDescriptionChange}
                             options={this.state.options} />
           </ControlSpacingWrapper>
-          <Agenda polls={this.state.allPolls} />
+          <AgendaSpacingWrapper>
+            <Agenda polls={this.state.allPolls}/>
+          </AgendaSpacingWrapper>
         </SideBySideWrapper>
       </PageWrapper>
       ) : (

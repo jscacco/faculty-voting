@@ -17,10 +17,6 @@ import CheckBox         from './buttons/CheckBox'
 import Option           from './options/Option'
 
 
-const ItemWrapper = styled.div`
-  margin: 15px;
-`;
-
 const ComponentWrapper = styled.div`
   ${({small}) => small && `padding-bottom: 20px`}
   ${({medium}) => medium && `padding-bottom: 26px`}
@@ -44,6 +40,16 @@ const CenterWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+`;
+
+const ItemWrapper = styled.div`
+  background: ${Colors.White};
+  position: relative;
+  margin-left: 15px;
+  /* border-radius: 5px; */
+  padding: 15px;
+  border-color: ${Colors.LightGrey};
+  border-bottom-style: solid;
 `;
 
 const renderTitle = (props) => {
@@ -145,14 +151,12 @@ const HostControlPanel = (props) => {
 
   return (
     <ItemWrapper>
-    <Card width={width}>
       {renderTitle(props)}
       {renderTitleInput(props)}
       {renderDescriptionInput(props)}
       {renderPollOptionsInput(props)}
       {renderResultViewingCheckbox(props)}
       {renderCreateButton(props)}
-    </Card>
     </ItemWrapper>
   )
 };

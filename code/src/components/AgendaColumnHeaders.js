@@ -50,17 +50,17 @@ const CenterWrapper = styled.div`
 
 const renderTitle = (props) => {
   return (
-    <Jumbo threeExtraSmall={true} color={Colors.LightBlue}>
+    <Body medium={true} color={Colors.LightBlue}>
       Poll Title
-    </Jumbo>
+    </Body>
   );
 }
 
 const renderStatus = (props) => {
   return (
-    <Jumbo threeExtraSmall={true} color={Colors.LightBlue}>
+    <Body medium={true} color={Colors.LightBlue}>
       Status
-    </Jumbo>
+    </Body>
   );
 }
 
@@ -68,9 +68,9 @@ const renderButton = (props) => {
   const { pollItem } = props;
 
   return (
-    <Jumbo threeExtraSmall={true} color={Colors.LightBlue}>
+    <Body medium={true} color={Colors.LightBlue}>
       Action
-    </Jumbo>
+    </Body>
   );
 }
 
