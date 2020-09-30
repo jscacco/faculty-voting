@@ -90,7 +90,7 @@ const renderTitle = (props) => {
   const { pollItem } = props;
 
   return (
-      <Body small={true} color={Colors.Charcol}>
+      <Body medium={true} color={Colors.Charcol}>
         {pollItem.title}
       </Body>
   );
@@ -109,7 +109,7 @@ const renderStatus = (props) => {
 
   return (
     <StatusWrapper>
-      <Body small={true} color={Colors.Charcol}>
+      <Body medium={true} color={Colors.Charcol}>
         {circle}
         {pollItem.status}
       </Body>
@@ -121,7 +121,7 @@ const renderButton = (props) => {
   const { pollItem } = props;
 
   return (
-    <Button extraSmall>
+    <Button twoExtraSmall>
       Vote
     </Button>
   );

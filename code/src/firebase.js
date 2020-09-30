@@ -14,14 +14,15 @@ import 'firebase/firestore'
   */
 
  var firebaseConfig = {
-    apiKey: "AIzaSyAYAdgWYuEmNnV5LhKFJg5PAzIk8KmHtEA",
-    authDomain: "faculty-voting.firebaseapp.com",
-    databaseURL: "https://faculty-voting.firebaseio.com",
-    projectId: "faculty-voting",
-    storageBucket: "faculty-voting.appspot.com",
-    messagingSenderId: "9270533965",
-  appId: "1:9270533965:web:0cf8b954f918a4b588e104"
-  };
+    apiKey: "AIzaSyC6IvTrHvamb83DUmxCJQCOIJCsQHce4wA",
+    authDomain: "faculty-voting-9ad15.firebaseapp.com",
+    databaseURL: "https://faculty-voting-9ad15.firebaseio.com",
+    projectId: "faculty-voting-9ad15",
+    storageBucket: "faculty-voting-9ad15.appspot.com",
+    messagingSenderId: "627933747870",
+    appId: "1:627933747870:web:348d54dac28eab6f84b98f",
+    measurementId: "G-VB13V4GH27"
+};
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
