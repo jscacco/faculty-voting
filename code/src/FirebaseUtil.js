@@ -1,7 +1,7 @@
 import PollItem             from './components/PollItem';
 import firebase             from './firebase';
 
-const updatePoll = function updatePoll(collectionName, pollTitle, optionName, optionNum, voteValue) {
+/*const updatePoll = function updatePoll(collectionName, pollTitle, optionName, optionNum, voteValue) {
     // Updates an already existing poll
     // collectionName - String: The Room Code
     // pollTitle - String: The Poll Title
@@ -13,6 +13,27 @@ const updatePoll = function updatePoll(collectionName, pollTitle, optionName, op
     docRef.get().then(snap =>{
         var newVote = {};
         newVote[optionName] = snap.data()[optionName] + voteValue;
+        docRef.update(newVote);
+    });
+}*/
+
+const updatePoll = function updatePoll(collectionName, poll, optionNum, voteValue) {
+    // Updates an already existing poll
+    // collectionName - String: The Room Code
+    // pollTitle - String: The Poll Title
+    // optionName - String: The Name of The Option
+    // optionNum - Integer: Index of The Option + 1
+    // voteValue - Integer: How to Change The Stored Votes (1 or -1)
+
+    // This will eventally be poll.title                             xxxxxxxxxxx
+    var docRef = firebase.firestore().collection(collectionName).doc("Test Poll").collection("results").doc("Option" + optionNum);
+    docRef.get().then(snap =>{
+        var newVote = {};
+        var name = Object.keys(poll.options[optionNum - 1])[0];
+        console.log(name)
+        console.log(snap.data()[name])
+        newVote[name] = snap.data()[name] + voteValue;
+        (console.log(newVote[name]))
         docRef.update(newVote);
     });
 }
