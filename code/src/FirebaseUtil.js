@@ -1,7 +1,16 @@
+// https://jswebcrypto.azurewebsites.net/demo.html#/
+// https://bitwiseshiftleft.github.io/sjcl/doc/index.html
+
 import PollItem             from './components/PollItem';
 import firebase             from './firebase';
+import sjcl from 'sjcl';
+
+var KEY = "test-key";
 
 const updatePoll = function updatePoll(collectionName, pollTitle, optionName, optionNum, voteValue) {
+    // TODO-Jack: update the hash here as well
+    // TODO-Chad: update this so it takes a poll item
+    
     // Updates an already existing poll
     // collectionName - String: The Room Code
     // pollTitle - String: The Poll Title
@@ -19,9 +28,11 @@ const updatePoll = function updatePoll(collectionName, pollTitle, optionName, op
 
 const addPollFire = function addPollFire(collectionName, poll) {
     // Adds a new poll
-    // collectionName - String: The Room Code
+    // collectionName - String48: The Room Code
     // poll - PollItem: The Poll to Be Stored
 
+    var poll_hash = generateHash(collectionName, poll);
+    
     firebase
       .firestore()
       .collection(collectionName)
@@ -31,7 +42,8 @@ const addPollFire = function addPollFire(collectionName, poll) {
         showResults: poll.showResults,
         order: poll.order,
         status: poll.status,
-        type: poll.type});
+        type: poll.type,
+	hash: poll_hash});
 
     for(var i = 0; i < poll.options.length; i++) {
         firebase
@@ -50,18 +62,29 @@ const getPollInf = function getPollInf(collectionName, pollTitle) {
     // pollTitle - String: The Poll Title
 
     var poll = new PollItem();
+
     firebase.firestore().collection(collectionName).doc(pollTitle).get().then(snap =>{
         poll.setDescription(snap.data()['description']);
         poll.setShowResults(snap.data()['showResults']);
         poll.setOrder(snap.data()['order']);
         poll.setType(snap.data()['type']);
         poll.setStatus(snap.data()['status']);
+	poll.setHash(snap.data()['hash']);
 
         firebase.firestore().collection(collectionName).doc(pollTitle).collection('results').get().then(snap =>{
             poll.setOptions(snap.docs.map(doc => doc.data()))
         });
 
+	// Now ensure the hash is correct
         poll.setTitle(pollTitle);
+	var expected_hash = generateHash(collectionName, poll);
+	var actual_hash = poll.hash;
+
+	alert(expected_hash == actual_hash);
+	if (!(expected_hash == actual_hash)) {
+	    alert(expected_hash);
+	    alert(actual_hash);
+	}
     });
 
     return poll;
@@ -79,6 +102,31 @@ const getAllPolls = async function getPolls(collectionName) {
     })
 
     return docs;
+}
+
+const generateHash = function generateHash(collectionName, poll) {
+    // Given a PollItem, generate the hash associated with it
+
+    // concat the string attributes
+    var msg = collectionName + poll.title + poll.description + poll.type + poll.status
+
+    // append the non-str info
+    if (poll.showResults) {
+	msg += "true";
+    } else {
+	msg += "false";
+    }
+
+    msg += poll.order.toString();
+
+    // Add option info
+    
+
+    var key = sjcl.codec.utf8String.toBits(KEY);
+    var out = (new sjcl.misc.hmac(key, sjcl.hash.sha256)).mac(msg);
+    var hmac = sjcl.codec.hex.fromBits(out);
+
+    return hmac;
 }
 
 export default addPollFire;

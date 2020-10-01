@@ -12,6 +12,7 @@ export default class PollItem {
     this.order = -1;
     this.type = '';
     this.status = 'pending';
+    this.hash = ''; 
   }
 
   logData() {
@@ -56,12 +57,17 @@ export default class PollItem {
     this.options = options
   }
 
+  setHash(hash) {
+    this.hash = hash
+  }
+    
   getInfo() {
-    return {
-      type: this.type,
-      title: this.title,
-      description: this.description,
-      options: this.options
-    }
+      return {
+	  type: this.type,
+	  title: this.title,
+	  description: this.description,
+	  options: this.options,
+	  hash: this.hash
+      }
   }
 }
