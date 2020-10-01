@@ -15,7 +15,7 @@ import {getPollInf}                   from '../FirebaseUtil';
 import AgendaColumnHeaders from '../components/AgendaColumnHeaders';
 
 
-const code = '123';
+const code = '0000';
 
 const PageWrapper = styled.div`
   background-color: ${Colors.White};

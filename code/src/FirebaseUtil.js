@@ -80,10 +80,8 @@ const getPollInf = function getPollInf(collectionName, pollTitle) {
 	var expected_hash = generateHash(collectionName, poll);
 	var actual_hash = poll.hash;
 
-	alert(expected_hash == actual_hash);
 	if (!(expected_hash == actual_hash)) {
-	    alert(expected_hash);
-	    alert(actual_hash);
+	    alert("WARNING: the information in " + pollTitle + " has been modified directly through firebase. Voting data may have been maliciously manipulated.");
 	}
     });
 
@@ -120,7 +118,9 @@ const generateHash = function generateHash(collectionName, poll) {
     msg += poll.order.toString();
 
     // Add option info
-    
+    for (let opt in poll.options) {
+	
+    }
 
     var key = sjcl.codec.utf8String.toBits(KEY);
     var out = (new sjcl.misc.hmac(key, sjcl.hash.sha256)).mac(msg);
