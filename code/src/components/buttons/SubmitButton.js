@@ -8,6 +8,7 @@ import Body             from '../theme/Body';
 import Button           from  './Button';
 
 const propTypes = {
+  children: PropTypes.node,
   onClick: PropTypes.bool,
 
   unselected: PropTypes.bool,
@@ -105,7 +106,6 @@ const renderButton = (props) => {
 
 const SubmitButton = (props) => {
   const { unselected, submit, submitted, resubmit } = props;
-  console.log ({ unselected, submit, submitted, resubmit })
 
   let buttonConfig;
 

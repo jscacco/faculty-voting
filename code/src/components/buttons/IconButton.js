@@ -37,22 +37,19 @@ class IconButton extends React.Component {
   constructor(props) {
     super(props);
 
-    if (this.props.remote) { this.state = { clicked: this.props.getClickStatus() }; }
-    else {this.state = { clicked: false };}
+    this.state = { clicked: false };
 
     this._handleClick = this._handleClick.bind(this);
     this._renderClicked = this._renderClicked.bind(this);
     this._renderUnClicked = this._renderUnClicked.bind(this);
   };
 
-  _handleClick = ( event ) => {
+  async _handleClick ( event ) {
 
     const { clicked } = this.state;
 
-    if (this.props.remote) { this.setState({ ...this.state,
-                                             clicked: this.props.getClickStatus() }); }
-    else { this.setState({ ...this.state,
-                           clicked: !clicked }); }
+    await this.setState({ ...this.state,
+                          clicked: !clicked });
 
     if (this.props.onClick) { this.props.onClick(event); };
 
@@ -73,8 +70,6 @@ class IconButton extends React.Component {
   );
 
   render() {
-
-    console.log('rrr');
 
     const { extraLarge, large, medium, small, extraSmall, remote} = this.props;
 

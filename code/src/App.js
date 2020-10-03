@@ -5,20 +5,48 @@ import {Jumbo} from './components/theme/Jumbo';
 import { Colors } from './components/theme/Colors';
 // import RoomCode from './pages/RoomCode';
 
+import VotingCard from './components/cards/VotingCardBase';
+import OptionGroup  from './components/options/OptionGroup';
+// import MultipleChoiceGroup  from './components/options/MultipleChoiceGroup';
 
-// <div>
-//   <Jumbo color={Colors.Blue} small>
-//     This is the jumbo text, used for headers and such...
-//   </Jumbo>
-//   <Body color={Colors.Red} large>
-//     This is the body, used for everything else! Note that sizing can change.
-//   </Body>
-// </div>
+import TextOption from './components/options/TextOption';
+import InputOption from './components/options/InputOption';
+
+import Button from './components/buttons/Button';
+import Icon   from './components/theme/Icon'
+
+
+// <Poll id={0}/>
+
+
+
+// <OptionGroup updateSelected={(selected) => console.log(selected)} type={'multiple'} fontColor={Colors.Blue} medium>
+//   <TextOption fontColor={Colors.Green}>
+//     test
+//   </TextOption>
+//   <TextOption>
+//     test
+//   </TextOption>
+//   <InputOption placeholder={'someshit'} fontColor={Colors.Green} borderColor={Colors.Green}/>
+//   <InputOption placeholder={'dif'} borderColor={Colors.Blue}/>
+// </OptionGroup>
+
+const options = [{type:'text', value:'Option 1'},
+                 {type:'text', value:'Option 2'}];
+
+const poll = {
+  title: 'title',
+  description: 'des',
+  options: options
+}
+
+// <Poll pollId={0}/>
+// <SubmissionIcons submission={[true, false, true]}
 
 class App extends Component {
   render(){
     return (
-      <Poll />
+      <Poll pollId={0}/>
     );
   }
 }

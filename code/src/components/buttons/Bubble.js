@@ -6,6 +6,7 @@ import { Colors }       from '../theme/Colors';
 import Icon             from '../theme/Icon';
 
 const propTypes = {
+  onClick: PropTypes.func,
   clicked: PropTypes.bool,
 
   color: ExtraPropTypes.color,
@@ -18,21 +19,16 @@ const propTypes = {
 };
 
 const defaultProps = {
+  onClick: undefined,
   clicked: false,
+  color: Colors.Black,
 };
 
-const sizeConfig = {
-  extraLarge: '2em',
-  large: '1.75em',
-  medium: '1.5em' ,
-  small: '1em',
-  extraSmall: '0.75em'
-};
-
-const renderClicked = ( props ) => (
+const renderClicked = ( props ) => {
+  return (
   <Icon type={'bubble'}
         {...props}/>
-);
+);}
 
 const renderUnClicked = ( props ) => (
   <Icon type={'circle'}
@@ -41,19 +37,11 @@ const renderUnClicked = ( props ) => (
 
 const Bubble = ( props ) => {
 
-  const { extraLarge, large, medium, small, extraSmall, clicked } = props;
-
-  let size;
-
-  if (extraLarge) { size = sizeConfig.extraLarge }
-  else if (large) { size = sizeConfig.large }
-  else if (small) { size = sizeConfig.small }
-  else if (extraSmall) { size = size.extraSmall }
-  else { size = sizeConfig.medium }
+  const { clicked, ...rest } = props;
 
   return (
-    clicked ? renderClicked({ ...props, size: size }) :
-              renderUnClicked({ ...props, size: size })
+    clicked ? renderClicked(rest) :
+              renderUnClicked(rest)
   );
 };
 

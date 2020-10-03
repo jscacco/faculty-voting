@@ -1,54 +1,67 @@
-import * as actionTypes from '../actions/actionTypes';
+import ActionTypes from '../actionTypes';
 
-const initState = {
-  poll: {},
+const initialState = {
+  pollData: null,
+  submission: null,
+  selected: null,
+
   loading: false,
   error: false,
 };
 
+let result;
+
 export default function reducePoll(state = initialState, action) {
 
   switch (action.type) {
-    case ActionTypes.poll.fetchPoll.START:
+    case ActionTypes.FETCH_POLL_START:
+      console.log('started');
       return { ...state, loading: true, error: null };
 
-    case ActionTypes.poll.fetchPoll.SUCCESS:
-      const result = action.response;
+    case ActionTypes.FETCH_POLL_SUCCESS:
+      result = action.response;
+      // console.log(result);
       return {
         ...state,
         loading: false,
-        poll: result
+        pollData: result,
+        submission: new Array(result.options.length).fill(false),
+        selected: new Array(result.options.length).fill(false),
       };
-  }
+    case ActionTypes.FETCH_POLL_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: true
+      };
+    case ActionTypes.SUBMIT_POLL_START:
+      // console.log('started');
+      return { ...state, loading: true, error: null };
 
+    case ActionTypes.SUBMIT_POLL_SUCCESS:
+      result = action.response;
+      // console.log(result);
+      return {
+        ...state,
+        loading: false,
+        submission: result,
+      };
+    case ActionTypes.SUBMIT_POLL_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: true
+      };
+    case ActionTypes.UPDATE_SELECTED_OPTIONS:
+      result = action.selection.map((item) => item);
+      return {
+        ...state,
+        selected: result,
+      };
+
+  }
+  console.log(state);
   return state;
 }
 
-// const fetchPollStart = ( state, action ) => {
-//     return {...state, loading: true};
-// };
-//
-// const fetchPollSuccess = ( state, action ) => {
-//     return  { ...state,
-//               poll: action.poll,
-//               loading: false,
-//             }
-// };
-//
-// const fetchPollFail = ( state, action ) => {
-//     return { ...state,
-//              loading: false,
-//              error: true,
-//            }
-// };
-//
-// const reducer = ( state = initState, action ) => {
-//   switch ( action.type ) {
-//         case actionTypes.FETCH_POLL_START: return fetchPollStart( state, action );
-//         case actionTypes.FETCH_POLL_SUCCESS: return fetchPollSuccess( state, action );
-//         case actionTypes.FETCH_POLL_FAIL: return fetchPollFail( state, action );
-//         default: return state;
-//     }
-// };
-
-// export default reducer;
+// export default function;
