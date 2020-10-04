@@ -17,6 +17,32 @@ const updatePoll = function updatePoll(collectionName, pollTitle, optionName, op
     });
 }
 
+const validUser = async function validUser(user) {
+    // Checks if user is a "voting faculty"
+    let re = /.+@hamilton.edu/;
+    let reUser = /[a-z]+/;
+    let username = reUser.exec(user.email)[0];
+
+    console.log(user)
+    // Check if hamilton email
+    if(re.test(user.email)) {  
+        await firebase
+            .firestore()
+            .collection('voting').get().then((snap) => {
+                snap.forEach((doc) => {
+                    alert(doc.data()['username'] == username);
+                
+                    if(doc.data()['username'] == username) {
+                        console.log('true')
+                        return true;
+                    }
+                })
+            })
+    } 
+    
+    return false;
+}
+
 const addPollFire = function addPollFire(collectionName, poll) {
     // Adds a new poll
     // collectionName - String: The Room Code
@@ -82,4 +108,4 @@ const getAllPolls = async function getPolls(collectionName) {
 }
 
 export default addPollFire;
-export {getPollInf, getAllPolls, updatePoll};
+export {getPollInf, getAllPolls, updatePoll, validUser};
