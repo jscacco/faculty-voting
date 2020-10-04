@@ -3,7 +3,7 @@ import Poll from './pages/Poll';
 import Body from './components/theme/Body';
 import {Jumbo} from './components/theme/Jumbo';
 import { Colors } from './components/theme/Colors';
-import RoomCode from './pages/RoomCode'
+import SignInScreen from './pages/SignIn';
 
 // <div>
 //   <Jumbo color={Colors.Blue} small>
@@ -17,7 +17,7 @@ import RoomCode from './pages/RoomCode'
 class App extends Component {
   render(){
     return (
-      <RoomCode />
+      <SignInScreen />
     );
   }
 }
