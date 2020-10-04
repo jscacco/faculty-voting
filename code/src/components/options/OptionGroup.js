@@ -9,6 +9,7 @@ import { Colors }       from '../theme/Colors';
 const propTypes = {
   children: PropTypes.node,
   updateSelected: PropTypes.func,
+  disabled: PropTypes.bool,
 
   type: PropTypes.oneOf(['single', 'multiple']),
 
@@ -79,6 +80,8 @@ class OptionGroup extends React.Component {
 
 
   _handleClick = ( event, id ) => {
+
+    if (this.props.disabled) { return; }
 
     this.props.type === 'multiple' ? this._handleClickMulti(event, id) : this._handleClickSngl(event, id);
   };

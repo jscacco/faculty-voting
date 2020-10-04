@@ -96,6 +96,17 @@ const _renderCheckBox = ( props ) => {
   );
 };
 
+const _renderSubmitIcon = ( props ) => {
+  const { config, small, medium, large, extraLarge } = props;
+
+  return(
+    <IconWrapper padding={config.padding}>
+      <Icon type={'checkCircle'} color={Colors.Green}
+            small={small} medium={medium} large={large} extraLarge={extraLarge}/>
+    </IconWrapper>
+  )
+}
+
 const Option = (props) => {
 
   const { children, buttonType, submitted, small, medium, large, extraLarge } = props;
@@ -115,11 +126,7 @@ const Option = (props) => {
       <ChildrenWrapper>
         {children}
       </ChildrenWrapper>
-      <IconWrapper padding={config.padding}>
-        { submitted ? <Icon type={'checkCircle'} color={Colors.Green}
-                            small={small} medium={medium} large={large} extraLarge={extraLarge}/> :
-                      <DummyIcon size={config.iconSize}/>}
-      </IconWrapper>
+      { submitted ? _renderSubmitIcon({...props, config: config}) : <div/>}
     </OptionWrapper>
   )
 

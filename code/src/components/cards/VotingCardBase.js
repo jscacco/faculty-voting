@@ -7,9 +7,6 @@ import { Colors }       from '../theme/Colors';
 import Body             from '../theme/Body';
 import Jumbo            from '../theme/Jumbo';
 
-import MultipleChoiceGroup      from '../options/MultipleChoiceGroup';
-import SingleChoiceGroup      from '../options/SingleChoiceGroup';
-
 import Card             from './Card';
 import Button           from '../buttons/Button';
 import SubmitButton           from '../buttons/SubmitButton';

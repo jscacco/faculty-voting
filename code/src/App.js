@@ -13,7 +13,9 @@ import TextOption from './components/options/TextOption';
 import InputOption from './components/options/InputOption';
 
 import Button from './components/buttons/Button';
-import Icon   from './components/theme/Icon'
+import Icon   from './components/theme/Icon';
+import AgendaItem from './components/items/AgendaItem';
+import HostControlPanel from './components/cards/HostControlPanel';
 
 
 // <Poll id={0}/>
@@ -37,7 +39,8 @@ const options = [{type:'text', value:'Option 1'},
 const poll = {
   title: 'title',
   description: 'des',
-  options: options
+  options: options,
+  status: 'open'
 }
 
 // <Poll pollId={0}/>
@@ -46,7 +49,7 @@ const poll = {
 class App extends Component {
   render(){
     return (
-      <Poll pollId={0}/>
+      <HostControlPanel title={'Poll Builder'} medium options={['', '']}/>
     );
   }
 }
