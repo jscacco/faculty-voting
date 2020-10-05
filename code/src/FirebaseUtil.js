@@ -1,5 +1,6 @@
 import PollItem             from './components/PollItem';
-import firebase             from './firebase';
+import firestore            from './firebase';
+import firebase            from './firebase';
 
 /*const updatePoll = function updatePoll(collectionName, pollTitle, optionName, optionNum, voteValue) {
     // Updates an already existing poll
@@ -26,7 +27,7 @@ const updatePoll = function updatePoll(collectionName, poll, optionNum, voteValu
     // voteValue - Integer: How to Change The Stored Votes (1 or -1)
 
     // This will eventally be poll.title                             xxxxxxxxxxx
-    var docRef = firebase.firestore().collection(collectionName).doc("Test Poll").collection("results").doc("Option" + optionNum);
+    var docRef = firestore.collection(collectionName).doc("Test Poll").collection("results").doc("Option" + optionNum);
     docRef.get().then(snap =>{
         var newVote = {};
         var name = Object.keys(poll.options[optionNum - 1])[0];
@@ -44,14 +45,14 @@ const validUser = async function validUser(user) {
     let reUser = /[a-z]+/;
     let username = reUser.exec(user.email)[0];
 
-    console.log(user)
+    console.log(user);
     // Check if hamilton email
     if(re.test(user.email)) {  
-        await firebase
+        firebase
             .firestore()
             .collection('voting').get().then((snap) => {
                 snap.forEach((doc) => {
-                    alert(doc.data()['username'] == username);
+                    //alert(doc.data()['username'] == username);
                 
                     if(doc.data()['username'] == username) {
                         console.log('true')
@@ -69,8 +70,7 @@ const addPollFire = function addPollFire(collectionName, poll) {
     // collectionName - String: The Room Code
     // poll - PollItem: The Poll to Be Stored
 
-    firebase
-      .firestore()
+    firestore
       .collection(collectionName)
       .doc(poll.title)
       .set({
@@ -81,8 +81,7 @@ const addPollFire = function addPollFire(collectionName, poll) {
         type: poll.type});
 
     for(var i = 0; i < poll.options.length; i++) {
-        firebase
-            .firestore()
+        firestore
             .collection(collectionName)
             .doc(poll.title)
             .collection("results")
@@ -97,14 +96,14 @@ const getPollInf = function getPollInf(collectionName, pollTitle) {
     // pollTitle - String: The Poll Title
 
     var poll = new PollItem();
-    firebase.firestore().collection(collectionName).doc(pollTitle).get().then(snap =>{
+    firestore.collection(collectionName).doc(pollTitle).get().then(snap =>{
         poll.setDescription(snap.data()['description']);
         poll.setShowResults(snap.data()['showResults']);
         poll.setOrder(snap.data()['order']);
         poll.setType(snap.data()['type']);
         poll.setStatus(snap.data()['status']);
 
-        firebase.firestore().collection(collectionName).doc(pollTitle).collection('results').get().then(snap =>{
+        firestore.collection(collectionName).doc(pollTitle).collection('results').get().then(snap =>{
             poll.setOptions(snap.docs.map(doc => doc.data()))
         });
 
@@ -119,7 +118,7 @@ const getAllPolls = async function getPolls(collectionName) {
     // collectionName - String: The Room Code
     var docs = new Array()
 
-    firebase.firestore().collection(collectionName).get().then((snap) => {
+    firestore.collection(collectionName).get().then((snap) => {
         snap.forEach((doc) => {
             docs.push(getPollInf(collectionName, doc.id))
         })

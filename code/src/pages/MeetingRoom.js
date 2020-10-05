@@ -6,16 +6,16 @@ import history                        from '../history';
 import HostControlPanel               from '../components/HostControlPanel';
 import firebase                       from '../firebase';
 // import {code}                         from './RoomCode';
-import Input                          from '../components/inputs/Input'
-import Agenda                         from '../components/Agenda'
-import AgendaItem                     from '../components/AgendaItem'
-import PollItem                       from '../components/PollItem'
-import addPollFire, { getAllPolls }   from '../FirebaseUtil'
-import {getPollInf}                   from '../FirebaseUtil';
+import Input                          from '../components/inputs/Input';
+import Agenda                         from '../components/Agenda';
+import AgendaItem                     from '../components/AgendaItem';
+import PollItem                       from '../components/PollItem';
+import sendPollInfo, { getAllPolls }   from '../DatabaseCommunicator';
+import {getPollInf}                   from '../DatabaseCommunicator';
 import AgendaColumnHeaders from '../components/AgendaColumnHeaders';
 
 
-const code = '123';
+const code = 'test';
 
 const PageWrapper = styled.div`
   background-color: ${Colors.White};
@@ -134,14 +134,12 @@ class MeetingRoomScreen extends React.Component {
   handleCreatePoll = () => {
     if(this.state.pollTitle != '') {
       for(var i = 0; i < this.state.options.length; i++) {
-        var opt = {}
-        opt[this.state.options[i].value] = 0
-        this.state.poll.addOption(opt)
+        this.state.poll.addPollChoice(this.state.options[i].value)
       }
 
       this.state.poll.setType('single')
 
-      addPollFire(code, this.state.poll)
+      sendPollInfo(code, this.state.poll)
 
       this.setState({
         options: ['', ''],

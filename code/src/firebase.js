@@ -17,5 +17,5 @@ import 'firebase/firestore';
 firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();
-export const firestore = firebase.firestore();
+export var firestore = firebase.firestore();
 export default firebase;

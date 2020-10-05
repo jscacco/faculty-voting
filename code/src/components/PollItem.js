@@ -10,7 +10,7 @@ export default class PollItem {
     this.description = '';
     this.showResults = true;
     this.order = -1;
-    this.type = '';
+    this.pollType = '';
     this.status = 'pending';
   }
 
@@ -21,7 +21,7 @@ export default class PollItem {
   }
 
   setType(typ) {
-    this.type = typ
+    this.pollType = typ
   }
 
   setStatus(status) {
@@ -36,8 +36,11 @@ export default class PollItem {
     this.description = desc
   }
 
-  addOption(option){
-    this.options = [...this.options, option]
+  addPollChoice(option, count=0){
+    var opt = {}
+    opt["value"] = option;
+    opt["count"] = count;
+    this.options = [...this.options, opt]
   }
 
   removeOption(option){
@@ -58,7 +61,7 @@ export default class PollItem {
 
   getInfo() {
     return {
-      type: this.type,
+      pollType: this.pollType,
       title: this.title,
       description: this.description,
       options: this.options

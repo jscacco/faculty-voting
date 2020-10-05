@@ -12,13 +12,11 @@ import Jumbo             from './theme/Jumbo';
 
 
 const propTypes = {
-  value: PropTypes.string,
-  handleChange: PropTypes.func,
+  canVote: PropTypes.bool,
   handleSubmit: PropTypes.func,
 };
 
 const defaultProps = {
-  handleChange: undefined,
   handleSubmit: undefined
 };
 
@@ -92,7 +90,7 @@ const renderButton = (props) => {
 
 const SignInForm = (props) => {
 
-    const { title, width, signedIn, handleSubmit } = props;
+    const { title, width, canVote, handleSubmit } = props;
 
     return (
       <ComponentWrapper>

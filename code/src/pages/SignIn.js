@@ -6,6 +6,7 @@ import { Colors }           from '../components/theme/Colors';
 import SignInForm           from '../components/SignInForm';
 import history              from '../history';
 import firebase             from '../firebase';
+import auth                 from '../firebase';
 import { validUser }        from '../FirebaseUtil';
 
 const PageWrapper = styled.div`
@@ -27,18 +28,17 @@ class SignInScreen extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   } 
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+  async checkUser() {
     var provider = new firebase.auth.GoogleAuthProvider();
 
-    firebase.auth().signInWithPopup(provider).then(function(result) {
+    await firebase.auth().signInWithPopup(provider).then(function(result) {
       // This gives you a Google Access Token. You can use it to access the Google API.
       var token = result.credential.accessToken;
       // The signed-in user info.
       var user = result.user;
       //console.log(user);
-      this.setState({canVote: validUser(user)});
-      this.nextPage()   
+      history.push('/RoomCode');
+      return user;
     }).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
@@ -47,29 +47,28 @@ class SignInScreen extends React.Component {
       var email = error.email;
       // The firebase.auth.AuthCredential type that was used.
       var credential = error.credential;
-      //this.setState({signedIn: false});
+      return null;
     });
   }
 
-  nextPage() {
-    console.log("mount");
-    history.push('/RoomCode');
+  handleSubmit = (event) => {
+    event.preventDefault();
+    var user = this.checkUser();
+    /*if(user) {
+      validUser(user).then((result) => {
+        console.log(result) 
+        this.setState({
+          canVote: result
+        })
+      });
+    }*/
   }
+  
 
   render() {
-    console.log(this.state.canVote);
-
-    if(this.state.canVote && this.state.canVote.constructor === Promise) {
-      this.state.canVote.then((result) => {
-        if(result) {
-          history.push('/RoomCode');
-        }
-      })
-    }
-
     return (
       <>
-        <SignInForm title="HamPolls" width={0} color={"transparen"} signedIn = {this.signedIn} handleSubmit={this.handleSubmit}/>
+        <SignInForm title="HamPolls" width={0} color={"transparen"} canVote = {this.canVote} handleSubmit={this.handleSubmit}/>
         <ParticlesBg type="cobweb" color={Colors.LightBlue} bg={true} />
       </>
     );
