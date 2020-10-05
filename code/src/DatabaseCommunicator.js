@@ -11,17 +11,44 @@ const updatePoll = function updatePoll(collectionName, poll, optionNum, voteValu
     var docRef = firebase.firestore().collection(collectionName).doc(poll.title).collection("Options").doc("Option" + optionNum).collection("Option" + optionNum).doc("Option" + optionNum);
     docRef.get().then((snap) =>{
         // In event of write in, check if that value already exists
-        if(snap.data()) {
+        if(snap.data() && snap.data()["value"] == optionName) {
             console.log("exists");
             var newVote = {};
             newVote["count"] = snap.data()["count"] + voteValue;
             docRef.update(newVote);
         }
         else {
+            ///// NEED SOME TYPE OF OPTION COUNTER HERE /////
             console.log("doesn't exists");
-            ///// NEED TO ADD NEW OPTION HERE /////
+            var optNum = poll.options.length + 1; ////maybe make this number of options
+
+            firebase
+                .firestore()
+                .collection(collectionName)
+                .doc(poll.title)
+                .collection("Options")
+                .doc("Option" + optNum)
+                .set({
+                    optionType: 'input'
+                });
+
+            firebase
+                .firestore()
+                .collection(collectionName)
+                .doc(poll.title)
+                .collection("Options")
+                .doc("Option" + optNum)
+                .collection("Option" + optNum)
+                .doc("Option" + optNum)
+                .set({
+                    count: 1,
+                    value: optionName
+                });
+            
         }
     });
+
+    return poll;
 }
 
 ////// NOT YET IMPLEMENTED //////

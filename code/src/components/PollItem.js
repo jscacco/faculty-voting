@@ -12,6 +12,7 @@ export default class PollItem {
     this.order = -1;
     this.pollType = '';
     this.status = 'pending';
+    //this.numInput = 0;
   }
 
   logData() {

@@ -76,7 +76,7 @@ class PollScreen extends React.Component {
     for (let i = 0; i < options.length; i++) {
       if (prevSubmission === null) {
         if (submittedOptions[i]) {
-          updatePoll(code, this.state.poll, i + 1, 1, options[i].value);
+          this.poll = updatePoll(code, this.state.poll, i + 1, 1, options[i].value);
         }
         console.log('updateFirebase'); 
       } 
@@ -84,10 +84,10 @@ class PollScreen extends React.Component {
         // updateFirebase
         // remove prev vote / submit new vote
         if (submittedOptions[i]) {
-          updatePoll(code, this.state.poll, i + 1, 1, options[i].value);
+          this.poll = updatePoll(code, this.state.poll, i + 1, 1, options[i].value);
         }
         else if (prevSubmission[i]) {
-          updatePoll(code, this.state.poll, i + 1, -1, options[i].value);
+          this.poll = updatePoll(code, this.state.poll, i + 1, -1, options[i].value);
         }
         console.log('updateFirebase')
       }
