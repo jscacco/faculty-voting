@@ -27,10 +27,5 @@ export const Colors = {
   '#282828' : '#282828',
 
   'White' : '#FFFFFF',
-  '#FFFFFF' : '#FFFFFF',
-
-  'LightGrey': '#DCDCDC',
-  '#DCDCDC' : '#DCDCDC',
-
-  'Transparent': '#00FFFFFF'
+  '#FFFFFF' : '#FFFFFF'
 };

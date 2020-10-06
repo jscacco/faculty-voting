@@ -8,9 +8,9 @@ import Body             from './theme/Body';
 import Jumbo             from './theme/Jumbo';
 import Text             from './theme/Text'
 
-import OptionGroup      from './OptionGroup';
-import Card             from './Card';
-import Button           from './Button';
+// import OptionGroup      from './OptionGroup';
+import Card             from './cards/Card';
+import Button           from './buttons/Button';
 import Input            from '../components/inputs/Input'
 import TextArea            from '../components/inputs/TextArea'
 import CheckBox         from './buttons/CheckBox'

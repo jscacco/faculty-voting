@@ -3,22 +3,22 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import { Colors }       from './theme/Colors';
-import Body             from './theme/Body';
-import {Jumbo}             from './theme/Jumbo';
-import Text             from './theme/Text'
+import { Colors }       from '../theme/Colors';
+import Body             from '../theme/Body';
+import {Jumbo}             from '../theme/Jumbo';
+import Text             from '../theme/Text'
 
-import OptionGroup      from './OptionGroup';
+import OptionGroup      from '../options/OptionGroup';
 import Card             from './Card';
-import Button           from './Button';
-import PollItem         from './PollItem';
+import Button           from '../buttons/Button';
+import PollItem         from '../PollItem';
 
-import {code}               from '../pages/RoomCode';
+import {code}               from '../../pages/RoomCode';
 
-import { getAllPolls }   from '../FirebaseUtil';
+import { getAllPolls }   from '../../FirebaseUtil';
 
-import AgendaItem       from './AgendaItem';
-import AgendaColumnHeaders from './AgendaColumnHeaders';
+import AgendaItem       from '../items/AgendaItem';
+import AgendaColumnHeaders from '../AgendaColumnHeaders';
 
 const ComponentWrapper = styled.div`
   ${({small}) => small && `padding-bottom: 20px`}
@@ -89,7 +89,7 @@ const renderPolls = (props) => {
 
 const Agenda = (props) => {
   const { width, polls } = props;
-
+  
   return (
     <AgendaWrapper>
       <AgendaColumnHeaders />

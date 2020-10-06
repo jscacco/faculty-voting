@@ -5,8 +5,8 @@ import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from './theme/Colors';
 import Body             from './theme/Body';
-import Card             from './Card';
-import Button           from './Button';
+import Card             from './cards/Card';
+import Button           from './buttons/Button';
 import Jumbo             from './theme/Jumbo';
 
 

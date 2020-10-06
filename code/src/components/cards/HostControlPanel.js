@@ -3,24 +3,25 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import { Colors }       from './theme/Colors';
-import Body             from './theme/Body';
-import Jumbo             from './theme/Jumbo';
-import Text             from './theme/Text'
+import { Colors }       from '../theme/Colors';
+import Body             from '../theme/Body';
+import Jumbo             from '../theme/Jumbo';
+import Text             from '../theme/Text'
 
-import OptionGroup      from './OptionGroup';
+import OptionGroup      from '../options/OptionGroup';
 import Card             from './Card';
-import Button           from './Button';
-import Input            from '../components/inputs/Input'
-import TextArea            from '../components/inputs/TextArea'
-import CheckBox         from './buttons/CheckBox'
-import Option           from './options/Option'
+import Button           from '../buttons/Button';
+import Input            from '../inputs/Input';
+import CheckBox         from '../buttons/CheckBox';
+import InputOption           from '../options/InputOption';
+import Option           from '../options/Option';
+import TextOption           from '../options/TextOption';
 
 
 const ComponentWrapper = styled.div`
-  ${({small}) => small && `padding-bottom: 20px`}
-  ${({medium}) => medium && `padding-bottom: 26px`}
-  ${({large}) => large && `padding-bottom: 32px`}
+  ${({small}) => small && `padding-bottom: 20px;`}
+  ${({medium}) => medium && `padding-bottom: 26px;`}
+  ${({large}) => large && `padding-bottom: 32px;`}
   margin-bottom: 5px;
 `;
 
@@ -93,7 +94,7 @@ const renderPollOptionsInput = props => {
           handleCreateOption, handleOptionChange, options }  = props;
 
   const optionComponents = options.map((item, index) => {
-    return <Input placeholder={'Option ' + (index+1)}
+    return <InputOption placeholder={'Option ' + (index+1)}
                   onChange={(event) => handleOptionChange(event, index)} />
   })
 
@@ -103,7 +104,9 @@ const renderPollOptionsInput = props => {
         <Jumbo fiveExtraSmall color={Colors.Blue}>
           {'Enter Poll Options'}
         </Jumbo>
+        <OptionGroup disabled small={small} medium={medium} large={large}>
          {optionComponents}
+        </OptionGroup>
         <CenterWrapper>
             <Button small={small} medium={small} large={small}
                     width={150} onClick={handleCreateOption}>
@@ -119,10 +122,9 @@ const renderResultViewingCheckbox = props => {
 
   return (
     <ComponentWrapper small={small} medium={medium} large={large}>
-      <SideBySideWrapper>
-        <Option  buttonType={'checkbox'} />
-        <Text> Do not show results </Text>
-      </SideBySideWrapper>
+      <TextOption  buttonType={'checkbox'} small={small} medium={medium} large={large}>
+        Do not show results
+      </TextOption>
     </ComponentWrapper>
   )
 };

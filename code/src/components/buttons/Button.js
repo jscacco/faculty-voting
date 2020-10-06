@@ -17,8 +17,7 @@ const propTypes = {
   large: PropTypes.bool,
   medium: PropTypes.bool,
   small: PropTypes.bool,
-  extraSmall: PropTypes.bool,
-  twoExtraSmall: PropTypes.bool
+  extraSmall: PropTypes.bool
 };
 
 const defaultProps = {
@@ -51,18 +50,16 @@ const ButtonComponent = styled.button`
 `;
 
 const buttonConfig = {
-  extraLarge: { buttonHeight: `58px`,
+  extraLarge: { buttonHeight: `44px`,
                 padding: `28px` },
-  large: { buttonHeight: `48px`,
+  large: { buttonHeight: `40px`,
            padding: `22px`},
-  medium: { buttonHeight: `40px`,
+  medium: { buttonHeight: `34px`,
             padding: `16px` },
-  small: { buttonHeight: `32px`,
+  small: { buttonHeight: `28px`,
            padding: `14px`},
-  extraSmall: { buttonHeight: `28px`,
+  extraSmall: { buttonHeight: `24px`,
            padding: `12px`},
-  twoExtraSmall: { buttonHeight: '5px',
-           padding: '8px'}
 };
 
 const Button = ( props ) => {
@@ -75,7 +72,6 @@ const Button = ( props ) => {
   else if (props.large) { config = buttonConfig.large }
   else if (props.small) { config = buttonConfig.small }
   else if (props.extraSmall) { config = buttonConfig.extraSmall }
-  else if (props.twoExtraSmall) { config = buttonConfig.twoExtraSmall }
   else { config = buttonConfig.medium }
 
   return(

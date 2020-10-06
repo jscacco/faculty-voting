@@ -2,6 +2,9 @@ import React                from 'react';
 import styled               from 'styled-components';
 import ParticlesBg          from 'particles-bg';
 
+import { connect } from 'react-redux';
+import ActionTypes from '../store/actionTypes';
+
 import { Colors }           from '../components/theme/Colors';
 import RoomCodeForm         from '../components/RoomCodeForm';
 import history              from '../history';
@@ -16,40 +19,42 @@ const PageWrapper = styled.div`
   bottom: 0;
 `;
 
-var code = "";
 
-class RoomCodeScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {value: ''};
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
 
-  handleChange = (event) => {
-    this.setState({value: event.target.value});
-  }
+const RoomCodeScreen = ( props ) => {
 
-  handleSubmit = (event) => {
-    alert('You are entering room: ' + this.state.value);
-    //history.push('/Poll');
+  const handleSubmit = (event) => {
+    // console.log(props.roomcode);
+    alert('You are entering room: ' + props.roomcode);
+
     history.push('/MeetingRoom');
     event.preventDefault();
-
-    // Stores roomCode so we can use it in other pages
-    code = this.state.value;
   }
 
-  render() {
-    return (
-      <>
-        <RoomCodeForm title="HamPolls" width={0} color={"transparen"} value={this.value} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
-        <ParticlesBg type="cobweb" color={Colors.LightBlue} bg={true} />
-      </>
-    );
-  }
-};
+  return (
+     <div>
+       <RoomCodeForm title="HamPolls" width={0}
+                     color={"transparent"} value={props.roomcode}
+                     handleChange={(event) => props.updateCode(event.target.value)}
+                     handleSubmit={handleSubmit}/>
+       <ParticlesBg type="cobweb" color={Colors.LightBlue} bg={true} />
+     </div>
+   );
+}
 
-export default RoomCodeScreen;
-export {code};
+const mapStateToProps = (state) => {
+
+  return {
+    roomcode: state.roomcode.roomcode,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateCode: (value) => dispatch({ type: ActionTypes.roomcode.UPDATE_ROOMCODE,
+                                      value })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RoomCodeScreen);

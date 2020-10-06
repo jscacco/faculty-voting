@@ -88,18 +88,29 @@ const getPollInf = function getPollInf(collectionName, pollTitle) {
     return poll;
 }
 
-const getAllPolls = async function getPolls(collectionName) {
-    // Returns a list containing PollItems for each poll that exists
-    // collectionName - String: The Room Code
+const getAllPollsPromise = (collectionName) => {
+  return new Promise(resolve => {
     var docs = new Array()
 
     firebase.firestore().collection(collectionName).get().then((snap) => {
-        snap.forEach((doc) => {
-            docs.push(getPollInf(collectionName, doc.id))
-        })
-    })
+      snap.forEach((doc) => {
+          docs.push(getPollInf(collectionName, doc.id))
+      })
+    });
 
-    return docs;
+    resolve(docs)
+  })
+}
+
+const getAllPolls = async function getPolls(collectionName) {
+    // Returns a list containing PollItems for each poll that exists
+    // collectionName - String: The Room Code
+
+    let polls;
+
+    getAllPollsPromise(collectionName).then(docs => {polls = docs})
+
+    return polls;
 }
 
 export default addPollFire;

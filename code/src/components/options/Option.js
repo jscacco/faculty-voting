@@ -3,6 +3,7 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
+import Icon             from '../theme/Icon';
 import { Colors }       from '../theme/Colors';
 import Bubble           from '../buttons/Bubble';
 import CheckBox         from '../buttons/CheckBox';
@@ -42,40 +43,73 @@ const ButtonWrapper = styled.div`
   padding-right: ${({padding}) => padding};
 `;
 
+const IconWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: ${({padding}) => padding};
+`;
+
 const OptionWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
+  width: auto;
+`;
+
+
+const DummyIcon = styled.div`
+  height: ${({size}) => size};
+  width: ${({size}) => size};
 `;
 
 const optionConfig = {
-  small: { padding: `12px`},
-  medium: { padding: `16px`},
-  large: { padding: `20px`},
-  extraLarge: { padding: `28px`},
+  small: { padding: `12px`,
+           iconSize: '1em' },
+  medium: { padding: `16px`,
+           iconSize: '1.5em'},
+  large: { padding: `20px`,
+           iconSize: '1.75em'},
+  extraLarge: { padding: `28px`,
+           iconSize: '2em'},
 };
 
 const _renderBubble = ( props ) => {
 
-  const { buttonColor, ...rest } = props;
+  const { onClick, clicked, buttonColor,
+          small, medium, large, extraLarge } = props;
 
   return (
-    <Bubble color={buttonColor} {...rest}/>
+    <Bubble onClick={onClick} clicked={clicked} color={buttonColor}
+            small={small} medium={medium} large={large} extraLarge={extraLarge}/>
   );
 };
 
 const _renderCheckBox = ( props ) => {
 
-  const { buttonColor, ...rest } = props;
+  const { onClick, clicked, buttonColor,
+          small, medium, large, extraLarge } = props;
 
   return (
-    <CheckBox color={buttonColor} {...rest}/>
+    <CheckBox onClick={onClick} clicked={clicked} color={buttonColor}
+            small={small} medium={medium} large={large} extraLarge={extraLarge}/>
   );
 };
 
+const _renderSubmitIcon = ( props ) => {
+  const { config, small, medium, large, extraLarge } = props;
+
+  return(
+    <IconWrapper padding={config.padding}>
+      <Icon type={'checkCircle'} color={Colors.Green}
+            small={small} medium={medium} large={large} extraLarge={extraLarge}/>
+    </IconWrapper>
+  )
+}
+
 const Option = (props) => {
 
-  const { children, buttonType, small, medium, large, extraLarge } = props;
+  const { children, buttonType, submitted, small, medium, large, extraLarge } = props;
 
   let config;
 
@@ -92,6 +126,7 @@ const Option = (props) => {
       <ChildrenWrapper>
         {children}
       </ChildrenWrapper>
+      { submitted ? _renderSubmitIcon({...props, config: config}) : <div/>}
     </OptionWrapper>
   )
 

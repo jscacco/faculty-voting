@@ -3,18 +3,18 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import { Colors }       from './theme/Colors';
-import Body             from './theme/Body';
-import Jumbo             from './theme/Jumbo';
-import Text             from './theme/Text'
+import { Colors }       from '../theme/Colors';
+import Body             from '../theme/Body';
+import Jumbo             from '../theme/Jumbo';
+import Text             from '../theme/Text'
 
-import OptionGroup      from './OptionGroup';
-import Card             from './Card';
-import Button           from './Button';
-import Input            from '../components/inputs/Input'
-import TextArea            from '../components/inputs/TextArea'
-import CheckBox         from './buttons/CheckBox'
-import Option           from './options/Option'
+// import OptionGroup      from './OptionGroup';
+// import Card             from './Card';
+import Button           from '../buttons/Button';
+// import Input            from '../components/inputs/Input'
+// import TextArea            from '../components/inputs/TextArea'
+// import CheckBox         from './buttons/CheckBox'
+// import Option           from './options/Option'
 
 
 
@@ -97,19 +97,19 @@ const renderTitle = (props) => {
 }
 
 const renderStatus = (props) => {
-  const { pollItem } = props;
+  const { pollItem, small, medium, large } = props;
 
-  var circle = (<PendingCircle></PendingCircle>)
+  var circle = (<PendingCircle/>)
 
   if (pollItem.status == 'open') {
-    circle = (<OpenCircle></OpenCircle>)
+    circle = (<OpenCircle/>)
   } else if (pollItem.status == 'closed') {
-    circle = (<ClosedCircle></ClosedCircle>)
+    circle = (<ClosedCircle/>)
   }
 
   return (
     <StatusWrapper>
-      <Body medium={true} color={Colors.Charcol}>
+      <Body small={small} medium={medium} large={large} color={Colors.Charcol}>
         {circle}
         {pollItem.status}
       </Body>
@@ -118,10 +118,10 @@ const renderStatus = (props) => {
 }
 
 const renderButton = (props) => {
-  const { pollItem } = props;
+  const { small, medium, large } = props;
 
   return (
-    <Button twoExtraSmall>
+    <Button small={small} medium={medium} large={large}>
       Vote
     </Button>
   );
