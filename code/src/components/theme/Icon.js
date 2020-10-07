@@ -8,14 +8,17 @@ import { MdCheckBoxOutlineBlank,
          MdRadioButtonUnchecked,
          MdRadioButtonChecked,
          MdDone,
-         MdCheckCircle }                       from 'react-icons/md';
+         MdCheckCircle,
+         MdLens,
+         MdAddCircleOutline }                       from 'react-icons/md';
 
 const propTypes = {
   type: PropTypes.oneOf(['box', 'checkbox', 'circle', 'bubble', 'check',
-                         'checkCircle']).isRequired,
+                         'checkCircle', 'fullCircle', 'addCircle']).isRequired,
   onClick: PropTypes.func,
 
   color: ExtraPropTypes.color,
+  size: PropTypes.string,
   extraLarge: PropTypes.bool,
   large: PropTypes.bool,
   medium: PropTypes.bool,
@@ -37,29 +40,33 @@ const sizeConfig = {
 
 const Icon = ( props ) => {
 
-  const { type, extraLarge, large, medium, small, extraSmall, ...rest } = props;
+  const { type, size, extraLarge, large, medium, small, extraSmall, ...rest } = props;
 
-  let size;
+  let baseSize;
 
-  if (extraLarge) { size = sizeConfig.extraLarge }
-  else if (large) { size = sizeConfig.large }
-  else if (small) { size = sizeConfig.small }
-  else if (extraSmall) { size = size.extraSmall }
-  else { size = sizeConfig.medium }
+  if (extraLarge) { baseSize = sizeConfig.extraLarge }
+  else if (large) { baseSize = sizeConfig.large }
+  else if (small) { baseSize = sizeConfig.small }
+  else if (extraSmall) { baseSize = size.extraSmall }
+  else { baseSize = sizeConfig.medium }
 
   switch (type) {
     case 'checkbox':
-      return( <MdCheckBox size={size} {...rest}/> )
+      return( <MdCheckBox size={size ? size : baseSize} {...rest}/> )
     case 'circle':
-      return( <MdRadioButtonUnchecked size={size} {...rest}/> )
+      return( <MdRadioButtonUnchecked size={size ? size : baseSize} {...rest}/> )
     case 'bubble':
-      return(< MdRadioButtonChecked size={size} {...rest}/> )
+      return(< MdRadioButtonChecked size={size ? size : baseSize} {...rest}/> )
     case 'check':
-      return( <MdDone size={size} {...rest}/> )
+      return( <MdDone size={size ? size : baseSize} {...rest}/> )
     case 'checkCircle':
-      return( <MdCheckCircle size={size} {...rest}/>)
+      return( <MdCheckCircle size={size ? size : baseSize} {...rest}/>)
+    case 'fullCircle':
+      return( <MdLens size={size ? size : baseSize} {...rest}/>)
+    case 'addCirlce':
+      return( <MdAddCircleOutline size={size ? size : baseSize} {...rest}/>)
     default:
-      return( <MdCheckBoxOutlineBlank size={size} {...rest}/> )
+      return( <MdCheckBoxOutlineBlank size={size ? size : baseSize} {...rest}/> )
   };
 };
 

@@ -5,6 +5,7 @@ import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
 import Body             from '../theme/Body';
+import Jumbo             from '../theme/Jumbo';
 
 const propTypes = {
   children: PropTypes.node,
@@ -32,6 +33,12 @@ const BodyText = styled(Body)`
   overflow: hidden;
 `;
 
+const JumboText = styled(Jumbo)`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+`;
+
 const ButtonComponent = styled.button`
   background: ${({backgroundColor}) => backgroundColor};
   position: relative;
@@ -43,7 +50,7 @@ const ButtonComponent = styled.button`
   horizontal-align: middle;
   text-decoration: none;
   border-radius: 42px;
-  height: ${({buttonHeight}) => buttonHeight};
+
   width: 100%;
   padding-right: ${({padding}) => padding};
   padding-left: ${({padding}) => padding};
@@ -64,7 +71,12 @@ const buttonConfig = {
 
 const Button = ( props ) => {
 
-  const { children, backgroundColor,textColor, onClick, ...rest} = props;
+  const { children, backgroundColor, textColor, onClick, jumbo, ...rest} = props;
+
+  const bodyText = <BodyText color={textColor} children={children} {...rest}/>;
+  const jumboText = <JumboText color={textColor} children={children} {...rest}/>;
+
+  console.log(children);
 
   let config;
 
@@ -78,7 +90,7 @@ const Button = ( props ) => {
     <ButtonComponent padding={config.padding}
                      buttonHeight={config.buttonHeight}
                      {...props}>
-      <BodyText color={textColor} children={children} {...rest}/>
+      { jumbo ? jumboText : bodyText }
     </ButtonComponent>
   );
 };

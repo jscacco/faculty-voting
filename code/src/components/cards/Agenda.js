@@ -17,7 +17,7 @@ import {code}               from '../../pages/RoomCode';
 
 import { getAllPolls }   from '../../FirebaseUtil';
 
-import AgendaItem       from '../items/AgendaItem';
+import AgendaItem       from '../listItems/AgendaItem';
 import AgendaColumnHeaders from '../AgendaColumnHeaders';
 
 const ComponentWrapper = styled.div`
@@ -89,7 +89,7 @@ const renderPolls = (props) => {
 
 const Agenda = (props) => {
   const { width, polls } = props;
-  
+
   return (
     <AgendaWrapper>
       <AgendaColumnHeaders />

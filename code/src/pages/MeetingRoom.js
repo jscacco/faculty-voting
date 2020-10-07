@@ -11,7 +11,7 @@ import firebase                       from '../firebase';
 // import {code}                         from './RoomCode';
 import Input                          from '../components/inputs/Input'
 import Agenda                         from '../components/cards/Agenda'
-import AgendaItem                     from '../components/items/AgendaItem'
+import AgendaItem                     from '../components/listItems/AgendaItem'
 import PollItem                       from '../components/PollItem'
 import addPollFire, { getAllPolls }   from '../FirebaseUtil'
 import {getPollInf}                   from '../FirebaseUtil';
