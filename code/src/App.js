@@ -5,8 +5,8 @@ import React, {Component} from 'react';
 // import { Colors } from './components/theme/Colors';
 // import RoomCode from './pages/RoomCode'
 
-import LoginPage from './pages/Login';
-import HostRooms from './pages/HostRooms';
+// import LoginPage from './pages/Login';
+// import HostRooms from './pages/HostRooms';
 
 // <div>
 //   <Jumbo color={Colors.Blue} small>
@@ -19,9 +19,9 @@ import HostRooms from './pages/HostRooms';
 
 import styled               from 'styled-components';
 import { Colors }           from './components/theme/Colors';
-import StatusText           from './components/format/StatusText';
-import HostAgendaCard       from './components/cards/HostAgendaCard';
-import InputOption          from './components/options/InputOption';
+// import StatusText           from './components/format/StatusText';
+// import HostAgendaCard       from './components/cards/HostAgendaCard';
+import Card          from './components/cards/Card';
 
 const PageWrapper = styled.div`
 background-color: ${Colors.LightBlue};
@@ -43,7 +43,7 @@ class App extends Component {
   render(){
 
     return (
-      <InputOption medium/>
+      <Card large color={Colors.Blue}/>
 
     );
   }

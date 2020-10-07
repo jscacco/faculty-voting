@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Router, Switch, Route } from "react-router-dom";
 
-import Poll from "./pages/Poll"
-import RoomCode from "./pages/RoomCode"
-import MeetingRoom from "./pages/MeetingRoom"
+// import Poll from "./pages/Poll"
+// import RoomCode from "./pages/RoomCode"
+// import MeetingRoom from "./pages/MeetingRoom"
 import Login       from "./pages/Login"
 import history from './history';
 
