@@ -141,7 +141,7 @@ const getAllPolls = async function getPolls(collectionName) {
     // collectionName - String: The Room Code
     var docs = new Array()
 
-    firebase
+    /*firebase
         .firestore()
         .collection(collectionName)
         .get()
@@ -149,7 +149,11 @@ const getAllPolls = async function getPolls(collectionName) {
             snap.forEach((doc) => {
             docs.push(getPollInf(collectionName, doc.id))
         })
-    })
+    })*/
+    var lst = ["Test Poll", "test"]
+    for(var docId of lst) {
+        docs.push(getPollInf(collectionName, docId));
+    }
 
     return docs;
 }
