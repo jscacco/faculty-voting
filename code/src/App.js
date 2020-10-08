@@ -20,8 +20,10 @@ import React, {Component} from 'react';
 import styled               from 'styled-components';
 import { Colors }           from './components/theme/Colors';
 // import StatusText           from './components/format/StatusText';
-// import HostAgendaCard       from './components/cards/HostAgendaCard';
+import HostRoomItem       from './components/items/HostRoomItem';
 import Card          from './components/cards/Card';
+import Button         from './components/buttons/Button'
+import ItemGroup        from './components/item-groups/ItemGroup';
 
 const PageWrapper = styled.div`
 background-color: ${Colors.LightBlue};
@@ -43,7 +45,13 @@ class App extends Component {
   render(){
 
     return (
-      <Card large color={Colors.Blue}/>
+      <PageWrapper>
+      <ItemGroup extraSmall>
+        <HostRoomItem roomTitle={"room"}/>
+        <HostRoomItem roomTitle={"room"}/>
+        <HostRoomItem roomTitle={"room"}/>
+      </ItemGroup>
+      </PageWrapper>
 
     );
   }
