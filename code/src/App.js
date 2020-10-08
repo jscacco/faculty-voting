@@ -94,7 +94,7 @@ class App extends Component {
     return (
       <PageWrapper>
         <ComponentWrapper>
-          <PollCardBase title={title} description={description} optionGroup={optionGroup} button={button} statusText={statusText}/>
+          <PollCardBase header={title} description={description} optionGroup={optionGroup} button={button} statusText={statusText}/>
         </ComponentWrapper>
       </PageWrapper>
     );

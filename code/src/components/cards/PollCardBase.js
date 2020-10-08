@@ -61,11 +61,11 @@ const CenterWrapper = styled.div`
 
 const PollCardBase = ( props ) => {
 
-  const { title, description, optionGroup, button, statusText } = props;
+  const { header, description, optionGroup, button, statusText } = props;
 
-  const _renderTitle = (
+  const _renderHeader = (
     <HeaderWrapper>
-      {title}
+      {header}
     </HeaderWrapper>
   );
 
@@ -98,7 +98,7 @@ const PollCardBase = ( props ) => {
   return (
     <Card color={Colors.LightBlue} height={'100%'} large>
       <InnerWrapper>
-        {_renderTitle}
+        {_renderHeader}
         {_renderDescription}
         {_renderOptionGroup}
         {_renderButton}
