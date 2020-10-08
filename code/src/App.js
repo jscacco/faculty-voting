@@ -111,11 +111,12 @@ class App extends Component {
       <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
       </>
     )
+    let footer = (<p>Footer</p>)
 
     return (
       <PageWrapper>
         <ComponentWrapper>
-        <AgendaCardBase header={header} pollComponents={pollSection}/>
+          <AgendaCardBase header={header} pollComponents={pollSection} footer={footer}/>
         </ComponentWrapper>
       </PageWrapper>
     );

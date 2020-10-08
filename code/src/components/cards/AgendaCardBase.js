@@ -35,9 +35,15 @@ const ScrollableWrapper = styled.div`
   width: 100%;
 `;
 
+const FooterWrapper = styled.div`
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+`;
+
 const AgendaCardBase = ( props ) => {
 
-  const { header, pollComponents } = props;
+  const { header, pollComponents, footer } = props;
 
   const _renderHeader = (
     <HeaderWrapper>
@@ -51,11 +57,18 @@ const AgendaCardBase = ( props ) => {
       </ScrollableWrapper>
   )
 
+  const _renderFooter = (
+    <FooterWrapper>
+      {footer}
+    </FooterWrapper>
+  )
+
   return (
     <Card color={Colors.LightBlue} height={'100%'} large>
       <InnerWrapper>
         {_renderHeader}
         {_renderPollSection}
+        {_renderFooter}
       </InnerWrapper>
     </Card>
   )
