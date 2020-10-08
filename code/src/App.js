@@ -1,9 +1,5 @@
 import React, {Component} from 'react';
-// import Poll from './pages/Poll';
-// import Body from './components/theme/Body';
-// import {Jumbo} from './components/theme/Jumbo';
-// import { Colors } from './components/theme/Colors';
-// import RoomCode from './pages/RoomCode'
+import styled             from 'styled-components'
 
 // import LoginPage from './pages/Login';
 // import HostRooms from './pages/HostRooms';
@@ -44,6 +40,8 @@ const closed = { title: 'Generic Poll Title', status: 'closed'};
 
 // <HostRooms medium openRooms={[open, open]} pendingRooms={[pending,pending,pending]} closedRooms={[closed]}/>
 
+import {Colors}       from './components/theme/Colors'
+import LoginPage from './pages/Login';
 
 
 const PageWrapper = styled.div`
@@ -67,35 +65,10 @@ class App extends Component {
 
 
   render(){
-
-    let title = (
-      <Jumbo twoExtraSmall color={Colors.White}>Poll Title</Jumbo>
-    )
-    let description = (
-      <Body extraSmall color={Colors.White}>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur erat justo, laoreet ut eros et, fermentum dictum neque. In enim orci, molestie ac dui quis, vehicula hendrerit odio. Vestibulum ut enim molestie, sagittis dolor a, rutrum enim. Etiam ultricies nunc tortor, cursus lobortis ante bibendum eget. Nunc tincidunt feugiat massa a efficitur. Donec ut imperdiet lorem. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent magna risus, lobortis sit amet urna sit amet, pulvinar facilisis quam. Cras finibus urna venenatis lorem dignissim fringilla. Cras elementum nisi a dui hendrerit interdum. Duis ut ullamcorper massa.
-      </Body>
-    )
-    let optionGroup = (
-      <>
-        <Jumbo extraSmall color={Colors.Charcol}>Option 1</Jumbo>
-        <Jumbo extraSmall color={Colors.Charcol}>Option 2</Jumbo>
-        <Jumbo extraSmall color={Colors.Charcol}>Option 3</Jumbo>
-        <Jumbo extraSmall color={Colors.Charcol}>Option 4</Jumbo>
-      </>
-    )
-    let button = (
-      <Button> I am a Button!</Button>
-    )
-    let statusText = (
-      <p>Button Status</p>
-    )
-
+  
     return (
       <PageWrapper>
-        <ComponentWrapper>
-          <PollCardBase header={title} description={description} optionGroup={optionGroup} button={button} statusText={statusText}/>
-        </ComponentWrapper>
+        <LoginPage/>
       </PageWrapper>
     );
   }
@@ -157,5 +130,28 @@ let pollSection = (
 )
 let footer = (<p>Footer</p>)
 
+poll card base 
+let title = (
+      <Jumbo twoExtraSmall color={Colors.White}>Poll Title</Jumbo>
+    )
+    let description = (
+      <Body extraSmall color={Colors.White}>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur erat justo, laoreet ut eros et, fermentum dictum neque. In enim orci, molestie ac dui quis, vehicula hendrerit odio. Vestibulum ut enim molestie, sagittis dolor a, rutrum enim. Etiam ultricies nunc tortor, cursus lobortis ante bibendum eget. Nunc tincidunt feugiat massa a efficitur. Donec ut imperdiet lorem. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent magna risus, lobortis sit amet urna sit amet, pulvinar facilisis quam. Cras finibus urna venenatis lorem dignissim fringilla. Cras elementum nisi a dui hendrerit interdum. Duis ut ullamcorper massa.
+      </Body>
+    )
+    let optionGroup = (
+      <>
+        <Jumbo extraSmall color={Colors.Charcol}>Option 1</Jumbo>
+        <Jumbo extraSmall color={Colors.Charcol}>Option 2</Jumbo>
+        <Jumbo extraSmall color={Colors.Charcol}>Option 3</Jumbo>
+        <Jumbo extraSmall color={Colors.Charcol}>Option 4</Jumbo>
+      </>
+    )
+    let button = (
+      <Button> I am a Button!</Button>
+    )
+    let statusText = (
+      <p>Button Status</p>
+    )
 
 */

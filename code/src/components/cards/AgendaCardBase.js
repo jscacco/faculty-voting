@@ -7,16 +7,29 @@ import Card             from './Card'
 import { Colors }       from '../theme/Colors';
 import Jumbo            from '../theme/Jumbo';
 
+const propTypes = {
+  header: PropTypes.string,
+  pollComponents: PropTypes.node,
+  footer: PropTypes.node,
+
+  extraSmall: PropTypes.bool,
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
+  large: PropTypes.bool,
+  extraLarge: PropTypes.bool,
+};
+
+const defaultProps ={
+  header: 'Agenda',
+};
 
 const ComponentWrapper = styled.div`
   height: 100%;
   position: relative;
   overflow: hidden;
-  border: 1px solid black;
 `;
 
 const InnerWrapper = styled.div`
-  border: 1px solid black;
   height: 100%;
   width: auto;
   display: flex;
@@ -25,43 +38,53 @@ const InnerWrapper = styled.div`
 `;
 
 const HeaderWrapper = styled.div`
-  padding: 15px;
+  padding-bottom: ${({padding}) => padding}px;
 `;
 
 const ScrollableWrapper = styled.div`
-  border: 1px solid black;
   overflow: scroll;
   height: 100%;
   width: 100%;
 `;
 
 const FooterWrapper = styled.div`
-  padding: 15px;
+  padding-top: ${({padding}) => padding}px;
   display: flex;
   justify-content: center;
 `;
 
 const AgendaCardBase = ( props ) => {
 
-  const { header, pollComponents, footer } = props;
+  const { header, pollComponents, footer, ...rest } = props;
+
+  let padding;
+  if (props.extraSmall) { padding = 40}
+  else if (props.small) { padding = 45}
+  else if (props.large) { padding = 55}
+  else if (props.extraLarge) { padding = 60}
+  else { padding = 50}
 
   const _renderHeader = (
-    <HeaderWrapper>
-      {header}
+    <HeaderWrapper padding={padding}>
+      <Jumbo twoExtraSmall={props.extraSmall} extraSmall={props.small}
+             small={props.medium} medium={props.large} large={props.extraLarge}
+             color={Colors.White}>
+        {header}
+      </Jumbo>
     </HeaderWrapper>
   );
 
   const _renderPollSection = (
       <ScrollableWrapper>
-        {pollComponents}
+        {React.cloneElement(pollComponents, {...rest})}
       </ScrollableWrapper>
   )
 
-  const _renderFooter = (
-    <FooterWrapper>
-      {footer}
+  const _renderFooter =  footer ? (
+    <FooterWrapper padding={padding}>
+      {React.cloneElement(footer, {...rest})}
     </FooterWrapper>
-  )
+  ) : <div/>;
 
   return (
     <Card color={Colors.LightBlue} height={'100%'} large>
@@ -73,5 +96,8 @@ const AgendaCardBase = ( props ) => {
     </Card>
   )
 };
+
+AgendaCardBase.propTypes = propTypes;
+AgendaCardBase.defaultProps = defaultProps;
 
 export default AgendaCardBase;
