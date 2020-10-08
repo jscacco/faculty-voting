@@ -18,16 +18,24 @@ const HeaderWrapper = styled.div`
 `;
 
 const PollSectionWrapper = styled.div`
-  position: relative;
+  /* position: relative;
   overflow: hidden;
-  min-height: 700px;
+  min-height: 700px; */
+
+  flex: 1;
+  display: flex;
+  overflow: auto;
+  position: relative;
+  height: 600px;
 `;
 
 const ScrollableWrapper = styled.div`
-  overflow: scroll;
-  position: absolute;
-  height: calc(100vh - 550px);
-  width: 100%;
+  flex-grow: 1;
+
+  overflow: auto;
+
+  /* for Firefox */
+  min-height: 0;
 `;
 
 const AgendaCardBase = ( props ) => {
