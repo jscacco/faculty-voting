@@ -10,11 +10,12 @@ import { MdCheckBoxOutlineBlank,
          MdDone,
          MdCheckCircle,
          MdLens,
-         MdAddCircleOutline }                       from 'react-icons/md';
+         MdAddCircleOutline,
+         MdClear}                       from 'react-icons/md';
 
 const propTypes = {
   type: PropTypes.oneOf(['box', 'checkbox', 'circle', 'bubble', 'check',
-                         'checkCircle', 'fullCircle', 'addCircle']).isRequired,
+                         'checkCircle', 'fullCircle', 'addCircle', 'x']).isRequired,
   onClick: PropTypes.func,
 
   color: ExtraPropTypes.color,
@@ -65,6 +66,8 @@ const Icon = ( props ) => {
       return( <MdLens size={size ? size : baseSize} {...rest}/>)
     case 'addCirlce':
       return( <MdAddCircleOutline size={size ? size : baseSize} {...rest}/>)
+    case 'x':
+      return( <MdClear size={size ? size : baseSize} {...rest}/>)
     default:
       return( <MdCheckBoxOutlineBlank size={size ? size : baseSize} {...rest}/> )
   };

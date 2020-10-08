@@ -6,15 +6,14 @@ import Option           from './Option';
 import Input            from '../inputs/Input';
 
 const propTypes = {
-  inputType: PropTypes.oneOf(['inputfield', 'textarea']),
+  inputType: PropTypes.oneOf(['inputfield', 'textarea', 'select']),
+
+  //Option Props
+  extraIcons: PropTypes.arrayOf(PropTypes.node),
+  iconType: PropTypes.oneOf(['bubble', 'checkbox', 'add']),
+  iconColor: ExtraPropTypes.color,
   onClick: PropTypes.func,
-
-  submitted: PropTypes.bool,
-
-  // Button props
   clicked: PropTypes.bool,
-  buttonType: PropTypes.oneOf(['bubble', 'checkbox']),
-  buttonColor: ExtraPropTypes.color,
 
   // Input props
   placeholder: PropTypes.string,
@@ -30,18 +29,19 @@ const propTypes = {
 
 const defaultProps = {
   inputType: 'inputfield',
+  placeholder: 'Other...'
 };
 
 const InputOption = ( props ) => {
 
-  const { inputType, onClick,
-          clicked, buttonType, buttonColor, submitted,
+  const { inputType, extraIcons,
+          iconType, iconColor, onClick, clicked,
           placeholder, fontColor, backgroundColor, borderColor,
           small, medium, large, extraLarge } = props;
 
   return (
-    <Option onClick={onClick} clicked={clicked} submitted={submitted}
-            buttonType={buttonType} buttonColor={buttonColor}
+    <Option extraIcons={extraIcons} type={iconType} iconColor={iconColor}
+            onClick={onClick} clicked={clicked}
             small={small} medium={medium} large={large} extraLarge={extraLarge}>
       <Input type={inputType} placeholder={placeholder}
              fontColor={fontColor} backgroundColor={backgroundColor}
