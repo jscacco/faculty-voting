@@ -8,7 +8,7 @@ import { Colors }     from '../theme/Colors';
 
 const propTypes = {
   children: PropTypes.node,
-  submitted: PropTypes.bool,
+  onDelete: PropTypes.func,
 
   iconColor: ExtraPropTypes.color,
   fontColor: ExtraPropTypes.color,
@@ -25,19 +25,20 @@ const defaultProps = {};
 
 const ComponentWrapper = styled.div``;
 
-const submitIcon = (
-  <Icon type={'checkCircle'} color={Colors.Green}/>
+const deleteIcon = (onDelete) => (
+  <Icon type={'x'} color={Colors.Blue} onClick={onDelete}/>
 )
 
-const VotingOption = ( props ) => {
+const EditingOption = ( props ) => {
 
-  const { children, submitted,
-          small, medium, large, extraLarge,
-          ...rest } = props;
+  const { children, onDelete,
+          iconColor, fontColor, backgroundColor, borderColor,
+          small, medium, large, extraLarge } = props;
 
-  const extraIcons = submitted ? [ submitIcon ] : undefined;
+  const extraIcons = [ deleteIcon(onDelete) ]
 
-  const childProps = { ...rest,
+  const childProps = { iconColor: iconColor, fontColor: fontColor,
+                       backgroundColor: backgroundColor, borderColor: borderColor,
                        small: small, medium: medium,
                        large: large, extraLarge: extraLarge,
                        extraIcons: extraIcons, };
@@ -49,7 +50,7 @@ const VotingOption = ( props ) => {
   )
 };
 
-VotingOption.propTypes = propTypes;
-VotingOption.defaultProps = defaultProps;
+EditingOption.propTypes = propTypes;
+EditingOption.defaultProps = defaultProps;
 
-export default VotingOption;
+export default EditingOption;

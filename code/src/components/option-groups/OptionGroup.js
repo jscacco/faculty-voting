@@ -8,13 +8,14 @@ import { Colors }       from '../theme/Colors';
 
 const propTypes = {
   children: PropTypes.node,
-  updateSelected: PropTypes.func,
+  selectedOptions: PropTypes.arrayOf(PropTypes.bool),
+  onSelect: PropTypes.func, // for exterior use
   disabled: PropTypes.bool,
 
   type: PropTypes.oneOf(['single', 'multiple']),
 
-  buttonColor: ExtraPropTypes.color,
-
+  // Option Props
+  iconColor: ExtraPropTypes.color,
   fontColor: ExtraPropTypes.color,
   backgroundColor: ExtraPropTypes.color,
   borderColor: ExtraPropTypes.color,
@@ -27,7 +28,7 @@ const propTypes = {
 
 const defaultProps = {
   type: 'single',
-  buttonColor: Colors.Blue,
+  iconColor: Colors.Blue,
 
   fontColor: Colors.Black,
   borderColor: Colors.Blue,
@@ -38,7 +39,10 @@ class OptionGroup extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { selected: Array(props.children.length).fill(false) }
+    const selectedOptions = props.selectedOptions ? props.selectedOptions.map((item) => item) :
+                                      Array(props.children.length).fill(false);
+
+    this.state = { selectedOptions: selectedOptions }
 
     this._handleClickMulti = this._handleClickMulti.bind(this);
     this._handleClickSngl = this._handleClickSngl.bind(this);
@@ -49,14 +53,14 @@ class OptionGroup extends React.Component {
 
   async _handleClickMulti ( event, id ) {
 
-    let newSelected = this.state.selected;
+    let newSelected = this.state.selectedOptions;
 
-    if (this.state.selected[id]) { newSelected[id] = false; }
+    if (this.state.selectedOptions[id]) { newSelected[id] = false; }
     else { newSelected[id] = true; }
 
-    await this.setState({...this.state, selected: newSelected});
+    await this.setState({...this.state, selectedOptions: newSelected});
 
-    if (this.props.updateSelected) { this.props.updateSelected(this.state.selected)}
+    if (this.props.onSelect) { this.props.onSelect(this.state.selectedOptions)}
 
   }
 
@@ -64,18 +68,18 @@ class OptionGroup extends React.Component {
 
     let newSelected;
 
-    if (this.state.selected[id]) {
-      newSelected = this.state.selected;
+    if (this.state.selectedOptions[id]) {
+      newSelected = this.state.selectedOptions;
       newSelected[id] = false;
     }
     else {
-      newSelected = new Array(this.state.selected.length).fill(false);
+      newSelected = new Array(this.state.selectedOptions.length).fill(false);
       newSelected[id] = true;
     }
 
-    await this.setState({...this.state, selected: newSelected});
+    await this.setState({...this.state, selectedOptions: newSelected});
 
-    if (this.props.updateSelected) { this.props.updateSelected(this.state.selected)}
+    if (this.props.onSelect) { this.props.onSelect(this.state.selectedOptions)}
   }
 
 
@@ -83,23 +87,23 @@ class OptionGroup extends React.Component {
 
     if (this.props.disabled) { return; }
 
-    this.props.type === 'multiple' ? this._handleClickMulti(event, id) : this._handleClickSngl(event, id);
+    this.props.type === 'multiple' ? this._handleClickMulti(event, id) :
+                                     this._handleClickSngl(event, id);
   };
 
    _renderOptions = ( props ) => {
-    const { children, buttonColor, submission, ...rest } = props;
+    const { children, iconColor, ...rest } = props;
 
-    return children.map((item, index) => {
+    return React.Children.map(children, (item, index) => {
 
-      const submitted = submission ? submission[index] : false;
       const onClick = (event) => this._handleClick(event, index);
-      const clicked = this.state.selected[index];
-      const buttonType = (this.props.type === 'multiple') ? 'checkbox' : 'bubble';
+      const clicked = this.state.selectedOptions[index];
+      const iconType = (this.props.type === 'multiple') ? 'checkbox' : 'bubble';
 
       const itemProps = { onClick: onClick,
                           clicked: clicked,
-                          buttonType: buttonType,
-                          submitted: submitted};
+                          iconColor: iconColor,
+                          iconType: iconType};
       return (
         React.cloneElement(item, {...itemProps})
       );
@@ -107,7 +111,6 @@ class OptionGroup extends React.Component {
   };
 
   render() {
-    // console.log('render')
     return (
       <OptionGroupBase {...this.props}>
         {this._renderOptions(this.props)}

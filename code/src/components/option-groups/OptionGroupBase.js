@@ -3,17 +3,13 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import Option           from './Option';
+// import Option           from './Option';
 
 const propTypes = {
   children: PropTypes.node,
 
-  // InputOption / TextOption props
-  buttonColor: ExtraPropTypes.color,
-  fontColor: ExtraPropTypes.color,
-  backgroundColor: ExtraPropTypes.color,
-  borderColor: ExtraPropTypes.color,
-
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
   large: PropTypes.bool,
   extraLarge: PropTypes.bool
 };
@@ -26,20 +22,28 @@ const GroupWrapper = styled.div`
 `;
 
 const OptionWrapper = styled.div`
-  ${({lastChild, large, extraLarge}) => !lastChild && (large || extraLarge) ? `padding-bottom: 24px;` : `padding-bottom: 18px;`}
+  ${({lastChild, padding}) => !lastChild ? `padding-bottom: ${padding}px;` : ``}
   width: auto;
 `;
 
 const _renderOptions = ( props ) => {
+
   const { children, onClick, ...rest } = props;
 
-  // console.log(props);
+  const { small, medium, large, extraLarge } = props;
+
+  let padding;
+
+  if ( small ) { padding = 10 }
+  else if ( large ) { padding = 18 }
+  else if ( extraLarge ) { padding = 22 }
+  else { padding = 14 }
 
   return React.Children.map( children, ((item, index) => {
     const lastChild = index === children.length - 1;
 
     return (
-      <OptionWrapper lastChild={lastChild} {...rest}>
+      <OptionWrapper lastChild={lastChild} padding={padding}>
         {React.cloneElement(item, {...rest, ...item.props})}
       </OptionWrapper>
     )
