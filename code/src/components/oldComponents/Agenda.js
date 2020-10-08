@@ -94,7 +94,7 @@ const Agenda = (props) => {
     <AgendaWrapper>
       <AgendaColumnHeaders />
       <Scroll>
-      {renderPolls(props)}
+        {renderPolls(props)}
       </Scroll>
     </AgendaWrapper>
   )

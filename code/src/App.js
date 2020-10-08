@@ -21,16 +21,20 @@ import styled               from 'styled-components';
 import { Colors }           from './components/theme/Colors';
 // import StatusText           from './components/format/StatusText';
 // import HostAgendaCard       from './components/cards/HostAgendaCard';
+import AgendaCardBase       from './components/cards/AgendaCardBase';
+import Jumbo            from './components/theme/Jumbo';
+
+
 import Card          from './components/cards/Card';
 
-const PageWrapper = styled.div`
-background-color: ${Colors.LightBlue};
-position: absolute;
-right: 0;
-left: 0;
-top: 0;
-bottom: 0;
-`;
+// const PageWrapper = styled.div`
+// background-color: ${Colors.LightBlue};
+// position: absolute;
+// right: 0;
+// left: 0;
+// top: 0;
+// bottom: 0;
+// `;
 
 const open = { title: 'Generic Poll Title', status: 'open'};
 const pending = { title: 'Generic Poll Title', status: 'pending'};
@@ -38,13 +42,83 @@ const closed = { title: 'Generic Poll Title', status: 'closed'};
 
 // <HostRooms medium openRooms={[open, open]} pendingRooms={[pending,pending,pending]} closedRooms={[closed]}/>
 
+const PageWrapper = styled.div`
+  background-color: ${Colors.White};
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  position: fixed;
+  overflow: auto;
+  height: 100vh;
+`;
+
+const ComponentWrapper = styled.div`
+  height: 80%;
+`;
 
 class App extends Component {
+
+
   render(){
 
-    return (
-      <Card large color={Colors.Blue}/>
+    let header = (<Jumbo twoExtraSmall color={Colors.White}>Agenda</Jumbo>);
+    let pollSection = (
+      <>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
+      </>
+    )
+    let footer = (<p>Footer</p>)
 
+    return (
+      <PageWrapper>
+        <ComponentWrapper>
+          <AgendaCardBase header={header} pollComponents={pollSection} footer={footer}/>
+        </ComponentWrapper>
+      </PageWrapper>
     );
   }
 }
