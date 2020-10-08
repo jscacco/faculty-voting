@@ -21,7 +21,14 @@ import styled               from 'styled-components';
 import { Colors }           from './components/theme/Colors';
 // import StatusText           from './components/format/StatusText';
 // import HostAgendaCard       from './components/cards/HostAgendaCard';
-import Card          from './components/cards/Card';
+// import OptionGroupBase          from './components/option-groups/OptionGroupBase';
+import TextOption   from './components/options/TextOption';
+import EditOption from './components/options/EditOption';
+
+import Card from './components/cards/Card';
+import Jumbo from './components/theme/Jumbo';
+
+import VotingOptionGroup from './components/option-groups/VotingOptionGroup';
 
 const PageWrapper = styled.div`
 background-color: ${Colors.LightBlue};
@@ -38,13 +45,24 @@ const closed = { title: 'Generic Poll Title', status: 'closed'};
 
 // <HostRooms medium openRooms={[open, open]} pendingRooms={[pending,pending,pending]} closedRooms={[closed]}/>
 
+// <OptionGroupBase large>
+// <TextOption iconType={'checkbox'}>
+//   Optoin 1
+// </TextOption>
+// </OptionGroupBase>
 
 class App extends Component {
   render(){
 
     return (
-      <Card large color={Colors.Blue}/>
-
+      <VotingOptionGroup submittedOptions={[false, true]} type={'multiple'} medium>
+        <TextOption>
+          Optoin 1
+        </TextOption>
+        <TextOption>
+          Optoin 2
+        </TextOption>
+      </VotingOptionGroup>
     );
   }
 }
