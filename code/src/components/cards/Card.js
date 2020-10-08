@@ -8,8 +8,8 @@ import { Colors }       from '../theme/Colors';
 const propTypes = {
   color: ExtraPropTypes.color,
 
-  height: PropTypes.int,
-  width: PropTypes.int,
+  height: PropTypes.string,
+  width: PropTypes.string,
   padding: PropTypes.int,
   borderRadius: PropTypes.int,
 
@@ -25,8 +25,8 @@ const defaultProps = {
 const CardComponent = styled.div`
   background-color: ${({color}) => color};
   border-radius: ${({borderRadius}) => borderRadius}px;
-  height: ${({height}) => height ?`${height}px` : `auto`};
-  width: ${({width}) => width ? `${width}px` : `auto`};
+  ${({height}) => height ?`height: ${height}` : `height: auto`};
+  width: ${({width}) => width ? `${width}` : `auto`};
   padding: ${({padding}) => padding}px;
 `;
 
