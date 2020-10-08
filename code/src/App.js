@@ -25,6 +25,8 @@ import Button           from './components/buttons/Button';
 import Card          from './components/cards/Card';
 import LoginPage from './pages/Login';
 
+import HostDashCard   from './components/cards/HostDashCard';
+
 // const PageWrapper = styled.div`
 // background-color: ${Colors.LightBlue};
 // position: absolute;
@@ -66,7 +68,9 @@ class App extends Component {
 
     return (
       <PageWrapper>
-        <LoginPage/>
+        <ComponentWrapper>
+          <HostDashCard medium openRooms={[open, open]} pendingRooms={[pending,pending,pending]} closedRooms={[closed]} />
+        </ComponentWrapper>
       </PageWrapper>
     );
   }
