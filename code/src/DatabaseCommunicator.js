@@ -51,31 +51,60 @@ const updatePoll = function updatePoll(collectionName, poll, optionNum, voteValu
     return poll;
 }
 
-////// NOT YET IMPLEMENTED //////
-const validUser = async function validUser(user) {
-    // Checks if user is a "voting faculty"
-    let re = /.+@hamilton.edu/;
-    let reUser = /[a-z]+/;
-    let username = reUser.exec(user.email)[0];
+async function getUser() {
+    console.log("Getting User")
+    var user; 
+    var provider = new firebase.auth.GoogleAuthProvider();
+
+    await firebase.auth().signInWithPopup(provider).then((result) => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      var token = result.credential.accessToken;
+      // The signed-in user info.
+      user = result.user;
+      //console.log(user);
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      return null;
+    });
 
     console.log(user);
+    return user;
+}
+
+////// NOT YET IMPLEMENTED //////
+const validUser = async function validUser() {
+    // Checks if user is a "voting faculty"
+    let user = await getUser();
+    let re = /.+@hamilton.edu/;
+    let reUser = /[a-z]+/;    
+    let username = reUser.exec(user.email)[0];
+    let vote = false;
+    
+    //console.log(user);
     // Check if hamilton email
     if(re.test(user.email)) {  
-        firebase
+        await firebase
             .firestore()
             .collection('voting').get().then((snap) => {
                 snap.forEach((doc) => {
                     //alert(doc.data()['username'] == username);
                 
-                    if(doc.data()['username'] == username) {
+                    if(doc.id == username) {
                         console.log('true')
-                        return true;
+                        vote = true;
                     }
                 })
             })
     } 
     
-    return false;
+    
+    return vote;
 }
 
 const sendPollInfo = function addPollFire(collectionName, poll) {
@@ -104,13 +133,13 @@ const sendPollInfo = function addPollFire(collectionName, poll) {
         }
 }
 
-const getPollInf = function getPollInf(collectionName, pollTitle) {
+const getPollInf = async function getPollInf(collectionName, pollTitle) {
     // Returns a PollItem from firebase given the polls title
     // collectionName - String: The Room Code
     // pollTitle - String: The Poll Title
 
     var poll = new PollItem();
-    firebase
+    await firebase
         .firestore()
         .collection(collectionName)
         .doc(pollTitle).get()
@@ -152,7 +181,7 @@ const getAllPolls = async function getPolls(collectionName) {
     })*/
     var lst = ["Test Poll", "test"]
     for(var docId of lst) {
-        docs.push(getPollInf(collectionName, docId));
+        docs.push(await getPollInf(collectionName, docId));
     }
 
     return docs;

@@ -74,6 +74,8 @@ class MeetingRoomScreen extends React.Component {
       // State for the meeting agenda
       allPolls: null
     }
+    getAllPolls(code).then((result) => { this.setState({ allPolls: result }); console.log(this.state.allPolls); })
+    
     this.state.poll.setOrder(order);
 
     this.handleOptionChange = this.handleOptionChange.bind(this)
@@ -82,7 +84,7 @@ class MeetingRoomScreen extends React.Component {
   }
 
 
-  async componentDidMount() {
+  /*async componentDidMount() {
     await this.fetchPolls().then(result => this.setState({ allPolls: result.result }))
   }
 
@@ -97,7 +99,7 @@ class MeetingRoomScreen extends React.Component {
       }, 2000)
       return polls
   }
-
+*/
 
   addOption = () => {
     this.setState({
@@ -151,8 +153,9 @@ class MeetingRoomScreen extends React.Component {
 
 
   render() {
+    /*console.log(this.state.allPolls)
     if(this.state.allPolls && this.state.allPolls.constructor === Promise)
-      this.state.allPolls.then((result) => this.setState({allPolls: result}))
+      this.state.allPolls.then((result) => this.setState({allPolls: result}))*/
 
     return this.state.allPolls ? (
       <PageWrapper>
