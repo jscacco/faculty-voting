@@ -13,7 +13,6 @@ import styled             from 'styled-components'
 //   </Body>
 // </div>
 
-import styled               from 'styled-components';
 import { Colors }           from './components/theme/Colors';
 // import StatusText           from './components/format/StatusText';
 // import HostAgendaCard       from './components/cards/HostAgendaCard';
@@ -24,6 +23,7 @@ import Body             from './components/theme/Body';
 import Button           from './components/buttons/Button';
 
 import Card          from './components/cards/Card';
+import LoginPage from './pages/Login';
 
 // const PageWrapper = styled.div`
 // background-color: ${Colors.LightBlue};
@@ -40,8 +40,6 @@ const closed = { title: 'Generic Poll Title', status: 'closed'};
 
 // <HostRooms medium openRooms={[open, open]} pendingRooms={[pending,pending,pending]} closedRooms={[closed]}/>
 
-import {Colors}       from './components/theme/Colors'
-import LoginPage from './pages/Login';
 
 
 const PageWrapper = styled.div`
@@ -65,7 +63,7 @@ class App extends Component {
 
 
   render(){
-  
+
     return (
       <PageWrapper>
         <LoginPage/>
@@ -130,7 +128,7 @@ let pollSection = (
 )
 let footer = (<p>Footer</p>)
 
-poll card base 
+poll card base
 let title = (
       <Jumbo twoExtraSmall color={Colors.White}>Poll Title</Jumbo>
     )
