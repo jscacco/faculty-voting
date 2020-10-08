@@ -9,24 +9,29 @@ import Jumbo            from '../theme/Jumbo';
 
 
 const ComponentWrapper = styled.div`
+  height: 100%;
   position: relative;
   overflow: hidden;
+  border: 1px solid black;
+`;
+
+const InnerWrapper = styled.div`
+  border: 1px solid black;
+  height: 100%;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const HeaderWrapper = styled.div`
   padding: 15px;
 `;
 
-const PollSectionWrapper = styled.div`
-  position: relative;
-  overflow: hidden;
-  min-height: 700px;
-`;
-
 const ScrollableWrapper = styled.div`
+  border: 1px solid black;
   overflow: scroll;
-  position: absolute;
-  height: calc(100vh - 550px);
+  height: 100%;
   width: 100%;
 `;
 
@@ -41,21 +46,18 @@ const AgendaCardBase = ( props ) => {
   );
 
   const _renderPollSection = (
-    <PollSectionWrapper>
       <ScrollableWrapper>
         {pollComponents}
       </ScrollableWrapper>
-    </PollSectionWrapper>
   )
 
   return (
-    <ComponentWrapper>
-      <Card large color={Colors.LightBlue}>
+    <Card color={Colors.Blue} height={'100%'} large>
+      <InnerWrapper>
         {_renderHeader}
         {_renderPollSection}
-        <p> whats up </p>
-      </Card>
-    </ComponentWrapper>
+      </InnerWrapper>
+    </Card>
   )
 };
 
