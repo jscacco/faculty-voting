@@ -9,7 +9,7 @@ const propTypes = {
   color: ExtraPropTypes.color,
 
   height: PropTypes.string,
-  width: PropTypes.int,
+  width: PropTypes.string,
   padding: PropTypes.int,
   borderRadius: PropTypes.int,
 
@@ -26,7 +26,7 @@ const CardComponent = styled.div`
   background-color: ${({color}) => color};
   border-radius: ${({borderRadius}) => borderRadius}px;
   ${({height}) => height ?`height: ${height}` : `height: auto`};
-  width: ${({width}) => width ? `${width}px` : `auto`};
+  width: ${({width}) => width ? `${width}` : `auto`};
   padding: ${({padding}) => padding}px;
 `;
 
