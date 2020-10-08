@@ -21,7 +21,7 @@ import styled               from 'styled-components';
 import { Colors }           from './components/theme/Colors';
 // import StatusText           from './components/format/StatusText';
 // import HostAgendaCard       from './components/cards/HostAgendaCard';
-import AgendaCardBase       from './components/cards/AgendaCardBase';
+import HostAgendaCard       from './components/cards/HostAgendaCard';
 import Jumbo            from './components/theme/Jumbo';
 
 
@@ -63,60 +63,22 @@ class App extends Component {
 
   render(){
 
-    let header = (<Jumbo twoExtraSmall color={Colors.White}>Agenda</Jumbo>);
-    let pollSection = (
-      <>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      <Jumbo extraSmall color={Colors.White}>Poll!</Jumbo>
-      </>
-    )
-    let footer = (<p>Footer</p>)
+    let closedPoll = { title: 'Poll',
+                       status: 'closed'}
+   let openPoll = { title: 'Poll',
+                      status: 'open'}
+    let pendingPoll = { title: 'Poll',
+                       status: 'pending'}
+
+    const closedPolls = [closedPoll,closedPoll,closedPoll]
+    const openPolls = [openPoll,openPoll,]
+    const pendingPolls = [pendingPoll,pendingPoll,pendingPoll,pendingPoll,pendingPoll,pendingPoll,pendingPoll]
 
     return (
       <PageWrapper>
         <ComponentWrapper>
-          <AgendaCardBase header={header} pollComponents={pollSection} footer={footer}/>
+          <HostAgendaCard small closedPolls={closedPolls} openPolls={openPolls} pendingPolls={pendingPolls}
+                          roomTitle={'Room Agenda'}/>
         </ComponentWrapper>
       </PageWrapper>
     );
