@@ -54,6 +54,10 @@ const PageWrapper = styled.div`
   height: 100vh;
 `;
 
+const ComponentWrapper = styled.div`
+  height: 80%;
+`;
+
 class App extends Component {
 
 
@@ -110,7 +114,9 @@ class App extends Component {
 
     return (
       <PageWrapper>
-      <AgendaCardBase header={header} pollComponents={pollSection}/>
+        <ComponentWrapper>
+        <AgendaCardBase header={header} pollComponents={pollSection}/>
+        </ComponentWrapper>
       </PageWrapper>
     );
   }
