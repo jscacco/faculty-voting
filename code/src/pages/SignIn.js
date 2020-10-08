@@ -8,6 +8,7 @@ import history              from '../history';
 import firebase             from '../firebase';
 import auth                 from '../firebase';
 import { validUser }        from '../DatabaseCommunicator';
+import { Link }             from "react-router-dom";
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -36,7 +37,13 @@ class SignInScreen extends React.Component {
       this.setState({
         canVote: result
       })
-      if(result) { alert("Eligible to vote"); history.push('/RoomCode'); } else { alert("Not eligible to vote"); }
+      if(result) { 
+        alert("Eligible to vote");
+        history.push({ pathname: '/RoomCode', state: {'voteStatus': this.state.canVote } });
+      } 
+      else { 
+        alert("Not eligible to vote"); 
+      }
     });
   }
   
@@ -46,6 +53,7 @@ class SignInScreen extends React.Component {
       <>
         <SignInForm title="HamPolls" width={0} color={"transparen"} canVote = {this.canVote} handleSubmit={this.handleSubmit}/>
         <ParticlesBg type="cobweb" color={Colors.LightBlue} bg={true} />
+        <Link to={{ pathname: "/RoomCode", state: this.state.canVote }} />
       </>
     );
   }

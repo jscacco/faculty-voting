@@ -25,7 +25,12 @@ class RoomCodeScreen extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    
+
+    if(this.props.location.state)
+      this.voteStatus = this.props.location.state.voteStatus;
+    else
+      this.voteStatus = false;
+    console.log(this.voteStatus)
   }
 
   handleChange = (event) => {
@@ -47,6 +52,7 @@ class RoomCodeScreen extends React.Component {
       <>
         <RoomCodeForm title="HamPolls" width={0} color={"transparen"} value={this.value} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
         <ParticlesBg type="cobweb" color={Colors.LightBlue} bg={true} />
+        <span> Voting Status: { String(this.voteStatus) }  </span>
       </>
     );
   }
