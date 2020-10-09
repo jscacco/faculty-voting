@@ -68,7 +68,9 @@ class App extends Component {
 
     return (
       <PageWrapper>
-        <LoginPage />
+        <ComponentWrapper>
+          <HostDashCard medium openRooms={[open, open]} pendingRooms={[pending,pending,pending]} closedRooms={[closed]} />
+        </ComponentWrapper>
       </PageWrapper>
     );
   }
