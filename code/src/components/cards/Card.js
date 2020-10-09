@@ -7,8 +7,15 @@ import { Colors }       from '../theme/Colors';
 
 const propTypes = {
   color: ExtraPropTypes.color,
-  height: PropTypes.int,
-  width: PropTypes.int
+
+  height: PropTypes.string,
+  width: PropTypes.string,
+  padding: PropTypes.int,
+  borderRadius: PropTypes.int,
+
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
+  large: PropTypes.bool,
 }
 
 const defaultProps = {
@@ -17,18 +24,40 @@ const defaultProps = {
 
 const CardComponent = styled.div`
   background-color: ${({color}) => color};
-  border-radius: 20px;
-  height: ${({height}) => height ?`${height}px` : `auto`};
-  width: ${({width}) => width ? `${width}px` : `auto`};
-  padding: 35px;
+  border-radius: ${({borderRadius}) => borderRadius}px;
+  ${({height}) => height ?`height: ${height}` : `height: auto`};
+  width: ${({width}) => width ? `${width}` : `auto`};
+  padding: ${({padding}) => padding}px;
 `;
 
-const Card = (props) => {
+const sizeConfig = {
+  small: {
+    borderRadius: 5,
+    padding: 10,
+  },
+  medium: {
+    borderRadius: 15,
+    padding: 25,
+  },
+  large: {
+    borderRadius: 20,
+    padding: 35
+  }
+}
 
-  const { children, ...rest } = props
+const Card = ( props ) => {
+
+  const { children, small, large, ...rest } = props;
+
+  let size;
+  if ( small ) { size = sizeConfig.small }
+  else if ( large ) { size = sizeConfig.large }
+  else { size = sizeConfig.large }
 
   return (
-    <CardComponent {...rest}>
+    <CardComponent borderRadius={size.borderRadius}
+                   padding={size.padding}
+                   {...rest}>
       {children}
     </CardComponent>
   )

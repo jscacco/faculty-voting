@@ -5,6 +5,7 @@ import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
 import Body             from '../theme/Body';
+import Jumbo             from '../theme/Jumbo';
 
 const propTypes = {
   children: PropTypes.node,
@@ -17,8 +18,7 @@ const propTypes = {
   large: PropTypes.bool,
   medium: PropTypes.bool,
   small: PropTypes.bool,
-  extraSmall: PropTypes.bool,
-  twoExtraSmall: PropTypes.bool
+  extraSmall: PropTypes.bool
 };
 
 const defaultProps = {
@@ -28,6 +28,12 @@ const defaultProps = {
 };
 
 const BodyText = styled(Body)`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+`;
+
+const JumboText = styled(Jumbo)`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -44,30 +50,33 @@ const ButtonComponent = styled.button`
   horizontal-align: middle;
   text-decoration: none;
   border-radius: 42px;
-  height: ${({buttonHeight}) => buttonHeight};
+
   width: 100%;
   padding-right: ${({padding}) => padding};
   padding-left: ${({padding}) => padding};
 `;
 
 const buttonConfig = {
-  extraLarge: { buttonHeight: `58px`,
+  extraLarge: { buttonHeight: `44px`,
                 padding: `28px` },
-  large: { buttonHeight: `48px`,
+  large: { buttonHeight: `40px`,
            padding: `22px`},
-  medium: { buttonHeight: `40px`,
+  medium: { buttonHeight: `34px`,
             padding: `16px` },
-  small: { buttonHeight: `32px`,
+  small: { buttonHeight: `28px`,
            padding: `14px`},
-  extraSmall: { buttonHeight: `28px`,
+  extraSmall: { buttonHeight: `24px`,
            padding: `12px`},
-  twoExtraSmall: { buttonHeight: '5px',
-           padding: '8px'}
 };
 
 const Button = ( props ) => {
 
-  const { children, backgroundColor,textColor, onClick, ...rest} = props;
+  const { children, backgroundColor, textColor, onClick, jumbo, ...rest} = props;
+
+  const bodyText = <BodyText color={textColor} children={children} {...rest}/>;
+  const jumboText = <JumboText color={textColor} children={children} {...rest}/>;
+
+  console.log(children);
 
   let config;
 
@@ -75,14 +84,13 @@ const Button = ( props ) => {
   else if (props.large) { config = buttonConfig.large }
   else if (props.small) { config = buttonConfig.small }
   else if (props.extraSmall) { config = buttonConfig.extraSmall }
-  else if (props.twoExtraSmall) { config = buttonConfig.twoExtraSmall }
   else { config = buttonConfig.medium }
 
   return(
     <ButtonComponent padding={config.padding}
                      buttonHeight={config.buttonHeight}
                      {...props}>
-      <BodyText color={textColor} children={children} {...rest}/>
+      { jumbo ? jumboText : bodyText }
     </ButtonComponent>
   );
 };

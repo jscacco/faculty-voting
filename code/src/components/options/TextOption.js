@@ -1,27 +1,46 @@
 import React            from 'react';
-import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
 import Option           from './Option';
-import Body            from '../theme/Body';
+import Body             from '../theme/Body';
 
 const propTypes = {
   children: PropTypes.node,
 
-  fontColor: ExtraPropTypes.color
+  //Option Props
+  extraIcons: PropTypes.arrayOf(PropTypes.node),
+  iconType: PropTypes.oneOf(['bubble', 'checkbox', 'add']),
+  iconColor: ExtraPropTypes.color,
+  onClick: PropTypes.func,
+  clicked: PropTypes.bool,
+
+  // Body props
+  fontColor: ExtraPropTypes.color,
+
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
+  large: PropTypes.bool,
+  extraLarge: PropTypes.bool,
 };
 
-const defaultProps = {};
+const defaultProps = {
+};
 
-const TextOption = (props) => {
+const TextOption = ( props ) => {
 
-  const { children, onClick, fontColor, ...rest } = props;
+  const { children, extraIcons,
+          iconType, iconColor, onClick, clicked,
+          fontColor,
+          small, medium, large, extraLarge } = props;
 
   return (
-    <Option {...props}>
-      <Body color={fontColor} {...rest}>
-        {children}
+    <Option extraIcons={extraIcons} type={iconType} iconColor={iconColor}
+            onClick={onClick} clicked={clicked}
+            small={small} medium={medium} large={large} extraLarge={extraLarge}>
+      <Body fontColor={fontColor}
+            small={small} medium={medium} large={large} extraLarge={extraLarge}>
+          {children}
       </Body>
     </Option>
   )
