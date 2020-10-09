@@ -38,7 +38,7 @@ const renderItems = ( rooms, status ) => {
 
     return (
       <ItemWrapper lastChild={lastChild}>
-        <HostRoomItem pollTitle={item.title} status={status}/>
+        <HostRoomItem pollTitle={item.title} roomCode={'A1B2C3'} status={status}/>
       </ItemWrapper>
     )
   })

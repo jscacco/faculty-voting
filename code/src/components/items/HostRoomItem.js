@@ -7,6 +7,7 @@ import { Colors }       from '../theme/Colors';
 
 import ItemBase         from './ItemBase';
 import Button           from '../buttons/Button';
+import Body             from '../theme/Body';
 
 const propTypes = {
   roomTitle: PropTypes.string,
@@ -27,7 +28,7 @@ const defaultProps = {
 
 const HostRoomItem = ( props ) => {
 
-  const { roomTitle, onViewClick,
+  const { roomTitle, roomCode, onViewClick,
           ...rest } = props;
 
   const viewButton = (
@@ -36,9 +37,16 @@ const HostRoomItem = ( props ) => {
     </Button>
   )
 
+  const roomCodeText = (
+    <Body>
+      {roomCode}
+    </Body>
+  )
+
 
   return (
     <ItemBase text={roomTitle} {...rest}>
+      { roomCodeText }
       { viewButton }
     </ItemBase>
   )
