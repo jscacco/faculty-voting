@@ -68,9 +68,7 @@ class App extends Component {
 
     return (
       <PageWrapper>
-        <ComponentWrapper>
-          <HostDashCard medium openRooms={[open, open]} pendingRooms={[pending,pending,pending]} closedRooms={[closed]} />
-        </ComponentWrapper>
+        <LoginPage />
       </PageWrapper>
     );
   }
@@ -80,6 +78,10 @@ export default App;
 
 /*
 Testing variables
+
+<ComponentWrapper>
+  <HostDashCard medium openRooms={[open, open]} pendingRooms={[pending,pending,pending]} closedRooms={[closed]} />
+</ComponentWrapper>
 
 AgendaCardBase:
 let header = (<Jumbo twoExtraSmall color={Colors.White}>Agenda</Jumbo>);
