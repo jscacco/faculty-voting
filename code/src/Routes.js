@@ -5,6 +5,7 @@ import { Router, Switch, Route } from "react-router-dom";
 // import RoomCode from "./pages/RoomCode"
 // import MeetingRoom from "./pages/MeetingRoom"
 import Login       from "./pages/Login"
+import HostDash    from './pages/HostDash'
 import history from './history';
 
 // <Route path="/Poll" exact component={Poll} />
@@ -18,6 +19,7 @@ export default class Routes extends Component {
             <Router history={history}>
                 <Switch>
                     <Route path="/Login" exact component={Login}/>
+                    <Route path="/HostDash" exact component={HostDash}/>
                 </Switch>
             </Router>
         )

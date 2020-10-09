@@ -5,10 +5,13 @@ import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
 import Body             from '../theme/Body';
+import Jumbo            from '../theme/Jumbo';
 import Icon             from '../theme/Icon';
 
 const propTypes = {
   status: PropTypes.string,
+
+  jumbo: PropTypes.bool,
 
   extraSmall: PropTypes.bool,
   small: PropTypes.bool,
@@ -97,19 +100,29 @@ const dotIcon = ( sizeConfig, color ) => (
 
 const StatusText = ( props ) => {
 
-  const { status, ...rest} = props;
+  const { status, jumbo, ...rest} = props;
 
   const sizeConfig = getSizeConfig(rest);
   const statusConfig = getStatusConfig(status);
+
+  const bodyText = (
+    <Body {...rest}>
+      {statusConfig.text}
+    </Body>
+  );
+
+  const jumboText = (
+    <Jumbo {...rest}>
+      {statusConfig.text}
+    </Jumbo>
+  )
 
   return (
     <ComponentWrapper>
       <ItemWrapper>
         {dotIcon(sizeConfig, statusConfig.color)}
         <TextWrapper>
-          <Body {...rest}>
-            {statusConfig.text}
-          </Body>
+          { jumbo ? jumboText : bodyText }
         </TextWrapper>
       </ItemWrapper>
     </ComponentWrapper>

@@ -38,7 +38,7 @@ const HostRoomItem = ( props ) => {
   )
 
   const roomCodeText = (
-    <Body>
+    <Body {...rest}>
       {roomCode}
     </Body>
   )

@@ -6,6 +6,7 @@ import ExtraPropTypes   from 'react-extra-prop-types';
 import Card             from './Card'
 import { Colors }       from '../theme/Colors';
 import Jumbo            from '../theme/Jumbo';
+import StatusText       from '../format-text/StatusText'
 
 const propTypes = {
   header: PropTypes.string,
@@ -27,6 +28,10 @@ const ComponentWrapper = styled.div`
   height: 100%;
   position: relative;
   overflow: hidden;
+`;
+
+const PollSectionWrapper = styled.div`
+  padding-bottom: ${({padding}) => padding}px;
 `;
 
 const InnerWrapper = styled.div`
@@ -55,7 +60,8 @@ const FooterWrapper = styled.div`
 
 const AgendaCardBase = ( props ) => {
 
-  const { header, pollComponents, footer, ...rest } = props;
+  const { header, openComponents, pendingComponents,
+          closedComponents, footer, ...rest } = props;
 
   let padding;
   let subPadding;
@@ -80,11 +86,22 @@ const AgendaCardBase = ( props ) => {
     </HeaderWrapper>
   );
 
-  const _renderPollSection = (
-      <ScrollableWrapper>
-        {React.cloneElement(pollComponents, {...rest})}
-      </ScrollableWrapper>
-  )
+  const _renderPollSection = ( components, status ) => (
+    <PollSectionWrapper padding={padding}>
+      <HeaderWrapper padding={subPadding}>
+        <StatusText fiveExtraSmall={props.extraSmall} fourExtraSmall={props.small}
+                    threeExtraSmall={props.medium} twoExtraSmall={props.large} extraSmall={props.extraLarge}
+                    status={status} jumbo color={Colors.White} />
+      </HeaderWrapper>
+      {React.cloneElement(components, {...rest})}
+    </PollSectionWrapper>
+  );
+
+  // const _renderPollSection = (
+  //     <ScrollableWrapper>
+  //       {React.cloneElement(openComponents, {...rest})}
+  //     </ScrollableWrapper>
+  // )
 
   const _renderFooter =  footer ? (
     <FooterWrapper padding={padding}>
@@ -96,7 +113,11 @@ const AgendaCardBase = ( props ) => {
     <Card color={Colors.LightBlue} height={'100%'} large>
       <InnerWrapper>
         {_renderHeader}
-        {_renderPollSection}
+        <ScrollableWrapper>
+          {_renderPollSection(openComponents, 'open')}
+          {_renderPollSection(pendingComponents, 'pending')}
+          {_renderPollSection(closedComponents, 'closed')}
+        </ScrollableWrapper>
         {_renderFooter}
       </InnerWrapper>
     </Card>
