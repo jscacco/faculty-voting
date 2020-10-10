@@ -6,6 +6,9 @@ import { Colors }           from '../components/theme/Colors';
 
 import LoginCard            from '../components/cards/LoginCard';
 
+import userLogin            from '../databaseFunctionality/UserVerification';
+import { hostLogin }        from '../databaseFunctionality/UserVerification';
+
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
   position: absolute;
@@ -28,6 +31,17 @@ const LoginWrapper = styled.div`
   width: 50%;
 `;
 
+/*async function userLog() {
+  userLogin().then(result => {
+    console.log(result);
+  })
+}
+
+async function hostLog() {
+  hostLogin().then(result => {
+    console.log(result);
+  })
+}*/
 
 const LoginPage = ( props ) => {
 
@@ -35,8 +49,8 @@ const LoginPage = ( props ) => {
     <PageWrapper>
       <CenterWrapper>
         <LoginWrapper>
-          <LoginCard onUserLogin={() => console.log('Login')}
-                     onHostLogin={() => console.log('Host Login')}/>
+          <LoginCard onUserLogin={() => userLogin()}
+                     onHostLogin={() => hostLogin()}/>
         </LoginWrapper>
       </CenterWrapper>
     </PageWrapper>
