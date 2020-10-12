@@ -38,7 +38,7 @@ const TextOption = ( props ) => {
     <Option extraIcons={extraIcons} type={iconType} iconColor={iconColor}
             onClick={onClick} clicked={clicked}
             small={small} medium={medium} large={large} extraLarge={extraLarge}>
-      <Body fontColor={fontColor}
+      <Body color={fontColor}
             small={small} medium={medium} large={large} extraLarge={extraLarge}>
           {children}
       </Body>

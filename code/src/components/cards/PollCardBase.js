@@ -28,7 +28,7 @@ const DescriptionWrapper = styled.div`
 
 const OptionGroupWrapper = styled.div`
   padding: 20px;
-  /* border: 1px solid black; */
+  /* border: 2px solid white; */
   /* background: ${Colors.White}; */
   border-radius: 5px;
 `;
@@ -36,6 +36,7 @@ const OptionGroupWrapper = styled.div`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
+  /* width: 75%; */
   /* border: 1px solid black; */
 `;
 
@@ -51,6 +52,8 @@ const ButtonStatusStackWrapper =  styled.div`
   padding-bottom: 0px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  width: 20%
 `;
 
 const CenterWrapper = styled.div`
@@ -83,14 +86,14 @@ const PollCardBase = ( props ) => {
 
   const _renderButton = (
     <CenterWrapper>
-    <ButtonStatusStackWrapper>
-    <ButtonWrapper>
-      {button}
-    </ButtonWrapper>
-    <StatusWrapper>
-      {statusText}
-    </StatusWrapper>
-    </ButtonStatusStackWrapper>
+      <ButtonStatusStackWrapper>
+        <ButtonWrapper>
+          {button}
+        </ButtonWrapper>
+        <StatusWrapper>
+          {statusText}
+        </StatusWrapper>
+      </ButtonStatusStackWrapper>
     </CenterWrapper>
   )
 

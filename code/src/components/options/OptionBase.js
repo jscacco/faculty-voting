@@ -52,7 +52,7 @@ const OptionWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: auto;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 `;
 
 

@@ -6,6 +6,8 @@ import LoginPage from './pages/Login';
 import HostDash from './pages/HostDash';
 import HostAgenda from './pages/HostAgenda';
 import UserAgenda from './pages/UserAgenda';
+import HostPoll   from './pages/HostPoll';
+import UserPoll   from './pages/UserPoll';
 
 const PageWrapper = styled.div`
   background-color: ${Colors.White};
@@ -30,7 +32,7 @@ class App extends Component {
 
     return (
       <PageWrapper>
-        <UserAgenda/>
+        <HostPoll />
       </PageWrapper>
     );
   }
