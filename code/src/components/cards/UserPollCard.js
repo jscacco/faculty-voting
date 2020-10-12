@@ -72,10 +72,11 @@ const UserPollCard = ( props ) => {
 
   const _renderButton = () => {
     var buttonText = "Submit";
-    var buttonColor = Colors.LightGrey;
+    var buttonColor = Colors.Blue;
+    var buttonTextColor = Colors.White
 
     return (
-      <Button backgroundColor={buttonColor}>
+      <Button backgroundColor={buttonColor} textColor={buttonTextColor}>
         {buttonText}
       </Button>
     )
