@@ -10,8 +10,8 @@ import Input                          from '../components/inputs/Input';
 import Agenda                         from '../components/Agenda';
 import AgendaItem                     from '../components/AgendaItem';
 import PollItem                       from '../components/PollItem';
-import sendPollInfo, { getAllPolls }   from '../DatabaseCommunicator';
-import {getPollInf}                   from '../DatabaseCommunicator';
+import sendPollInfo, { getAllPolls }  from '../database/DatabaseCommunicator';
+import {getPollInf}                   from '../database/DatabaseCommunicator';
 import AgendaColumnHeaders from '../components/AgendaColumnHeaders';
 
 
@@ -74,13 +74,22 @@ class MeetingRoomScreen extends React.Component {
       // State for the meeting agenda
       allPolls: null
     }
-    getAllPolls(code).then((result) => { this.setState({ allPolls: result }); console.log(this.state.allPolls); })
+
+    if(this.props.location.state) {
+      this.room = this.props.location.state.room;
+      this.path = this.room.getPath();
+    }
+    
+    getAllPolls(this.path, this.room.pollTitles).then((result) => { this.setState({ allPolls: result }); console.log(this.state.allPolls); })
     
     this.state.poll.setOrder(order);
 
     this.handleOptionChange = this.handleOptionChange.bind(this)
     this.handleTitleChange = this.handleTitleChange.bind(this)
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
+
+    
+
   }
 
 
@@ -139,16 +148,18 @@ class MeetingRoomScreen extends React.Component {
         this.state.poll.addPollChoice(this.state.options[i].value)
       }
 
-      this.state.poll.setType('single')
+      this.state.poll.setType('single');
 
-      sendPollInfo(code, this.state.poll)
+      this.room.addPoll(this.state.poll); //sendPollInfo(this.room, this.state.poll);
+      this.room.logData();
 
       this.setState({
         options: ['', ''],
         numOptions: 2
-      })
+      });
     }
     alert("created");
+    getAllPolls(this.path, this.room.pollTitles).then((result) => { this.setState({ allPolls: result }); console.log(this.state.allPolls); })
   }
 
 

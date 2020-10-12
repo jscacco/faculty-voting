@@ -1,14 +1,14 @@
-import PollItem             from './components/PollItem';
-import firebase            from './firebase';
+import PollItem             from '../components/PollItem';
+import firebase            from '../firebase';
 
-const updatePoll = function updatePoll(collectionName, poll, optionNum, voteValue, optionName="") {
+const updatePoll = function updatePoll(path, poll, optionNum, voteValue, optionName="") {
     // Updates an already existing poll
     // collectionName - String: The Room Code
     // poll - PollItem: The Poll to Be Updated
     // optionNum - Integer: Index of The Option + 1
     // voteValue - Integer: How to Change The Stored Votes (1 or -1)
 
-    var docRef = firebase.firestore().collection(collectionName).doc(poll.title).collection("Options").doc("Option" + optionNum).collection("Option" + optionNum).doc("Option" + optionNum);
+    var docRef = path.doc(poll.title).collection("Options").doc("Option" + optionNum).collection("Option" + optionNum).doc("Option" + optionNum);
     docRef.get().then((snap) =>{
         // In event of write in, check if that value already exists
         if(snap.data() && snap.data()["value"] == optionName) {
@@ -22,9 +22,7 @@ const updatePoll = function updatePoll(collectionName, poll, optionNum, voteValu
             console.log("doesn't exists");
             var optNum = poll.options.length + 1; ////maybe make this number of options
 
-            firebase
-                .firestore()
-                .collection(collectionName)
+            path
                 .doc(poll.title)
                 .collection("Options")
                 .doc("Option" + optNum)
@@ -32,9 +30,7 @@ const updatePoll = function updatePoll(collectionName, poll, optionNum, voteValu
                     optionType: 'input'
                 });
 
-            firebase
-                .firestore()
-                .collection(collectionName)
+            path
                 .doc(poll.title)
                 .collection("Options")
                 .doc("Option" + optNum)
@@ -107,14 +103,12 @@ const validUser = async function validUser() {
     return vote;
 }
 
-const sendPollInfo = function addPollFire(collectionName, poll) {
+const sendPollInfo = function addPollFire(path, poll) {
     // Adds a new poll
     // collectionName - String: The Room Code
     // poll - PollItem: The Poll to Be Stored
 
-    firebase
-        .firestore()
-        .collection(collectionName)
+    path
         .doc(poll.title)
         .set({
             description: poll.description,
@@ -125,23 +119,22 @@ const sendPollInfo = function addPollFire(collectionName, poll) {
         });
 
         for(var i = 0; i < poll.options.length; i++) {
-            var optionRef = firebase.firestore().collection(collectionName).doc(poll.title).collection("Options").doc("Option" + (i + 1));
-                
+            var optionRef = path.doc(poll.title).collection("Options").doc("Option" + (i + 1));
+            
+            //add below to map in options list in PollItem
             optionRef.set({ optionType: "text" });
             
             optionRef.collection("Option" + (i + 1)).doc("Option" + (i + 1)).set(poll.options[i]);
         }
 }
 
-const getPollInf = async function getPollInf(collectionName, pollTitle) {
+const getPollInf = async function getPollInf(path, pollTitle) {
     // Returns a PollItem from firebase given the polls title
     // collectionName - String: The Room Code
     // pollTitle - String: The Poll Title
 
     var poll = new PollItem();
-    await firebase
-        .firestore()
-        .collection(collectionName)
+    await path
         .doc(pollTitle).get()
         .then((snap) =>{
             poll.setDescription(snap.data()['description']);
@@ -150,7 +143,7 @@ const getPollInf = async function getPollInf(collectionName, pollTitle) {
             poll.setType(snap.data()['pollType']);
             poll.setStatus(snap.data()['status']);
 
-            var optionRef = firebase.firestore().collection(collectionName).doc(pollTitle).collection('Options');
+            var optionRef = path.doc(pollTitle).collection('Options');
             optionRef.get().then((snap) =>{
                 snap.forEach(function (doc) {
                     optionRef.doc(doc.id).collection(doc.id).doc(doc.id).get().then((result) => {
@@ -161,27 +154,17 @@ const getPollInf = async function getPollInf(collectionName, pollTitle) {
 
         poll.setTitle(pollTitle);
         });
-    //console.log(poll)
+    console.log(poll)
     return poll;
 }
 
-const getAllPolls = async function getPolls(collectionName) {
+const getAllPolls = async function getPolls(path, pollTitles) {
     // Returns a list containing PollItems for each poll that exists
     // collectionName - String: The Room Code
     var docs = new Array()
-
-    /*firebase
-        .firestore()
-        .collection(collectionName)
-        .get()
-        .then((snap) => {
-            snap.forEach((doc) => {
-            docs.push(getPollInf(collectionName, doc.id))
-        })
-    })*/
-    var lst = ["Test Poll", "test"]
-    for(var docId of lst) {
-        docs.push(await getPollInf(collectionName, docId));
+   
+    for(var docId of pollTitles) {
+        docs.push(await getPollInf(path, docId));
     }
 
     return docs;

@@ -8,10 +8,11 @@ import SnglVoteCard from '../components/cards/SnglVoteCard';
 
 import firebase from '../firebase';
 //import { code } from './RoomCode';
-import { getPollInf, updatePoll } from '../DatabaseCommunicator';
-
+import { getPollInf, updatePoll } from '../database/DatabaseCommunicator';
+import testRoom from '../testData';
 
 const code = 'test';
+const path = testRoom.getPath();
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -41,8 +42,8 @@ const getInitInfo = (pollName) => {
     ],
   };
 
-  return pollInfo
-  //return getPollInf(code, pollName).getInfo()
+  return pollInfo;
+  //return getPollInf(path, pollName).getInfo();
 }
 
 class PollScreen extends React.Component {
@@ -53,8 +54,9 @@ class PollScreen extends React.Component {
     
     this.state = { ...pollInfo,
                    submission: null,
-                   poll: getPollInf(code, "Test Poll")};
-
+                   poll: null};
+    getPollInf(path, "Poll1").then(result => { this.setState({ poll: result }); console.log(this.state.poll)}).finally();
+    console.log(getPollInf(path, "Poll1"))
     this.updateMultiple = this.updateMultiple.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderSingle = this.renderSingle.bind(this);
@@ -76,7 +78,7 @@ class PollScreen extends React.Component {
     for (let i = 0; i < options.length; i++) {
       if (prevSubmission === null) {
         if (submittedOptions[i]) {
-          this.poll = updatePoll(code, this.state.poll, i + 1, 1, options[i].value);
+          this.poll = updatePoll(path, this.state.poll, i + 1, 1, options[i].value);
         }
         console.log('updateFirebase'); 
       } 
@@ -84,10 +86,10 @@ class PollScreen extends React.Component {
         // updateFirebase
         // remove prev vote / submit new vote
         if (submittedOptions[i]) {
-          this.poll = updatePoll(code, this.state.poll, i + 1, 1, options[i].value);
+          this.poll = updatePoll(path, this.state.poll, i + 1, 1, options[i].value);
         }
         else if (prevSubmission[i]) {
-          this.poll = updatePoll(code, this.state.poll, i + 1, -1, options[i].value);
+          this.poll = updatePoll(path, this.state.poll, i + 1, -1, options[i].value);
         }
         console.log('updateFirebase')
       }

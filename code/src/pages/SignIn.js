@@ -7,8 +7,10 @@ import SignInForm           from '../components/SignInForm';
 import history              from '../history';
 import firebase             from '../firebase';
 import auth                 from '../firebase';
-import { validUser }        from '../DatabaseCommunicator';
+import { validUser }        from '../database/DatabaseCommunicator';
 import { Link }             from "react-router-dom";
+import RoomItem             from '../components/RoomItem';
+import testRoom             from '../testData';
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -27,6 +29,9 @@ class SignInScreen extends React.Component {
     this.state = { canVote: null };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+
+    this.room = testRoom;
+    console.log(this.room)
   } 
 
   handleSubmit = (event) => {
@@ -39,7 +44,7 @@ class SignInScreen extends React.Component {
       })
       if(result) { 
         alert("Eligible to vote");
-        history.push({ pathname: '/RoomCode', state: {'voteStatus': this.state.canVote } });
+        history.push({ pathname: '/RoomCode', state: { voteStatus: this.state.canVote, room: this.room } });
       } 
       else { 
         alert("Not eligible to vote"); 
