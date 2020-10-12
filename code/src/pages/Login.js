@@ -6,6 +6,8 @@ import { Colors }           from '../components/theme/Colors';
 
 import LoginCard            from '../components/cards/LoginCard';
 
+import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
+
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
   position: absolute;
@@ -33,6 +35,7 @@ const LoginPage = ( props ) => {
 
   return (
     <PageWrapper>
+      <DemoNavBar />
       <CenterWrapper>
         <LoginWrapper>
           <LoginCard onUserLogin={() => console.log('Login')}
