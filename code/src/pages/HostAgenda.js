@@ -7,6 +7,19 @@ import { Colors }           from '../components/theme/Colors';
 import HostAgendaCard        from '../components/cards/HostAgendaCard';
 
 import { fetchAgenda } from '../store/MockDataFunctions';
+import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
+
+const PageWrapper = styled.div`
+  background-color: ${Colors.White};
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  position: fixed;
+  overflow: auto;
+  height: 100vh;
+`;
 
 const ComponentWrapper = styled.div`
   height: 80%;
@@ -18,11 +31,14 @@ const HostAgendaPage = ( props ) => {
   const agenda = fetchAgenda();
 
   return (
-    <ComponentWrapper>
-      <HostAgendaCard medium openPolls={agenda.openPolls}
-                             pendingPolls={agenda.pendingPolls}
-                             closedPolls={agenda.closedPolls}/>
-    </ComponentWrapper>
+    <PageWrapper>
+      <DemoNavBar />
+      <ComponentWrapper>
+        <HostAgendaCard medium openPolls={agenda.openPolls}
+                               pendingPolls={agenda.pendingPolls}
+                               closedPolls={agenda.closedPolls}/>
+      </ComponentWrapper>
+    </PageWrapper>
   );
 
 }

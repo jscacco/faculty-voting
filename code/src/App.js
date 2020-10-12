@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import styled             from 'styled-components'
 
-import { Colors }       from './components/theme/Colors'
-import LoginPage from './pages/Login';
+import { Colors }       from './components/theme/Colors';
+
+import DemoNavBar       from './components/DebuggingComponents/DemoNavBar';
+
+import Login from './pages/Login';
 import HostDash from './pages/HostDash';
 import HostAgenda from './pages/HostAgenda';
 import UserAgenda from './pages/UserAgenda';
@@ -32,7 +35,8 @@ class App extends Component {
 
     return (
       <PageWrapper>
-        <HostPoll />
+        <DemoNavBar />
+        <HostDash />
       </PageWrapper>
     );
   }
