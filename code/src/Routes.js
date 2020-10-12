@@ -6,6 +6,11 @@ import { Router, Switch, Route } from "react-router-dom";
 // import MeetingRoom from "./pages/MeetingRoom"
 import Login       from "./pages/Login"
 import HostDash    from './pages/HostDash'
+import HostAgenda       from "./pages/HostAgenda"
+import UserAgenda    from './pages/UserAgenda'
+import HostPoll       from "./pages/HostPoll"
+import UserPoll    from './pages/UserPoll'
+
 import history from './history';
 
 // <Route path="/Poll" exact component={Poll} />
@@ -20,6 +25,10 @@ export default class Routes extends Component {
                 <Switch>
                     <Route path="/Login" exact component={Login}/>
                     <Route path="/HostDash" exact component={HostDash}/>
+                    <Route path="/HostAgenda" exact component={HostAgenda}/>
+                    <Route path="/UserAgenda" exact component={UserAgenda}/>
+                    <Route path="/HostPoll" exact component={HostPoll}/>
+                    <Route path="/UserPoll" exact component={UserPoll}/>
                 </Switch>
             </Router>
         )
