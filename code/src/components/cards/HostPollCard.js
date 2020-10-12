@@ -48,7 +48,7 @@ const HostPollCard = ( props ) => {
         {pollData.title}
       </Jumbo>
       <EditButtonWrapper>
-        <Button medium>
+        <Button medium backgroundColor={Colors.LightGrey} textColor={Colors.Charcol}>
           Edit
         </Button>
       </EditButtonWrapper>
@@ -81,7 +81,7 @@ const HostPollCard = ( props ) => {
 
   const _renderButton = () => {
     var buttonText = "Submit";
-    var buttonColor = Colors.LightGrey;
+    var buttonColor = Colors.Blue;
 
     return (
       <Button backgroundColor={buttonColor}>
