@@ -6,28 +6,25 @@ import { Colors }           from '../components/theme/Colors';
 
 import HostAgendaCard        from '../components/cards/HostAgendaCard';
 
+import { fetchAgenda } from '../store/MockDataFunctions';
+
 const ComponentWrapper = styled.div`
   height: 80%;
   width: 80%;
 `;
 
-const HostDashPage = ( props ) => {
+const HostAgendaPage = ( props ) => {
 
-  const openPoll = { pollTitle: 'Poll', status:'open' ,}
-  const pendingPoll = { pollTitle: 'Poll', status:'pending' , }
-  const closedPoll = { pollTitle: 'Poll', status:'closed' ,}
-
-  const openPolls=[openPoll,openPoll,openPoll]
-  const closedPolls = [closedPoll]
-  const pendingPolls = [pendingPoll,pendingPoll,pendingPoll,pendingPoll,pendingPoll]
+  const agenda = fetchAgenda();
 
   return (
     <ComponentWrapper>
-      <HostAgendaCard medium openPolls={openPolls} pendingPolls={pendingPolls}
-                    closedPolls={closedPolls}/>
+      <HostAgendaCard medium openPolls={agenda.openPolls}
+                             pendingPolls={agenda.pendingPolls}
+                             closedPolls={agenda.closedPolls}/>
     </ComponentWrapper>
   );
 
 }
 
-export default HostDashPage;
+export default HostAgendaPage;

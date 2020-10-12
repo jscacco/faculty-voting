@@ -13,6 +13,8 @@ import TextOption       from '../options/TextOption';
 import InputOption       from '../options/InputOption';
 import Button           from '../buttons/Button';
 
+import MockDataFunctions from '../../store/MockDataFunctions';
+
 const HostHeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
