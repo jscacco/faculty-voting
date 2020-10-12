@@ -4,30 +4,26 @@ import ParticlesBg          from 'particles-bg';
 
 import { Colors }           from '../components/theme/Colors';
 
-import UserAgendaCard        from '../components/cards/UserAgendaCard';
+import UserAgendaCard       from '../components/cards/UserAgendaCard';
+
+import { fetchAgenda }      from '../store/MockDataFunctions';
 
 const ComponentWrapper = styled.div`
   height: 80%;
   width: 80%;
 `;
 
-const HostDashPage = ( props ) => {
+const UserAgendaPage = ( props ) => {
 
-  const openPoll = { pollTitle: 'Poll', status:'open' ,}
-  const pendingPoll = { pollTitle: 'Poll', status:'pending' , }
-  const closedPoll = { pollTitle: 'Poll', status:'closed' ,}
-
-  const openPolls=[openPoll,openPoll,openPoll]
-  const closedPolls = [closedPoll]
-  const pendingPolls = [pendingPoll,pendingPoll,pendingPoll,pendingPoll,pendingPoll]
-
+  const agenda = fetchAgenda()
   return (
     <ComponentWrapper>
-      <UserAgendaCard medium openPolls={openPolls} pendingPolls={pendingPolls}
-                    closedPolls={closedPolls}/>
+      <UserAgendaCard medium openPolls={agenda.openPolls}
+                             pendingPolls={agenda.pendingPolls}
+                             closedPolls={agenda.closedPolls}/>
     </ComponentWrapper>
   );
 
 }
 
-export default HostDashPage;
+export default UserAgendaPage;

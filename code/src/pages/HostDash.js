@@ -6,25 +6,20 @@ import { Colors }           from '../components/theme/Colors';
 
 import HostDashCard        from '../components/cards/HostDashCard';
 
+import { fetchHostRooms } from '../store/MockDataFunctions';
+
 const ComponentWrapper = styled.div`
   height: 80%;
   width: 80%;
 `;
 
 const HostDashPage = ( props ) => {
-
-  const openRoom = { roomTitle: 'Room', status:'open' , roomCode:'123'}
-  const pendingRoom = { roomTitle: 'Room', status:'pending' , roomCode:'1234'}
-  const closedRoom = { roomTitle: 'Room', status:'closed' , roomCode:'123'}
-
-  const openRooms=[openRoom,openRoom,openRoom]
-  const closedRooms = [closedRoom]
-  const pendingRooms = [pendingRoom,pendingRoom,pendingRoom,pendingRoom,pendingRoom]
+  const rooms = fetchHostRooms();
 
   return (
     <ComponentWrapper>
-      <HostDashCard medium openRooms={openRooms} pendingRooms={pendingRooms}
-                    closedRooms={closedRooms}/>
+      <HostDashCard medium openRooms={rooms.openRooms} pendingRooms={rooms.pendingRooms}
+                    closedRooms={rooms.closedRooms}/>
     </ComponentWrapper>
   );
 
