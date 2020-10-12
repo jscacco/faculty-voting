@@ -13,11 +13,6 @@ import UserPoll    from './pages/UserPoll'
 
 import history from './history';
 
-// <Route path="/Poll" exact component={Poll} />
-// <Route path="/RoomCode" exact component={RoomCode} />
-// <Route path="/MeetingRoom" exact component={MeetingRoom} />
-// <Route path="/Login" exact component={Login}/>
-
 export default class Routes extends Component {
     render() {
         return (
