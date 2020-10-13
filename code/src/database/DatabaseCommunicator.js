@@ -169,6 +169,82 @@ const getAllPolls = async function getPolls(path, pollTitles) {
 
     return docs;
 }
+/////////////////////////////////////////////////////////////////////
+
+const fetchHostRooms = async function fetchHostRooms(host) {
+    var rooms = { openRooms: [], pendingRooms: [], closedRooms: [] };
+    
+    await firebase
+        .firestore()
+        .collection(host)
+        .get()
+        .then(snap => {
+            //console.log(snap)
+            snap.forEach(function (doc) {
+                var room = { roomTitle: '', status: '', roomCode: '' };
+                //console.log(doc)
+                room['roomCode'] = doc.id;               
+                room['roomTitle'] = doc.data()['roomTitle']; 
+
+                if(doc.data()['status'] == 'pending') {
+                    room['status'] = 'pending';
+                    rooms['pendingRooms'] = [...rooms['pendingRooms'], room];
+                }
+                else if(doc.data()['status'] == 'open') {
+                    room['status'] = 'open';
+                    rooms['openRooms'] = [...rooms['openRooms'], room];
+                }
+                else {
+                    room['status'] = 'closed';
+                    rooms['closedRooms'] = [...rooms['closedRooms'], room];
+                }
+                //console.log(room)
+            })
+        })
+
+    //console.log(rooms);
+    return rooms;
+}
+
+const fetchAgendas = async function fetchAgenda(host, roomCode) {
+    var polls = { openPolls: [], pendingPolls: [], closedPolls: [] };
+    
+    await firebase
+        .firestore()
+        .collection(host)
+        .doc(roomCode)
+        .collection(roomCode)
+        .get()
+        .then(snap => {
+            //console.log(snap)
+            snap.forEach(function (doc) {
+                var poll = { pollTitle: '', status: '' };
+                //console.log(doc)
+                poll['pollTitle'] = doc.id;               
+
+                if(doc.data()['status'] == 'pending') {
+                    poll['status'] = 'pending';
+                    polls['pendingPolls'] = [...polls['pendingPolls'], poll];
+                }
+                else if(doc.data()['status'] == 'open') {
+                    poll['status'] = 'open';
+                    polls['openPolls'] = [...polls['openPolls'], poll];
+                }
+                else {
+                    poll['status'] = 'closed';
+                    polls['closedPolls'] = [...polls['closedPolls'], poll];
+                }
+                //console.log(room)
+            })
+        })
+
+    //console.log(rooms);
+    return polls;
+}
+
+/*const fetchAgendas = async function promise(host, roomCode) {
+    await fetchAgenda(host, roomCode).then(result => { return result; });
+}*/
 
 export default sendPollInfo;
-export {getPollInf, getAllPolls, updatePoll, validUser};
+export { getPollInf, getAllPolls, updatePoll, validUser, fetchHostRooms, fetchAgendas };

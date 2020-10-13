@@ -7,7 +7,7 @@ import SignInForm           from '../components/SignInForm';
 import history              from '../history';
 import firebase             from '../firebase';
 import auth                 from '../firebase';
-import { validUser }        from '../database/DatabaseCommunicator';
+import { validUser, fetchHostRooms, fetchAgendas }        from '../database/DatabaseCommunicator';
 import { Link }             from "react-router-dom";
 import RoomItem             from '../components/RoomItem';
 import testRoom             from '../testData';
@@ -32,7 +32,16 @@ class SignInScreen extends React.Component {
 
     this.room = testRoom;
     console.log(this.room)
+
+    var r = fetchAgendas('cdubin', '123');
+    console.log(this.resolvePromise(r))
+    r.then(result => console.log(result))
+    console.log(38)
   } 
+
+  async resolvePromise(promise) {
+    promise.then(results => { console.log(results); return results; });
+  }
 
   handleSubmit = (event) => {
     event.preventDefault();
