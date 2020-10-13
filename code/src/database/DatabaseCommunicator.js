@@ -1,7 +1,7 @@
 import PollItem             from '../components/PollItem';
 import firebase            from '../firebase';
 
-const updatePoll = function updatePoll(path, poll, optionNum, voteValue, optionName="") {
+const updatePoll = async function updatePoll(path, poll, optionNum, voteValue, optionName="") {
     // Updates an already existing poll
     // collectionName - String: The Room Code
     // poll - PollItem: The Poll to Be Updated
@@ -9,7 +9,7 @@ const updatePoll = function updatePoll(path, poll, optionNum, voteValue, optionN
     // voteValue - Integer: How to Change The Stored Votes (1 or -1)
 
     var docRef = path.doc(poll.title).collection("Options").doc("Option" + optionNum).collection("Option" + optionNum).doc("Option" + optionNum);
-    docRef.get().then((snap) =>{
+    await docRef.get().then((snap) =>{
         // In event of write in, check if that value already exists
         if(snap.data() && snap.data()["value"] == optionName) {
             console.log("exists");
@@ -123,7 +123,7 @@ const sendPollInfo = function addPollFire(path, poll) {
             
             //add below to map in options list in PollItem
             optionRef.set({ optionType: "text" });
-            
+            //also add option order
             optionRef.collection("Option" + (i + 1)).doc("Option" + (i + 1)).set(poll.options[i]);
         }
 }

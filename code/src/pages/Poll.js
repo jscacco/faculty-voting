@@ -54,9 +54,10 @@ class PollScreen extends React.Component {
     
     this.state = { ...pollInfo,
                    submission: null,
-                   poll: null};
-    getPollInf(path, "Poll1").then(result => { this.setState({ poll: result }); console.log(this.state.poll)}).finally();
-    console.log(getPollInf(path, "Poll1"))
+                   poll: getPollInf(path, "Poll1")};
+    console.log(this.state.poll);
+    this.state.poll.then(result => { this.setState({ poll: result }); console.log(this.state.poll)}).finally();
+    console.log(this.state.poll)
     this.updateMultiple = this.updateMultiple.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderSingle = this.renderSingle.bind(this);
