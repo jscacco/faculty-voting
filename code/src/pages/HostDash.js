@@ -11,15 +11,16 @@ const ComponentWrapper = styled.div`
   width: 80%;
 `;
 
+const openRoom = { roomTitle: 'Room', status:'open' , roomCode:'123'}
+const pendingRoom = { roomTitle: 'Room', status:'pending' , roomCode:'1234'}
+const closedRoom = { roomTitle: 'Room', status:'closed' , roomCode:'123'}
+
+const openRooms=[openRoom,openRoom,openRoom]
+const closedRooms = [closedRoom]
+const pendingRooms = [pendingRoom,pendingRoom,pendingRoom,pendingRoom,pendingRoom]
+
+
 const HostDashPage = ( props ) => {
-
-  const openRoom = { roomTitle: 'Room', status:'open' , roomCode:'123'}
-  const pendingRoom = { roomTitle: 'Room', status:'pending' , roomCode:'1234'}
-  const closedRoom = { roomTitle: 'Room', status:'closed' , roomCode:'123'}
-
-  const openRooms=[openRoom,openRoom,openRoom]
-  const closedRooms = [closedRoom]
-  const pendingRooms = [pendingRoom,pendingRoom,pendingRoom,pendingRoom,pendingRoom]
 
   return (
     <ComponentWrapper>

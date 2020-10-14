@@ -3,14 +3,15 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import Card             from './Card'
+import Card             from '../cards/Card'
 import { Colors }       from '../theme/Colors';
 import Jumbo            from '../theme/Jumbo';
 import StatusText       from '../format-text/StatusText'
 
 const propTypes = {
   header: PropTypes.string,
-  pollComponents: PropTypes.node,
+  headerButton: PropTypes.node,
+  sections: PropTypes.arrayOf(PropTypes.object),
   footer: PropTypes.node,
 
   extraSmall: PropTypes.bool,
@@ -21,7 +22,8 @@ const propTypes = {
 };
 
 const defaultProps ={
-  header: 'Agenda',
+  header: 'Card',
+  sections: [],
 };
 
 const ComponentWrapper = styled.div`
@@ -30,7 +32,7 @@ const ComponentWrapper = styled.div`
   overflow: hidden;
 `;
 
-const PollSectionWrapper = styled.div`
+const SectionWrapper = styled.div`
   padding-bottom: ${({padding}) => padding}px;
 `;
 
@@ -43,8 +45,17 @@ const InnerWrapper = styled.div`
 `;
 
 const HeaderWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   padding-bottom: ${({padding}) => padding}px;
 `;
+
+const HeaderTextWrapper = styled.div`
+  width: 100%
+`;
+
+const HeaderButtonWrapper  = styled.div``;
 
 const ScrollableWrapper = styled.div`
   overflow: scroll;
@@ -58,10 +69,9 @@ const FooterWrapper = styled.div`
   justify-content: center;
 `;
 
-const AgendaCardBase = ( props ) => {
+const SecondaryCard = ( props ) => {
 
-  const { header, openComponents, pendingComponents,
-          closedComponents, footer, ...rest } = props;
+  const { header, headerButton, sections, footer, ...rest } = props;
 
   let padding;
   let subPadding;
@@ -76,32 +86,33 @@ const AgendaCardBase = ( props ) => {
   else { padding = 50;
          subPadding = 22}
 
-  const _renderHeader = (
-    <HeaderWrapper padding={padding}>
-      <Jumbo twoExtraSmall={props.extraSmall} extraSmall={props.small}
-             small={props.medium} medium={props.large} large={props.extraLarge}
-             color={Colors.White}>
-        {header}
-      </Jumbo>
-    </HeaderWrapper>
-  );
+ const _renderHeader = (
+   <HeaderWrapper padding={padding}>
+     <HeaderTextWrapper>
+       <Jumbo twoExtraSmall={props.extraSmall} extraSmall={props.small}
+              small={props.medium} medium={props.large} large={props.extraLarge}
+              color={Colors.White}>
+         {header}
+       </Jumbo>
+     </HeaderTextWrapper>
+     <HeaderButtonWrapper>
+       {headerButton ? React.cloneElement(headerButton, {...rest}) :
+                     <div/>}
+     </HeaderButtonWrapper>
+   </HeaderWrapper>
+ );
 
-  const _renderPollSection = ( components, status ) => (
-    <PollSectionWrapper padding={padding}>
+  const _renderSection = ( section ) => {
+
+    return (
+    <SectionWrapper padding={padding}>
       <HeaderWrapper padding={subPadding}>
-        <StatusText fiveExtraSmall={props.extraSmall} fourExtraSmall={props.small}
-                    threeExtraSmall={props.medium} twoExtraSmall={props.large} extraSmall={props.extraLarge}
-                    status={status} jumbo color={Colors.White} />
+        {section.header}
       </HeaderWrapper>
-      {React.cloneElement(components, {...rest})}
-    </PollSectionWrapper>
-  );
+      {React.cloneElement(section.content, {...rest})}
+    </SectionWrapper>
+  );}
 
-  // const _renderPollSection = (
-  //     <ScrollableWrapper>
-  //       {React.cloneElement(openComponents, {...rest})}
-  //     </ScrollableWrapper>
-  // )
 
   const _renderFooter =  footer ? (
     <FooterWrapper padding={padding}>
@@ -114,9 +125,7 @@ const AgendaCardBase = ( props ) => {
       <InnerWrapper>
         {_renderHeader}
         <ScrollableWrapper>
-          {_renderPollSection(openComponents, 'open')}
-          {_renderPollSection(pendingComponents, 'pending')}
-          {_renderPollSection(closedComponents, 'closed')}
+          {sections.map((section) => _renderSection(section))}
         </ScrollableWrapper>
         {_renderFooter}
       </InnerWrapper>
@@ -124,7 +133,7 @@ const AgendaCardBase = ( props ) => {
   )
 };
 
-AgendaCardBase.propTypes = propTypes;
-AgendaCardBase.defaultProps = defaultProps;
+SecondaryCard.propTypes = propTypes;
+SecondaryCard.defaultProps = defaultProps;
 
-export default AgendaCardBase;
+export default SecondaryCard;

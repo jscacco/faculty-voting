@@ -3,11 +3,11 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-// import Option           from './Option';
 
 const propTypes = {
   children: PropTypes.node,
 
+  extraSmall: PropTypes.bool,
   small: PropTypes.bool,
   medium: PropTypes.bool,
   large: PropTypes.bool,
@@ -51,7 +51,7 @@ const _renderOptions = ( props ) => {
   }))
 };
 
-const ItemGroup = (props) => {
+const Group = (props) => {
 
   return (
     <GroupWrapper>
@@ -60,7 +60,7 @@ const ItemGroup = (props) => {
   )
 };
 
-ItemGroup.propTypes = propTypes;
-ItemGroup.defaultProps = defaultProps;
+Group.propTypes = propTypes;
+Group.defaultProps = defaultProps;
 
-export default ItemGroup;
+export default Group;

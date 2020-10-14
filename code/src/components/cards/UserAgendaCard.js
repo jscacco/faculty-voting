@@ -3,9 +3,9 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import AgendaCardBase            from './AgendaCardBase';
+import PrimaryCard            from '../format-cards/PrimaryCard';
 import AgendaItem                from '../items/AgendaItem';
-import ItemGroup                 from '../item-groups/ItemGroup'
+import Group                 from '../groups/Group';
 
 const propTypes = {
 
@@ -31,6 +31,7 @@ const defaultProps = {
   closedPolls: []
 };
 
+
 const UserAgendaCard = ( props ) => {
 
   const { roomTitle, openPolls, pendingPolls, closedPolls, onViewClick,
@@ -39,18 +40,20 @@ const UserAgendaCard = ( props ) => {
 
   const allPolls = openPolls.concat(pendingPolls, closedPolls);
   const pollComponents = (
-    <ItemGroup>
+    <Group>
       { allPolls.map((poll, index) => (
         <AgendaItem pollTitle={poll.title} status={poll.status}
                     onViewClick={onViewClick ? () => onViewClick(index): undefined}/>
       )) }
-    </ItemGroup>
+    </Group>
   )
 
   return (
-    <AgendaCardBase header={roomTitle} pollComponents={pollComponents}
-                    extraSmall={extraSmall} small={small}
-                    medium={medium} large={large} extraLarge={extraLarge}/>
+    <PrimaryCard header={roomTitle}
+                 extraSmall={extraSmall} small={small}
+                 medium={medium} large={large} extraLarge={extraLarge}>
+      {pollComponents}
+    </PrimaryCard>
   )
 };
 
