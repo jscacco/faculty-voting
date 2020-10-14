@@ -93,7 +93,7 @@ const AgendaCardBase = ( props ) => {
   ) : <div/>;
 
   return (
-    <Card color={Colors.LightBlue} height={'100%'} large>
+    <Card color={Colors.LightBlue} height={'100%'} large large borderColor={Colors.White}>
       <InnerWrapper>
         {_renderHeader}
         {_renderPollSection}
