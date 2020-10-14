@@ -3,13 +3,14 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import Card             from './Card'
+import Card             from '../cards/Card'
 import { Colors }       from '../theme/Colors';
 import Jumbo            from '../theme/Jumbo';
 
 const propTypes = {
   header: PropTypes.string,
-  pollComponents: PropTypes.node,
+  headerButton: PropTypes.node,
+  children: PropTypes.node,
   footer: PropTypes.node,
 
   extraSmall: PropTypes.bool,
@@ -20,7 +21,7 @@ const propTypes = {
 };
 
 const defaultProps ={
-  header: 'Agenda',
+  header: 'Header',
 };
 
 const ComponentWrapper = styled.div`
@@ -38,8 +39,17 @@ const InnerWrapper = styled.div`
 `;
 
 const HeaderWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   padding-bottom: ${({padding}) => padding}px;
 `;
+
+const HeaderTextWrapper = styled.div`
+  width: 100%
+`;
+
+const HeaderButtonWrapper  = styled.div``;
 
 const ScrollableWrapper = styled.div`
   overflow: scroll;
@@ -53,9 +63,9 @@ const FooterWrapper = styled.div`
   justify-content: center;
 `;
 
-const AgendaCardBase = ( props ) => {
+const PrimaryCard = ( props ) => {
 
-  const { header, pollComponents, footer, ...rest } = props;
+  const { children, header, headerButton, footer, ...rest } = props;
 
   let padding;
   let subPadding;
@@ -72,17 +82,24 @@ const AgendaCardBase = ( props ) => {
 
   const _renderHeader = (
     <HeaderWrapper padding={padding}>
-      <Jumbo twoExtraSmall={props.extraSmall} extraSmall={props.small}
-             small={props.medium} medium={props.large} large={props.extraLarge}
-             color={Colors.White}>
-        {header}
-      </Jumbo>
+      <HeaderTextWrapper>
+        <Jumbo twoExtraSmall={props.extraSmall} extraSmall={props.small}
+               small={props.medium} medium={props.large} large={props.extraLarge}
+               color={Colors.White}>
+          {header}
+        </Jumbo>
+      </HeaderTextWrapper>
+      <HeaderButtonWrapper>
+        {headerButton ? React.cloneElement(headerButton, {...rest}) :
+                      <div/>}
+      </HeaderButtonWrapper>
     </HeaderWrapper>
   );
 
-  const _renderPollSection = (
+  const _renderContent = (
       <ScrollableWrapper>
-        {React.cloneElement(pollComponents, {...rest})}
+        {React.Children.map(children, (child) =>
+          React.cloneElement(child, {...rest}))}
       </ScrollableWrapper>
   )
 
@@ -96,14 +113,14 @@ const AgendaCardBase = ( props ) => {
     <Card color={Colors.LightBlue} height={'100%'} large>
       <InnerWrapper>
         {_renderHeader}
-        {_renderPollSection}
+        {_renderContent}
         {_renderFooter}
       </InnerWrapper>
     </Card>
   )
 };
 
-AgendaCardBase.propTypes = propTypes;
-AgendaCardBase.defaultProps = defaultProps;
+PrimaryCard.propTypes = propTypes;
+PrimaryCard.defaultProps = defaultProps;
 
-export default AgendaCardBase;
+export default PrimaryCard;

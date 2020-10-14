@@ -5,7 +5,7 @@ import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
 
-import ItemBase         from './ItemBase';
+import Item         from './Item';
 import StatusText       from '../format-text/StatusText';
 
 import Button           from '../buttons/Button';
@@ -45,19 +45,19 @@ const AgendaItem = ( props ) => {
 
   if ( hostButton ){
     return (
-      <ItemBase text={pollTitle} {...rest}>
+      <Item text={pollTitle} {...rest}>
         { statusText }
         { hostButton }
         { viewButton }
-      </ItemBase>
+      </Item>
     )
   }
 
   return (
-    <ItemBase text={pollTitle} {...rest}>
+    <Item text={pollTitle} {...rest}>
       { statusText }
       { viewButton }
-    </ItemBase>
+    </Item>
   )
 
 }

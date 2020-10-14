@@ -5,7 +5,7 @@ import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
 
-import ItemBase         from './ItemBase';
+import Item             from './Item';
 import Button           from '../buttons/Button';
 import Body             from '../theme/Body';
 
@@ -45,10 +45,10 @@ const HostRoomItem = ( props ) => {
 
 
   return (
-    <ItemBase text={roomTitle} {...rest}>
+    <Item text={roomTitle} {...rest}>
       { roomCodeText }
       { viewButton }
-    </ItemBase>
+    </Item >
   )
 
 }

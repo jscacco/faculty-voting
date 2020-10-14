@@ -3,7 +3,7 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import OptionGroupBase      from './OptionGroupBase';
+import Group            from '../groups/Group';
 import { Colors }       from '../theme/Colors';
 
 const propTypes = {
@@ -112,9 +112,9 @@ class OptionGroup extends React.Component {
 
   render() {
     return (
-      <OptionGroupBase {...this.props}>
+      <Group {...this.props}>
         {this._renderOptions(this.props)}
-      </OptionGroupBase>
+      </Group>
     )
   }
 };

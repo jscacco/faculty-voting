@@ -5,6 +5,7 @@ import ParticlesBg          from 'particles-bg';
 import { Colors }           from '../components/theme/Colors';
 
 import HostAgendaCard        from '../components/cards/HostAgendaCard';
+import HostEditAgendaCard        from '../components/cards/HostEditAgendaCard';
 
 import { fetchAgenda } from '../store/MockDataFunctions';
 import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
@@ -29,21 +30,62 @@ const ComponentWrapper = styled.div`
   width: 80%;
 `;
 
-const HostAgendaPage = ( props ) => {
+class HostAgendaPage extends React.Component {
 
-  const agenda = fetchAgenda();
+  constructor(props) {
+    super(props)
 
-  return (
-    <PageWrapper>
-      <DemoNavBar />
-      <ComponentWrapper>
-        <HostAgendaCard medium openPolls={agenda.openPolls}
-                               pendingPolls={agenda.pendingPolls}
-                               closedPolls={agenda.closedPolls}/>
-      </ComponentWrapper>
-    </PageWrapper>
-  );
+    this.state = { isEditing: false }
+
+    this.onEditClick = this.onEditClick.bind(this);
+  }
+
+  async onEditClick() {
+    await this.setState({
+      ...this.state,
+      isEditing: !this.state.isEditing
+    })
+  }
+
+  render() {
+
+    const agenda = fetchAgenda();
+    const pendingOrder = agenda.pendingPolls.map((i, index) => index);
+
+    return(
+      <PageWrapper>
+        <DemoNavBar />
+        <ComponentWrapper>
+          { this.state.isEditing ?
+            <HostEditAgendaCard medium openPolls={agenda.openPolls} pendingPolls={agenda.pendingPolls}
+                          closedPolls={agenda.closedPolls} pendingOrder={pendingOrder}
+                          onEditClick={this.onEditClick}/> :
+            <HostAgendaCard medium openPolls={agenda.openPolls} pendingPolls={agenda.pendingPolls}
+                          closedPolls={agenda.closedPolls} pendingOrder={pendingOrder}
+                          onEditClick={this.onEditClick}/> }
+        </ComponentWrapper>
+      </PageWrapper>
+    )
+  }
 
 }
+
+
+// const HostAgendaPage = ( props ) => {
+//
+//   const agenda = fetchAgenda();
+//
+//   return (
+//     <PageWrapper>
+//       <DemoNavBar />
+//       <ComponentWrapper>
+//         <HostAgendaCard medium openPolls={agenda.openPolls}
+//                                pendingPolls={agenda.pendingPolls}
+//                                closedPolls={agenda.closedPolls}/>
+//       </ComponentWrapper>
+//     </PageWrapper>
+//   );
+//
+// }
 
 export default HostAgendaPage;

@@ -11,15 +11,24 @@ import { MdCheckBoxOutlineBlank,
          MdCheckCircle,
          MdLens,
          MdAddCircleOutline,
-         MdClear}                       from 'react-icons/md';
+         MdClear,
+         MdDragHandle,
+         MdRemoveCircleOutline,
+         MdEdit,
+         MdSave }                     from 'react-icons/md';
+
+import { IoMdTrash }                  from 'react-icons/io'
 
 const propTypes = {
   type: PropTypes.oneOf(['box', 'checkbox', 'circle', 'bubble', 'check',
-                         'checkCircle', 'fullCircle', 'addCircle', 'x']).isRequired,
+                         'checkCircle', 'fullCircle', 'addCircle', 'x',
+                         'dragHandle', 'xCircle', 'edit', 'save' ]).isRequired,
   onClick: PropTypes.func,
 
   color: ExtraPropTypes.color,
   size: PropTypes.string,
+
+  twoExtraLarge: PropTypes.bool,
   extraLarge: PropTypes.bool,
   large: PropTypes.bool,
   medium: PropTypes.bool,
@@ -32,6 +41,7 @@ const defaultProps = {
 };
 
 const sizeConfig = {
+  twoExtraLarge: '2.75em',
   extraLarge: '2em',
   large: '1.75em',
   medium: '1.5em' ,
@@ -41,11 +51,13 @@ const sizeConfig = {
 
 const Icon = ( props ) => {
 
-  const { type, size, extraLarge, large, medium, small, extraSmall, ...rest } = props;
+  const { type, size, twoExtraLarge, extraLarge, large,
+          medium, small, extraSmall, ...rest } = props;
 
   let baseSize;
 
-  if (extraLarge) { baseSize = sizeConfig.extraLarge }
+  if (twoExtraLarge) { baseSize = sizeConfig.twoExtraLarge }
+  else if (extraLarge) { baseSize = sizeConfig.extraLarge }
   else if (large) { baseSize = sizeConfig.large }
   else if (small) { baseSize = sizeConfig.small }
   else if (extraSmall) { baseSize = size.extraSmall }
@@ -64,10 +76,20 @@ const Icon = ( props ) => {
       return( <MdCheckCircle size={size ? size : baseSize} {...rest}/>)
     case 'fullCircle':
       return( <MdLens size={size ? size : baseSize} {...rest}/>)
-    case 'addCirlce':
+    case 'addCircle':
       return( <MdAddCircleOutline size={size ? size : baseSize} {...rest}/>)
     case 'x':
       return( <MdClear size={size ? size : baseSize} {...rest}/>)
+    case 'dragHandle':
+      return( <MdDragHandle size={size ? size : baseSize} {...rest}/>)
+    case 'xCircle':
+      return( <MdRemoveCircleOutline size={size ? size : baseSize} {...rest}/>)
+    case 'trash':
+      return( <IoMdTrash size={size ? size : baseSize} {...rest}/>)
+    case 'edit':
+      return( <MdEdit size={size ? size : baseSize} {...rest}/>)
+    case 'save':
+      return( <MdSave size={size ? size : baseSize} {...rest}/>)
     default:
       return( <MdCheckBoxOutlineBlank size={size ? size : baseSize} {...rest}/> )
   };
