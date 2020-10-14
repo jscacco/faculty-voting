@@ -12,6 +12,7 @@ import OptionGroup      from '../option-groups/OptionGroup';
 import TextOption       from '../options/TextOption';
 import InputOption       from '../options/InputOption';
 import Button           from '../buttons/Button';
+import EditButton       from '../buttons/EditButton';
 
 import { fetchPollData } from '../../store/MockDataFunctions'
 
@@ -32,21 +33,23 @@ const HostPollCard = ( props ) => {
   const { pollTitle } = props;
   const pollData = fetchPollData(pollTitle);
 
+  const headerButton = (
+    <EditButton type={'edit'} color={Colors.Blue} onClick={props.onEditClick}/>
+  )
+
   const _header = (
     <HostHeaderWrapper>
-      <Jumbo twoExtraSmall color={Colors.White}>
+      <Jumbo twoExtraSmall color={Colors.LightBlue}>
         {pollData.title}
       </Jumbo>
       <EditButtonWrapper>
-        <Button medium backgroundColor={Colors.LightGrey} textColor={Colors.Charcol}>
-          Edit
-        </Button>
+        {headerButton}
       </EditButtonWrapper>
     </HostHeaderWrapper>
   )
 
   const _description = (
-    <Body small color={Colors.White}>
+    <Body small color={Colors.Charcol}>
       {pollData.description}
     </Body>
   )
@@ -54,7 +57,7 @@ const HostPollCard = ( props ) => {
   const _renderOptionGroup = () => {
     var optionComponents = pollData.options.map(optionData => {
       return optionData.optionType === 'text' ?
-            <TextOption medium fontColor={Colors.White}>
+            <TextOption medium fontColor={Colors.LightBlue}>
               {optionData.value}
             </TextOption> :
             <InputOption medium>
