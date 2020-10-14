@@ -121,7 +121,7 @@ const SecondaryCard = ( props ) => {
   ) : <div/>;
 
   return (
-    <Card color={Colors.LightBlue} height={'100%'} large>
+    <Card color={Colors.LightBlue} height={'100%'} large borderColor={Colors.White}>
       <InnerWrapper>
         {_renderHeader}
         <ScrollableWrapper>
