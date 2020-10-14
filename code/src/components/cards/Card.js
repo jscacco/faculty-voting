@@ -29,7 +29,11 @@ const CardComponent = styled.div`
   ${({height}) => height ?`height: ${height}` : `height: auto`};
   width: ${({width}) => width ? `${width}` : `auto`};
   padding: ${({padding}) => padding}px;
+<<<<<<< HEAD
   ${({borderColor}) => borderColor ? `border: 2px solid ${borderColor}` : ``};
+=======
+  ${({borderColor}) => borderColor ? `border: 1px solid ${borderColor}` : ``};
+>>>>>>> 487d275721aea198c225334c4af774771365e29b
 `;
 
 const sizeConfig = {

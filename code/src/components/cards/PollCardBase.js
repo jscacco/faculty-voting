@@ -99,7 +99,11 @@ const PollCardBase = ( props ) => {
 
 
   return (
+<<<<<<< HEAD
     <Card color={Colors.White} height={'100%'} large large borderColor={Colors.Blue}>
+=======
+    <Card color={Colors.White} height={'100%'} large large borderColor={Colors.LightBlue}>
+>>>>>>> 487d275721aea198c225334c4af774771365e29b
       <InnerWrapper>
         {_renderHeader}
         {_renderDescription}
