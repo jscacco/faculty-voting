@@ -29,14 +29,14 @@ const UserPollCard = ( props ) => {
 
   const _header = (
     <UserHeaderWrapper>
-      <Jumbo twoExtraSmall color={Colors.White}>
+      <Jumbo twoExtraSmall color={Colors.LightBlue}>
         {pollData.title}
       </Jumbo>
     </UserHeaderWrapper>
   )
 
   const _description = (
-    <Body small color={Colors.White}>
+    <Body small color={Colors.Charcol}>
       {pollData.description}
     </Body>
   )
@@ -44,7 +44,7 @@ const UserPollCard = ( props ) => {
   const _renderOptionGroup = () => {
     var optionComponents = pollData.options.map(optionData => {
       return optionData.optionType === 'text' ?
-            <TextOption medium fontColor={Colors.White}>
+            <TextOption medium fontColor={Colors.LightBlue}>
               {optionData.value}
             </TextOption> :
             <InputOption medium>

@@ -12,6 +12,7 @@ const propTypes = {
   width: PropTypes.string,
   padding: PropTypes.int,
   borderRadius: PropTypes.int,
+  borderColor: ExtraPropTypes.color,
 
   small: PropTypes.bool,
   medium: PropTypes.bool,
@@ -28,6 +29,7 @@ const CardComponent = styled.div`
   ${({height}) => height ?`height: ${height}` : `height: auto`};
   width: ${({width}) => width ? `${width}` : `auto`};
   padding: ${({padding}) => padding}px;
+  ${({borderColor}) => borderColor ? `border: 1px solid ${borderColor}` : ``};
 `;
 
 const sizeConfig = {

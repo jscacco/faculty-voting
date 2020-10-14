@@ -32,7 +32,7 @@ function fetchAgenda() {
   const closedPoll = { pollTitle: 'Poll', status:'closed' ,}
 
   const openPolls=[openPoll,openPoll,openPoll]
-  const closedPolls = [closedPoll]
+  const closedPolls = [closedPoll,closedPoll,closedPoll,closedPoll,closedPoll,closedPoll]
   const pendingPolls = [pendingPoll,pendingPoll,pendingPoll,pendingPoll,pendingPoll]
 
   return {
