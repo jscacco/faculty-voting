@@ -16,6 +16,9 @@ const PageWrapper = styled.div`
   position: fixed;
   overflow: auto;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const ComponentWrapper = styled.div`

@@ -25,7 +25,7 @@ const PageWrapper = styled.div`
 `;
 
 const ComponentWrapper = styled.div`
-  height: 80%;
+  padding-left: 250
 `;
 
 class App extends Component {
@@ -34,10 +34,7 @@ class App extends Component {
   render(){
 
     return (
-      <PageWrapper>
-        <DemoNavBar />
-        <HostDash />
-      </PageWrapper>
+      <Login />
     );
   }
 }
