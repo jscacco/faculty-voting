@@ -22,12 +22,12 @@ const HeaderWrapper = styled.div`
 `;
 
 const DescriptionWrapper = styled.div`
-  padding: 10px;
+  padding-top: 10px;
   /* border: 1px solid black; */
 `;
 
 const OptionGroupWrapper = styled.div`
-  padding: 20px;
+  padding-top: 10px;
   /* border: 2px solid white; */
   /* background: ${Colors.White}; */
   border-radius: 5px;

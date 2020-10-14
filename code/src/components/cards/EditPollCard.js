@@ -32,20 +32,32 @@ const EditPollCard = ( props ) => {
   const pollData = fetchPollData(pollTitle);
 
   const _header = (
-    <EditHeaderWrapper>
-      <Input extraLarge placeholder={pollTitle}/>
-    </EditHeaderWrapper>
+    <>
+      <Body medium color={Colors.Charcol}>
+        Title
+      </Body>
+      <TextArea large fontColor={Colors.Charcol} height={75}>
+        {pollTitle}
+      </TextArea>
+    </>
   )
 
   const _description = (
-    <TextArea placeholder={pollData.description} />
+    <>
+      <Body medium color={Colors.Charcol}>
+        Description
+      </Body>
+      <TextArea medium>
+        {pollData.description}
+      </TextArea>
+    </>
   )
 
   const _renderOptionGroup = () => {
     var optionComponents = pollData.options.map(optionData => {
       return optionData.optionType === 'text' ?
             <EditingOption>
-              <Body>Hello</Body>
+
             </EditingOption> :
             <InputOption medium>
               {optionData.value}
@@ -53,9 +65,14 @@ const EditPollCard = ( props ) => {
     });
 
     return (
-      <OptionGroup>
-        {optionComponents}
-      </OptionGroup>
+      <>
+        <Body medium color={Colors.Charcol}>
+          Options
+        </Body>
+        <OptionGroup>
+          {optionComponents}
+        </OptionGroup>
+      </>
     );
   }
 

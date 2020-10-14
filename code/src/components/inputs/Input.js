@@ -41,13 +41,13 @@ const renderInputField = (props) => {
 const renderTextArea = (props) => {
 
   const { placeholder, fontColor, backgroundColor, borderColor,
-          extraSmall, small, medium, large, extraLarge } = props;
+          extraSmall, small, medium, large, extraLarge, value } = props;
 
   return (
     <TextArea placeholder={placeholder} fontColor={fontColor}
                 backgroundColor={backgroundColor} borderColor={borderColor}
                 extraSmall={extraSmall} small={small} medium={medium}
-                large={large} extraLarge={extraLarge}/>
+                large={large} extraLarge={extraLarge} value={value}/>
   );
 }
 
