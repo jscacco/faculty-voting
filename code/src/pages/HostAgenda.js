@@ -50,7 +50,6 @@ class HostAgendaPage extends React.Component {
   render() {
 
     const agenda = fetchAgenda();
-    const pendingOrder = agenda.pendingPolls.map((i, index) => index);
 
     return(
       <PageWrapper>
@@ -58,10 +57,10 @@ class HostAgendaPage extends React.Component {
         <ComponentWrapper>
           { this.state.isEditing ?
             <HostEditAgendaCard medium openPolls={agenda.openPolls} pendingPolls={agenda.pendingPolls}
-                          closedPolls={agenda.closedPolls} pendingOrder={pendingOrder}
+                          closedPolls={agenda.closedPolls} pendingOrder={agenda.pendingOrder}
                           onEditClick={this.onEditClick}/> :
             <HostAgendaCard medium openPolls={agenda.openPolls} pendingPolls={agenda.pendingPolls}
-                          closedPolls={agenda.closedPolls} pendingOrder={pendingOrder}
+                          closedPolls={agenda.closedPolls} pendingOrder={agenda.pendingOrder}
                           onEditClick={this.onEditClick}/> }
         </ComponentWrapper>
       </PageWrapper>

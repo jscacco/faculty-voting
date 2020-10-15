@@ -27,18 +27,20 @@ function fetchHostRooms() {
 }
 
 function fetchAgenda() {
-  const openPoll = { pollTitle: 'Poll', status:'open' ,}
-  const pendingPoll = { pollTitle: 'Poll', status:'pending' , }
-  const closedPoll = { pollTitle: 'Poll', status:'closed' ,}
+  const openPoll = (i) => { return {title: 'Poll '.concat(i), status:'open' ,}}
+  const pendingPoll = (i) => {return {title: 'Poll '.concat(i), status:'pending' , }}
+  const closedPoll = (i) => { return {title: 'Poll '.concat(i), status:'closed' ,}}
 
-  const openPolls=[openPoll,openPoll,openPoll]
-  const closedPolls = [closedPoll]
-  const pendingPolls = [pendingPoll,pendingPoll,pendingPoll,pendingPoll,pendingPoll]
+  const openPolls=[openPoll(2),openPoll(3),openPoll(4)]
+  const closedPolls = [closedPoll(1)]
+  const pendingPolls = [pendingPoll(5),pendingPoll(6),pendingPoll(7),pendingPoll(8),pendingPoll(9)]
+  const pendingOrder = [0, 1, 2, 3, 4]
 
   return {
     openPolls: openPolls,
     pendingPolls: pendingPolls,
-    closedPolls: closedPolls
+    closedPolls: closedPolls,
+    pendingOrder: pendingOrder
   }
 }
 
