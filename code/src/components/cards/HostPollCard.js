@@ -55,7 +55,11 @@ const HostPollCard = ( props ) => {
     <EditButton type={'edit'} color={Colors.Blue} onClick={props.onEditClick}/>
   )
 
-  const _header = pollData.title;
+  const _header = (
+    <Jumbo twoExtraSmall color={Colors.Blue}>
+      {pollData.title}
+    </Jumbo>
+  )
 
   const _description = (
     <DescriptionWrapper>

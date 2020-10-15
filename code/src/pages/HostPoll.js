@@ -66,7 +66,7 @@ class HostPollPage extends React.Component {
       submitButton: {
         color: this.state.submitted ? Colors.Yellow : Colors.Blue,
         text: this.state.submitted ? 'Resubmit' : 'Submit',
-        statusText: this.state.submitted ? 'Resubmit my vote.' :  'Submit my vote.',
+        statusText: this.state.submitted ? 'Resubmit my vote.' : 'Submit my vote.',
       }
     })
   }

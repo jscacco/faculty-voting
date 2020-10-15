@@ -52,7 +52,11 @@ const UserPollCard = ( props ) => {
   const { pollData, onOptionChange,
           onSubmit, buttonColor, buttonText, statusText } = props;
 
-  const _header = pollData.title;
+  const _header = (
+    <Jumbo twoExtraSmall color={Colors.Blue}>
+      {pollData.title}
+    </Jumbo>
+  )
 
   const _description = (
     <DescriptionWrapper>
