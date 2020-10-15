@@ -3,7 +3,7 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import SecondaryCard    from './SecondaryCard'
+import TertiaryCard    from './TertiaryCard'
 import { Colors }       from '../theme/Colors';
 import StatusText       from '../format-text/StatusText'
 
@@ -12,6 +12,9 @@ const propTypes = {
   headerButton: PropTypes.node,
   sections: PropTypes.arrayOf(PropTypes.object),
   footer: PropTypes.node,
+
+  cardColor: ExtraPropTypes.color,
+  cardBorderColor: ExtraPropTypes.color,
 
   extraSmall: PropTypes.bool,
   small: PropTypes.bool,
@@ -26,7 +29,7 @@ const defaultProps ={
 };
 
 
-const StatusSecondaryCard = ( props ) => {
+const StatusTertiaryCard = ( props ) => {
 
   const { sections, ...rest } = props;
 
@@ -46,12 +49,12 @@ const StatusSecondaryCard = ( props ) => {
   }
 
   return (
-    <SecondaryCard sections={sections.map((section) => renderSection(section))}
+    <TertiaryCard sections={sections.map((section) => renderSection(section))}
                    {...rest}/>
   )
 };
 
-StatusSecondaryCard.propTypes = propTypes;
-StatusSecondaryCard.defaultProps = defaultProps;
+StatusTertiaryCard.propTypes = propTypes;
+StatusTertiaryCard.defaultProps = defaultProps;
 
-export default StatusSecondaryCard;
+export default StatusTertiaryCard;

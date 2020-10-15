@@ -7,7 +7,7 @@ import PollData          from '../../data-containers/PollData';
 
 import { Colors }        from '../theme/Colors';
 import EditButton             from '../buttons/EditButton';
-import StatusSecondaryCard from '../format-cards/StatusSecondaryCard';
+import StatusTertiaryCard from '../format-cards/StatusTertiaryCard';
 
 import Group              from '../groups/Group';
 import EditingGroup                 from '../groups/EditingGroup';
@@ -150,7 +150,7 @@ class HostEditAgendaCard extends React.Component {
     )
 
     return (
-      <StatusSecondaryCard header={this.props.roomTitle}
+      <StatusTertiaryCard header={this.props.roomTitle}
                            headerButton={headerButton}
                            sections={this.sections}
                            {...this.size}/>
