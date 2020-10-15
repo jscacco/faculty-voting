@@ -16,6 +16,8 @@ import TextArea       from '../inputs/TextArea';
 import EditingOption  from '../options/EditingOption';
 import PrimaryCard from '../format-cards/PrimaryCard';
 
+import PollCardBase from './PollCardBase'
+
 
 import { fetchPollData } from '../../store/MockDataFunctions'
 
@@ -32,16 +34,7 @@ const EditPollCard = ( props ) => {
   const { pollTitle } = props;
   const pollData = fetchPollData(pollTitle);
 
-  const _header = (
-    <>
-      <Body medium color={Colors.Charcol}>
-        Title
-      </Body>
-      <TextArea large fontColor={Colors.Charcol} height={75}>
-        {pollTitle}
-      </TextArea>
-    </>
-  )
+  const _header = pollData.pollTitle;
 
   const _description = (
     <>
@@ -87,10 +80,12 @@ const EditPollCard = ( props ) => {
   }
 
   return (
-    <PollCardBase header={_header}
-                  description={_description}
-                  optionGroup={_renderOptionGroup()}
-                  button={_renderButton()}/>
+    <PrimaryCard extraSmall cardColor={Colors.White}
+                 header={_header} />
+    // <PollCardBase header={_header}
+    //               description={_description}
+    //               optionGroup={_renderOptionGroup()}
+    //               button={_renderButton()}/>
   )
 };
 
