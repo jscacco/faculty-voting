@@ -1,22 +1,37 @@
 
 const data = {
-  polls: [{
-    data: {
-      id: 0,
-      type: 'multiple',
-      title: 'Poll Title',
-      description: 'Descriptive description of ze poll...',
-      options: [
-        { type: 'text',
-          value: 'Option 1' },
-        { type: 'text',
-          value: 'Option 2' },
-        { type: 'input',
-          value: null }
-      ],
+  rooms: {
+    '0000': {
+      id: '0000',
+      status: 'closed',
+      title: 'Room 0000',
+      polls: [],
     },
-    submission: null
-  }]
+    '0001': {
+      id: '0001',
+      status: 'closed',
+      title: 'Room 0001',
+      polls: [],
+    },
+    '0002': {
+      id: '0002',
+      status: 'open',
+      title: 'Room 0002',
+    },
+    '0003': {
+      id: '0003',
+      status: 'pending',
+      title: 'Room 0003',
+    },
+    '0004': {
+      id: '0004',
+      status: 'pending',
+      title: 'Room 0004',
+    },
+    order: {
+      'open': ['0002'],
+      'closed': ['0000', '0001'],
+      'pending': ['0003','0004']
+    }
 }
-
 export default data;

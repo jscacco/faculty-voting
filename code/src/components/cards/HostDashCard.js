@@ -17,9 +17,8 @@ import StatusSecondaryCard       from '../format-cards/StatusSecondaryCard';
 
 
 const propTypes = {
-  pendingRooms: PropTypes.arrayOf(PropTypes.object),
-  openRooms: PropTypes.arrayOf(PropTypes.object),
-  closedRooms: PropTypes.arrayOf(PropTypes.object),
+  rooms: PropTypes.object,
+  order: PropTypes.object,
 
   onViewClick: PropTypes.func,
 
@@ -44,11 +43,11 @@ const SectionGroup = ( props ) => {
   const items = rooms.map((room, index) => (
     room.status === 'open' ?
     <HostRoomItem roomTitle={room.title}
-              roomCode={room.roomCode}
+              roomCode={room.id}
               onViewClick={onViewClick}/> :
     <EditItem iconColor={Colors.White} onDelete={onDelete}>
       <HostRoomItem roomTitle={room.title}
-                roomCode={room.roomCode}
+                roomCode={room.id}
                 onViewClick={onViewClick}/>
     </EditItem>
   ));
@@ -72,11 +71,13 @@ const SectionGroup = ( props ) => {
 
 const HostDashCard = ( props ) => {
 
-  const { openRooms, pendingRooms, closedRooms,
+  const { rooms, order,
           onViewClick, ...rest} = props;
 
+  const statusList = ['open', 'pending', 'closed'];
+  statusList.filter((status) => order[status].length != 0); 
 
-  const renderSection = ( roomsSet ) => {
+  const renderSection = ( status ) => {
     return {
       content: <SectionGroup rooms={roomsSet.rooms} onViewClick={onViewClick}
                              onAdd={roomsSet.status === 'pending' ? () => console.log('AddPoll') : undefined}

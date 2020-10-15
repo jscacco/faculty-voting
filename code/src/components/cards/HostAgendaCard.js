@@ -48,7 +48,8 @@ const HostAgendaCard = ( props ) => {
   const pollComponents = (
     <Group>
       { allPolls.map((poll, index) => (
-        <HostAgendaItem pollTitle={poll.title} status={poll.status}
+        <HostAgendaItem key={`${index}`}
+                        pollTitle={poll.title} status={poll.status}
                         onViewClick={onViewClick ? () => onViewClick(index) : undefined}
                         onStatusButtonClick={onStatusButtonClick ? () => onStatusButtonClick(index) : undefined}/>
       )) }

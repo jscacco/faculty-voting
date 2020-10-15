@@ -1,3 +1,5 @@
+import mockData from './mockData'
+
 function fetchPollData(pollTitle) {
   return {
     title: pollTitle,
@@ -11,18 +13,11 @@ function fetchPollData(pollTitle) {
 }
 
 function fetchHostRooms() {
-  const openRoom = { roomTitle: 'Room', status:'open' , roomCode:'123'}
-  const pendingRoom = { roomTitle: 'Room', status:'pending' , roomCode:'1234'}
-  const closedRoom = { roomTitle: 'Room', status:'closed' , roomCode:'123'}
-
-  const openRooms=[openRoom,openRoom,openRoom]
-  const closedRooms = [closedRoom]
-  const pendingRooms = [pendingRoom,pendingRoom,pendingRoom,pendingRoom,pendingRoom]
+  const { order, ...rooms } = mockData.rooms;
 
   return {
-    openRooms: openRooms,
-    closedRooms: closedRooms,
-    pendingRooms: pendingRooms
+    rooms: rooms,
+    order: order
   }
 }
 

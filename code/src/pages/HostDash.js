@@ -1,6 +1,8 @@
-import React                from 'react';
+import React, { useEffect } from 'react';
 import styled               from 'styled-components';
-import ParticlesBg          from 'particles-bg';
+
+import { connect }          from 'react-redux';
+import ActionTypes          from '../store/actionTypes';
 
 import { Colors }           from '../components/theme/Colors';
 
@@ -31,18 +33,44 @@ const ComponentWrapper = styled.div`
 `;
 
 const HostDashPage = ( props ) => {
-  const rooms = fetchHostRooms();
+  useEffect(() =>  {
+    props.onFetchRooms();
+  }, [])
+
+  console.log(props)
+
+  const open = props.openRooms.map(room => props.rooms[room]);
+  const closed = props.closedRooms.map(room => props.rooms[room]);
+  const pending = props.pendingRooms.map(room => props.rooms[room]);
 
   return (
     <PageWrapper>
       <DemoNavBar />
       <ComponentWrapper>
-        <HostDashCard medium openRooms={rooms.openRooms} pendingRooms={rooms.pendingRooms}
-                      closedRooms={rooms.closedRooms}/>
+        <HostDashCard medium rooms={props.rooms}
+                      order={props.order}}/>
       </ComponentWrapper>
     </PageWrapper>
   );
 
 }
 
-export default HostDashPage;
+
+const mapStateToProps = (state) => {
+
+  return {
+    rooms: state.hostdash.rooms,
+    order: state.hostdash.order,
+    loading: state.hostdash.loading
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchRooms: () => dispatch({ type: ActionTypes.hostdash.FETCH_ROOMS_START })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HostDashPage);
+
+// export default HostDashPage;
