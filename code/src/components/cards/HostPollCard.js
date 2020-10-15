@@ -23,7 +23,7 @@ const ButtonStatusStackWrapper =  styled.div`
   flex-direction: column;
   justify-content: center;
   width: 20%;
-  min-width: 100px;
+  min-width: 150px;
 `;
 
 const DescriptionWrapper = styled.div`
