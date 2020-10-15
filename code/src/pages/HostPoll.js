@@ -3,6 +3,7 @@ import styled               from 'styled-components';
 
 import { Colors }           from '../components/theme/Colors';
 import HostPollCard         from '../components/cards/HostPollCard';
+import EditPollCard         from '../components/cards/EditPollCard';
 
 import { fetchPollData } from '../store/MockDataFunctions'
 import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
@@ -33,6 +34,8 @@ class HostPollPage extends React.Component {
 
     this.state = {
       poll: fetchPollData('Ammend Clause XYZ'),
+      isEditing: false,
+
       submitted: false,
       submitButton: {
         submitted: false,
@@ -48,8 +51,16 @@ class HostPollPage extends React.Component {
       onSelectOption: Array(this.state.poll.options.length).fill(false)
     })
 
+    this.onEditClick = this.onEditClick.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onOptionChange = this.onOptionChange.bind(this);
+  }
+
+  async onEditClick() {
+    await this.setState({
+      ...this.state,
+      isEditing: !this.state.isEditing
+    })
   }
 
   async onSubmit() {
@@ -84,8 +95,11 @@ class HostPollPage extends React.Component {
         <DemoNavBar />
         <ComponentWrapper>
           { this.state.isEditing ?
-            <EditPollCard pollTitle={poll} onEditClick={this.onEditClick}/> :
-            <HostPollCard pollTitle={poll} onEditClick={this.onEditClick}/>
+            <EditPollCard pollData={this.state.poll} onSubmit={this.onSubmit}
+                          onOptionChange={this.onOptionChange} onEditClick={this.onEditClick} /> :
+            <HostPollCard pollData={this.state.poll} onSubmit={this.onSubmit} onOptionChange={this.onOptionChange}
+                        buttonColor={this.state.submitButton.color} buttonText={this.state.submitButton.text}
+                        statusText={this.state.submitButton.statusText} onEditClick={this.onEditClick} />
           }
         </ComponentWrapper>
       </PageWrapper>
