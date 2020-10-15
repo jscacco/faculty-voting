@@ -16,6 +16,16 @@ import EditButton       from '../buttons/EditButton';
 
 import { fetchPollData } from '../../store/MockDataFunctions'
 
+const propTypes = {
+  onEditClick: PropTypes.func,
+
+  extraSmall: PropTypes.bool,
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
+  large: PropTypes.bool,
+  extraLarge: PropTypes.bool,
+};
+
 const ButtonStatusStackWrapper =  styled.div`
   padding: 15px;
   padding-bottom: 0px;
@@ -50,7 +60,7 @@ const HostPollCard = ( props ) => {
   const pollData = fetchPollData(pollTitle);
 
   const _headerButton = (
-    <EditButton type={'edit'} color={Colors.Blue} onClick={props.onEditClick}/>
+    <EditButton type={'edit'} color={Colors.Blue} onClick={(props.onEditClick)}/>
   )
 
   const _header = pollData.title;
@@ -132,5 +142,7 @@ const HostPollCard = ( props ) => {
                  children={_children()} />
   )
 };
+
+HostPollCard.propTypes = propTypes;
 
 export default HostPollCard;
