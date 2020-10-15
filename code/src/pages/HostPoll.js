@@ -83,9 +83,10 @@ class HostPollPage extends React.Component {
       <PageWrapper>
         <DemoNavBar />
         <ComponentWrapper>
-          <HostPollCard pollData={this.state.poll} onSubmit={this.onSubmit} onOptionChange={this.onOptionChange}
-                        buttonColor={this.state.submitButton.color} buttonText={this.state.submitButton.text}
-                        statusText={this.state.submitButton.statusText} selectedOptions={this.state.selectedOptions}/>
+          { this.state.isEditing ?
+            <EditPollCard pollTitle={poll} onEditClick={this.onEditClick}/> :
+            <HostPollCard pollTitle={poll} onEditClick={this.onEditClick}/>
+          }
         </ComponentWrapper>
       </PageWrapper>
     );
