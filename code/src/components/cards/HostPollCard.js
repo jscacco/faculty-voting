@@ -7,54 +7,66 @@ import { Colors }       from '../theme/Colors';
 import Jumbo            from '../theme/Jumbo';
 import Body            from '../theme/Body';
 
-import PollCardBase     from './PollCardBase';
+import PrimaryCard      from '../format-cards/PrimaryCard';
 import OptionGroup      from '../option-groups/OptionGroup';
 import TextOption       from '../options/TextOption';
 import InputOption       from '../options/InputOption';
 import Button           from '../buttons/Button';
+import EditButton       from '../buttons/EditButton';
 
 import { fetchPollData } from '../../store/MockDataFunctions'
 
-const HostHeaderWrapper = styled.div`
+const ButtonStatusStackWrapper =  styled.div`
+  padding: 15px;
+  padding-bottom: 0px;
   display: flex;
-  justify-content: space-between;
-  direction: row;
+  flex-direction: column;
+  justify-content: center;
+  width: 20%;
 `;
 
-const EditButtonWrapper = styled.div`
-  position: relative;
-  width: 10%;
+const DescriptionWrapper = styled.div`
+  padding: 10px;
 `;
 
+const OptionGroupWrapper = styled.div`
+  padding: 20px;
+`;
+
+const StatusWrapper = styled.div`
+  padding-top: 0px;
+  display: flex;
+  justify-content: center;
+`;
+
+const CenterWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const HostPollCard = ( props ) => {
 
   const { pollTitle } = props;
   const pollData = fetchPollData(pollTitle);
 
-  const _header = (
-    <HostHeaderWrapper>
-      <Jumbo twoExtraSmall color={Colors.White}>
-        {pollData.title}
-      </Jumbo>
-      <EditButtonWrapper>
-        <Button medium backgroundColor={Colors.LightGrey} textColor={Colors.Charcol}>
-          Edit
-        </Button>
-      </EditButtonWrapper>
-    </HostHeaderWrapper>
+  const _headerButton = (
+    <EditButton type={'edit'} color={Colors.Blue} onClick={props.onEditClick}/>
   )
 
+  const _header = pollData.title;
+
   const _description = (
-    <Body small color={Colors.White}>
-      {pollData.description}
-    </Body>
+    <DescriptionWrapper>
+      <Body small color={Colors.Charcol}>
+        {pollData.description}
+      </Body>
+    </DescriptionWrapper>
   )
 
   const _renderOptionGroup = () => {
     var optionComponents = pollData.options.map(optionData => {
       return optionData.optionType === 'text' ?
-            <TextOption medium fontColor={Colors.White}>
+            <TextOption medium fontColor={Colors.LightBlue}>
               {optionData.value}
             </TextOption> :
             <InputOption medium>
@@ -63,9 +75,11 @@ const HostPollCard = ( props ) => {
     });
 
     return (
-      <OptionGroup>
-        {optionComponents}
-      </OptionGroup>
+      <OptionGroupWrapper>
+        <OptionGroup>
+          {optionComponents}
+        </OptionGroup>
+      </OptionGroupWrapper>
     );
   }
 
@@ -81,22 +95,41 @@ const HostPollCard = ( props ) => {
     )
   }
 
-  const _renderStatusText  = () => {
+  const _renderStatusText = () => {
     var statusText = "Please submit your vote.";
 
     return (
-      <Body small>
-        {statusText}
-      </Body>
+      <StatusWrapper>
+        <Body small>
+          {statusText}
+        </Body>
+      </StatusWrapper>
+    )
+  }
+
+  const _buttonStatusStack = (
+    <CenterWrapper>
+      <ButtonStatusStackWrapper>
+        {_renderButton()}
+        {_renderStatusText()}
+      </ButtonStatusStackWrapper>
+    </CenterWrapper>
+  )
+
+  const _children = () => {
+    return (
+      <>
+        {_description}
+        {_renderOptionGroup()}
+        {_buttonStatusStack}
+      </>
     )
   }
 
   return (
-    <PollCardBase header={_header}
-                  description={_description}
-                  optionGroup={_renderOptionGroup()}
-                  button={_renderButton()}
-                  statusText={_renderStatusText()}/>
+    <PrimaryCard extraSmall cardColor={Colors.White}
+                 header={_header} headerButton={_headerButton}
+                 children={_children()} />
   )
 };
 

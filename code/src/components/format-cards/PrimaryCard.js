@@ -13,6 +13,8 @@ const propTypes = {
   children: PropTypes.node,
   footer: PropTypes.node,
 
+  cardColor: ExtraPropTypes.Color,
+
   extraSmall: PropTypes.bool,
   small: PropTypes.bool,
   medium: PropTypes.bool,
@@ -22,6 +24,7 @@ const propTypes = {
 
 const defaultProps ={
   header: 'Header',
+  cardColor: Colors.LightBlue
 };
 
 const ComponentWrapper = styled.div`
@@ -65,7 +68,7 @@ const FooterWrapper = styled.div`
 
 const PrimaryCard = ( props ) => {
 
-  const { children, header, headerButton, footer, ...rest } = props;
+  const { cardColor, children, header, headerButton, footer, ...rest } = props;
 
   let padding;
   let subPadding;
@@ -85,7 +88,7 @@ const PrimaryCard = ( props ) => {
       <HeaderTextWrapper>
         <Jumbo twoExtraSmall={props.extraSmall} extraSmall={props.small}
                small={props.medium} medium={props.large} large={props.extraLarge}
-               color={Colors.White}>
+               color={(cardColor == Colors.White) ? Colors.LightBlue : Colors.White}>
           {header}
         </Jumbo>
       </HeaderTextWrapper>
@@ -110,7 +113,7 @@ const PrimaryCard = ( props ) => {
   ) : <div/>;
 
   return (
-    <Card color={Colors.LightBlue} height={'100%'} large>
+    <Card color={cardColor} height={'100%'} large large borderColor={Colors.White}>
       <InnerWrapper>
         {_renderHeader}
         {_renderContent}
