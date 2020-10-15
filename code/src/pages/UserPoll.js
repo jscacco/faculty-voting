@@ -4,6 +4,7 @@ import styled               from 'styled-components';
 import { Colors }           from '../components/theme/Colors';
 import UserPollCard         from '../components/cards/UserPollCard';
 
+import { fetchPollData } from '../store/MockDataFunctions'
 import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
 
 const PageWrapper = styled.div`
@@ -26,19 +27,62 @@ const ComponentWrapper = styled.div`
   width: 80%;
 `;
 
-const UserPollPage = ( props ) => {
+class UserPollPage extends React.Component {
+  constructor(props) {
+    super(props);
 
-  const poll = 'Ammend Clause XYZ';
+    this.state = {
+      poll: fetchPollData('Ammend Clause XYZ'),
+      submitted: false,
+      submitButton: {
+        submitted: false,
+        color: Colors.LightGrey,
+        text: 'Submit',
+        statusText: 'Select your choice.'
+      },
+    }
 
-  return (
-    <PageWrapper>
-      <DemoNavBar />
-      <ComponentWrapper>
-        <UserPollCard pollTitle={poll} />
-      </ComponentWrapper>
-    </PageWrapper>
-  );
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onOptionChange = this.onOptionChange.bind(this);
+  }
 
+  async onSubmit() {
+    console.log("Submitted")
+    await this.setState({
+      ...this.state,
+      submitted: true,
+      submitButton: {
+        color: Colors.Green,
+        text: 'Submitted',
+        statusText: 'Your vote has been recorded.',
+      }
+    })
+  }
+
+  async onOptionChange(event) {
+    console.log("Changed option")
+    await this.setState({
+      ...this.state,
+      submitButton: {
+        color: this.state.submitted ? Colors.Yellow : Colors.Blue,
+        text: this.state.submitted ? 'Resubmit' : 'Submit',
+        statusText: this.state.submitted ? 'Resubmit my vote.' :  'Submit my vote.',
+      }
+    })
+  }
+
+  render() {
+    return (
+      <PageWrapper>
+        <DemoNavBar />
+        <ComponentWrapper>
+          <UserPollCard pollData={this.state.poll} onSubmit={this.onSubmit} onOptionChange={this.onOptionChange}
+                        buttonColor={this.state.submitButton.color} buttonText={this.state.submitButton.text}
+                        statusText={this.state.submitButton.statusText} />
+        </ComponentWrapper>
+      </PageWrapper>
+    );
+  }
 }
 
 export default UserPollPage;

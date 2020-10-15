@@ -10,12 +10,11 @@ import Body            from '../theme/Body';
 import PrimaryCard      from '../format-cards/PrimaryCard';
 import OptionGroup      from '../option-groups/OptionGroup';
 import TextOption       from '../options/TextOption';
+import Option       from '../options/Option';
 import VotingOption       from '../options/VotingOption';
 import InputOption       from '../options/InputOption';
 import Button           from '../buttons/Button';
 import EditButton       from '../buttons/EditButton';
-
-import { fetchPollData } from '../../store/MockDataFunctions'
 
 const ButtonStatusStackWrapper =  styled.div`
   padding: 15px;
@@ -24,6 +23,7 @@ const ButtonStatusStackWrapper =  styled.div`
   flex-direction: column;
   justify-content: center;
   width: 20%;
+  min-width: 100px;
 `;
 
 const DescriptionWrapper = styled.div`
@@ -38,6 +38,7 @@ const StatusWrapper = styled.div`
   padding-top: 0px;
   display: flex;
   justify-content: center;
+  text-align: center;
 `;
 
 const CenterWrapper = styled.div`
@@ -47,8 +48,8 @@ const CenterWrapper = styled.div`
 
 const HostPollCard = ( props ) => {
 
-  const { pollTitle } = props;
-  const pollData = fetchPollData(pollTitle);
+  const { pollData, onOptionChange,
+          onSubmit, buttonColor, buttonText, statusText } = props;
 
   const _headerButton = (
     <EditButton type={'edit'} color={Colors.Blue} onClick={props.onEditClick}/>
@@ -73,7 +74,7 @@ const HostPollCard = ( props ) => {
               </TextOption>
             </VotingOption> :
             <VotingOption medium>
-              <InputOption medium>
+              <InputOption>
                 {optionData.value}
               </InputOption>
             </VotingOption>;
@@ -81,7 +82,7 @@ const HostPollCard = ( props ) => {
 
     return (
       <OptionGroupWrapper>
-        <OptionGroup>
+        <OptionGroup onSelect={onOptionChange}>
           {optionComponents}
         </OptionGroup>
       </OptionGroupWrapper>
@@ -89,20 +90,15 @@ const HostPollCard = ( props ) => {
   }
 
   const _renderButton = () => {
-    var buttonText = "Submit";
-    var buttonColor = Colors.Blue;
-    var buttonTextColor = Colors.White
 
     return (
-      <Button backgroundColor={buttonColor} textColor={buttonTextColor}>
+      <Button backgroundColor={buttonColor} textColor={Colors.White} onClick={onSubmit}>
         {buttonText}
       </Button>
     )
   }
 
   const _renderStatusText = () => {
-    var statusText = "Please submit your vote.";
-
     return (
       <StatusWrapper>
         <Body small>

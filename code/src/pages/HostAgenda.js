@@ -4,11 +4,11 @@ import ParticlesBg          from 'particles-bg';
 
 import { Colors }           from '../components/theme/Colors';
 
-import HostAgendaCard        from '../components/cards/HostAgendaCard';
-import HostEditAgendaCard        from '../components/cards/HostEditAgendaCard';
+import HostAgendaCard       from '../components/cards/HostAgendaCard';
+import HostEditAgendaCard   from '../components/cards/HostEditAgendaCard';
 
-import { fetchAgenda } from '../store/MockDataFunctions';
-import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
+import { fetchAgenda }      from '../store/MockDataFunctions';
+import DemoNavBar           from '../components/DebuggingComponents/DemoNavBar';
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
