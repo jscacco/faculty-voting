@@ -7,7 +7,7 @@ import UserPollCard         from '../components/cards/UserPollCard';
 import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
 
 const PageWrapper = styled.div`
-  background-color: ${Colors.White};
+  background-color: ${Colors.LightBlue};
   right: 0;
   left: 0;
   top: 0;
