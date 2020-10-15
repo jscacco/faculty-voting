@@ -48,7 +48,7 @@ const CenterWrapper = styled.div`
 
 const HostPollCard = ( props ) => {
 
-  const { pollData, onOptionChange,
+  const { pollData, onOptionChange, selectedOptions,
           onSubmit, buttonColor, buttonText, statusText } = props;
 
   const _headerButton = (
@@ -86,7 +86,7 @@ const HostPollCard = ( props ) => {
 
     return (
       <OptionGroupWrapper>
-        <OptionGroup onSelect={onOptionChange}>
+        <OptionGroup onSelect={onOptionChange} selectedOptions={selectedOptions}>
           {optionComponents}
         </OptionGroup>
       </OptionGroupWrapper>

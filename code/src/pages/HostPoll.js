@@ -40,7 +40,13 @@ class HostPollPage extends React.Component {
         text: 'Submit',
         statusText: 'Select your choice.'
       },
+      selectedOptions: [],
     }
+
+    this.setState({
+      ...this.state,
+      onSelectOption: Array(this.state.poll.options.length).fill(false)
+    })
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onOptionChange = this.onOptionChange.bind(this);
@@ -61,6 +67,7 @@ class HostPollPage extends React.Component {
 
   async onOptionChange(event) {
     console.log("Changed option")
+    console.log(this.state.selectedOptions)
     await this.setState({
       ...this.state,
       submitButton: {
@@ -78,7 +85,7 @@ class HostPollPage extends React.Component {
         <ComponentWrapper>
           <HostPollCard pollData={this.state.poll} onSubmit={this.onSubmit} onOptionChange={this.onOptionChange}
                         buttonColor={this.state.submitButton.color} buttonText={this.state.submitButton.text}
-                        statusText={this.state.submitButton.statusText} />
+                        statusText={this.state.submitButton.statusText} selectedOptions={this.state.selectedOptions}/>
         </ComponentWrapper>
       </PageWrapper>
     );
