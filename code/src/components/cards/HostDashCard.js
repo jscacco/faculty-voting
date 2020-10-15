@@ -13,7 +13,7 @@ import HostRoomItem                   from '../items/HostRoomItem';
 import EditItem                   from '../items/EditItem';
 import AddItem                   from '../items/AddItem';
 
-import StatusSecondaryCard       from '../format-cards/StatusSecondaryCard';
+import StatusTertiaryCard       from '../format-cards/StatusTertiaryCard';
 
 
 const propTypes = {
@@ -92,7 +92,7 @@ const HostDashCard = ( props ) => {
 
 
   return (
-    <StatusSecondaryCard header={'My Rooms'}
+    <StatusTertiaryCard header={'My Rooms'}
                       sections={sections.map(section => renderSection(section))}
                       {...rest}/>
 

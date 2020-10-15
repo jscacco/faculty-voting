@@ -3,7 +3,7 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import PrimaryCard            from '../format-cards/PrimaryCard';
+import SecondaryCard            from '../format-cards/SecondaryCard';
 import AgendaItem                from '../items/AgendaItem';
 import Group                 from '../groups/Group';
 
@@ -49,11 +49,11 @@ const UserAgendaCard = ( props ) => {
   )
 
   return (
-    <PrimaryCard header={roomTitle}
+    <SecondaryCard header={roomTitle}
                  extraSmall={extraSmall} small={small}
                  medium={medium} large={large} extraLarge={extraLarge}>
       {pollComponents}
-    </PrimaryCard>
+    </SecondaryCard>
   )
 };
 
