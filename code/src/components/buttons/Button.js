@@ -76,8 +76,6 @@ const Button = ( props ) => {
   const bodyText = <BodyText color={textColor} children={children} {...rest}/>;
   const jumboText = <JumboText color={textColor} children={children} {...rest}/>;
 
-  console.log(children);
-
   let config;
 
   if (props.extraLarge) { config = buttonConfig.extraLarge }

@@ -47,6 +47,9 @@ class InnerList extends React.Component {
   }
 
   render () {
+
+    // console.log(this.props.items);
+
     return (
       this.props.items.map((item, index) =>
         <DragItem key={item.id}
@@ -92,6 +95,8 @@ class DragGroup extends React.Component {
   }
 
   render() {
+
+    // console.log(this.props.items);
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Droppable droppableId="droppable">
