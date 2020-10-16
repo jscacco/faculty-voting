@@ -13,13 +13,15 @@ import HostRoomItem                   from '../items/HostRoomItem';
 import EditItem                   from '../items/EditItem';
 import AddItem                   from '../items/AddItem';
 
-import StatusSecondaryCard       from '../format-cards/StatusSecondaryCard';
+import StatusTertiaryCard       from '../format-cards/StatusTertiaryCard';
 
 
 const propTypes = {
   rooms: PropTypes.object,
   order: PropTypes.object,
 
+  onDelete: PropTypes.func,
+  onAdd: PropTypes.func,
   onViewClick: PropTypes.func,
 
   extraSmall: PropTypes.bool,
@@ -30,9 +32,7 @@ const propTypes = {
 }
 
 const defaultProps = {
-  pendingRooms: [],
-  openRooms: [],
-  closedRooms: []
+
 }
 
 
@@ -40,12 +40,13 @@ const SectionGroup = ( props ) => {
   const { rooms, onViewClick,
           onDelete, onAdd, ...rest } = props;
 
+
   const items = rooms.map((room, index) => (
     room.status === 'open' ?
     <HostRoomItem roomTitle={room.title}
               roomCode={room.id}
               onViewClick={onViewClick}/> :
-    <EditItem iconColor={Colors.White} onDelete={onDelete}>
+    <EditItem iconColor={Colors.White} onDelete={() => onDelete(room.id)}>
       <HostRoomItem roomTitle={room.title}
                 roomCode={room.id}
                 onViewClick={onViewClick}/>
@@ -72,34 +73,31 @@ const SectionGroup = ( props ) => {
 const HostDashCard = ( props ) => {
 
   const { rooms, order,
-          onViewClick, ...rest} = props;
+          onViewClick, onDelete, onAdd, ...rest} = props;
 
-  const statusList = ['open', 'pending', 'closed'];
-  statusList.filter((status) => order[status].length != 0); 
+  let statusList = ['open', 'pending', 'closed'];
+  statusList = statusList.filter((status) => order[status].length != 0);
 
-  const renderSection = ( status ) => {
+
+  const sections = statusList.map((status) => {
+
+    const sectionRooms = order[status].map((room) => rooms[room])
+
     return {
-      content: <SectionGroup rooms={roomsSet.rooms} onViewClick={onViewClick}
-                             onAdd={roomsSet.status === 'pending' ? () => console.log('AddPoll') : undefined}
+      status: status,
+      content: <SectionGroup rooms={sectionRooms}
+                             onViewClick={onViewClick}
+                             onDelete={onDelete}
+                             onAdd={status === 'pending' ? onAdd : undefined}
                              {...rest}/>,
-      status: roomsSet.status
     }
-  }
-
-  const sections = [ {rooms: openRooms, status:'open'},
-                     {rooms: pendingRooms, status:'pending'},
-                     {rooms: closedRooms, status:'closed'}];
-  sections.filter((roomType) => roomType.rooms.length != 0);
-
+  })
 
   return (
-    <StatusSecondaryCard header={'My Rooms'}
-                      sections={sections.map(section => renderSection(section))}
+    <StatusTertiaryCard header={'My Rooms'}
+                      sections={sections}
                       {...rest}/>
-
-
   )
-
 }
 
 HostDashCard.propTypes = propTypes;

@@ -1,10 +1,12 @@
 import { combineReducers } 	from 'redux';
 import hostdash  								from './hostdash.reducer';
-// import roomcode  						from './roomcode.reducer';
-// import meetingroom 					from './meetingroom.reducer';
+import useragenda  						from './useragenda.reducer';
+import hostagenda 					from './hostagenda.reducer';
 
 export default combineReducers({
   hostdash,
+  useragenda,
+  hostagenda
 });
 
 // export default combineReducers({

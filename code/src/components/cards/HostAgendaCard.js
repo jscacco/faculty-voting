@@ -3,8 +3,7 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import PrimaryCard      from '../format-cards/PrimaryCard'
-// import AgendaCardBase            from './AgendaCardBase';
+import SecondaryCard      from '../format-cards/SecondaryCard'
 import HostAgendaItem                from '../items/HostAgendaItem';
 import Group                 from '../groups/Group'
 
@@ -12,13 +11,14 @@ import { Colors }                from '../theme/Colors';
 import EditButton                      from '../buttons/EditButton';
 
 const propTypes = {
+  roomcode: PropTypes.string,
+  title: PropTypes.string,
+  status: PropTypes.string,
 
-  roomTitle: PropTypes.string,
+  polls: PropTypes.object,
+  order: PropTypes.object,
 
-  openPolls: PropTypes.arrayOf(PropTypes.object),
-  pendingPolls: PropTypes.arrayOf(PropTypes.object),
-  closedPolls: PropTypes.arrayOf(PropTypes.object),
-
+  onEditClick: PropTypes.func,
   onViewClick: PropTypes.func,
   onStatusButtonClick: PropTypes.func,
 
@@ -39,32 +39,40 @@ const defaultProps = {
 
 const HostAgendaCard = ( props ) => {
 
-  const { roomTitle, openPolls, pendingPolls, closedPolls,
+  const { roomcode, title, status, polls, order,
+          onEditClick,
           onViewClick, onStatusButtonClick,
           extraSmall, small, medium, large, extraLarge } = props;
 
 
-  const allPolls = openPolls.concat(pendingPolls, closedPolls);
-  const pollComponents = (
-    <Group>
-      { allPolls.map((poll, index) => (
-        <HostAgendaItem key={`${index}`}
-                        pollTitle={poll.title} status={poll.status}
-                        onViewClick={onViewClick ? () => onViewClick(index) : undefined}
-                        onStatusButtonClick={onStatusButtonClick ? () => onStatusButtonClick(index) : undefined}/>
-      )) }
-    </Group>
-  )
+  let allPolls = [];
+  let statusList = ['open', 'pending', 'closed'];
+  statusList = statusList.filter((status) => order[status] && order[status].length != 0);
+
+  for (let i = 0; i < statusList.length; i++) {
+    allPolls = allPolls.concat(order[statusList[i]]) }
 
   const headerButton = (
-    <EditButton type={'edit'} color={Colors.White} onClick={props.onEditClick}/>
+    <EditButton type={'edit'} color={Colors.White} onClick={onEditClick}/>
   )
 
   return (
-    <PrimaryCard header={roomTitle} children={pollComponents}
+    <SecondaryCard header={title}
                     extraSmall={extraSmall} small={small}
                     medium={medium} large={large} extraLarge={extraLarge}
-                    headerButton={headerButton}/>
+                    headerButton={status === 'closed' ? undefined : headerButton}>
+      <Group>
+        {allPolls.map((id) => {
+          const poll = polls[id];
+          return (
+            <HostAgendaItem pollTitle={poll.title}
+                            status={poll.status}
+                            onViewClick={onViewClick ? () => onViewClick(roomcode, id) : undefined}/>
+          )
+        })}
+      </Group>
+    </SecondaryCard>
+
   )
 };
 

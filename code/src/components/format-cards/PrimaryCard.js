@@ -6,6 +6,7 @@ import ExtraPropTypes   from 'react-extra-prop-types';
 import Card             from '../cards/Card'
 import { Colors }       from '../theme/Colors';
 import Jumbo            from '../theme/Jumbo';
+import StatusText       from '../format-text/StatusText'
 
 const propTypes = {
   header: PropTypes.string,
@@ -13,7 +14,8 @@ const propTypes = {
   children: PropTypes.node,
   footer: PropTypes.node,
 
-  cardColor: ExtraPropTypes.Color,
+  cardColor: ExtraPropTypes.color,
+  cardBorderColor: ExtraPropTypes.color,
 
   extraSmall: PropTypes.bool,
   small: PropTypes.bool,
@@ -22,15 +24,20 @@ const propTypes = {
   extraLarge: PropTypes.bool,
 };
 
+
 const defaultProps ={
-  header: 'Header',
-  cardColor: Colors.LightBlue
+  cardColor: Colors.LightBlue,
+  cardBorderColor: Colors.White,
 };
 
 const ComponentWrapper = styled.div`
   height: 100%;
   position: relative;
   overflow: hidden;
+`;
+
+const SectionWrapper = styled.div`
+  padding-bottom: ${({padding}) => padding}px;
 `;
 
 const InnerWrapper = styled.div`
@@ -66,9 +73,10 @@ const FooterWrapper = styled.div`
   justify-content: center;
 `;
 
-const PrimaryCard = ( props ) => {
+const SecondaryCard = ( props ) => {
 
-  const { cardColor, children, header, headerButton, footer, ...rest } = props;
+  const { header, headerButton, children, footer,
+          cardColor, cardBorderColor, ...rest } = props;
 
   let padding;
   let subPadding;
@@ -83,28 +91,26 @@ const PrimaryCard = ( props ) => {
   else { padding = 50;
          subPadding = 22}
 
-  const _renderHeader = (
-    <HeaderWrapper padding={padding}>
-      <HeaderTextWrapper>
-        <Jumbo twoExtraSmall={props.extraSmall} extraSmall={props.small}
-               small={props.medium} medium={props.large} large={props.extraLarge}
-               color={(cardColor == Colors.White) ? Colors.LightBlue : Colors.White}>
-          {header}
-        </Jumbo>
-      </HeaderTextWrapper>
-      <HeaderButtonWrapper>
-        {headerButton ? React.cloneElement(headerButton, {...rest}) :
-                      <div/>}
-      </HeaderButtonWrapper>
-    </HeaderWrapper>
-  );
+ const _renderHeader = (
+   <HeaderWrapper padding={padding}>
+     <HeaderTextWrapper>
+       {header}
+     </HeaderTextWrapper>
+     <HeaderButtonWrapper>
+       {headerButton ? React.cloneElement(headerButton, {...rest}) :
+                     <div/>}
+     </HeaderButtonWrapper>
+   </HeaderWrapper>
+ );
 
-  const _renderContent = (
-      <ScrollableWrapper>
-        {React.Children.map(children, (child) =>
-          React.cloneElement(child, {...rest}))}
-      </ScrollableWrapper>
-  )
+  const _renderSection = ( section ) => {
+
+    return (
+    <SectionWrapper padding={padding}>
+      {React.cloneElement(section, {...rest})}
+    </SectionWrapper>
+  );}
+
 
   const _renderFooter =  footer ? (
     <FooterWrapper padding={padding}>
@@ -112,18 +118,21 @@ const PrimaryCard = ( props ) => {
     </FooterWrapper>
   ) : <div/>;
 
+
   return (
-    <Card color={cardColor} height={'100%'} large large borderColor={Colors.White}>
+    <Card color={cardColor} height={'100%'} large borderColor={cardBorderColor}>
       <InnerWrapper>
         {_renderHeader}
-        {_renderContent}
+        <ScrollableWrapper>
+          {React.Children.map(props.children, (child) => _renderSection(child))}
+        </ScrollableWrapper>
         {_renderFooter}
       </InnerWrapper>
     </Card>
   )
 };
 
-PrimaryCard.propTypes = propTypes;
-PrimaryCard.defaultProps = defaultProps;
+SecondaryCard.propTypes = propTypes;
+SecondaryCard.defaultProps = defaultProps;
 
-export default PrimaryCard;
+export default SecondaryCard;

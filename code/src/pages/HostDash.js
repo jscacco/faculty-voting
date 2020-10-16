@@ -38,17 +38,19 @@ const HostDashPage = ( props ) => {
   }, [])
 
   console.log(props)
-
-  const open = props.openRooms.map(room => props.rooms[room]);
-  const closed = props.closedRooms.map(room => props.rooms[room]);
-  const pending = props.pendingRooms.map(room => props.rooms[room]);
+  //
+  // const open = props.openRooms.map(room => props.rooms[room]);
+  // const closed = props.closedRooms.map(room => props.rooms[room]);
+  // const pending = props.pendingRooms.map(room => props.rooms[room]);
 
   return (
     <PageWrapper>
       <DemoNavBar />
       <ComponentWrapper>
         <HostDashCard medium rooms={props.rooms}
-                      order={props.order}}/>
+                      order={props.order}
+                      onDelete={props.onDeleteRoom}
+                      onAdd={props.onAddRoom}/>
       </ComponentWrapper>
     </PageWrapper>
   );
@@ -67,7 +69,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchRooms: () => dispatch({ type: ActionTypes.hostdash.FETCH_ROOMS_START })
+    onFetchRooms: () => dispatch({ type: ActionTypes.hostdash.FETCH_ROOMS_START }),
+    onDeleteRoom: (room_id) => dispatch({ type: ActionTypes.hostdash.DELETE_ROOM_START,
+                                          room_id }),
+    onAddRoom: () => dispatch({ type: ActionTypes.hostdash.ADD_ROOM_START }),
+
   }
 }
 

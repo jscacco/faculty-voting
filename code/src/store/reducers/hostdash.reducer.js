@@ -7,7 +7,9 @@ const initialState = {
     'open': [],
     'closed': [],
     'pending': []
-  }
+  },
+  loading: false,
+  error: null,
 }
 
 let result;
@@ -16,11 +18,12 @@ export default function reduceHostDash(state = initialState, action) {
 
   switch (action.type) {
     case ActionTypes.hostdash.FETCH_ROOMS_START:
+      // console.log('here');
       return { ...state, loading: true, error: null };
 
     case ActionTypes.hostdash.FETCH_ROOMS_SUCCESS:
       result = action.response;
-      console.log(result);
+      // console.log(result);
       return {
         ...state,
         loading: false,
@@ -33,31 +36,48 @@ export default function reduceHostDash(state = initialState, action) {
         loading: false,
         error: true
       };
-    // case ActionTypes.SUBMIT_POLL_START:
-    //   // console.log('started');
-    //   return { ...state, loading: true, error: null };
-    //
-    // case ActionTypes.SUBMIT_POLL_SUCCESS:
-    //   result = action.response;
-    //   // console.log(result);
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     submission: result,
-    //   };
-    // case ActionTypes.SUBMIT_POLL_ERROR:
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     error: true
-    //   };
-    // case ActionTypes.UPDATE_SELECTED_OPTIONS:
-    //   result = action.selection.map((item) => item);
-    //   return {
-    //     ...state,
-    //     selected: result,
-    //   };
 
+
+    case ActionTypes.hostdash.DELETE_ROOM_START:
+    return { ...state, loading: true, error: null };
+
+    case ActionTypes.hostdash.DELETE_ROOM_SUCCESS:
+      result = action.response;
+      // console.log(result);
+      return {
+        ...state,
+        loading: false,
+        rooms: result.rooms,
+        order: result.order
+      };
+    case ActionTypes.hostdash.DELETE_ROOM_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: true
+      };
+
+    case ActionTypes.hostdash.ADD_ROOM_START:
+      console.log('jer')
+      return { ...state, loading: true, error: null };
+
+    case ActionTypes.hostdash.ADD_ROOM_SUCCESS:
+      result = action.response;
+      console.log(result);
+      return {
+        ...state,
+        loading: false,
+        rooms: result.rooms,
+        order: result.order
+      };
+    case ActionTypes.hostdash.ADD_ROOM_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: true
+      };
+    default:
+      return state;
   }
   // console.log(state);
   return state;

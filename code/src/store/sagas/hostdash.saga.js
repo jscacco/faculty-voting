@@ -1,6 +1,8 @@
 import { call, put }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
-import { fetchHostRooms }   from '../MockDataFunctions';
+import { fetchHostRooms,
+ 				 deleteHostRoom,
+			   addHostRoom }   from '../MockDataFunctions';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -32,29 +34,42 @@ export function* fetchRooms (action) {
 	}
 };
 
-// export function* submitPoll (action) {
-//
-// 	try {
-// 		const response = yield fetchAsync(() => {
-// 			// submission to firebase
-//
-// 			let newPoll = {...data.polls[action.poll_id]};
-// 			newPoll.submission = action.submission;
-// 			data.polls[action.poll_id] = newPoll
-// 			return data.polls[action.poll_id].submission;
-// 		});
-//
-// 		yield put({
-// 			type: ActionTypes.SUBMIT_POLL_SUCCESS,
-// 			response
-// 		});
-//
-// 	} catch(error) {
-//
-// 		yield put({
-// 			type: ActionTypes.SUBMIT_POLL_ERROR,
-//       error
-// 		});
-//
-// 	}
-// };
+export function* deleteRoom (action) {
+
+	try {
+		const response = yield call(() => deleteHostRoom(action.room_id))
+		console.log(response);
+		yield put({
+			type: ActionTypes.hostdash.DELETE_ROOM_SUCCESS,
+			response
+		});
+
+	} catch(error) {
+
+		yield put({
+			type: ActionTypes.hostdash.DELETE_ROOM_ERROR,
+      error
+		});
+
+	}
+};
+
+export function* addRoom (action) {
+
+	try {
+		const response = yield call(addHostRoom);
+		console.log(response);
+		yield put({
+			type: ActionTypes.hostdash.ADD_ROOM_SUCCESS,
+			response
+		});
+
+	} catch(error) {
+
+		yield put({
+			type: ActionTypes.hostdash.ADD_ROOM_ERROR,
+      error
+		});
+
+	}
+};

@@ -1,6 +1,8 @@
-import React                from 'react';
+import React, { useEffect }                from 'react';
 import styled               from 'styled-components';
-import ParticlesBg          from 'particles-bg';
+
+import { connect }          from 'react-redux';
+import ActionTypes          from '../store/actionTypes';
 
 import { Colors }           from '../components/theme/Colors';
 
@@ -31,18 +33,45 @@ const ComponentWrapper = styled.div`
 
 const UserAgendaPage = ( props ) => {
 
-  const agenda = fetchAgenda()
+  const roomcode = '0002'
+
+  useEffect(() =>  {
+    props.onFetchAgenda(roomcode);
+  }, [])
+
+  // console.log(props);
+
+  // const agenda = fetchAgenda()
   return (
     <PageWrapper>
       <DemoNavBar />
       <ComponentWrapper>
-        <UserAgendaCard medium openPolls={agenda.openPolls}
-                               pendingPolls={agenda.pendingPolls}
-                               closedPolls={agenda.closedPolls}/>
+        <UserAgendaCard medium roomcode={roomcode}
+                               title={props.title}
+                               status={props.status}
+                               polls={props.polls}
+                               order={props.order}/>
       </ComponentWrapper>
     </PageWrapper>
   );
 
 }
+const mapStateToProps = (state) => {
 
-export default UserAgendaPage;
+  return {
+    title: state.useragenda.title,
+    status: state.useragenda.status,
+    polls: state.useragenda.polls,
+    order: state.useragenda.order,
+    loading: state.useragenda.loading
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchAgenda: (room_id) => dispatch({ type: ActionTypes.useragenda.FETCH_AGENDA_START,
+                                            room_id }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserAgendaPage);
