@@ -64,7 +64,7 @@ const EditPollCard = ( props ) => {
 
   const { pollData } = props;
   const order = pollData.options.map((option) => {
-    return option.order;
+    return option.order.toString();
   })
 
   const _header = (
@@ -72,9 +72,7 @@ const EditPollCard = ( props ) => {
       <Body small color={Colors.LightBlue}>
         Title:
       </Body>
-      <TextArea medium height={75}>
-        {pollData.title}
-      </TextArea>
+      <Input medium height={75}  value={pollData.title} />
     </HeaderWrapper>
   )
 
@@ -87,9 +85,9 @@ const EditPollCard = ( props ) => {
       <Body small color={Colors.LightBlue}>
         Description:
       </Body>
-      <Input medium>
+      <TextArea medium>
         {pollData.description}
-      </Input>
+      </TextArea>
     </>
   )
 
@@ -111,7 +109,7 @@ const EditPollCard = ( props ) => {
 
   const AddComponent = ( props ) => {
     return (
-      <AddItem textColor={Colors.White} iconColor={Colors.White}>
+      <AddItem small textColor={Colors.LightBlue} iconColor={Colors.Blue}>
         Add new option
       </AddItem>
     )
@@ -123,22 +121,23 @@ const EditPollCard = ( props ) => {
         <Body small color={Colors.LightBlue}>
           Options:
         </Body>
+        <EditingGroup addItem={<AddComponent />}
+                      order={order}
+                      medium
+                      handleColor={Colors.Blue} >
+          {
+            order.map((id) => {
+              const option = pollData.options[id]
+              console.log(option, id)
+
+              return (
+                <HostEditPollOptionItem value={option.value}
+                                        id={id} />
+              )
+            })
+          }
+        </EditingGroup>
       </ChildWrapper>
-      // <EditingGroup addItem={<AddComponent />}
-      //               order={order}
-      //               medium>
-      //   {
-      //     order.map((id) => {
-      //       const option = pollData.options[id]
-      //       console.log(option, id)
-      //
-      //       return (
-      //         <HostEditPollOptionItem text={option.value}
-      //                                 id={id} />
-      //       )
-      //     })
-      //   }
-      // </EditingGroup>
     )
   }
 

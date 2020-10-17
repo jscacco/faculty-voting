@@ -5,8 +5,10 @@ import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
 
-import Item         from './Item';
+import EditItem         from './EditItem';
 import Button           from '../buttons/Button';
+
+import Input            from '../inputs/Input';
 
 const propTypes = {
   pollTitle: PropTypes.string,
@@ -29,11 +31,12 @@ const defaultProps = {
 
 const HostEditPollOptionItem = ( props ) => {
 
-  const { text, ...rest } = props;
+  const { value, ...rest } = props;
 
   return (
-    <Item text={text}>
-    </Item>
+    <EditItem iconColor={Colors.Blue}>
+      <Input small  value={value} />
+    </EditItem>
   )
 }
 
