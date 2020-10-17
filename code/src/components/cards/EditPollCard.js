@@ -19,6 +19,12 @@ import TextArea         from '../inputs/TextArea';
 import EditingOption    from '../options/EditingOption';
 import PrimaryCard      from '../format-cards/PrimaryCard';
 import EditButton       from '../buttons/EditButton';
+import EditingGroup     from '../groups/EditingGroup';
+import AddItem          from '../items/AddItem';
+import EditItem          from '../items/EditItem';
+
+
+import HostEditPollOptionItem  from '../items/HostEditPollOptionItem';
 
 import { fetchPollData } from '../../store/MockDataFunctions'
 
@@ -57,6 +63,9 @@ const TwoColumnWrapper = styled.div`
 const EditPollCard = ( props ) => {
 
   const { pollData } = props;
+  const order = pollData.options.map((option) => {
+    return option.order;
+  })
 
   const _header = (
     <HeaderWrapper>
@@ -100,26 +109,32 @@ const EditPollCard = ( props ) => {
     </>
   )
 
-  const _renderOptionGroup = () => {
-    var optionComponents = pollData.options.map(optionData => {
-      return optionData.optionType === 'text' ?
-            <InputField medium value={optionData.value} /> :
-            <></>;
-    });
-
+  const AddComponent = ( props ) => {
     return (
-      <ChildWrapper>
-        <Body small color={Colors.LightBlue}>
-          Options:
-        </Body>
-        <OptionGroup>
-          {optionComponents}
-          <AddOptionWrapper>
-          <AdderOption medium placeholder={'Add an option'} />
-          </AddOptionWrapper>
-        </OptionGroup>
-      </ChildWrapper>
-    );
+      <AddItem textColor={Colors.White} iconColor={Colors.White}>
+        Add new option
+      </AddItem>
+    )
+}
+
+  const _renderOptionGroup = () => {
+    return (
+      <EditingGroup addItem={<AddComponent />}
+                    order={order}
+                    medium>
+        {
+          order.map((id) => {
+            const option = pollData.options[id]
+            console.log(option, id)
+
+            return (
+              <HostEditPollOptionItem text={option.value}
+                                      id={id} />
+            )
+          })
+        }
+      </EditingGroup>
+    )
   }
 
   const _additionalSettingsSection = (

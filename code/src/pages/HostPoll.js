@@ -48,7 +48,8 @@ class HostPollPage extends React.Component {
 
     this.setState({
       ...this.state,
-      onSelectOption: Array(this.state.poll.options.length).fill(false)
+      onSelectOption: Array(this.state.poll.options.length).fill(false),
+
     })
 
     this.onEditClick = this.onEditClick.bind(this);
@@ -94,7 +95,7 @@ class HostPollPage extends React.Component {
       <PageWrapper>
         <DemoNavBar />
         <ComponentWrapper>
-          { this.state.isEditing ?
+          { !this.state.isEditing ?
             <EditPollCard pollData={this.state.poll} onSubmit={this.onSubmit}
                           onOptionChange={this.onOptionChange} onEditClick={this.onEditClick} /> :
             <HostPollCard pollData={this.state.poll} onSubmit={this.onSubmit} onOptionChange={this.onOptionChange}
