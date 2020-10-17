@@ -87,9 +87,9 @@ const EditPollCard = ( props ) => {
       <Body small color={Colors.LightBlue}>
         Description:
       </Body>
-      <TextArea medium>
+      <Input medium>
         {pollData.description}
-      </TextArea>
+      </Input>
     </>
   )
 
@@ -119,21 +119,26 @@ const EditPollCard = ( props ) => {
 
   const _renderOptionGroup = () => {
     return (
-      <EditingGroup addItem={<AddComponent />}
-                    order={order}
-                    medium>
-        {
-          order.map((id) => {
-            const option = pollData.options[id]
-            console.log(option, id)
-
-            return (
-              <HostEditPollOptionItem text={option.value}
-                                      id={id} />
-            )
-          })
-        }
-      </EditingGroup>
+      <ChildWrapper>
+        <Body small color={Colors.LightBlue}>
+          Options:
+        </Body>
+      </ChildWrapper>
+      // <EditingGroup addItem={<AddComponent />}
+      //               order={order}
+      //               medium>
+      //   {
+      //     order.map((id) => {
+      //       const option = pollData.options[id]
+      //       console.log(option, id)
+      //
+      //       return (
+      //         <HostEditPollOptionItem text={option.value}
+      //                                 id={id} />
+      //       )
+      //     })
+      //   }
+      // </EditingGroup>
     )
   }
 
