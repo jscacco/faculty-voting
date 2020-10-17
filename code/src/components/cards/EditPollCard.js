@@ -10,6 +10,8 @@ import Body             from '../theme/Body';
 import OptionGroup      from '../option-groups/OptionGroup';
 import TextOption       from '../options/TextOption';
 import InputOption      from '../options/InputOption';
+import AdderOption      from '../options/AdderOption';
+import Option           from '../options/Option';
 import Button           from '../buttons/Button';
 import Input            from '../inputs/Input';
 import InputField       from '../inputs/InputField';
@@ -20,8 +22,36 @@ import EditButton       from '../buttons/EditButton';
 
 import { fetchPollData } from '../../store/MockDataFunctions'
 
-const EditOptionsWrapper = styled.div`
+const ChildWrapper = styled.div`
   padding-top: 20px;
+`;
+
+const HeaderWrapper  = styled.div`
+  width: 50%;
+`;
+
+const OptionsWrapper = styled.div`
+  /* padding-left: 50%; */
+`;
+
+const AddOptionWrapper = styled.div`
+  width: 150%;
+`;
+
+const OptionGroupWrapper = styled.div`
+  padding-left: '1.5em';
+  /* border: 1px solid black; */
+`;
+
+const LeftColumnWrapper = styled.div`
+  width: 30%;
+`;
+
+
+const TwoColumnWrapper = styled.div`
+  display: flex;
+  direction: row;
+  align-items: flex-start;
 `;
 
 const EditPollCard = ( props ) => {
@@ -29,7 +59,14 @@ const EditPollCard = ( props ) => {
   const { pollData } = props;
 
   const _header = (
-    <InputField medium height={75} />
+    <HeaderWrapper>
+      <Body small color={Colors.LightBlue}>
+        Title:
+      </Body>
+      <TextArea medium height={75}>
+        {pollData.title}
+      </TextArea>
+    </HeaderWrapper>
   )
 
   const _headerButton = (
@@ -37,9 +74,30 @@ const EditPollCard = ( props ) => {
   )
 
   const _description = (
-    <TextArea medium>
-      {pollData.description}
-    </TextArea>
+    <>
+      <Body small color={Colors.LightBlue}>
+        Description:
+      </Body>
+      <TextArea medium>
+        {pollData.description}
+      </TextArea>
+    </>
+  )
+
+  const _pollTypeSelection = (
+    <>
+      <Body small color={Colors.LightBlue}>
+        Poll Type:
+      </Body>
+      <OptionGroup type={'single'}>
+        <Option type={'bubble'}>
+          Single Choice
+        </Option>
+        <Option type={'bubble'}>
+          Multiple Choice
+        </Option>
+      </OptionGroup>
+    </>
   )
 
   const _renderOptionGroup = () => {
@@ -50,21 +108,56 @@ const EditPollCard = ( props ) => {
     });
 
     return (
-      <EditOptionsWrapper>
-        <Body small color={Colors.Charcol}>
-          Options
+      <ChildWrapper>
+        <Body small color={Colors.LightBlue}>
+          Options:
         </Body>
         <OptionGroup>
           {optionComponents}
+          <AddOptionWrapper>
+          <AdderOption medium placeholder={'Add an option'} />
+          </AddOptionWrapper>
         </OptionGroup>
-      </EditOptionsWrapper>
+      </ChildWrapper>
     );
   }
+
+  const _additionalSettingsSection = (
+    <ChildWrapper>
+      <Body small color={Colors.LightBlue}>
+        Additional Settings:
+      </Body>
+      <OptionGroup type={'multiple'}>
+        <Option >
+          Include write-in votes
+        </Option>
+        <Option >
+          Make results public
+        </Option>
+      </OptionGroup>
+    </ChildWrapper>
+  )
+
+  const _settingsSection = (
+    <ChildWrapper>
+      {_pollTypeSelection}
+      {_additionalSettingsSection}
+    </ChildWrapper>
+  )
+
+  const _settingsOptionColumnGroup = (
+    <TwoColumnWrapper>
+      <LeftColumnWrapper>
+        {_settingsSection}
+      </LeftColumnWrapper>
+        {_renderOptionGroup()}
+    </TwoColumnWrapper>
+  )
 
   const _children = (
     <>
       {_description}
-      {_renderOptionGroup()}
+      {_settingsOptionColumnGroup}
     </>
   )
 
