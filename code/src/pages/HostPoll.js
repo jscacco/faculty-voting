@@ -32,8 +32,22 @@ class HostPollPage extends React.Component {
   constructor(props) {
     super(props);
 
+    let poll = fetchPollData('0002', '02');
+
     this.state = {
-      poll: fetchPollData('0002', '02'),
+      poll: {
+        id: '02',
+        title: 'Poll 02',
+        status: 'open',
+        type: 'single',
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+        options: {
+          '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+          '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+          '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+        },
+        optionsOrder: ['00', '01', '02'],
+      },
       isEditing: false,
 
       submitted: false,
@@ -52,10 +66,13 @@ class HostPollPage extends React.Component {
 
     })
 
+    console.log(this.state.poll)
+
     this.onEditClick = this.onEditClick.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onOptionChange = this.onOptionChange.bind(this);
   }
+
 
   async onEditClick() {
     await this.setState({
@@ -95,7 +112,7 @@ class HostPollPage extends React.Component {
       <PageWrapper>
         <DemoNavBar />
         <ComponentWrapper>
-          { !this.state.isEditing ?
+          { this.state.isEditing ?
             <EditPollCard pollData={this.state.poll} onSubmit={this.onSubmit}
                           onOptionChange={this.onOptionChange} onEditClick={this.onEditClick} /> :
             <HostPollCard pollData={this.state.poll} onSubmit={this.onSubmit} onOptionChange={this.onOptionChange}
