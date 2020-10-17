@@ -10,31 +10,79 @@ const data = {
           id: '00',
           title: 'Poll 00',
           status: 'closed',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '01': {
           id: '01',
           title: 'Poll 01',
           status: 'closed',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '02': {
           id: '02',
           title: 'Poll 02',
           status: 'closed',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '03': {
           id: '03',
           title: 'Poll 03',
           status: 'closed',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '04': {
           id: '04',
           title: 'Poll 04',
           status: 'closed',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '05': {
           id: '05',
           title: 'Poll 05',
           status: 'closed',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         order: {
           'closed': ['00','01', '02','03','04','05']
@@ -50,31 +98,79 @@ const data = {
           id: '00',
           title: 'Poll 00',
           status: 'closed',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '01': {
           id: '01',
           title: 'Poll 01',
           status: 'closed',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '02': {
           id: '02',
           title: 'Poll 02',
           status: 'closed',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '03': {
           id: '03',
           title: 'Poll 03',
           status: 'closed',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '04': {
           id: '04',
           title: 'Poll 04',
           status: 'closed',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '05': {
           id: '05',
           title: 'Poll 05',
           status: 'closed',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         order: {
           'closed': ['00','01', '02','03','04','05']
@@ -90,11 +186,27 @@ const data = {
           id: '00',
           title: 'Poll 00',
           status: 'closed',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '01': {
           id: '01',
           title: 'Poll 01',
           status: 'closed',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '02': {
           id: '02',
@@ -102,27 +214,51 @@ const data = {
           status: 'open',
           type: 'single',
           description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
-          options: [
-            {id: '00', value: "Option 1", count: 0, optionType: 'text'},
-            {id: '01', value: "Option 2", count: 0, optionType: 'text'},
-            {id: '02', value: "Option 3", count: 0, optionType: 'input'}
-          ],
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
           optionsOrder: ['00', '01', '02'],
         },
         '03': {
           id: '03',
           title: 'Poll 03',
           status: 'open',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '04': {
           id: '04',
           title: 'Poll 04',
           status: 'pending',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '05': {
           id: '05',
           title: 'Poll 05',
           status: 'pending',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         order: {
           'open': ['02','03'],
@@ -140,31 +276,79 @@ const data = {
           id: '00',
           title: 'Poll 00',
           status: 'pending',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '01': {
           id: '01',
           title: 'Poll 01',
           status: 'pending',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '02': {
           id: '02',
           title: 'Poll 02',
           status: 'pending',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '03': {
           id: '03',
           title: 'Poll 03',
           status: 'pending',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '04': {
           id: '04',
           title: 'Poll 04',
           status: 'pending',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '05': {
           id: '05',
           title: 'Poll 05',
           status: 'pending',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         order: {
           'pending': ['00','01', '02','03','04','05']
@@ -180,31 +364,79 @@ const data = {
           id: '00',
           title: 'Poll 00',
           status: 'pending',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '01': {
           id: '01',
           title: 'Poll 01',
           status: 'pending',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '02': {
           id: '02',
           title: 'Poll 02',
           status: 'pending',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '03': {
           id: '03',
           title: 'Poll 03',
           status: 'pending',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '04': {
           id: '04',
           title: 'Poll 04',
           status: 'pending',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         '05': {
           id: '05',
           title: 'Poll 05',
           status: 'pending',
+          type: 'single',
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
+          options: {
+            '00': {id: '00', value: "Option 1", count: 0, optionType: 'text'},
+            '01': {id: '01', value: "Option 2", count: 0, optionType: 'text'},
+            '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
+          },
+          optionsOrder: ['00', '01', '02'],
         },
         order: {
           'pending': ['00','01', '02','03','04','05']
