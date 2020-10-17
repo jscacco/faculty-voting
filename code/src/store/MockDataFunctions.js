@@ -1,7 +1,7 @@
 import mockData from './mockData'
 
 function fetchPollData(room_id, poll_id) {
-  return mockData.rooms[room_id][poll_id];
+  return mockData.rooms[room_id].polls[poll_id];
 }
 
 function fetchHostRooms() {
