@@ -42,45 +42,33 @@ class EditingGroup extends React.Component {
       extraLarge: props.extraLarge
     }
 
-    const items = React.Children.map(props.children, (child, index) => {
-      return {
-        id: `${index}`,
-        index: index,
-        content: child
-      }
-    })
-
     this.state = {
-      items: items,
       order: props.order,
     }
 
+    this.awaitSetState = this.awaitSetState.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
   }
 
+  async awaitSetState(stateProps) {
+    await this.setState({
+      ...this.state,
+      ...stateProps
+    })
+  }
+
   componentDidUpdate(prevProps) {
+
     if (prevProps.children != this.props.children) {
 
-      const items = React.Children.map(this.props.children, (child, index) => {
-        return {
-          id: `${index}`,
-          index: index,
-          content: child
-        }
-      })
-
-      this.setState({
-        ...this.state,
-        items: items,
+      this.awaitSetState({
         order: this.props.order
-      })
+      });
     }
   }
 
   async onDragEnd(items) {
-    const newOrder = items.map((item) => item.index);
-
-    console.log(newOrder);
+    const newOrder = items.map((item) => item.id);
 
     await this.setState({
       ...this.state,
@@ -91,11 +79,24 @@ class EditingGroup extends React.Component {
   }
 
   render() {
+
+    const items = React.Children.map(this.props.children, (child, index) => {
+      return {
+        id: `${child.props.id}`,
+        content: child
+      }
+    })
+
+    if ( this.state.order.length != this.props.order.length) {
+      return (
+      <Group {...this.size} children={null}/>)
+    }
+
     return (
 
       <Group {...this.size}>
         <DragGroup {...this.size} handleColor={Colors.White}
-                   items={this.state.order.map(i => this.state.items[i])}
+                   items={this.state.order.map(i => items.find(item => item.id === i))}
                    onDragEnd={this.onDragEnd}/>
         {this.props.addItem}
       </Group>
