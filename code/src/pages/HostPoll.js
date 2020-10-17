@@ -33,7 +33,7 @@ class HostPollPage extends React.Component {
     super(props);
 
     this.state = {
-      poll: fetchPollData('Ammend Clause XYZ'),
+      poll: fetchPollData('0002', '02'),
       isEditing: false,
 
       submitted: false,

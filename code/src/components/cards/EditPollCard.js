@@ -62,10 +62,11 @@ const TwoColumnWrapper = styled.div`
 
 const EditPollCard = ( props ) => {
 
-  const { pollData } = props;
-  const order = pollData.options.map((option) => {
-    return option.order.toString();
-  })
+  const { pollData,
+          onDragEnd, onAddClick, onDeleteClick, onEditClick,
+          size} = props;
+
+  const order = pollData.optionsOrder;
 
   const _header = (
     <HeaderWrapper>
@@ -98,10 +99,14 @@ const EditPollCard = ( props ) => {
       </Body>
       <OptionGroup type={'single'}>
         <Option type={'bubble'}>
-          Single Choice
+          <Body extraSmall>
+            Single Choice
+          </Body>
         </Option>
         <Option type={'bubble'}>
+        <Body extraSmall>
           Multiple Choice
+        </Body>
         </Option>
       </OptionGroup>
     </>
@@ -128,7 +133,6 @@ const EditPollCard = ( props ) => {
           {
             order.map((id) => {
               const option = pollData.options[id]
-              console.log(option, id)
 
               return (
                 <HostEditPollOptionItem value={option.value}
@@ -148,10 +152,14 @@ const EditPollCard = ( props ) => {
       </Body>
       <OptionGroup type={'multiple'}>
         <Option >
-          Include write-in votes
+          <Body extraSmall>
+            Include write-in votes
+          </Body>
         </Option>
         <Option >
-          Make results public
+          <Body extraSmall>
+            Make results public
+          </Body>
         </Option>
       </OptionGroup>
     </ChildWrapper>
