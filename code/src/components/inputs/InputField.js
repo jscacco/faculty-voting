@@ -42,7 +42,7 @@ const InputFieldComponent = styled.input`
   font-size: ${({fontSize}) => fontSize}px;
   color: ${({fontColor}) => fontColor};
   line-height: ${({lineHeight}) => lineHeight}px;
-  width: auto;
+  width: 100%;
   height: ${({height}) => height}px;
   padding: 12px 20px;
   box-sizing: border-box;

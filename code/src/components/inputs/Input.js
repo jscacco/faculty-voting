@@ -7,6 +7,8 @@ import InputField       from './InputField';
 
 const propTypes = {
   type: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
 
   placeholder: PropTypes.string,
 
@@ -25,40 +27,41 @@ const defaultProps = {
   type: 'inputfield'
 };
 
-const renderInputField = (props) => {
 
-  const { placeholder, fontColor, backgroundColor, borderColor,
-          extraSmall, small, medium, large, extraLarge } = props;
+class Input extends React.Component {
 
-  return (
-    <InputField placeholder={placeholder} fontColor={fontColor}
-                backgroundColor={backgroundColor} borderColor={borderColor}
-                extraSmall={extraSmall} small={small} medium={medium}
-                large={large} extraLarge={extraLarge}/>
-  );
+  constructor(props){
+    super(props);
+
+    this.state = {
+      value: props.value
+    }
+
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange = (event) => {
+
+    console.log('onChage')
+    this.setState({
+      value: event.target.value
+    })
+
+    this.props.onChange && this.props.onChange(event);
+  }
+
+  render() {
+
+    const inputProps = { ...this.props,
+                         value: this.state.value,
+                         onChange: this.onChange
+                       }
+
+    return (
+      this.props.type === 'textarea' ? <TextArea {...inputProps}/> : <InputField {...inputProps}/>
+    );
+  }
 }
-
-const renderTextArea = (props) => {
-
-  const { placeholder, fontColor, backgroundColor, borderColor,
-          extraSmall, small, medium, large, extraLarge } = props;
-
-  return (
-    <TextArea placeholder={placeholder} fontColor={fontColor}
-                backgroundColor={backgroundColor} borderColor={borderColor}
-                extraSmall={extraSmall} small={small} medium={medium}
-                large={large} extraLarge={extraLarge}/>
-  );
-}
-
-const Input = ( props ) => {
-
-  const { type } = props;
-
-  return (
-    (type === 'textarea') ? renderTextArea(props) : renderInputField(props)
-  );
-};
 
 Input.propTypes = propTypes;
 Input.defaultProps = defaultProps;
