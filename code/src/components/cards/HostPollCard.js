@@ -70,23 +70,24 @@ const HostPollCard = ( props ) => {
   )
 
   const _renderOptionGroup = () => {
-    var optionComponents = pollData.options.map(optionData => {
-      return optionData.optionType === 'text' ?
-            <VotingOption medium fontColor={Colors.LightBlue}>
-              <TextOption>
-                {optionData.value}
-              </TextOption>
+    var optionComponents = pollData.optionsOrder.map(id => {
+      var iconType = pollData.type === 'multiple' ? 'checkbox' : 'bubble';
+      return pollData.options[id].optionType === 'text' ?
+            <VotingOption medium fontColor={Colors.LightBlue} type={iconType}>
+              <Option >
+                <Body medium color={Colors.LightBlue}>
+                  {pollData.options[id].value}
+                </Body>
+              </Option>
             </VotingOption> :
-            <VotingOption medium>
-              <InputOption>
-                {optionData.value}
-              </InputOption>
+            <VotingOption medium fontColor={Colors.LightBlue} type={'iconType'}>
+              <InputOption />
             </VotingOption>;
     });
 
     return (
       <OptionGroupWrapper>
-        <OptionGroup onSelect={onOptionChange} selectedOptions={selectedOptions}>
+        <OptionGroup type={pollData.type} onSelect={onOptionChange} selectedOptions={selectedOptions}>
           {optionComponents}
         </OptionGroup>
       </OptionGroupWrapper>

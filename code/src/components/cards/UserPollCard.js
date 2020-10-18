@@ -11,6 +11,7 @@ import PrimaryCard      from '../format-cards/PrimaryCard';
 import OptionGroup      from '../option-groups/OptionGroup';
 import TextOption       from '../options/TextOption';
 import InputOption       from '../options/InputOption';
+import Option       from '../options/Option';
 import VotingOption       from '../options/VotingOption';
 import Button           from '../buttons/Button';
 import EditButton       from '../buttons/EditButton';
@@ -67,17 +68,20 @@ const UserPollCard = ( props ) => {
   )
 
   const _renderOptionGroup = () => {
-    var optionComponents = pollData.options.map(optionData => {
-      return optionData.optionType === 'text' ?
-            <VotingOption medium fontColor={Colors.LightBlue}>
-              <TextOption>
-                {optionData.value}
-              </TextOption>
+    console.log(pollData.type)
+    var optionComponents = pollData.optionsOrder.map(id => {
+      var iconType = pollData.type === 'multiple' ? 'checkbox' : 'bubble';
+      console.log(iconType)
+      return pollData.options[id].optionType === 'text' ?
+            <VotingOption medium fontColor={Colors.LightBlue} type={iconType}>
+              <Option >
+                <Body medium color={Colors.LightBlue}>
+                  {pollData.options[id].value}
+                </Body>
+              </Option>
             </VotingOption> :
-            <VotingOption medium>
-              <InputOption>
-                {optionData.value}
-              </InputOption>
+            <VotingOption medium fontColor={Colors.LightBlue} type={'iconType'}>
+              <InputOption />
             </VotingOption>;
     });
 

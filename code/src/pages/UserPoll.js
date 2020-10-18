@@ -32,7 +32,7 @@ class UserPollPage extends React.Component {
     super(props);
 
     this.state = {
-      poll: fetchPollData('Ammend Clause XYZ'),
+      poll: fetchPollData('0002', '02'),
       submitted: false,
       submitButton: {
         submitted: false,

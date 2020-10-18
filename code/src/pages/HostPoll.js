@@ -33,7 +33,7 @@ class HostPollPage extends React.Component {
     super(props);
 
     this.state = {
-      poll: fetchPollData('Ammend Clause XYZ'),
+      poll: fetchPollData('0002', '02'),
       isEditing: false,
 
       submitted: false,
@@ -48,13 +48,17 @@ class HostPollPage extends React.Component {
 
     this.setState({
       ...this.state,
-      onSelectOption: Array(this.state.poll.options.length).fill(false)
+      onSelectOption: Array(this.state.poll.options.length).fill(false),
+
     })
+
+    console.log(this.state.poll)
 
     this.onEditClick = this.onEditClick.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onOptionChange = this.onOptionChange.bind(this);
   }
+
 
   async onEditClick() {
     await this.setState({
@@ -64,7 +68,6 @@ class HostPollPage extends React.Component {
   }
 
   async onSubmit() {
-    console.log("Submitted")
     await this.setState({
       ...this.state,
       submitted: true,
@@ -77,8 +80,6 @@ class HostPollPage extends React.Component {
   }
 
   async onOptionChange(event) {
-    console.log("Changed option")
-    console.log(this.state.selectedOptions)
     await this.setState({
       ...this.state,
       submitButton: {

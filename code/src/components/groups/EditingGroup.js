@@ -26,7 +26,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-
+  handleColor: Colors.White
 };
 
 class EditingGroup extends React.Component {
@@ -95,7 +95,7 @@ class EditingGroup extends React.Component {
     return (
 
       <Group {...this.size}>
-        <DragGroup {...this.size} handleColor={Colors.White}
+        <DragGroup {...this.size} handleColor={this.props.handleColor}
                    items={this.state.order.map(i => items.find(item => item.id === i))}
                    onDragEnd={this.onDragEnd}/>
         {this.props.addItem}
@@ -104,5 +104,8 @@ class EditingGroup extends React.Component {
     )
   }
 }
+
+EditingGroup.propTypes = propTypes;
+EditingGroup.defaultProps = defaultProps;
 
 export default EditingGroup;

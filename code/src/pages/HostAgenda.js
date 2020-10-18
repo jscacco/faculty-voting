@@ -49,7 +49,7 @@ class HostAgendaPage extends React.Component {
 
   render() {
 
-    const agenda = fetchAgenda();
+    const agenda = fetchAgenda('0000');
 
     return(
       <PageWrapper>
