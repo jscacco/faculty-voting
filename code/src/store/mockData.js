@@ -18,6 +18,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '01': {
           id: '01',
@@ -31,6 +32,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '02': {
           id: '02',
@@ -44,6 +46,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '03': {
           id: '03',
@@ -57,6 +60,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '04': {
           id: '04',
@@ -70,6 +74,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '05': {
           id: '05',
@@ -83,6 +88,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         order: {
           'closed': ['00','01', '02','03','04','05']
@@ -106,6 +112,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '01': {
           id: '01',
@@ -119,6 +126,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '02': {
           id: '02',
@@ -132,6 +140,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '03': {
           id: '03',
@@ -145,6 +154,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '04': {
           id: '04',
@@ -158,6 +168,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '05': {
           id: '05',
@@ -171,6 +182,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         order: {
           'closed': ['00','01', '02','03','04','05']
@@ -194,6 +206,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '01': {
           id: '01',
@@ -207,6 +220,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '02': {
           id: '02',
@@ -220,6 +234,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '03': {
           id: '03',
@@ -233,6 +248,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '04': {
           id: '04',
@@ -246,6 +262,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '05': {
           id: '05',
@@ -259,6 +276,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         order: {
           'open': ['02','03'],
@@ -284,6 +302,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '01': {
           id: '01',
@@ -297,6 +316,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '02': {
           id: '02',
@@ -310,6 +330,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '03': {
           id: '03',
@@ -323,6 +344,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '04': {
           id: '04',
@@ -336,6 +358,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '05': {
           id: '05',
@@ -349,6 +372,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         order: {
           'pending': ['00','01', '02','03','04','05']
@@ -372,6 +396,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '01': {
           id: '01',
@@ -385,6 +410,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '02': {
           id: '02',
@@ -398,6 +424,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '03': {
           id: '03',
@@ -411,6 +438,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '04': {
           id: '04',
@@ -424,6 +452,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         '05': {
           id: '05',
@@ -437,6 +466,7 @@ const data = {
             '02': {id: '02', value: "Option 3", count: 0, optionType: 'input'}
           },
           optionsOrder: ['00', '01', '02'],
+          showResults: true,
         },
         order: {
           'pending': ['00','01', '02','03','04','05']

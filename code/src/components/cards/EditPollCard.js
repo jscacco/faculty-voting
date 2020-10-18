@@ -97,16 +97,18 @@ const EditPollCard = ( props ) => {
       <Body small color={Colors.LightBlue}>
         Poll Type:
       </Body>
-      <OptionGroup type={'single'}>
+      <OptionGroup type={'single'}
+                   selectedOptions={[pollData.type === 'single',
+                                     pollData.type === 'multiple']}>
         <Option type={'bubble'}>
           <Body extraSmall>
             Single Choice
           </Body>
         </Option>
         <Option type={'bubble'}>
-        <Body extraSmall>
-          Multiple Choice
-        </Body>
+          <Body extraSmall>
+            Multiple Choice
+          </Body>
         </Option>
       </OptionGroup>
     </>
@@ -150,7 +152,8 @@ const EditPollCard = ( props ) => {
       <Body small color={Colors.LightBlue}>
         Additional Settings:
       </Body>
-      <OptionGroup type={'multiple'}>
+      <OptionGroup type={'multiple'}
+                   selectedOptions={[false, pollData.showResults]}>
         <Option >
           <Body extraSmall>
             Include write-in votes
