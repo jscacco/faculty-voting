@@ -1,6 +1,7 @@
-import { call, put }     from "redux-saga/effects";
+import { select, call, put }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
-import { fetchAgenda }   from '../MockDataFunctions';
+import { fetchAgenda,
+ 				 updateRoom }   from '../MockDataFunctions';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -32,6 +33,36 @@ export function* fetchHostAgenda (action) {
 	}
 };
 
+export const roomSelector = ( state ) => {
+	return {
+		status: state.hostagenda.status,
+		title: state.hostagenda.title,
+		polls: state.hostagenda.polls,
+		order: state.hostagenda.order
+	}
+}
+
+export function* updateHostAgenda (action) {
+
+	try {
+		const roomState = yield select(roomSelector);
+		const response = yield call(() => updateRoom(action.room_id, {...roomState}))
+		// console.log(response);
+		yield put({
+			type: ActionTypes.hostagenda.UPDATE_AGENDA_SUCCESS,
+			response
+		});
+
+	} catch(error) {
+
+		yield put({
+			type: ActionTypes.hostagenda.UPDATE_AGENDA_ERROR,
+      error
+		});
+
+	}
+}
+
 // export function* deleteRoom (action) {
 //
 // 	try {
@@ -61,7 +92,7 @@ export function* fetchHostAgenda (action) {
 // 			type: ActionTypes.hostagenda.ADD_POLL_SUCCESS,
 // 			response
 // 		});
-// 
+//
 // 	} catch(error) {
 //
 // 		yield put({

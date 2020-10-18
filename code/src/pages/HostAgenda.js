@@ -93,7 +93,7 @@ const HostAgendaPage = ( props ) => {
     status: props.status,
     polls: props.polls,
     order: props.order,
-    onEditClick: props.onEditClick
+    onEditClick: () => props.onEditClick(roomcode),
   }
 
   console.log(props);
@@ -131,7 +131,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onFetchAgenda: (room_id) => dispatch({ type: ActionTypes.hostagenda.FETCH_AGENDA_START,
                                             room_id }),
-    onEditClick: () => dispatch({ type: ActionTypes.hostagenda.TOGGLE_EDIT }),
+    onEditClick: (room_id) => { dispatch({ type: ActionTypes.hostagenda.TOGGLE_EDIT })
+                                dispatch({ type: ActionTypes.hostagenda.UPDATE_AGENDA_START,
+                                          room_id })},
     onAddClick: () => dispatch({ type: ActionTypes.hostagenda.ADD_POLL }),
     onDeleteClick: (poll_id) => dispatch({ type: ActionTypes.hostagenda.DELETE_POLL,
                                            poll_id }),

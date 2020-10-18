@@ -20,10 +20,12 @@ export default function reduceUserAgenda(state = initialState, action) {
 
   switch (action.type) {
     case ActionTypes.useragenda.FETCH_AGENGA_START:
+      console.log('here');
       return { ...state, loading: true, error: null };
 
     case ActionTypes.useragenda.FETCH_AGENDA_SUCCESS:
       result = action.response;
+      console.log(result)
       return {
         ...state,
         loading: false,

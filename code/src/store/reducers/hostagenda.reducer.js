@@ -41,6 +41,25 @@ export default function reduceHostAgenda(state = initialState, action) {
         loading: false,
         error: true
       };
+    case ActionTypes.hostagenda.UPDATE_AGENGA_START:
+      return { ...state, loading: true, error: null };
+
+    case ActionTypes.hostagenda.UPDATE_AGENDA_SUCCESS:
+      result = action.response;
+      return {
+        ...state,
+        loading: false,
+        title: result.title,
+        status: result.status,
+        polls: result.polls,
+        order: result.order
+      };
+    case ActionTypes.hostagenda.UPDATE_AGENDA_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: true
+      };
     case ActionTypes.hostagenda.TOGGLE_EDIT:
       // console.log('here')
       const editing = !state.editing;

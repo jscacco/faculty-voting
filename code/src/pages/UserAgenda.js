@@ -39,7 +39,7 @@ const UserAgendaPage = ( props ) => {
     props.onFetchAgenda(roomcode);
   }, [])
 
-  // console.log(props);
+  console.log(props);
 
   // const agenda = fetchAgenda()
   return (
