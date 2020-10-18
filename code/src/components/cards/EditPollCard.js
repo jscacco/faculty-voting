@@ -180,7 +180,7 @@ const EditPollCard = ( props ) => {
       <LeftColumnWrapper>
         {_settingsSection}
       </LeftColumnWrapper>
-        {_renderOptionGroup()}
+      {_renderOptionGroup()}
     </TwoColumnWrapper>
   )
 

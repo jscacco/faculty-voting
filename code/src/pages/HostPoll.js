@@ -68,7 +68,6 @@ class HostPollPage extends React.Component {
   }
 
   async onSubmit() {
-    console.log("Submitted")
     await this.setState({
       ...this.state,
       submitted: true,
@@ -81,8 +80,6 @@ class HostPollPage extends React.Component {
   }
 
   async onOptionChange(event) {
-    console.log("Changed option")
-    console.log(this.state.selectedOptions)
     await this.setState({
       ...this.state,
       submitButton: {
