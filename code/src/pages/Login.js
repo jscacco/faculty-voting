@@ -8,6 +8,8 @@ import LoginCard            from '../components/cards/LoginCard';
 
 import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
 
+import userLogin from '../LoginUtils.js';
+
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
   position: absolute;
@@ -38,7 +40,7 @@ const LoginPage = ( props ) => {
       <DemoNavBar />
       <CenterWrapper>
         <LoginWrapper>
-          <LoginCard onUserLogin={() => console.log('Login')}
+          <LoginCard onUserLogin={userLogin}
                      onHostLogin={() => console.log('Host Login')}/>
         </LoginWrapper>
       </CenterWrapper>
