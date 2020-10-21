@@ -11,7 +11,7 @@ import {Pie} from 'react-chartjs-2';
 import 'chartjs-plugin-datalabels';
 
 
-const BarChart = (props) => {
+const PieChart = (props) => {
   const { dataLabels, dataValues} = props;
 
   const data = {
@@ -19,15 +19,9 @@ const BarChart = (props) => {
   	datasets: [{
   		data: dataValues,
   		backgroundColor: [
-    		'#FF6384',
-    		'#36A2EB',
-    		'#FFCE56'
+    		Colors.LightBlue,
+        Colors.Blue,
     	],
-  		hoverBackgroundColor: [
-    		'#FF6384',
-    		'#36A2EB',
-    		'#FFCE56'
-    	]
   	}]
   };
 
@@ -39,8 +33,8 @@ const BarChart = (props) => {
 
   return (
     <Pie data={data}
-                   options={options}/>
+         options={options}/>
   )
 }
 
-export default BarChart;
+export default PieChart;
