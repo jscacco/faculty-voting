@@ -7,129 +7,64 @@ import { Colors }       from '../theme/Colors';
 import Jumbo            from '../theme/Jumbo';
 import Body            from '../theme/Body';
 
-import PrimaryCard      from '../format-cards/PrimaryCard';
+import TertiaryCard      from '../format-cards/TertiaryCard';
 import OptionGroup      from '../option-groups/OptionGroup';
 import TextOption       from '../options/TextOption';
 import InputOption       from '../options/InputOption';
-import Button           from '../buttons/Button';
+import VotingOption       from '../options/VotingOption';
 import EditButton       from '../buttons/EditButton';
+// import SubmitButton     from '../buttons/SubmitButton';
 
-import { fetchPollData } from '../../store/MockDataFunctions'
-
-const ButtonStatusStackWrapper =  styled.div`
-  padding: 15px;
-  padding-bottom: 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 20%;
-`;
-
-const DescriptionWrapper = styled.div`
-  padding: 10px;
-`;
-
-const OptionGroupWrapper = styled.div`
-  padding: 20px;
-`;
-
-const StatusWrapper = styled.div`
-  padding-top: 0px;
-  display: flex;
-  justify-content: center;
-`;
-
-const CenterWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
 
 const HostPollCard = ( props ) => {
 
-  const { pollTitle } = props;
-  const pollData = fetchPollData(pollTitle);
-
-  const _headerButton = (
-    <EditButton type={'edit'} color={Colors.Blue} onClick={props.onEditClick}/>
-  )
-
-  const _header = pollData.title;
+  const { pollData, onEditClick,
+          ...rest } = props;
 
   const _description = (
-    <DescriptionWrapper>
-      <Body small color={Colors.Charcol}>
-        {pollData.description}
-      </Body>
-    </DescriptionWrapper>
+    <Body color={Colors.Charcol}>
+      {pollData.description}
+    </Body>
   )
 
   const _renderOptionGroup = () => {
-    var optionComponents = pollData.options.map(optionData => {
-      return optionData.optionType === 'text' ?
-            <TextOption medium fontColor={Colors.LightBlue}>
-              {optionData.value}
-            </TextOption> :
-            <InputOption medium>
-              {optionData.value}
-            </InputOption>;
+    const optionComponents = pollData.optionsOrder.map(id => {
+
+      return (
+        <TextOption>
+          {pollData.options[id].value}
+        </TextOption>
+     )
     });
 
+    if ( pollData.userInputOption ) {
+      optionComponents.push(
+        <InputOption/>
+      )
+    }
+
     return (
-      <OptionGroupWrapper>
-        <OptionGroup>
-          {optionComponents}
-        </OptionGroup>
-      </OptionGroupWrapper>
+      <OptionGroup type={pollData.type} disabled fontColor={Colors.Black}
+                  {...rest}>
+        {optionComponents}
+      </OptionGroup>
     );
   }
 
-  const _renderButton = () => {
-    var buttonText = "Submit";
-    var buttonColor = Colors.Blue;
-    var buttonTextColor = Colors.White
+  const _editButton = <EditButton type={'edit'} color={Colors.Blue} onClick={onEditClick}/>
 
-    return (
-      <Button backgroundColor={buttonColor} textColor={buttonTextColor}>
-        {buttonText}
-      </Button>
-    )
-  }
 
-  const _renderStatusText = () => {
-    var statusText = "Please submit your vote.";
-
-    return (
-      <StatusWrapper>
-        <Body small>
-          {statusText}
-        </Body>
-      </StatusWrapper>
-    )
-  }
-
-  const _buttonStatusStack = (
-    <CenterWrapper>
-      <ButtonStatusStackWrapper>
-        {_renderButton()}
-        {_renderStatusText()}
-      </ButtonStatusStackWrapper>
-    </CenterWrapper>
-  )
-
-  const _children = () => {
-    return (
-      <>
-        {_description}
-        {_renderOptionGroup()}
-        {_buttonStatusStack}
-      </>
-    )
-  }
+  const sections = [{content: _description},
+                    {content: _renderOptionGroup()}]
 
   return (
-    <PrimaryCard extraSmall cardColor={Colors.White}
-                 header={_header} headerButton={_headerButton}
-                 children={_children()} />
+    <TertiaryCard {...rest}
+                   width={'100%'}
+                   cardColor={Colors.White}
+                   header={pollData.title}
+                   headerColor={Colors.Blue}
+                   headerButton={_editButton}
+                   sections={sections} />
   )
 };
 

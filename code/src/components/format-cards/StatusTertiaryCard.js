@@ -10,6 +10,7 @@ import StatusText       from '../format-text/StatusText'
 const propTypes = {
   header: PropTypes.string,
   headerButton: PropTypes.node,
+  headerComponent: PropTypes.node,
   sections: PropTypes.arrayOf(PropTypes.object),
   footer: PropTypes.node,
 

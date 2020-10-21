@@ -8,7 +8,7 @@ import { Colors }       from '../theme/Colors';
 
 const propTypes = {
   children: PropTypes.node,
-  selectedOptions: PropTypes.arrayOf(PropTypes.bool),
+  selectedOptions: PropTypes.object,
   onSelect: PropTypes.func, // for exterior use
   disabled: PropTypes.bool,
 
@@ -39,10 +39,10 @@ class OptionGroup extends React.Component {
   constructor(props) {
     super(props);
 
-    const selectedOptions = props.selectedOptions ? props.selectedOptions.map((item) => item) :
-                                      Array(props.children.length).fill(false);
+    // const selectedOptions = props.selectedOptions ? props.selectedOptions.map((item) => item) :
+    //                                   Array(props.children.length).fill(false);
 
-    this.state = { selectedOptions: selectedOptions }
+    this.state = { selectedOptions: props.selectedOptions ? {...props.selectedOptions} : {} }
 
     this._handleClickMulti = this._handleClickMulti.bind(this);
     this._handleClickSngl = this._handleClickSngl.bind(this);
@@ -53,7 +53,7 @@ class OptionGroup extends React.Component {
 
   async _handleClickMulti ( event, id ) {
 
-    let newSelected = this.state.selectedOptions;
+    let newSelected = {...this.state.selectedOptions};
 
     if (this.state.selectedOptions[id]) { newSelected[id] = false; }
     else { newSelected[id] = true; }
@@ -69,11 +69,10 @@ class OptionGroup extends React.Component {
     let newSelected;
 
     if (this.state.selectedOptions[id]) {
-      newSelected = this.state.selectedOptions;
-      newSelected[id] = false;
+      newSelected = {};
     }
     else {
-      newSelected = new Array(this.state.selectedOptions.length).fill(false);
+      newSelected = {};
       newSelected[id] = true;
     }
 
@@ -94,10 +93,14 @@ class OptionGroup extends React.Component {
    _renderOptions = ( props ) => {
     const { children, iconColor, ...rest } = props;
 
+    // console.log(this.state.selectedOptions);
+
     return React.Children.map(children, (item, index) => {
 
-      const onClick = (event) => this._handleClick(event, index);
-      const clicked = this.state.selectedOptions[index];
+      const id = item.props.id;
+
+      const onClick = (event) => this._handleClick(event, id);
+      const clicked = this.state.selectedOptions[id];
       const iconType = (this.props.type === 'multiple') ? 'checkbox' : 'bubble';
 
       const itemProps = { onClick: onClick,

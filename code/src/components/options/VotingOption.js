@@ -3,8 +3,8 @@ import PropTypes        from 'prop-types';
 import styled           from 'styled-components';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import Icon           from '../theme/Icon';
-import { Colors }     from '../theme/Colors';
+import Icon             from '../theme/Icon';
+import { Colors }       from '../theme/Colors';
 
 const propTypes = {
   children: PropTypes.node,

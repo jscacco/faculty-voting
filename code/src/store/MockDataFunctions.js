@@ -1,15 +1,7 @@
 import mockData from './mockData'
 
-function fetchPollData(pollTitle) {
-  return {
-    title: pollTitle,
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum egestas nulla non accumsan. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur nunc nisl, condimentum scelerisque dignissim sed, mattis in est. Nullam eu sem ultrices, consequat velit eget, fringilla justo. Mauris quis sodales purus, eu sollicitudin risus. Etiam malesuada risus a nibh facilisis volutpat. Praesent a bibendum mi, gravida pulvinar mauris. In hac habitasse platea dictumst. retium ligula at tincidunt. Suspendisse accumsan magna consequat dolor porttitor vestibulum vitae sed enim. Pellentesque ut viverra odio, non suscipit felis. Mauris elit nisl, luctus nec fermentum quis, interdum nec ligula.",
-    options: [
-      {value: "Option 1", count: 0, optionType: 'text', order: 0},
-      {value: "Option 2", count: 0, optionType: 'text', order: 1},
-      {value: "Option 3", count: 0, optionType: 'input', order: 2}
-    ]
-  }
+function fetchPollData(room_id, poll_id) {
+  return mockData.rooms[room_id].polls[poll_id];
 }
 
 function fetchHostRooms() {
@@ -117,6 +109,14 @@ function updateRoom (roomcode, roomState) {
   }
 }
 
+function generateOptionId() {
+  const id = Math.floor(Math.random() * 100);
+  const poll_id = `00${id}`;
+
+  return poll_id.slice(-2);
+}
+
 export { fetchPollData,
          fetchHostRooms, deleteHostRoom, addHostRoom,
-         fetchAgenda, updateRoom, generatePollId }
+         fetchAgenda, updateRoom, generatePollId,
+        generateOptionId }

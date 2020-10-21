@@ -83,12 +83,15 @@ export default function reduceHostAgenda(state = initialState, action) {
       newPolls[poll_id] = poll;
 
       newOrder = {...state.order};
-      newOrder['pending'].push(poll_id);
+      const newPending = newOrder['pending'].map(i => i)
+      newPending.push(poll_id);
 
       return {
         ...state,
         polls: newPolls,
-        order: newOrder
+        order: { ...newOrder,
+                 'pending': newPending
+        }
       };
     case ActionTypes.hostagenda.DELETE_POLL:
       newPolls = {...state.polls};
