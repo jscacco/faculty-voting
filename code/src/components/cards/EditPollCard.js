@@ -21,7 +21,7 @@ import PrimaryCard      from '../format-cards/PrimaryCard';
 import EditButton       from '../buttons/EditButton';
 import EditingGroup     from '../groups/EditingGroup';
 import AddItem          from '../items/AddItem';
-import EditItem          from '../items/EditItem';
+import EditItem         from '../items/EditItem';
 
 
 import HostEditPollOptionItem  from '../items/HostEditPollOptionItem';
