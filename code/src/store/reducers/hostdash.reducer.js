@@ -28,7 +28,10 @@ export default function reduceHostDash(state = initialState, action) {
         ...state,
         loading: false,
         rooms: result.rooms,
-        order: result.order
+        order: {
+          ...state.order,
+          ...result.order
+        }
       };
     case ActionTypes.hostdash.FETCH_ROOMS_ERROR:
       return {

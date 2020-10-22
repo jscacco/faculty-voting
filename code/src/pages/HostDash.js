@@ -8,6 +8,7 @@ import { Colors }           from '../components/theme/Colors';
 
 import HostDashCard        from '../components/cards/HostDashCard';
 
+import history            from '../history';
 import { fetchHostRooms } from '../store/MockDataFunctions';
 import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
 
@@ -37,11 +38,14 @@ const HostDashPage = ( props ) => {
     props.onFetchRooms();
   }, [])
 
-  console.log(props)
   //
   // const open = props.openRooms.map(room => props.rooms[room]);
   // const closed = props.closedRooms.map(room => props.rooms[room]);
   // const pending = props.pendingRooms.map(room => props.rooms[room]);
+
+  const onViewClick = ( room_id ) => {
+    history.push(`/HostAgenda/${room_id}`)
+  }
 
   return (
     <PageWrapper>
@@ -50,7 +54,8 @@ const HostDashPage = ( props ) => {
         <HostDashCard medium rooms={props.rooms}
                       order={props.order}
                       onDelete={props.onDeleteRoom}
-                      onAdd={props.onAddRoom}/>
+                      onAdd={props.onAddRoom}
+                      onViewClick={onViewClick}/>
       </ComponentWrapper>
     </PageWrapper>
   );

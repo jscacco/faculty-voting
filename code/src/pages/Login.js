@@ -2,11 +2,13 @@ import React                from 'react';
 import styled               from 'styled-components';
 import ParticlesBg          from 'particles-bg';
 
+import history              from '../history';
+
 import { Colors }           from '../components/theme/Colors';
 
 import LoginCard            from '../components/cards/LoginCard';
 
-import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
+// import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -35,11 +37,10 @@ const LoginPage = ( props ) => {
 
   return (
     <PageWrapper>
-      <DemoNavBar />
       <CenterWrapper>
         <LoginWrapper>
-          <LoginCard onUserLogin={() => console.log('Login')}
-                     onHostLogin={() => console.log('Host Login')}/>
+          <LoginCard onUserLogin={() => history.push('/UserAgenda')}
+                     onHostLogin={() => history.push('/HostDash')}/>
         </LoginWrapper>
       </CenterWrapper>
     </PageWrapper>

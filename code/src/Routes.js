@@ -20,8 +20,8 @@ export default class Routes extends Component {
                 <Switch>
                     <Route path="/Login" exact component={Login}/>
                     <Route path="/HostDash" exact component={HostDash}/>
-                    <Route path="/HostAgenda" exact component={HostAgenda}/>
-                    <Route path="/UserAgenda" exact component={UserAgenda}/>
+                    <Route path="/HostAgenda/:room" exact component={HostAgenda}/>
+                    <Route path="/UserAgenda/:room" exact component={UserAgenda}/>
                     <Route path="/HostPoll" exact component={HostPoll}/>
                     <Route path="/UserPoll" exact component={UserPoll}/>
                 </Switch>

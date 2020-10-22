@@ -9,7 +9,7 @@ import { Colors }           from '../components/theme/Colors';
 import UserAgendaCard       from '../components/cards/UserAgendaCard';
 
 import { fetchAgenda }      from '../store/MockDataFunctions';
-import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
+// import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -33,7 +33,7 @@ const ComponentWrapper = styled.div`
 
 const UserAgendaPage = ( props ) => {
 
-  const roomcode = '0002'
+  const roomcode = '0000'
 
   useEffect(() =>  {
     props.onFetchAgenda(roomcode);
@@ -44,7 +44,6 @@ const UserAgendaPage = ( props ) => {
   // const agenda = fetchAgenda()
   return (
     <PageWrapper>
-      <DemoNavBar />
       <ComponentWrapper>
         <UserAgendaCard medium roomcode={roomcode}
                                title={props.title}

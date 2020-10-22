@@ -81,10 +81,11 @@ const ComponentWrapper = styled.div`
 
 const HostAgendaPage = ( props ) => {
 
-  const roomcode = '0002';
+  const roomcode = '0000';
 
   useEffect(() =>  {
-    props.onFetchAgenda(roomcode);
+    console.log(props)
+    props.onFetchAgenda(props.match.params.room);
   }, [])
 
   const cardProps = {
