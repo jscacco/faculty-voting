@@ -7,7 +7,7 @@ import { Colors }       from '../theme/Colors';
 import Jumbo            from '../theme/Jumbo';
 import Body             from '../theme/Body';
 
-import OptionGroup      from '../option-groups/OptionGroup';
+// import EditingGroup            from '../groups/EditingGroup';
 import TextOption       from '../options/TextOption';
 import InputOption      from '../options/InputOption';
 import AdderOption      from '../options/AdderOption';
@@ -17,184 +17,116 @@ import Input            from '../inputs/Input';
 import InputField       from '../inputs/InputField';
 import TextArea         from '../inputs/TextArea';
 import EditingOption    from '../options/EditingOption';
-import PrimaryCard      from '../format-cards/PrimaryCard';
+import TertiaryCard      from '../format-cards/TertiaryCard';
 import EditButton       from '../buttons/EditButton';
 import EditingGroup     from '../groups/EditingGroup';
 import AddItem          from '../items/AddItem';
-import EditItem         from '../items/EditItem';
+import EditItem          from '../items/EditItem';
+import HostEditPollOptionItem from '../items/HostEditPollOptionItem'
+
+const propTypes = {
+  pollData: PropTypes.object,
+
+  onTitleChange: PropTypes.func,
+  onDescriptionChange: PropTypes.func,
+  onOptionChange: PropTypes.func,
+
+  onEditClick: PropTypes.func,
+  onAddClick: PropTypes.func,
+  onDragEnd : PropTypes.func,
+
+  iconColor: ExtraPropTypes.color,
+  fontColor: ExtraPropTypes.color,
+
+  extraSmall: PropTypes.bool,
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
+  large: PropTypes.bool,
+  extraLarge: PropTypes.bool,
+};
+
+const defaultProps = {
+  // type: 'inputfield',
+  // iconColor: Colors.Blue,
+  // fontColor: Colors.Black,
+};
 
 
-import HostEditPollOptionItem  from '../items/HostEditPollOptionItem';
+const Header = ( props ) => (
+  <Input label={'Title'} type={'inputfield'}
+         value={props.title} fontColor={Colors.Charcol}
+         onChange={props.onChange}
+         {...props.size}/>
+)
 
-import { fetchPollData } from '../../store/MockDataFunctions'
+const HeaderButton = (props) => (
+  <EditButton type={'save'} color={Colors.Blue} onClick={props.onClick} {...props.size}/>
+)
 
-const ChildWrapper = styled.div`
-  padding-top: 20px;
-`;
+const Description = ( props ) => (
+  <Input label={'Description'} type={'textarea'}
+         value={props.description} fontColor={Colors.Charcol}
+         onChange={props.onChange}
+         {...props.size}/>
+)
 
-const HeaderWrapper  = styled.div`
-  width: 50%;
-`;
-
-const OptionsWrapper = styled.div`
-  /* padding-left: 50%; */
-`;
-
-const AddOptionWrapper = styled.div`
-  width: 150%;
-`;
-
-const OptionGroupWrapper = styled.div`
-  padding-left: '1.5em';
-  /* border: 1px solid black; */
-`;
-
-const LeftColumnWrapper = styled.div`
-  width: 30%;
-`;
-
-
-const TwoColumnWrapper = styled.div`
-  display: flex;
-  direction: row;
-  align-items: flex-start;
-`;
+const AddComponent = ( props ) => {
+  return (
+    <AddItem onClick={props.onAddClick} textColor={Colors.Blue} iconColor={Colors.Blue}>
+      Add new option
+    </AddItem>
+  )
+}
 
 const EditPollCard = ( props ) => {
 
-  const { pollData,
-          onDragEnd, onAddClick, onDeleteClick, onEditClick,
-          size} = props;
+  const { pollData, onEditClick, onAddClick, onDeleteClick, onDragEnd,
+          onTitleChange, onDescriptionChange, onOptionChange, ...rest } = props;
 
-  const order = pollData.optionsOrder;
+  const { title, description } = pollData;
 
-  const _header = (
-    <HeaderWrapper>
-      <Body small color={Colors.LightBlue}>
-        Title:
-      </Body>
-      <Input medium height={75}  value={pollData.title} />
-    </HeaderWrapper>
-  )
-
-  const _headerButton = (
-    <EditButton type={'save'} color={Colors.Blue} onClick={props.onEditClick}/>
-  )
-
-  const _description = (
-    <>
-      <Body small color={Colors.LightBlue}>
-        Description:
-      </Body>
-      <TextArea medium>
-        {pollData.description}
-      </TextArea>
-    </>
-  )
-
-  const _pollTypeSelection = (
-    <>
-      <Body small color={Colors.LightBlue}>
-        Poll Type:
-      </Body>
-      <OptionGroup type={'single'}
-                   selectedOptions={[pollData.type === 'single',
-                                     pollData.type === 'multiple']}>
-        <Option type={'bubble'}>
-          <Body extraSmall>
-            Single Choice
-          </Body>
-        </Option>
-        <Option type={'bubble'}>
-          <Body extraSmall>
-            Multiple Choice
-          </Body>
-        </Option>
-      </OptionGroup>
-    </>
-  )
-
-  const AddComponent = ( props ) => {
-    return (
-      <AddItem small textColor={Colors.LightBlue} iconColor={Colors.Blue}>
-        Add new option
-      </AddItem>
-    )
-}
-
-  const _renderOptionGroup = () => {
-    return (
-      <ChildWrapper>
-        <Body small color={Colors.LightBlue}>
-          Options:
-        </Body>
-        <EditingGroup addItem={<AddComponent />}
-                      order={order}
-                      medium
-                      handleColor={Colors.Blue} >
-          {
-            order.map((id) => {
-              const option = pollData.options[id]
-
-              return (
-                <HostEditPollOptionItem value={option.value}
-                                        id={id} />
-              )
-            })
-          }
-        </EditingGroup>
-      </ChildWrapper>
-    )
+  const size = {
+    extraSmall: props.extraSmall,
+    small: props.small,
+    medium: props.medium,
+    large: props.large,
+    extraLarge: props.extraLarge
   }
 
-  const _additionalSettingsSection = (
-    <ChildWrapper>
-      <Body small color={Colors.LightBlue}>
-        Additional Settings:
-      </Body>
-      <OptionGroup type={'multiple'}
-                   selectedOptions={[false, pollData.showResults]}>
-        <Option >
-          <Body extraSmall>
-            Include write-in votes
-          </Body>
-        </Option>
-        <Option >
-          <Body extraSmall>
-            Make results public
-          </Body>
-        </Option>
-      </OptionGroup>
-    </ChildWrapper>
-  )
 
-  const _settingsSection = (
-    <ChildWrapper>
-      {_pollTypeSelection}
-      {_additionalSettingsSection}
-    </ChildWrapper>
-  )
+  const renderOptionGroup = () => {
+    const optionComponents = pollData.optionsOrder.map(id => {
 
-  const _settingsOptionColumnGroup = (
-    <TwoColumnWrapper>
-      <LeftColumnWrapper>
-        {_settingsSection}
-      </LeftColumnWrapper>
-      {_renderOptionGroup()}
-    </TwoColumnWrapper>
-  )
+      return(
+          <HostEditPollOptionItem id={id} type={'inputfield'}
+                                  value={pollData.options[id].value}
+                                  onChange={(event) => onOptionChange(id, event)}
+                                  onDelete={() => onDeleteClick(id)}
+                                  fontColor={Colors.Charcol}
+                                  iconColor={Colors.Blue}/>
+      )
+    });
 
-  const _children = (
-    <>
-      {_description}
-      {_settingsOptionColumnGroup}
-    </>
-  )
+    return (
+      <EditingGroup order={pollData.optionsOrder}
+                    addItem={<AddComponent onAddClick={onAddClick}/>}
+                    onDragEnd={onDragEnd}
+                    handleColor={Colors.Blue} {...rest}>
+        {optionComponents}
+      </EditingGroup>
+    );
+  }
+
+  const sections = [{content: <Description description={description} onChange={onDescriptionChange} {...size}/>},
+                    {content: renderOptionGroup()}]
 
   return (
-    <PrimaryCard extraSmall cardColor={Colors.White}
-                 header={_header} headerButton={_headerButton}
-                 children={_children}/>
+    <TertiaryCard {...rest}
+                   width={'100%'}
+                   cardColor={Colors.White}
+                   headerComponent={<Header onChange={onTitleChange} title={title} {...size}/>}
+                   headerButton={<HeaderButton onClick={onEditClick} {...size}/>}
+                   sections={sections} />
   )
 };
 

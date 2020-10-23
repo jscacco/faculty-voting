@@ -11,6 +11,7 @@ import SecondaryCard    from './SecondaryCard';
 const propTypes = {
   header: PropTypes.string,
   headerButton: PropTypes.node,
+  headerComponent: PropTypes.node,
   sections: PropTypes.arrayOf(PropTypes.object),
   footer: PropTypes.node,
 
@@ -55,12 +56,16 @@ const TertiaryCard = ( props ) => {
   const _renderSection = ( section ) => {
 
     return (
-    <SectionWrapper>
-      <HeaderWrapper padding={padding}>
-        {section.header}
-      </HeaderWrapper>
-      {React.cloneElement(section.content, {...rest})}
-    </SectionWrapper>
+      section.header ?
+        <SectionWrapper>
+          <HeaderWrapper padding={padding}>
+            {section.header}
+          </HeaderWrapper>
+          {React.cloneElement(section.content, {...rest})}
+        </SectionWrapper> :
+        <SectionWrapper>
+          {React.cloneElement(section.content, {...rest})}
+        </SectionWrapper>
   );}
 
 

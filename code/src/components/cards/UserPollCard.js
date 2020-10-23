@@ -7,134 +7,71 @@ import { Colors }       from '../theme/Colors';
 import Jumbo            from '../theme/Jumbo';
 import Body            from '../theme/Body';
 
-import PrimaryCard      from '../format-cards/PrimaryCard';
+import TertiaryCard      from '../format-cards/TertiaryCard';
 import OptionGroup      from '../option-groups/OptionGroup';
 import TextOption       from '../options/TextOption';
 import InputOption       from '../options/InputOption';
-import Option       from '../options/Option';
 import VotingOption       from '../options/VotingOption';
-import Button           from '../buttons/Button';
 import EditButton       from '../buttons/EditButton';
+import SubmitButton     from '../buttons/SubmitButton';
 
-import { fetchPollData } from '../../store/MockDataFunctions'
-
-const ButtonStatusStackWrapper =  styled.div`
-  padding: 15px;
-  padding-bottom: 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 20%;
-  min-width: 150px;
-`;
-
-const DescriptionWrapper = styled.div`
-  padding: 10px;
-`;
-
-const OptionGroupWrapper = styled.div`
-  padding: 20px;
-`;
-
-const StatusWrapper = styled.div`
-  padding-top: 0px;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-`;
-
-const CenterWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
 
 const UserPollCard = ( props ) => {
 
-  const { pollData, onOptionChange,
-          onSubmit, buttonColor, buttonText, statusText } = props;
-
-  const _header = (
-    <Jumbo twoExtraSmall color={Colors.Blue}>
-      {pollData.title}
-    </Jumbo>
-  )
+  const { pollData, userInput, submittedOptions, onOptionChange,
+          onSubmit, submissionStatus, onInputChange,
+          ...rest } = props;
 
   const _description = (
-    <DescriptionWrapper>
-      <Body small color={Colors.Charcol}>
-        {pollData.description}
-      </Body>
-    </DescriptionWrapper>
+    <Body color={Colors.Charcol}>
+      {pollData.description}
+    </Body>
   )
 
   const _renderOptionGroup = () => {
-    console.log(pollData.type)
-    var optionComponents = pollData.optionsOrder.map(id => {
-      var iconType = pollData.type === 'multiple' ? 'checkbox' : 'bubble';
-      console.log(iconType)
-      return pollData.options[id].optionType === 'text' ?
-            <VotingOption medium fontColor={Colors.LightBlue} type={iconType}>
-              <Option >
-                <Body medium color={Colors.LightBlue}>
-                  {pollData.options[id].value}
-                </Body>
-              </Option>
-            </VotingOption> :
-            <VotingOption medium fontColor={Colors.LightBlue} type={'iconType'}>
-              <InputOption />
-            </VotingOption>;
+    const optionComponents = pollData.optionsOrder.map(id => {
+
+      const submitted = submittedOptions[id];
+
+      return (
+        <VotingOption id={id} submitted={submitted}>
+          <TextOption>
+            {pollData.options[id].value}
+          </TextOption>
+        </VotingOption>
+      )
     });
 
+    if ( pollData.userInputOption ) {
+      console.log(userInput.id)
+      const submitted = submittedOptions[userInput.id];
+      optionComponents.push(
+        <VotingOption id={userInput.id} submitted={submitted}>
+          <InputOption value={userInput.value} onChange={onInputChange}/>
+        </VotingOption>
+      )
+    }
+
     return (
-      <OptionGroupWrapper>
-        <OptionGroup onSelect={onOptionChange}>
-          {optionComponents}
-        </OptionGroup>
-      </OptionGroupWrapper>
+      <OptionGroup type={pollData.type} fontColor={Colors.Black}
+                   onSelect={onOptionChange} {...rest}>
+        {optionComponents}
+      </OptionGroup>
     );
   }
 
-  const _renderButton = () => {
-
-    return (
-      <Button backgroundColor={buttonColor} textColor={Colors.White} onClick={onSubmit}>
-        {buttonText}
-      </Button>
-    )
-  }
-
-  const _renderStatusText = () => {
-    return (
-      <StatusWrapper>
-        <Body small>
-          {statusText}
-        </Body>
-      </StatusWrapper>
-    )
-  }
-
-  const _buttonStatusStack = (
-    <CenterWrapper>
-      <ButtonStatusStackWrapper>
-        {_renderButton()}
-        {_renderStatusText()}
-      </ButtonStatusStackWrapper>
-    </CenterWrapper>
+  const _submitButton = (
+    <SubmitButton submissionStatus={submissionStatus}
+                  onClick={onSubmit} {...rest}/>
   )
 
-  const _children = () => {
-    return (
-      <>
-        {_description}
-        {_renderOptionGroup()}
-        {_buttonStatusStack}
-      </>
-    )
-  }
+  const sections = [{content: _description},
+                    {content: _renderOptionGroup()}]
 
   return (
-    <PrimaryCard extraSmall cardColor={Colors.White}
-                 header={_header} children={_children()} />
+    <TertiaryCard {...rest} cardColor={Colors.White}
+                   header={pollData.title} headerColor={Colors.Blue}
+                   sections={sections} footer={_submitButton}/>
   )
 };
 

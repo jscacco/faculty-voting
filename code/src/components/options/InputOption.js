@@ -7,6 +7,7 @@ import Input            from '../inputs/Input';
 
 const propTypes = {
   inputType: PropTypes.oneOf(['inputfield', 'textarea', 'select']),
+  value: PropTypes.string,
 
   //Option Props
   extraIcons: PropTypes.arrayOf(PropTypes.node),
@@ -20,6 +21,7 @@ const propTypes = {
   fontColor: ExtraPropTypes.color,
   backgroundColor: ExtraPropTypes.color,
   borderColor: ExtraPropTypes.color,
+  onChange: ExtraPropTypes.func,
 
   small: PropTypes.bool,
   medium: PropTypes.bool,
@@ -34,16 +36,16 @@ const defaultProps = {
 
 const InputOption = ( props ) => {
 
-  const { inputType, extraIcons,
+  const { inputType, value, extraIcons,
           iconType, iconColor, onClick, clicked,
-          placeholder, fontColor, backgroundColor, borderColor,
+          placeholder, fontColor, backgroundColor, borderColor, onChange,
           small, medium, large, extraLarge } = props;
 
   return (
     <Option extraIcons={extraIcons} type={iconType} iconColor={iconColor}
             onClick={onClick} clicked={clicked}
             small={small} medium={medium} large={large} extraLarge={extraLarge}>
-      <Input type={inputType} placeholder={placeholder}
+      <Input type={inputType} value={value} onChange={onChange} placeholder={placeholder}
              fontColor={fontColor} backgroundColor={backgroundColor}
              borderColor={borderColor}
              small={small} medium={medium} large={large} extraLarge={extraLarge}/>

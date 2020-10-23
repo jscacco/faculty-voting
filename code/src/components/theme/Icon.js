@@ -22,7 +22,7 @@ import { IoMdTrash }                  from 'react-icons/io'
 const propTypes = {
   type: PropTypes.oneOf(['box', 'checkbox', 'circle', 'bubble', 'check',
                          'checkCircle', 'fullCircle', 'addCircle', 'x',
-                         'dragHandle', 'xCircle', 'edit', 'save' ]).isRequired,
+                         'dragHandle', 'xCircle', 'trash', 'edit', 'save' ]).isRequired,
   onClick: PropTypes.func,
 
   color: ExtraPropTypes.color,
