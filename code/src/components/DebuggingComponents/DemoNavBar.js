@@ -23,6 +23,7 @@ const DemoNavBar = ( props ) => {
     'UserAgenda',
     'HostPoll',
     'UserPoll',
+    'PollResults',
   ]
 
   const goTo = (pageName) => {

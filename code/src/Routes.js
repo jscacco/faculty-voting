@@ -8,6 +8,7 @@ import Roomcode from "./pages/Roomcode"
 import UserAgenda    from './pages/UserAgenda'
 import HostPoll       from "./pages/HostPoll"
 import UserPoll    from './pages/UserPoll'
+import PollResults from './pages/PollResults'
 
 import history from './history';
 
@@ -23,6 +24,7 @@ export default class Routes extends Component {
                     <Route path="/UserAgenda/:roomcode" exact component={UserAgenda}/>
                     <Route path="/HostPoll/:roomcode/:pollcode" exact component={HostPoll}/>
                     <Route path="/UserPoll/:roomcode/:pollcode" exact component={UserPoll}/>
+                    <Route path="/PollResults/:roomcode/:pollcode" exact component={PollResults}/>
                 </Switch>
             </Router>
         )
