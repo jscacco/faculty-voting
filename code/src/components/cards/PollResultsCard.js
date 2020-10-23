@@ -3,6 +3,8 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
+import { ReactToPDF }       from 'react-to-pdf';
+
 import { Colors }       from '../theme/Colors';
 import Jumbo            from '../theme/Jumbo';
 import Body             from '../theme/Body';
@@ -77,7 +79,8 @@ const PollResultsCard = ( props ) => {
 
   return (
     <PrimaryCard extraSmall cardColor={Colors.White}
-                 header={_header} children={_children}/>
+                 header={_header} 
+                 children={_children}/>
   )
 };
 
