@@ -4,6 +4,8 @@ import styled               from 'styled-components';
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 
+import history              from '../history';
+
 import { Colors }           from '../components/theme/Colors';
 
 import HostAgendaCard        from '../components/cards/HostAgendaCard';
@@ -32,58 +34,12 @@ const ComponentWrapper = styled.div`
   width: 80%;
 `;
 
-// class HostAgendaPage extends React.Component {
-//
-//   constructor(props) {
-//     super(props)
-//
-//     this.state = { isEditing: false }
-//
-//     this.onEditClick = this.onEditClick.bind(this);
-//   }
-//
-//   async onEditClick() {
-//     await this.setState({
-//       ...this.state,
-//       isEditing: !this.state.isEditing
-//     })
-//   }
-//
-//   render() {
-//
-//     const cardProps = {
-//
-//     }
-//
-//     return(
-//       <PageWrapper>
-//         <DemoNavBar />
-//         <ComponentWrapper>
-//           { this.state.isEditing ?
-//             <HostEditAgendaCard medium
-//                                 openPolls={agenda.openPolls}
-//                                 pendingPolls={agenda.pendingPolls}
-//                                 closedPolls={agenda.closedPolls}
-//                                 pendingOrder={agenda.pendingOrder}
-//                                 onEditClick={this.onEditClick}/> :
-//             <HostAgendaCard medium
-//                             openPolls={agenda.openPolls}
-//                             pendingPolls={agenda.pendingPolls}
-//                             closedPolls={agenda.closedPolls}
-//                             pendingOrder={agenda.pendingOrder}
-//                             onEditClick={this.onEditClick}/> }
-//         </ComponentWrapper>
-//       </PageWrapper>
-//     )
-//   }
-//
-// }
-
 const HostAgendaPage = ( props ) => {
 
-  const roomcode = '0002';
+  const roomcode = props.match.params.roomcode || '0000';
 
   useEffect(() =>  {
+    console.log(props);
     props.onFetchAgenda(roomcode);
   }, [])
 
@@ -104,11 +60,13 @@ const HostAgendaPage = ( props ) => {
       <DemoNavBar />
       <ComponentWrapper>
         { props.editing ?
-          <HostEditAgendaCard medium onAddClick={props.onAddClick}
+          <HostEditAgendaCard medium onAddClick={() => props.onAddClick(roomcode)}
                                      onDeleteClick={props.onDeleteClick}
                                      onDragEnd={props.onDragEnd}
                                      {...cardProps}/> :
-          <HostAgendaCard medium {...cardProps}/> }
+          <HostAgendaCard medium {...cardProps}
+                          onStatusClick={(poll_id, newStatus) => props.onStatusClick(roomcode, poll_id, newStatus)}
+                          onViewClick={(poll_id) => history.push(`/HostPoll/${roomcode}/${poll_id}`)}/> }
       </ComponentWrapper>
     </PageWrapper>
   )
@@ -134,11 +92,14 @@ const mapDispatchToProps = dispatch => {
     onEditClick: (room_id) => { dispatch({ type: ActionTypes.hostagenda.TOGGLE_EDIT })
                                 dispatch({ type: ActionTypes.hostagenda.UPDATE_AGENDA_START,
                                           room_id })},
-    onAddClick: () => dispatch({ type: ActionTypes.hostagenda.ADD_POLL }),
+    onAddClick: (room_id) => dispatch({ type: ActionTypes.hostagenda.ADD_POLL_START,
+                                 room_id }),
     onDeleteClick: (poll_id) => dispatch({ type: ActionTypes.hostagenda.DELETE_POLL,
                                            poll_id }),
     onDragEnd: (newPendingOrder) => dispatch({ type: ActionTypes.hostagenda.UPDATE_ORDER,
                                         newPendingOrder }),
+    onStatusClick: (room_id, poll_id, newStatus) => dispatch({ type: ActionTypes.hostagenda.UPDATE_POLL_STATUS_START,
+                                                              room_id, poll_id, newStatus }),
   }
 }
 

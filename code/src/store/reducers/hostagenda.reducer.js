@@ -1,4 +1,4 @@
-import { generatePollId } from '../MockDataFunctions';
+// import { generatePollId } from '../MockDataFunctions';
 import ActionTypes from '../actionTypes';
 
 const initialState = {
@@ -41,6 +41,50 @@ export default function reduceHostAgenda(state = initialState, action) {
         loading: false,
         error: true
       };
+
+    case ActionTypes.hostagenda.ADD_POLL_START:
+      console.log('here')
+      return { ...state, loading: true, error: null };
+
+    case ActionTypes.hostagenda.ADD_POLL_SUCCESS:
+      result = action.response;
+
+      newPolls = {...state.polls};
+      newPolls[result.newPoll.id] = result.newPoll;
+
+      newOrder = {...state.order};
+      const newPending = newOrder['pending'].map(i => i)
+      newPending.push(result.newPoll.id);
+
+      return {
+        ...state,
+        polls: newPolls,
+        order: { ...newOrder,
+                 'pending': newPending
+        }
+      };
+    case ActionTypes.hostagenda.ADD_POLL_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: true
+      };
+
+
+    case ActionTypes.hostagenda.DELETE_POLL:
+      newPolls = {...state.polls};
+      delete newPolls[action.poll_id];
+
+      newOrder = {...state.order}
+      newOrder['pending'] = state.order['pending'].filter(i => i != action.poll_id)
+
+      return {
+        ...state,
+        polls: newPolls,
+        order: newOrder
+      };
+
+
     case ActionTypes.hostagenda.UPDATE_AGENGA_START:
       return { ...state, loading: true, error: null };
 
@@ -67,44 +111,8 @@ export default function reduceHostAgenda(state = initialState, action) {
         ...state,
         editing: editing
       }
-    case ActionTypes.hostagenda.ADD_POLL:
-      let poll_id = generatePollId();
-      while (state.polls[poll_id] != undefined ) {
-        poll_id = generatePollId();
-      }
 
-      const poll = {
-        id: poll_id,
-        status: 'pending',
-        title: `Poll ${poll_id}`
-      }
 
-      newPolls = {...state.polls};
-      newPolls[poll_id] = poll;
-
-      newOrder = {...state.order};
-      const newPending = newOrder['pending'].map(i => i)
-      newPending.push(poll_id);
-
-      return {
-        ...state,
-        polls: newPolls,
-        order: { ...newOrder,
-                 'pending': newPending
-        }
-      };
-    case ActionTypes.hostagenda.DELETE_POLL:
-      newPolls = {...state.polls};
-      delete newPolls[action.poll_id];
-
-      newOrder = {...state.order}
-      newOrder['pending'] = state.order['pending'].filter(i => i != action.poll_id)
-
-      return {
-        ...state,
-        polls: newPolls,
-        order: newOrder
-      };
     case ActionTypes.hostagenda.UPDATE_ORDER:
 
       newOrder = {...state.order};
@@ -116,6 +124,24 @@ export default function reduceHostAgenda(state = initialState, action) {
       }
     default:
       return state;
+
+    case ActionTypes.hostagenda.UPDATE_POLL_STATUS_START:
+      return { ...state, loading: true, error: null };
+
+    case ActionTypes.hostagenda.UPDATE_POLL_STATUS_SUCCESS:
+      result = action.response;
+
+      return {
+        ...state,
+        polls: {...result.polls},
+        order: { ...result.order}
+      };
+    case ActionTypes.hostagenda.UPDATE_POLL_STATUS_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: true
+      };
 
   }
   return state;

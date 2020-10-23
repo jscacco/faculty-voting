@@ -1,7 +1,9 @@
 import { select, call, put }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
 import { fetchAgenda,
- 				 updateRoom }   from '../MockDataFunctions';
+ 				 updateRoom,
+         addPoll,
+         updatePollStatus }   from '../MockDataFunctions';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -63,7 +65,7 @@ export function* updateHostAgenda (action) {
 	}
 }
 
-// export function* deleteRoom (action) {
+// export function* deleteRoomPoll (action) {
 //
 // 	try {
 // 		const response = yield call(() => deleteHostRoom(action.room_id))
@@ -82,23 +84,43 @@ export function* updateHostAgenda (action) {
 //
 // 	}
 // };
-//
-// export function* addPoll (action) {
-//
-// 	try {
-// 		const response = yield call(() => addHostPoll(action.roomcode));
-// 		// console.log(response);
-// 		yield put({
-// 			type: ActionTypes.hostagenda.ADD_POLL_SUCCESS,
-// 			response
-// 		});
-//
-// 	} catch(error) {
-//
-// 		yield put({
-// 			type: ActionTypes.hostagenda.ADD_POLL_ERROR,
-//       error
-// 		});
-//
-// 	}
-// };
+
+export function* addRoomPoll (action) {
+
+	try {
+		const response = yield call(() => addPoll(action.room_id));
+		yield put({
+			type: ActionTypes.hostagenda.ADD_POLL_SUCCESS,
+			response
+		});
+
+	} catch(error) {
+
+		yield put({
+			type: ActionTypes.hostagenda.ADD_POLL_ERROR,
+      error
+		});
+
+	}
+};
+
+export function* changePollStatus (action) {
+
+	try {
+		const response = yield call(() => updatePollStatus(action.room_id,
+                                                       action.poll_id,
+                                                       action.newStatus ));
+		yield put({
+			type: ActionTypes.hostagenda.UPDATE_POLL_STATUS_SUCCESS,
+			response
+		});
+
+	} catch(error) {
+
+		yield put({
+			type: ActionTypes.hostagenda.UPDATE_POLL_STATUS_ERROR,
+      error
+		});
+
+	}
+};

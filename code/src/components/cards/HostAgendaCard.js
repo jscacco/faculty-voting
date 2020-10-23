@@ -40,9 +40,11 @@ const defaultProps = {
 const HostAgendaCard = ( props ) => {
 
   const { roomcode, title, status, polls, order,
-          onEditClick,
+          onEditClick, onStatusClick,
           onViewClick, onStatusButtonClick,
           extraSmall, small, medium, large, extraLarge } = props;
+
+  console.log(props)
 
 
   let allPolls = [];
@@ -67,7 +69,8 @@ const HostAgendaCard = ( props ) => {
           return (
             <HostAgendaItem pollTitle={poll.title}
                             status={poll.status}
-                            onViewClick={onViewClick ? () => onViewClick(roomcode, id) : undefined}/>
+                            onStatusClick={(newStatus) => onStatusClick(id, newStatus)}
+                            onViewClick={onViewClick ? () => onViewClick(id) : undefined}/>
           )
         })}
       </Group>

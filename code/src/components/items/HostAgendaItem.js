@@ -44,24 +44,28 @@ const statusButtonConfig = {
 
 const HostAgendaItem = ( props ) => {
 
-  const {  status, onStatusButtonClick,
+  const {  status, onStatusClick,
           ...rest } = props;
 
   let config;
+  let nextStatus;
 
   switch ( status ) {
     case 'open':
       config = statusButtonConfig.open;
+      nextStatus = 'closed';
       break;
     case 'closed':
       config = statusButtonConfig.closed;
+      nextStatus = 'closed';
       break;
     default:
       config = statusButtonConfig.pending;
+      nextStatus = 'open';
   };
 
   const statusButton = (
-    <Button {...rest} onClick={onStatusButtonClick}
+    <Button {...rest} disabled={status === 'closed'} onClick={() => onStatusClick(nextStatus)}
             backgroundColor={config.color} textColor={Colors.White}>
       {config.text}
     </Button>

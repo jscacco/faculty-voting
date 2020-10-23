@@ -4,6 +4,8 @@ import styled               from 'styled-components';
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 
+import history              from '../history';
+
 import { Colors }           from '../components/theme/Colors';
 import HostPollCard         from '../components/cards/HostPollCard';
 import EditPollCard         from '../components/cards/EditPollCard';
@@ -36,8 +38,10 @@ const ComponentWrapper = styled.div`
 
 const HostPollPage = ( props ) => {
 
-  const roomcode = '0002';
-  const pollcode = '00';
+  const roomcode = props.match.params.roomcode || '0000';
+  const pollcode = props.match.params.pollcode || '00';
+
+  console.log(props)
 
   useEffect(() =>  {
     props.onFetchPoll(roomcode, pollcode);

@@ -40,16 +40,15 @@ const SectionGroup = ( props ) => {
   const { rooms, onViewClick,
           onDelete, onAdd, ...rest } = props;
 
-
   const items = rooms.map((room, index) => (
     room.status === 'open' ?
     <HostRoomItem roomTitle={room.title}
-              roomCode={room.id}
-              onViewClick={onViewClick}/> :
+                  roomCode={room.id}
+                  onViewClick={() => onViewClick(room.id)}/> :
     <EditItem iconColor={Colors.White} onDelete={() => onDelete(room.id)}>
       <HostRoomItem roomTitle={room.title}
                 roomCode={room.id}
-                onViewClick={onViewClick}/>
+                onViewClick={() => onViewClick(room.id)}/>
     </EditItem>
   ));
 
@@ -76,7 +75,8 @@ const HostDashCard = ( props ) => {
           onViewClick, onDelete, onAdd, ...rest} = props;
 
   let statusList = ['open', 'pending', 'closed'];
-  statusList = statusList.filter((status) => order[status].length != 0);
+  statusList = statusList.filter((status) => order[status].length != 0 ||
+                                             status === 'pending');
 
 
   const sections = statusList.map((status) => {

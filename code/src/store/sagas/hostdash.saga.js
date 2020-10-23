@@ -57,6 +57,7 @@ export function* deleteRoom (action) {
 export function* addRoom (action) {
 
 	try {
+    console.log('here')
 		const response = yield call(addHostRoom);
 		console.log(response);
 		yield put({

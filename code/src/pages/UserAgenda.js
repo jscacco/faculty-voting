@@ -4,6 +4,8 @@ import styled               from 'styled-components';
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 
+import history              from '../history';
+
 import { Colors }           from '../components/theme/Colors';
 
 import UserAgendaCard       from '../components/cards/UserAgendaCard';
@@ -33,15 +35,13 @@ const ComponentWrapper = styled.div`
 
 const UserAgendaPage = ( props ) => {
 
-  const roomcode = '0002'
+  const roomcode = props.match.params.roomcode || '0000'
 
   useEffect(() =>  {
     props.onFetchAgenda(roomcode);
   }, [])
 
-  console.log(props);
 
-  // const agenda = fetchAgenda()
   return (
     <PageWrapper>
       <DemoNavBar />
@@ -50,7 +50,8 @@ const UserAgendaPage = ( props ) => {
                                title={props.title}
                                status={props.status}
                                polls={props.polls}
-                               order={props.order}/>
+                               order={props.order}
+                               onViewClick={(poll_id) => history.push(`/UserPoll/${roomcode}/${poll_id}`)}/> }/>
       </ComponentWrapper>
     </PageWrapper>
   );

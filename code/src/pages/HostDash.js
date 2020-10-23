@@ -4,6 +4,8 @@ import styled               from 'styled-components';
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 
+import history              from '../history';
+
 import { Colors }           from '../components/theme/Colors';
 
 import HostDashCard        from '../components/cards/HostDashCard';
@@ -38,16 +40,14 @@ const HostDashPage = ( props ) => {
   }, [])
 
   console.log(props)
-  //
-  // const open = props.openRooms.map(room => props.rooms[room]);
-  // const closed = props.closedRooms.map(room => props.rooms[room]);
-  // const pending = props.pendingRooms.map(room => props.rooms[room]);
 
   return (
     <PageWrapper>
       <DemoNavBar />
       <ComponentWrapper>
-        <HostDashCard medium rooms={props.rooms}
+        <HostDashCard medium
+                      onViewClick={(roomcode) => history.push(`/HostAgenda/${roomcode}`)}
+                      rooms={props.rooms}
                       order={props.order}
                       onDelete={props.onDeleteRoom}
                       onAdd={props.onAddRoom}/>
@@ -78,5 +78,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HostDashPage);
-
-// export default HostDashPage;

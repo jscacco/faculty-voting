@@ -33,8 +33,8 @@ const ComponentWrapper = styled.div`
 
 const UserPollPage = ( props ) => {
 
-  const roomcode = '0002';
-  const pollcode = '00';
+  const roomcode = props.match.params.roomcode || '0000';
+  const pollcode = props.match.params.pollcode || '00';
 
   useEffect(() =>  {
     props.onFetchPoll(roomcode, pollcode);

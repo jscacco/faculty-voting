@@ -1,13 +1,24 @@
 import mockData from './mockData'
+import { optionBase, pollBase, roomBase } from './dataBases'
+
+
+
 
 function fetchPollData(room_id, poll_id) {
   return mockData.rooms[room_id].polls[poll_id];
 }
 
+function checkRoomcode(room_id) {
+  if (mockData.rooms[room_id]) {
+    return {}
+  }
+  else {
+    throw "Room undefined."
+  }
+}
+
 function fetchHostRooms() {
   const { order, ...rooms } = mockData.rooms;
-
-  // console.log(order)
 
   return {
     rooms: rooms,
@@ -45,16 +56,16 @@ function addHostRoom() {
     roomcode = generateRoomCode();
   }
 
-  const room = {
-    id: roomcode,
-    status: 'pending',
-    title: `Room ${roomcode}`
-  }
+  const room = roomBase(roomcode);
+
 
   mockData.rooms[roomcode] = room;
-  mockData.rooms.order.pending.push(roomcode);
+  console.log(mockData)
+  mockData.rooms.order['pending'].push(roomcode);
+  console.log(mockData)
 
   const { order, ...rooms } = mockData.rooms;
+  console.log(mockData.rooms)
   return {
     rooms: rooms,
     order: order
@@ -79,14 +90,6 @@ function fetchAgenda(room_id) {
   }
 }
 
-
-function generatePollId() {
-  const id = Math.floor(Math.random() * 100);
-  const poll_id = `00${id}`;
-
-  return poll_id.slice(-2);
-}
-
 function updateRoom (roomcode, roomState) {
 
   console.log(roomState)
@@ -109,6 +112,47 @@ function updateRoom (roomcode, roomState) {
   }
 }
 
+function generatePollId() {
+  const id = Math.floor(Math.random() * 100);
+  const poll_id = `00${id}`;
+
+  return poll_id.slice(-2);
+}
+
+function addPoll(roomcode) {
+
+  let poll_id = generatePollId();
+  while (mockData.rooms[roomcode].polls[poll_id] != undefined ) {
+    poll_id = generatePollId();
+  }
+
+  return {
+    newPoll: pollBase(poll_id)
+  }
+}
+
+function updatePollStatus(roomcode, pollcode, newStatus) {
+
+  let newPoll = {...mockData.rooms[roomcode].polls[pollcode]};
+  const oldStatus = newPoll.status;
+  newPoll.status = newStatus;
+
+  const newOrder = {...mockData.rooms[roomcode].polls.order}
+  newOrder[oldStatus] = newOrder[oldStatus].filter(i => i !== pollcode);
+  newOrder[newStatus].push(pollcode);
+
+  mockData.rooms[roomcode].polls[pollcode] = {...newPoll};
+  mockData.rooms[roomcode].polls.order = {...newOrder};
+
+
+  const { order, ...rest } = mockData.rooms[roomcode].polls;
+
+  return {
+    polls: {...rest},
+    order: order
+  }
+}
+
 function generateOptionId() {
   const id = Math.floor(Math.random() * 100);
   const poll_id = `00${id}`;
@@ -116,7 +160,7 @@ function generateOptionId() {
   return poll_id.slice(-2);
 }
 
-export { fetchPollData,
+export { checkRoomcode, fetchPollData,
          fetchHostRooms, deleteHostRoom, addHostRoom,
-         fetchAgenda, updateRoom, generatePollId,
+         fetchAgenda, updateRoom, addPoll, updatePollStatus,
         generateOptionId }
