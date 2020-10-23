@@ -87,9 +87,9 @@ class EditingGroup extends React.Component {
       }
     })
 
-    if ( this.state.order.length != this.props.order.length) {
+    if (this.state.order.length !== this.props.order.length) {
       return (
-      <Group {...this.size} children={null}/>)
+      <Group {...this.size}/>)
     }
 
     return (

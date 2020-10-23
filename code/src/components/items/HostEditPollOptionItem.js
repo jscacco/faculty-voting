@@ -11,10 +11,13 @@ import Button           from '../buttons/Button';
 import Input            from '../inputs/Input';
 
 const propTypes = {
-  pollTitle: PropTypes.string,
+  id: PropTypes.string,
+  type: PropTypes.oneOf(['inputfield', 'textarea']),
+  value: PropTypes.string,
+  onDelete: PropTypes.func,
 
-  buttonText: PropTypes.string,
-  onClick: PropTypes.func,
+  iconColor: ExtraPropTypes.color,
+  fontColor: ExtraPropTypes.color,
 
   extraSmall: PropTypes.bool,
   small: PropTypes.bool,
@@ -24,18 +27,19 @@ const propTypes = {
 };
 
 const defaultProps = {
-  pollTitle: 'Poll Title',
-  buttonText: 'VIEW'
+  type: 'inputfield',
+  iconColor: Colors.Blue,
+  fontColor: Colors.Black,
 };
 
 
 const HostEditPollOptionItem = ( props ) => {
 
-  const { value, ...rest } = props;
+  const { id, type, value, onChange, onDelete, ...rest } = props;
 
   return (
-    <EditItem iconColor={Colors.Blue}>
-      <Input small  value={value} />
+    <EditItem id={id} iconColor={Colors.Blue} onDelete={onDelete} {...rest}>
+      <Input type={type} value={value} onChange={onChange}/>
     </EditItem>
   )
 }

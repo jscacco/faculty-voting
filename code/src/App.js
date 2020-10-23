@@ -12,6 +12,7 @@ import UserAgenda from './pages/UserAgenda';
 import HostPoll   from './pages/HostPoll';
 import UserPoll   from './pages/UserPoll';
 
+
 const PageWrapper = styled.div`
   background-color: ${Colors.White};
   right: 0;

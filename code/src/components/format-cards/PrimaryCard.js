@@ -120,7 +120,8 @@ const SecondaryCard = ( props ) => {
 
 
   return (
-    <Card color={cardColor} height={'100%'} large borderColor={cardBorderColor}>
+    <Card color={cardColor} height={'stretch'} width={props.width}
+          large borderColor={cardBorderColor}>
       <InnerWrapper>
         {_renderHeader}
         <ScrollableWrapper>

@@ -1,7 +1,11 @@
 import React            from 'react';
+import styled           from 'styled-components';
+
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
+import { Colors }       from '../theme/Colors';
+import Body             from '../theme/Body';
 import TextArea         from './TextArea';
 import InputField       from './InputField';
 
@@ -10,6 +14,7 @@ const propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
 
+  label: PropTypes.string,
   placeholder: PropTypes.string,
 
   fontColor: ExtraPropTypes.color,
@@ -27,6 +32,11 @@ const defaultProps = {
   type: 'inputfield'
 };
 
+const LabelWrapper = styled.div`
+  padding-top: 4px;
+`;
+const ComponentWrapper = styled.div``;
+
 
 class Input extends React.Component {
 
@@ -42,7 +52,6 @@ class Input extends React.Component {
 
   onChange = (event) => {
 
-    console.log('onChage')
     this.setState({
       value: event.target.value
     })
@@ -57,8 +66,22 @@ class Input extends React.Component {
                          onChange: this.onChange
                        }
 
+    const component = this.props.type === 'textarea' ? <TextArea {...inputProps}/> : <InputField {...inputProps}/>;
+
     return (
-      this.props.type === 'textarea' ? <TextArea {...inputProps}/> : <InputField {...inputProps}/>
+      this.props.label ?
+        <ComponentWrapper>
+          <LabelWrapper>
+            <Body color={Colors.Blue} {...this.props}>
+              {this.props.label}
+            </Body>
+          </LabelWrapper>
+          {component}
+        </ComponentWrapper> :
+        <ComponentWrapper>
+          {component}
+        </ComponentWrapper>
+
     );
   }
 }

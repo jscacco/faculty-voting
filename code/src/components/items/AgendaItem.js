@@ -32,7 +32,7 @@ const defaultProps = {
 
 const AgendaItem = ( props ) => {
 
-  const { pollTitle, status, onViewClick, hostButton,
+  const { pollTitle, status, onViewClick, onStatusClick, hostButton,
           ...rest } = props;
 
   const statusText = <StatusText status={status} {...rest}/>

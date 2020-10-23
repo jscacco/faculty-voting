@@ -8,12 +8,12 @@ import AgendaItem                from '../items/AgendaItem';
 import Group                 from '../groups/Group';
 
 const propTypes = {
+  roomcode: PropTypes.string,
+  title: PropTypes.string,
+  status: PropTypes.string,
 
-  roomTitle: PropTypes.string,
-
-  openPolls: PropTypes.arrayOf(PropTypes.object),
-  pendingPolls: PropTypes.arrayOf(PropTypes.object),
-  closedPolls: PropTypes.arrayOf(PropTypes.object),
+  polls: PropTypes.object,
+  order: PropTypes.object,
 
   onViewClick: PropTypes.func,
 
@@ -25,34 +25,36 @@ const propTypes = {
 };
 
 const defaultProps = {
-  roomTitle: 'Agenda',
-  openPolls: [],
-  pendingPolls: [],
-  closedPolls: []
+
 };
 
 
 const UserAgendaCard = ( props ) => {
 
-  const { roomTitle, openPolls, pendingPolls, closedPolls, onViewClick,
+  const { roomcode, title, status, polls, order, onViewClick,
           extraSmall, small, medium, large, extraLarge } = props;
 
+  let allPolls = [];
+  let statusList = ['open', 'pending', 'closed'];
+  statusList = statusList.filter((status) => order[status] && order[status].length != 0);
 
-  const allPolls = openPolls.concat(pendingPolls, closedPolls);
-  const pollComponents = (
-    <Group>
-      { allPolls.map((poll, index) => (
-        <AgendaItem pollTitle={poll.title} status={poll.status}
-                    onViewClick={onViewClick ? () => onViewClick(index): undefined}/>
-      )) }
-    </Group>
-  )
+  for (let i = 0; i < statusList.length; i++) {
+    allPolls = allPolls.concat(order[statusList[i]]) }
 
   return (
-    <SecondaryCard header={roomTitle}
+    <SecondaryCard header={title}
                  extraSmall={extraSmall} small={small}
                  medium={medium} large={large} extraLarge={extraLarge}>
-      {pollComponents}
+      <Group>
+        {allPolls.map((id) => {
+          const poll = polls[id];
+          return (
+            <AgendaItem pollTitle={poll.title}
+                        status={poll.status}
+                        onViewClick={onViewClick ? () => onViewClick(id) : undefined}/>
+          )
+        })}
+      </Group>
     </SecondaryCard>
   )
 };

@@ -1,6 +1,10 @@
-import React                from 'react';
+import React, { useEffect } from 'react';
 import styled               from 'styled-components';
-import ParticlesBg          from 'particles-bg';
+
+import { connect }          from 'react-redux';
+import ActionTypes          from '../store/actionTypes';
+
+import history              from '../history';
 
 import { Colors }           from '../components/theme/Colors';
 
@@ -31,18 +35,46 @@ const ComponentWrapper = styled.div`
 `;
 
 const HostDashPage = ( props ) => {
-  const rooms = fetchHostRooms();
+  useEffect(() =>  {
+    props.onFetchRooms();
+  }, [])
+
+  console.log(props)
 
   return (
     <PageWrapper>
       <DemoNavBar />
       <ComponentWrapper>
-        <HostDashCard medium openRooms={rooms.openRooms} pendingRooms={rooms.pendingRooms}
-                      closedRooms={rooms.closedRooms}/>
+        <HostDashCard medium
+                      onViewClick={(roomcode) => history.push(`/HostAgenda/${roomcode}`)}
+                      rooms={props.rooms}
+                      order={props.order}
+                      onDelete={props.onDeleteRoom}
+                      onAdd={props.onAddRoom}/>
       </ComponentWrapper>
     </PageWrapper>
   );
 
 }
 
-export default HostDashPage;
+
+const mapStateToProps = (state) => {
+
+  return {
+    rooms: state.hostdash.rooms,
+    order: state.hostdash.order,
+    loading: state.hostdash.loading
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchRooms: () => dispatch({ type: ActionTypes.hostdash.FETCH_ROOMS_START }),
+    onDeleteRoom: (room_id) => dispatch({ type: ActionTypes.hostdash.DELETE_ROOM_START,
+                                          room_id }),
+    onAddRoom: () => dispatch({ type: ActionTypes.hostdash.ADD_ROOM_START }),
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HostDashPage);

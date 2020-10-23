@@ -1,5 +1,8 @@
-import React                from 'react';
+import React, { useEffect }                from 'react';
 import styled               from 'styled-components';
+
+import { connect }          from 'react-redux';
+import ActionTypes          from '../store/actionTypes';
 
 import { Colors }           from '../components/theme/Colors';
 import UserPollCard         from '../components/cards/UserPollCard';
@@ -27,62 +30,58 @@ const ComponentWrapper = styled.div`
   width: 80%;
 `;
 
-class UserPollPage extends React.Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      poll: fetchPollData('0002', '02'),
-      submitted: false,
-      submitButton: {
-        submitted: false,
-        color: Colors.LightGrey,
-        text: 'Submit',
-        statusText: 'Select your choice.'
-      },
-    }
+const UserPollPage = ( props ) => {
 
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onOptionChange = this.onOptionChange.bind(this);
-  }
+  const roomcode = props.match.params.roomcode || '0000';
+  const pollcode = props.match.params.pollcode || '00';
 
-  async onSubmit() {
-    console.log("Submitted")
-    await this.setState({
-      ...this.state,
-      submitted: true,
-      submitButton: {
-        color: Colors.Green,
-        text: 'Submitted',
-        statusText: 'Your vote has been recorded.',
-      }
-    })
-  }
+  useEffect(() =>  {
+    props.onFetchPoll(roomcode, pollcode);
+  }, [])
 
-  async onOptionChange(event) {
-    console.log("Changed option")
-    await this.setState({
-      ...this.state,
-      submitButton: {
-        color: this.state.submitted ? Colors.Yellow : Colors.Blue,
-        text: this.state.submitted ? 'Resubmit' : 'Submit',
-        statusText: this.state.submitted ? 'Resubmit my vote.' :  'Submit my vote.',
-      }
-    })
-  }
+  console.log(props);
 
-  render() {
-    return (
-      <PageWrapper>
-        <DemoNavBar />
-        <ComponentWrapper>
-          <UserPollCard pollData={this.state.poll} onSubmit={this.onSubmit} onOptionChange={this.onOptionChange}
-                        buttonColor={this.state.submitButton.color} buttonText={this.state.submitButton.text}
-                        statusText={this.state.submitButton.statusText} />
-        </ComponentWrapper>
-      </PageWrapper>
-    );
+  return (
+    <PageWrapper>
+      <DemoNavBar />
+      <ComponentWrapper>
+        <UserPollCard pollData={props.poll}
+                      userInput={props.userInput}
+                      onOptionChange={props.onOptionChange}
+                      onInputChange={props.onInputChange}
+                      onSubmit={props.onSubmit}
+                      submittedOptions={props.submission}
+                      submissionStatus={props.submissionStatus}
+                      medium />
+      </ComponentWrapper>
+    </PageWrapper>
+  );
+}
+
+const mapStateToProps = (state) => {
+
+  return {
+    poll: state.userpoll.poll,
+    userInput: state.userpoll.userInput,
+    selection: state.userpoll.pollStatus.selection,
+    submission: state.userpoll.pollStatus.submission,
+    submissionStatus: state.userpoll.pollStatus.submitStatus,
+    loading: state.userpoll.loading
   }
 }
 
-export default UserPollPage;
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchPoll: (room_id, poll_id ) => dispatch({ type: ActionTypes.userpoll.FETCH_POLL_START,
+                                                   room_id, poll_id }),
+    onOptionChange: (selection) => dispatch({ type: ActionTypes.userpoll.UPDATE_SELECTION,
+                                              selection}),
+    onSubmit: () => dispatch({ type: ActionTypes.userpoll.UPDATE_SUBMISSION, }),
+    onInputChange: (event) => dispatch({ type: ActionTypes.userpoll.UPDATE_INPUT,
+                                         event}),
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserPollPage);

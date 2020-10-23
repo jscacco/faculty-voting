@@ -11,9 +11,11 @@ import PrimaryCard      from './PrimaryCard';
 const propTypes = {
   header: PropTypes.string,
   headerButton: PropTypes.node,
+  headerComponent: PropTypes.node,
   children: PropTypes.node,
   footer: PropTypes.node,
 
+  headerColor: ExtraPropTypes.color,
   cardColor: ExtraPropTypes.color,
   cardBorderColor: ExtraPropTypes.color,
 
@@ -26,24 +28,25 @@ const propTypes = {
 
 const defaultProps ={
   header: 'Card',
+  headerColor: Colors.White,
   sections: [],
 };
 
 
 const SecondaryCard = ( props ) => {
 
-  const { header, ...rest } = props;
+  const { header, headerComponent, headerColor, ...rest } = props;
 
  const renderHeader = (
    <Jumbo twoExtraSmall={props.extraSmall} extraSmall={props.small}
               small={props.medium} medium={props.large} large={props.extraLarge}
-              color={Colors.White}>
+              color={headerColor}>
          {header}
    </Jumbo>
  );
 
   return (
-    <PrimaryCard header={renderHeader} {...rest}/>
+    <PrimaryCard header={headerComponent ? headerComponent : renderHeader} {...rest}/>
   )
 };
 

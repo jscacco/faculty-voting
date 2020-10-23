@@ -7,135 +7,64 @@ import { Colors }       from '../theme/Colors';
 import Jumbo            from '../theme/Jumbo';
 import Body            from '../theme/Body';
 
-import PrimaryCard      from '../format-cards/PrimaryCard';
+import TertiaryCard      from '../format-cards/TertiaryCard';
 import OptionGroup      from '../option-groups/OptionGroup';
 import TextOption       from '../options/TextOption';
-import Option       from '../options/Option';
-import VotingOption       from '../options/VotingOption';
 import InputOption       from '../options/InputOption';
-import Button           from '../buttons/Button';
+import VotingOption       from '../options/VotingOption';
 import EditButton       from '../buttons/EditButton';
+// import SubmitButton     from '../buttons/SubmitButton';
 
-const ButtonStatusStackWrapper =  styled.div`
-  padding: 15px;
-  padding-bottom: 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 20%;
-  min-width: 150px;
-`;
-
-const DescriptionWrapper = styled.div`
-  padding: 10px;
-`;
-
-const OptionGroupWrapper = styled.div`
-  padding: 20px;
-`;
-
-const StatusWrapper = styled.div`
-  padding-top: 0px;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-`;
-
-const CenterWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
 
 const HostPollCard = ( props ) => {
 
-  const { pollData, onOptionChange, selectedOptions,
-          onSubmit, buttonColor, buttonText, statusText } = props;
-
-  const _headerButton = (
-    <EditButton type={'edit'} color={Colors.Blue} onClick={props.onEditClick}/>
-  )
-
-  const _header = (
-    <Jumbo twoExtraSmall color={Colors.Blue}>
-      {pollData.title}
-    </Jumbo>
-  )
+  const { pollData, onEditClick,
+          ...rest } = props;
 
   const _description = (
-    <DescriptionWrapper>
-      <Body small color={Colors.Charcol}>
-        {pollData.description}
-      </Body>
-    </DescriptionWrapper>
+    <Body color={Colors.Charcol}>
+      {pollData.description}
+    </Body>
   )
 
   const _renderOptionGroup = () => {
-    var optionComponents = pollData.optionsOrder.map(id => {
-      var iconType = pollData.type === 'multiple' ? 'checkbox' : 'bubble';
-      return pollData.options[id].optionType === 'text' ?
-            <VotingOption medium fontColor={Colors.LightBlue} type={iconType}>
-              <Option >
-                <Body medium color={Colors.LightBlue}>
-                  {pollData.options[id].value}
-                </Body>
-              </Option>
-            </VotingOption> :
-            <VotingOption medium fontColor={Colors.LightBlue} type={'iconType'}>
-              <InputOption />
-            </VotingOption>;
+    const optionComponents = pollData.optionsOrder.map(id => {
+
+      return (
+        <TextOption>
+          {pollData.options[id].value}
+        </TextOption>
+     )
     });
 
+    if ( pollData.userInputOption ) {
+      optionComponents.push(
+        <InputOption/>
+      )
+    }
+
     return (
-      <OptionGroupWrapper>
-        <OptionGroup type={pollData.type} onSelect={onOptionChange} selectedOptions={selectedOptions}>
-          {optionComponents}
-        </OptionGroup>
-      </OptionGroupWrapper>
+      <OptionGroup type={pollData.type} disabled fontColor={Colors.Black}
+                  {...rest}>
+        {optionComponents}
+      </OptionGroup>
     );
   }
 
-  const _renderButton = () => {
+  const _editButton = <EditButton type={'edit'} color={Colors.Blue} onClick={onEditClick}/>
 
-    return (
-      <Button backgroundColor={buttonColor} textColor={Colors.White} onClick={onSubmit}>
-        {buttonText}
-      </Button>
-    )
-  }
 
-  const _renderStatusText = () => {
-    return (
-      <StatusWrapper>
-        <Body small>
-          {statusText}
-        </Body>
-      </StatusWrapper>
-    )
-  }
-
-  const _buttonStatusStack = (
-    <CenterWrapper>
-      <ButtonStatusStackWrapper>
-        {_renderButton()}
-        {_renderStatusText()}
-      </ButtonStatusStackWrapper>
-    </CenterWrapper>
-  )
-
-  const _children = () => {
-    return (
-      <>
-        {_description}
-        {_renderOptionGroup()}
-        {_buttonStatusStack}
-      </>
-    )
-  }
+  const sections = [{content: _description},
+                    {content: _renderOptionGroup()}]
 
   return (
-    <PrimaryCard extraSmall cardColor={Colors.White}
-                 header={_header} headerButton={_headerButton}
-                 children={_children()} />
+    <TertiaryCard {...rest}
+                   width={'100%'}
+                   cardColor={Colors.White}
+                   header={pollData.title}
+                   headerColor={Colors.Blue}
+                   headerButton={_editButton}
+                   sections={sections} />
   )
 };
 

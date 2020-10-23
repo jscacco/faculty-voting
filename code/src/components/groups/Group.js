@@ -40,11 +40,13 @@ const _renderOptions = ( props ) => {
   else if ( extraLarge ) { padding = 22 }
   else { padding = 14 }
 
+  console.log(children);
+
   return React.Children.map( children, ((item, index) => {
     const lastChild = index === children.length - 1;
 
     return (
-      <ItemWrapper lastChild={lastChild} padding={padding}>
+      <ItemWrapper id={item.props.id} lastChild={lastChild} padding={padding}>
         {React.cloneElement(item, {...rest, ...item.props})}
       </ItemWrapper>
     )
