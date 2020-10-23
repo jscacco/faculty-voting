@@ -62,10 +62,8 @@ const PollResultsCard = ( props ) => {
 
 
   const _chart = (
-    <PieChart dataLabels={pollData.optionsOrder.map(id => pollData.options[id].value)}
+    <BarChart dataLabels={pollData.optionsOrder.map(id => pollData.options[id].value)}
               dataValues={pollData.optionsOrder.map(id => pollData.options[id].count)}/>
-    // <BarChart dataLabels={pollData.optionsOrder.map(id => pollData.options[id].value)}
-    //           dataValues={pollData.optionsOrder.map(id => pollData.options[id].count)}/>
   )
 
   const _children = (
