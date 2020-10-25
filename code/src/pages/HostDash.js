@@ -10,7 +10,7 @@ import { Colors }           from '../components/theme/Colors';
 
 import HostDashCard        from '../components/cards/HostDashCard';
 
-import { fetchHostRooms } from '../store/dataFunctions';
+import { fetchHostRooms } from '../store/MockDataFunctions';
 import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
 
 const PageWrapper = styled.div`

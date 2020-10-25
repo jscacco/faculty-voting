@@ -1,9 +1,7 @@
 import { select, call, put }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
-import { fetchAgenda,
- 				 updateRoom,
-         addPoll,
-         updatePollStatus }   from '../MockDataFunctions';
+import { fetchAgenda, addPoll, updatePollStatus } 		  from '../../databaseCommunication/pollFunctions';
+import { updateRoom } 		  from '../../databaseCommunication/roomFunctions';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -17,8 +15,8 @@ import { fetchAgenda,
 export function* fetchHostAgenda (action) {
 
 	try {
-		// console.log('here');
-		const response = yield call(() => fetchAgenda(action.room_id))
+		// console.log('here');                       host_id
+		const response = yield call(() => fetchAgenda('dubin', action.room_id))
 		// console.log(response);
 		yield put({
 			type: ActionTypes.hostagenda.FETCH_AGENDA_SUCCESS,
@@ -48,7 +46,8 @@ export function* updateHostAgenda (action) {
 
 	try {
 		const roomState = yield select(roomSelector);
-		const response = yield call(() => updateRoom(action.room_id, {...roomState}))
+		                                          // host_id
+		const response = yield call(() => updateRoom('dubin', action.room_id, {...roomState}))
 		// console.log(response);
 		yield put({
 			type: ActionTypes.hostagenda.UPDATE_AGENDA_SUCCESS,
@@ -59,7 +58,7 @@ export function* updateHostAgenda (action) {
 
 		yield put({
 			type: ActionTypes.hostagenda.UPDATE_AGENDA_ERROR,
-      error
+      		error
 		});
 
 	}
@@ -88,7 +87,8 @@ export function* updateHostAgenda (action) {
 export function* addRoomPoll (action) {
 
 	try {
-		const response = yield call(() => addPoll(action.room_id));
+		                                       // host_id
+		const response = yield call(() => addPoll('dubin', action.room_id));
 		yield put({
 			type: ActionTypes.hostagenda.ADD_POLL_SUCCESS,
 			response
@@ -107,7 +107,8 @@ export function* addRoomPoll (action) {
 export function* changePollStatus (action) {
 
 	try {
-		const response = yield call(() => updatePollStatus(action.room_id,
+		                                                // host_id
+		const response = yield call(() => updatePollStatus('dubin', action.room_id,
                                                        action.poll_id,
                                                        action.newStatus ));
 		yield put({

@@ -2,7 +2,7 @@ import { call, put }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
 import { fetchHostRooms,
 		 deleteHostRoom,
-		 addHostRoom }	 from '../dataFunctions';
+		 addHostRoom }	 from '../../databaseCommunication/roomFunctions';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -58,8 +58,8 @@ export function* deleteRoom (action) {
 export function* addRoom (action) {
 
 	try {
-		                                      // host_id   room_title
-		const response = yield call(addHostRoom, 'dubin', 'Room Title');
+		                                      // host_id
+		const response = yield call(addHostRoom, 'dubin');
 		console.log(response);
 		yield put({
 			type: ActionTypes.hostdash.ADD_ROOM_SUCCESS,

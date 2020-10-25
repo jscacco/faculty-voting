@@ -1,26 +1,12 @@
 import firestore from './permissions.js';
-
-//const firestore = firebase.firestore();
+import { roomBase } from '../store/dataBases';
+import { addPoll } from './pollFunctions';
 
 function generateRoomCode() {
     const code = Math.floor(Math.random() * 10000);
     const roomcode = `0000${code}`;
   
     return roomcode.slice(-4);
-}
-
-function generatePollId() {
-    const id = Math.floor(Math.random() * 100);
-    const poll_id = `00${id}`;
-
-    return poll_id.slice(-2);
-}
-
-function generateOptionId() {
-    const id = Math.floor(Math.random() * 100);
-    const poll_id = `00${id}`;
-  
-    return poll_id.slice(-2);
 }
 
 const fetchHostRooms = async (host_id) => {
@@ -65,19 +51,19 @@ const fetchHostRooms = async (host_id) => {
             rooms: rooms,
             order: order
         }
-
-        return rooms;
     } catch (error) {
         console.log(error);
     }
 }
 
-const setRoomOrder = async (host_id, room_id, newOrder) => {
+const setRoomOrder = async (host_id, new_order) => {
     try {
         await firestore
                 .collection(host_id)
                 .doc('order')
-                .set(newOrder);
+                .set(new_order);
+
+        return;
     } catch (error) {
         console.log(error);
     }
@@ -88,7 +74,7 @@ const deleteHostRoom = async (host_id, room_id) => {
         let { order, ...rooms } = await fetchHostRooms(host_id);
         rooms = rooms['rooms'];
         const room = rooms[room_id];
-        //console.log(room)
+        //console.log(rooms)
         const roomRef = firestore
                             .collection(host_id)
                             .doc(room_id);
@@ -97,7 +83,7 @@ const deleteHostRoom = async (host_id, room_id) => {
         order[room.status] = newOrder;
         //console.log('deleting')
         await roomRef.delete();
-        await setRoomOrder(host_id, room_id, order);
+        await setRoomOrder(host_id, order);
         delete rooms[room_id];
 
         return {
@@ -109,7 +95,7 @@ const deleteHostRoom = async (host_id, room_id) => {
     }
 }
 
-const addHostRoom = async (host_id, room_title) => {
+const addHostRoom = async (host_id) => {
     try {
         let exists = true;
         let roomCode = generateRoomCode();
@@ -128,28 +114,21 @@ const addHostRoom = async (host_id, room_title) => {
                 });  
         }
         
+        var poll = roomBase(roomCode);
+        delete poll.polls;
+
         await firestore
                 .collection(host_id)
                 .doc(roomCode)
-                .set({
-                    roomTitle: room_title,
-                    status: 'pending',
-                    id: roomCode
-                 });
+                .set(poll);
+
         let pollRef = firestore
                         .collection(host_id)
                         .doc(roomCode)
                         .collection('polls')
                         .doc('order');
 
-        await pollRef.get().then(docData => {
-            pollRef.set({
-            closed: [],
-            open: [],
-            pending: [],
-            next_id: 0
-            });
-        });
+        await addPoll(host_id, roomCode);
 
         let { order, ...rooms } = await fetchHostRooms(host_id);
         order['pending'].push(roomCode);
@@ -164,4 +143,25 @@ const addHostRoom = async (host_id, room_title) => {
     }
 }
 
-export { fetchHostRooms, deleteHostRoom, addHostRoom }
+const updateRoom = async (host_id, room_id, room_state) => {
+    try {
+        let { order, ...rooms } = await fetchHostRooms(host_id);
+        let room = rooms['rooms'][room_id];
+        let newPolls = {...room.polls,
+                        ...room_state.polls,
+                        order: room_state.order };
+        room.title = room_state.title;
+        room.status = room_state.status;
+        room.polls = newPolls;
+        
+        await firestore.collection(host_id).doc(room_id).update(room);
+        
+        return {
+            ...room_state
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export { fetchHostRooms, deleteHostRoom, addHostRoom, updateRoom, setRoomOrder }
