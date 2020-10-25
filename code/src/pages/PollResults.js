@@ -1,10 +1,13 @@
-import React                from 'react';
+import React, { useEffect }                from 'react';
 import styled               from 'styled-components';
+
+import { connect }          from 'react-redux';
+import ActionTypes          from '../store/actionTypes';
 
 import { Colors }           from '../components/theme/Colors';
 import PollResultsCard         from '../components/cards/PollResultsCard';
 
-import { fetchPollData } from '../store/MockDataFunctions'
+import { getPollResults } from '../store/MockDataFunctions'
 import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
 
 const PageWrapper = styled.div`
@@ -27,29 +30,41 @@ const ComponentWrapper = styled.div`
   width: 80%;
 `;
 
-class PollResultsPage extends React.Component {
-  constructor(props) {
-    super(props);
+const PollResultsPage = ( props ) => {
 
-    this.state = {
-      poll: fetchPollData('0002', '02'),
-    }
-  }
+  const roomcode = props.match.params.roomcode || '0000';
+  const pollcode = props.match.params.pollcode || '00';
 
-  render() {
-    return (
-      <PageWrapper>
-        <DemoNavBar />
-        <ComponentWrapper>
-          <PollResultsCard pollData={this.state.poll}/>
-        </ComponentWrapper>
-      </PageWrapper>
-    );
+  useEffect(() =>  {
+    props.onFetchResults(roomcode, pollcode);
+  }, [])
+
+  console.log(props);
+
+  return (
+    <PageWrapper>
+      <DemoNavBar />
+      <ComponentWrapper>
+        <PollResultsCard pollResults={props.pollResults}/>
+      </ComponentWrapper>
+    </PageWrapper>
+  );
+}
+
+const mapStateToProps = (state) => {
+
+  return {
+    pollResults: state.pollresults.pollResults,
+    loading: state.pollresults.loading
   }
 }
 
-export default PollResultsPage;
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchResults: (room_id, poll_id ) => dispatch({ type: ActionTypes.pollresults.FETCH_RESULTS_START,
+                                                   room_id, poll_id }),
 
-/*
+  }
+}
 
-*/
+export default connect(mapStateToProps, mapDispatchToProps)(PollResultsPage);

@@ -4,7 +4,8 @@ import hostdash  								from './hostdash.reducer';
 import useragenda  						from './useragenda.reducer';
 import hostagenda 					from './hostagenda.reducer';
 import userpoll             from './userpoll.reducer';
-import hostpoll             from './hostpoll.reducer'
+import hostpoll             from './hostpoll.reducer';
+import pollresults          from './pollresults.reducer';
 
 export default combineReducers({
   roomcode,
@@ -13,6 +14,7 @@ export default combineReducers({
   hostagenda,
   userpoll,
   hostpoll,
+  pollresults,
 });
 
 // export default combineReducers({
