@@ -9,6 +9,20 @@ function generateRoomCode() {
     return roomcode.slice(-4);
 }
 
+const checkRoomcode = async (host_id, room_id) => {
+
+    const docRef = firestore.collection(host_id).doc(room_id)
+    const doc = await docRef.get();
+    //console.log(doc.exists)
+    if(doc.exists) {
+        return {};
+    }
+    else {
+        throw "Room undefined."
+    }
+
+}
+
 const fetchHostRooms = async (host_id) => {
     //console.log('in host');
     try {
@@ -52,7 +66,7 @@ const fetchHostRooms = async (host_id) => {
             order: order
         }
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 }
 
@@ -65,7 +79,7 @@ const setRoomOrder = async (host_id, new_order) => {
 
         return;
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 }
 
@@ -91,7 +105,7 @@ const deleteHostRoom = async (host_id, room_id) => {
             order: order
         };
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 }
 
@@ -139,7 +153,7 @@ const addHostRoom = async (host_id) => {
             order: order
         };
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 }
 
@@ -160,8 +174,8 @@ const updateRoom = async (host_id, room_id, room_state) => {
             ...room_state
         }
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 }
 
-export { fetchHostRooms, deleteHostRoom, addHostRoom, updateRoom, setRoomOrder }
+export { fetchHostRooms, deleteHostRoom, addHostRoom, updateRoom, setRoomOrder, checkRoomcode }

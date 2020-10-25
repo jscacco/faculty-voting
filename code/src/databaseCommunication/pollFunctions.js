@@ -38,6 +38,7 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
                           .collection('polls')
                           .doc(poll_id)
                           .collection('Options');
+                          
         await optionRef.get().then((snap) =>{
             snap.forEach(async function (doc) {
                 await optionRef.doc(doc.id).get().then((docSnap) => {
@@ -52,10 +53,10 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
             });
         });
             
-        //console.log(poll)
+        //console.log(poll.options)
         return poll;
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 }
 
@@ -95,7 +96,7 @@ const fetchAgenda = async (host_id, room_id) => {
 
         return agenda;
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 }
 
@@ -165,7 +166,7 @@ const addPoll = async (host_id, room_id) => {
             newPoll: poll
         };
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 }
 
@@ -180,7 +181,7 @@ const setPollOrder = async (host_id, room_id, poll_id, new_order) => {
 
         return;
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 }
 
@@ -213,7 +214,7 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
             order: newOrder
         }
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 }
 

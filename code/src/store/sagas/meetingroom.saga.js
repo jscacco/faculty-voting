@@ -1,6 +1,6 @@
 import { call, put }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
-import { getAllPolls }   from '../../FirebaseUtil';
+import { fetchAgenda }   from '../../databaseCommunication/pollFunctions';
 
 async function fetchAsync (func) {
 	const response = await func();
@@ -15,7 +15,8 @@ export function* fetchPolls (action) {
 
 	try {
 		console.log('here');
-		const response = yield call( () => getAllPolls(action.roomcode))
+		//                       changed function      host_id
+		const response = yield call( () => fetchAgenda('dubin', action.roomcode))
 		console.log(response);
 		yield put({
 			type: ActionTypes.meetingroom.FETCH_POLLS_SUCCESS,
