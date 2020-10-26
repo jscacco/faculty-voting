@@ -6,6 +6,7 @@ import ExtraPropTypes   from 'react-extra-prop-types';
 import PollData          from '../../data-containers/PollData';
 
 import { Colors }        from '../theme/Colors';
+import Input             from '../inputs/Input';
 import EditButton             from '../buttons/EditButton';
 import StatusTertiaryCard from '../format-cards/StatusTertiaryCard';
 
@@ -39,6 +40,15 @@ const propTypes = {
 
 const defaultProps = {
 };
+
+const Header = ( props ) => (
+  <Input label={'Title'} type={'inputfield'}
+         value={props.title} fontColor={Colors.White}
+         onChange={props.onChange}
+         backgroundColor={Colors.LightBlue}
+         labelColor={Colors.White}
+         {...props.size}/>
+)
 
 const HeaderButton = (props) => (
   <EditButton type={'save'} color={Colors.White} onClick={props.onEditClick} {...props.size}/>
@@ -140,7 +150,7 @@ const HostEditAgendaCard = ( props ) => {
   }
 
   return (
-    <StatusTertiaryCard header={props.roomTitle}
+    <StatusTertiaryCard header={<Header title={props.title} onChange={props.onTitleChange} size={size}/>}
                          headerButton={<HeaderButton onEditClick={onEditClick} size={size}/>}
                          sections={sections}
                          width={'100%'}

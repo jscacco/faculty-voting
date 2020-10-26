@@ -46,6 +46,7 @@ const HostAgendaPage = ( props ) => {
         <HostEditAgendaCard medium onAddClick={() => props.onAddClick(roomcode)}
                                    onDeleteClick={props.onDeleteClick}
                                    onDragEnd={props.onDragEnd}
+                                   onTitleChange={props.onTitleChange}
                                    {...cardProps}/> :
         <HostAgendaCard medium {...cardProps}
                         onStatusClick={(poll_id, newStatus) => props.onStatusClick(roomcode, poll_id, newStatus)}
@@ -74,6 +75,8 @@ const mapDispatchToProps = dispatch => {
     onEditClick: (room_id) => { dispatch({ type: ActionTypes.hostagenda.TOGGLE_EDIT })
                                 dispatch({ type: ActionTypes.hostagenda.UPDATE_AGENDA_START,
                                           room_id })},
+    onTitleChange: (event) => { dispatch({ type: ActionTypes.hostagenda.UPDATE_TITLE,
+                                             event })},
     onAddClick: (room_id) => dispatch({ type: ActionTypes.hostagenda.ADD_POLL_START,
                                  room_id }),
     onDeleteClick: (poll_id) => dispatch({ type: ActionTypes.hostagenda.DELETE_POLL,

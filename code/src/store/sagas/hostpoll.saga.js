@@ -1,6 +1,7 @@
 import { call, put }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
-import { fetchPollData }   from '../MockDataFunctions';
+import { fetchPollData,
+ 				 updatePollStatus }   from '../MockDataFunctions';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -26,6 +27,27 @@ export function* fetchHostPoll (action) {
 
 		yield put({
 			type: ActionTypes.hostpoll.FETCH_POLL_ERROR,
+      error
+		});
+
+	}
+};
+
+export function* changePollStatus (action) {
+
+	try {
+		console.log('here');
+		const response = yield call(() => updatePollStatus(action.room_id, action.poll_id, action.status))
+		console.log(response);
+		yield put({
+			type: ActionTypes.hostpoll.UPDATE_POLL_STATUS_SUCCESS,
+			poll: response.polls[action.poll_id]
+		});
+
+	} catch(error) {
+
+		yield put({
+			type: ActionTypes.hostpoll.UPDATE_POLL_STATUS_ERROR,
       error
 		});
 

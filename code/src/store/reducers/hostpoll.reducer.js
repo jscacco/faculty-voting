@@ -132,6 +132,25 @@ export default function reduceUserPoll(state = initialState, action) {
               }
     }
 
+    case ActionTypes.hostpoll.UPDATE_POLL_STATUS_START:
+      console.log('here');
+      return { ...state, loading: true, error: null };
+
+    case ActionTypes.hostpoll.UPDATE_POLL_STATUS_SUCCESS:
+      result = action.response;
+      console.log(result)
+      return {
+        ...state,
+        poll: {...result},
+        loading: false,
+      };
+    case ActionTypes.hostpoll.UPDATE_POLL_STATUS_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: true
+      };
+
     default:
       return state;
 

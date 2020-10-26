@@ -10,6 +10,8 @@ const propTypes = {
   value: PropTypes.string,
   placeholder: PropTypes.string,
 
+  labelColor: ExtraPropTypes.color,
+  placeholderColor: ExtraPropTypes.color,
   fontColor: ExtraPropTypes.color,
   backgroundColor: ExtraPropTypes.color,
   borderColor: ExtraPropTypes.color,
@@ -142,6 +144,7 @@ const InputFieldComponent = styled.textarea`
     outline: none;
     border: none
     border-bottom: solid 3px ${Colors.Green};
+    border-color: ${Colors.Green};
   }
 `;
 

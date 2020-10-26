@@ -31,7 +31,8 @@ const HostPollPage = ( props ) => {
                        updateSettings={props.onUpdateSettings}
                        medium
                        /> :
-    <HostPollStatusCard medium/>
+    <HostPollStatusCard pollStatus={props.poll.status}
+                        medium/>
 
   return (
       <SideBarPage sideContent={sideContent}>
@@ -80,6 +81,8 @@ const mapDispatchToProps = dispatch => {
                                                event }),
     onUpdateSettings: (settings) => dispatch({ type:ActionTypes.hostpoll.UPDATE_SETTINGS,
                                                settings }),
+    onUpdateSettings: (room_id, poll_id, status) => dispatch({ type:ActionTypes.hostpoll.UPDATE_POLL_STATUS_START,
+                                                               room_id, poll_id, status }),
   }
 }
 

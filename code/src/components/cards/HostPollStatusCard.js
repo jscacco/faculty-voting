@@ -112,7 +112,7 @@ const HostEditPanelCard = ( props ) => {
   return (
     <Card medium>
       <PanelHeader {...size}/>
-      <PanelSection status={'closed'} onStatusClick={props.onStatusClick} size={size}/>
+      <PanelSection status={props.pollStatus} onStatusClick={props.onStatusClick} size={size}/>
     </Card>
   )
 }

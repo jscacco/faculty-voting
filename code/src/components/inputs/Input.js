@@ -17,6 +17,8 @@ const propTypes = {
   label: PropTypes.string,
   placeholder: PropTypes.string,
 
+  labelColor: ExtraPropTypes.color,
+  placeholderColor: ExtraPropTypes.color,
   fontColor: ExtraPropTypes.color,
   backgroundColor: ExtraPropTypes.color,
   borderColor: ExtraPropTypes.color,
@@ -29,7 +31,8 @@ const propTypes = {
 };
 
 const defaultProps = {
-  type: 'inputfield'
+  type: 'inputfield',
+  labelColor: Colors.Blue,
 };
 
 const LabelWrapper = styled.div`
@@ -72,7 +75,7 @@ class Input extends React.Component {
       this.props.label ?
         <ComponentWrapper>
           <LabelWrapper>
-            <Body color={Colors.Blue} {...this.props}>
+            <Body color={this.props.labelColor} {...this.props}>
               {this.props.label}
             </Body>
           </LabelWrapper>
