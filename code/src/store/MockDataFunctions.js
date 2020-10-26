@@ -133,17 +133,19 @@ function addPoll(roomcode) {
 
 function updatePollStatus(roomcode, pollcode, newStatus) {
 
-  let newPoll = {...mockData.rooms[roomcode].polls[pollcode]};
-  const oldStatus = newPoll.status;
-  newPoll.status = newStatus;
+  if (mockData.rooms[roomcode].status === 'open') {
 
-  const newOrder = {...mockData.rooms[roomcode].polls.order}
-  newOrder[oldStatus] = newOrder[oldStatus].filter(i => i !== pollcode);
-  newOrder[newStatus].push(pollcode);
+    let newPoll = {...mockData.rooms[roomcode].polls[pollcode]};
+    const oldStatus = newPoll.status;
+    newPoll.status = newStatus;
 
-  mockData.rooms[roomcode].polls[pollcode] = {...newPoll};
-  mockData.rooms[roomcode].polls.order = {...newOrder};
+    const newOrder = {...mockData.rooms[roomcode].polls.order}
+    newOrder[oldStatus] = newOrder[oldStatus].filter(i => i !== pollcode);
+    newOrder[newStatus].push(pollcode);
 
+    mockData.rooms[roomcode].polls[pollcode] = {...newPoll};
+    mockData.rooms[roomcode].polls.order = {...newOrder};
+  }
 
   const { order, ...rest } = mockData.rooms[roomcode].polls;
 
