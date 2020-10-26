@@ -6,11 +6,19 @@ var KEY = "test-key";
 const generateHash = async (map) => {
     // Given a data map, generate the hash associated with it
 
-    let msg = JSON.stringify(map);
+    console.log("generating hash on " + JSON.stringify(map));
+
+    let mapCopy = map;
+    delete map['roomHash'];
+    delete map['pollHash'];
+    
+    let msg = JSON.stringify(mapCopy);
     let key = sjcl.codec.utf8String.toBits(KEY);
     let out = (new sjcl.misc.hmac(key, sjcl.hash.sha256)).mac(msg);
     let hmac = sjcl.codec.hex.fromBits(out);
 
+    console.log("hash: " + hmac);
+    
     return hmac;
 }
 

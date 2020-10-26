@@ -25,6 +25,22 @@ const checkRoomcode = async (host_id, room_id) => {
 
 }
 
+const checkRoomStatuses = async (rooms, order) => {
+    // Ensure that all rooms' status matches the array they're in in order
+    // (if they don't all match, the information was changed without updating the hash
+    for (let room of rooms) {
+	let roomStatus = room['status'];
+	if (!(room['id'] in order[roomStatus])) {
+	    console.log("!!Warning!! Room status in " + room['title'] + " has been changed. This means that the data has been tampered with via the Firebase Console!");
+	    alert("Bad status warning - see console for more info.");
+	    return false;
+	}
+    }
+
+    // all good
+    return true;
+}
+
 const fetchHostRooms = async (host_id) => {
     //console.log('in host');
     try {
@@ -70,14 +86,14 @@ const fetchHostRooms = async (host_id) => {
                 else {
                     order = doc.data();
                 }
-
-		
-		
                 //console.log(room)
             });
         });
         //console.log(rooms)
 
+	// make sure the order of the rooms hasn't been changed; eliminates the need for hostHash
+	checkRoomStatuses(rooms, order);
+		    
         return {
             rooms: rooms,
             order: order
@@ -165,8 +181,6 @@ const addHostRoom = async (host_id) => {
                     closed: []
                 });
 
-	// TODO: Update the room hash here
-	
         await addPoll(host_id, roomCode);
 
         let { order, ...rooms } = await fetchHostRooms(host_id);
@@ -202,7 +216,7 @@ const updateRoom = async (host_id, room_id, room_state) => {
 	    'id': room_id,
 	    'status': room.status,
 	    'title': room.title,
-	    'pollOrder': room.polls['order']
+	    'pollOrder': newPolls.order
 	}
 	room['roomHash'] = generateHash(roomHashInfo);
 	
