@@ -1,6 +1,7 @@
 import firestore from './permissions.js';
 import { roomBase } from '../store/dataBases';
 import { addPoll, fetchAgenda, setPollOrder } from './pollFunctions';
+import { generateHash, compareHashes } from './hashFunctions';
 
 function generateRoomCode() {
     const code = Math.floor(Math.random() * 10000);
@@ -21,6 +22,22 @@ const checkRoomcode = async (host_id, room_id) => {
         throw "Room undefined."
     }
 
+}
+
+const checkRoomStatuses = async (rooms, order) => {
+    // Ensure that all rooms' status matches the array they're in in order
+    // (if they don't all match, the information was changed without updating the hash
+    for (let room of rooms) {
+	let roomStatus = room['status'];
+	if (!(room['id'] in order[roomStatus])) {
+	    console.log("!!Warning!! Room status in " + room['title'] + " has been changed. This means that the data has been tampered with via the Firebase Console!");
+	    alert("Bad status warning - see console for more info.");
+	    return false;
+	}
+    }
+
+    // all good
+    return true;
 }
 
 const fetchHostRooms = async (host_id) => {
@@ -51,7 +68,19 @@ const fetchHostRooms = async (host_id) => {
                     else {
                         room['status'] = 'closed';
                         rooms['closedRooms'] = [...rooms['closedRooms'], room];
-                    }*/
+			}*/
+
+		    // add in polls['order'] so we can factor that into the hash
+		    let roomWithPollOrder = room;
+		    roomWithPollOrder['pollOrder'] = doc.data()['polls']['order'];
+		    
+		    // make sure the hash of that room is good
+		    // room = {'id': '', 'title': '', 'status': '', 'pollOrder': ''}
+		    if (!compareHashes(roomWithPollOrder, doc.data()['roomHash'])) {
+			// hash is bad:
+			console.log("!!Warning!! Data fetched from room " + room['title'] + " has a bad hash. This means that the data has been tampered with via the Firebase Console!");
+			alert("Bad hash warning - see console for more info.");
+		    }
                 }
                 else {
                     order = doc.data();
@@ -61,6 +90,9 @@ const fetchHostRooms = async (host_id) => {
         });
         //console.log(rooms)
 
+	// make sure the order of the rooms hasn't been changed; eliminates the need for hostHash
+	checkRoomStatuses(rooms, order);
+		    
         return {
             rooms: rooms,
             order: order
@@ -178,7 +210,18 @@ const updateRoom = async (host_id, room_id, room_state) => {
         //room.title = room_state.title;
         room.status = room_state.status;
         //room.polls = newPolls;
- 
+
+        // TODO: make sure this still works
+        // Compute the room's hash and update it
+        // If something doens't work, check what room is (room.title)
+        let roomHashInfo = {
+            'id': room_id,
+            'status': room.status,
+            'title': room.title,
+            'pollOrder': newPolls.order
+        }
+        room['roomHash'] = generateHash(roomHashInfo);
+	
         await firestore.collection(host_id).doc(room_id).update(room);
         await setPollOrder(host_id, room_id, newPolls.order);
 
