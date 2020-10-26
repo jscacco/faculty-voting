@@ -13,6 +13,7 @@ const propTypes = {
   iconButton: PropTypes.node,
   extraIcons: PropTypes.arrayOf(PropTypes.node),
 
+  extraSmall: PropTypes.bool,
   small: PropTypes.bool,
   medium: PropTypes.bool,
   large: PropTypes.bool,
@@ -62,6 +63,8 @@ const DummyIcon = styled.div`
 `;
 
 const optionConfig = {
+  extraSmall: { padding: `10px`,
+               iconSize: '0.75em' },
   small: { padding: `12px`,
            iconSize: '1em' },
   medium: { padding: `16px`,
@@ -74,9 +77,9 @@ const optionConfig = {
 
 const renderExtraIcons = ( props, padding ) => {
 
-  const { extraIcons, small, medium, large, extraLarge } = props;
+  const { extraIcons, extraSmall, small, medium, large, extraLarge } = props;
 
-  const itemProps = { small: small, medium: medium,
+  const itemProps = { extraSmall: extraSmall, small: small, medium: medium,
                       large: large, extraLarge: extraLarge };
 
   return extraIcons.map((item) => (
@@ -90,16 +93,17 @@ const renderExtraIcons = ( props, padding ) => {
 const OptionBase = (props) => {
 
   const { children, iconButton, extraIcons,
-          small, medium, large, extraLarge } = props;
+          extraSmall, small, medium, large, extraLarge } = props;
 
   let padding;
 
   if (extraLarge) { padding = `28px` }
   else if (large) { padding =  `20px` }
   else if (small) { padding = `12px` }
+  else if (extraSmall) { padding = `10px`}
   else { padding = `16px` }
 
-  const itemProps = { small: small, medium: medium,
+  const itemProps = { extraSmall: extraSmall, small: small, medium: medium,
                       large: large, extraLarge: extraLarge };
 
   return (

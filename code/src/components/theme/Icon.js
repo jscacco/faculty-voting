@@ -60,7 +60,7 @@ const Icon = ( props ) => {
   else if (extraLarge) { baseSize = sizeConfig.extraLarge }
   else if (large) { baseSize = sizeConfig.large }
   else if (small) { baseSize = sizeConfig.small }
-  else if (extraSmall) { baseSize = size.extraSmall }
+  else if (extraSmall) { baseSize = sizeConfig.extraSmall }
   else { baseSize = sizeConfig.medium }
 
   switch (type) {

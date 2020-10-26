@@ -7,7 +7,6 @@ import { Colors }       from '../theme/Colors';
 import Jumbo            from '../theme/Jumbo';
 import Body             from '../theme/Body';
 
-// import EditingGroup            from '../groups/EditingGroup';
 import TextOption       from '../options/TextOption';
 import InputOption      from '../options/InputOption';
 import AdderOption      from '../options/AdderOption';

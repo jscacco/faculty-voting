@@ -74,7 +74,7 @@ const PollResultsCard = ( props ) => {
   )
 
   return (
-    <PrimaryCard extraSmall cardColor={Colors.White}
+    <PrimaryCard cardColor={Colors.White} width={`100%`}
                  header={_header} children={_children}/>
   )
 };

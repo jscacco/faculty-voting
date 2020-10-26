@@ -8,31 +8,11 @@ import history              from '../history';
 
 import { Colors }           from '../components/theme/Colors';
 
+import MainPage             from './format-pages/MainPage';
+
 import HostAgendaCard        from '../components/cards/HostAgendaCard';
 import HostEditAgendaCard        from '../components/cards/HostEditAgendaCard';
 
-// import { fetchAgenda } from '../store/MockDataFunctions';
-import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
-
-const PageWrapper = styled.div`
-  background-color: ${Colors.LightBlue};
-  right: 0;
-  left: 0;
-  top: 0;
-  bottom: 0;
-
-  position: fixed;
-  overflow: auto;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ComponentWrapper = styled.div`
-  height: 80%;
-  width: 80%;
-`;
 
 const HostAgendaPage = ( props ) => {
 
@@ -52,23 +32,25 @@ const HostAgendaPage = ( props ) => {
     onEditClick: () => props.onEditClick(roomcode),
   }
 
-  console.log(props);
+
+  const onViewClick = (poll_id) => {
+    props.polls[poll_id].status === 'closed' ?
+      history.push(`/PollResults/${roomcode}/${poll_id}`) :
+      history.push(`/HostPoll/${roomcode}/${poll_id}`)
+  };
 
 
   return (
-    <PageWrapper>
-      <DemoNavBar />
-      <ComponentWrapper>
-        { props.editing ?
-          <HostEditAgendaCard medium onAddClick={() => props.onAddClick(roomcode)}
-                                     onDeleteClick={props.onDeleteClick}
-                                     onDragEnd={props.onDragEnd}
-                                     {...cardProps}/> :
-          <HostAgendaCard medium {...cardProps}
-                          onStatusClick={(poll_id, newStatus) => props.onStatusClick(roomcode, poll_id, newStatus)}
-                          onViewClick={(poll_id) => history.push(`/HostPoll/${roomcode}/${poll_id}`)}/> }
-      </ComponentWrapper>
-    </PageWrapper>
+    <MainPage color={Colors.LightBlue}>
+      { props.editing ?
+        <HostEditAgendaCard medium onAddClick={() => props.onAddClick(roomcode)}
+                                   onDeleteClick={props.onDeleteClick}
+                                   onDragEnd={props.onDragEnd}
+                                   {...cardProps}/> :
+        <HostAgendaCard medium {...cardProps}
+                        onStatusClick={(poll_id, newStatus) => props.onStatusClick(roomcode, poll_id, newStatus)}
+                        onViewClick={onViewClick}/> }
+    </MainPage>
   )
 }
 

@@ -19,6 +19,7 @@ const propTypes = {
   onClick: PropTypes.func,
   clicked: PropTypes.bool,
 
+  extraSmall: PropTypes.bool,
   small: PropTypes.bool,
   medium: PropTypes.bool,
   large: PropTypes.bool,
@@ -35,7 +36,7 @@ const defaultProps = {
 const bubble = ( props ) => {
 
   const { iconColor, onClick, clicked,
-          small, medium, large, extraLarge } = props;
+          extraSmall, small, medium, large, extraLarge } = props;
 
   return (
     <Bubble color={iconColor} onClick={onClick} clicked={clicked}/>
@@ -45,7 +46,7 @@ const bubble = ( props ) => {
 const checkbox = ( props ) => {
 
   const { iconColor, onClick, clicked,
-          small, medium, large, extraLarge } = props;
+          extraSmall, small, medium, large, extraLarge } = props;
 
   return (
     <CheckBox color={iconColor} onClick={onClick} clicked={clicked}/>
@@ -56,7 +57,7 @@ const checkbox = ( props ) => {
 const add = ( props ) => {
 
   const { iconColor, onClick,
-           small, medium, large, extraLarge } = props;
+           extraSmall, small, medium, large, extraLarge } = props;
 
   return (
     <Icon type={'addCircle'} color={iconColor} onClick={onClick}/>
@@ -67,7 +68,7 @@ const add = ( props ) => {
 const Option = ( props ) => {
 
   const { type, children, extraIcons,
-          small, medium, large, extraLarge } = props;
+          extraSmall, small, medium, large, extraLarge } = props;
 
   let iconButton;
   switch (type) {
@@ -83,7 +84,7 @@ const Option = ( props ) => {
 
   return (
     <OptionBase iconButton={iconButton} extraIcons={extraIcons}
-                small={small} medium={medium} large={large} extraLarge={extraLarge}>
+                extraSmall={extraSmall} small={small} medium={medium} large={large} extraLarge={extraLarge}>
       {children}
     </OptionBase>
   );

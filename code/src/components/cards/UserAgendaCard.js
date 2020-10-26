@@ -42,9 +42,9 @@ const UserAgendaCard = ( props ) => {
     allPolls = allPolls.concat(order[statusList[i]]) }
 
   return (
-    <SecondaryCard header={title}
-                 extraSmall={extraSmall} small={small}
-                 medium={medium} large={large} extraLarge={extraLarge}>
+    <SecondaryCard header={title} width={`100%`}
+                   extraSmall={extraSmall} small={small}
+                   medium={medium} large={large} extraLarge={extraLarge}>
       <Group>
         {allPolls.map((id) => {
           const poll = polls[id];

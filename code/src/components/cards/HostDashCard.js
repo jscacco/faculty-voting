@@ -95,8 +95,9 @@ const HostDashCard = ( props ) => {
 
   return (
     <StatusTertiaryCard header={'My Rooms'}
-                      sections={sections}
-                      {...rest}/>
+                        sections={sections}
+                        width={`100%`}
+                        {...rest}/>
   )
 }
 

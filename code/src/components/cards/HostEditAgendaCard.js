@@ -143,6 +143,7 @@ const HostEditAgendaCard = ( props ) => {
     <StatusTertiaryCard header={props.roomTitle}
                          headerButton={<HeaderButton onEditClick={onEditClick} size={size}/>}
                          sections={sections}
+                         width={'100%'}
                          {...size}/>
   )
 
