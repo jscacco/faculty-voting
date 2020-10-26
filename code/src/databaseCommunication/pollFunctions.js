@@ -53,7 +53,7 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
             });
         });
             
-        //console.log(poll.options)
+        console.log(poll.options)
         return poll;
     } catch (error) {
         throw error;

@@ -1,6 +1,6 @@
 import firestore from './permissions.js';
 import { roomBase } from '../store/dataBases';
-import { addPoll } from './pollFunctions';
+import { addPoll, fetchAgenda } from './pollFunctions';
 
 function generateRoomCode() {
     const code = Math.floor(Math.random() * 10000);
@@ -37,7 +37,7 @@ const fetchHostRooms = async (host_id) => {
 
                 if(doc.id != 'order') {
                     room['id'] = doc.id;               
-                    room['title'] = doc.data()['roomTitle'];
+                    room['title'] = doc.data()['title'];
                     room['status'] = doc.data()['status'];
                     rooms[doc.id] = room;
                     /*if(doc.data()['status'] == 'pending') {
@@ -72,6 +72,7 @@ const fetchHostRooms = async (host_id) => {
 
 const setRoomOrder = async (host_id, new_order) => {
     try {
+        console.log(new_order)
         await firestore
                 .collection(host_id)
                 .doc('order')
@@ -136,17 +137,23 @@ const addHostRoom = async (host_id) => {
                 .doc(roomCode)
                 .set(poll);
 
-        let pollRef = firestore
-                        .collection(host_id)
-                        .doc(roomCode)
-                        .collection('polls')
-                        .doc('order');
+        await firestore
+                .collection(host_id)
+                .doc(roomCode)
+                .collection('polls')
+                .doc('order')
+                .set({
+                    pending: [],
+                    open: [],
+                    closed: []
+                });
 
         await addPoll(host_id, roomCode);
 
         let { order, ...rooms } = await fetchHostRooms(host_id);
         order['pending'].push(roomCode);
-        setRoomOrder(host_id, roomCode, order);
+        
+        setRoomOrder(host_id, order);
         
         return {
             rooms: rooms['rooms'],
@@ -161,15 +168,19 @@ const updateRoom = async (host_id, room_id, room_state) => {
     try {
         let { order, ...rooms } = await fetchHostRooms(host_id);
         let room = rooms['rooms'][room_id];
-        let newPolls = {...room.polls,
+        
+        let newPolls = {...fetchAgenda(host_id, room_id),
                         ...room_state.polls,
                         order: room_state.order };
+
         room.title = room_state.title;
         room.status = room_state.status;
-        room.polls = newPolls;
+        //room.polls = newPolls;
         
         await firestore.collection(host_id).doc(room_id).update(room);
-        
+        console.log(newPolls.order)
+        await setRoomOrder(host_id, newPolls.order);
+
         return {
             ...room_state
         }
