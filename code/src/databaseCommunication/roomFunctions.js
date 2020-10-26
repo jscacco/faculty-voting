@@ -64,8 +64,8 @@ const fetchHostRooms = async (host_id) => {
                     let orderSnap = await orderRef.get();
 
                     roomWithPollOrder['pollOrder'] = orderSnap.data();
-                    console.log(roomWithPollOrder)
-                    console.log(doc.data()['roomHash'])
+                    //console.log(roomWithPollOrder)
+                    //console.log(doc.data()['roomHash'])
                     //console.log(room)
                     // make sure the hash of that room is good
                     // room = {'id': '', 'title': '', 'status': '', 'pollOrder': ''}
