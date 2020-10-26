@@ -206,7 +206,7 @@ const setPollOrder = async (host_id, room_id, new_order) => {
                 .collection('polls')
                 .doc('order')
                 .set(new_order);
-
+        
         return;
     } catch (error) {
         throw error;
@@ -306,4 +306,4 @@ const getPollResults = async (host_id, room_id, poll_id) => {
 }
   
 
-export { fetchAgenda, addPoll, updatePollStatus, fetchPollData, getPollResults };
+export { fetchAgenda, addPoll, updatePollStatus, fetchPollData, getPollResults, setPollOrder };

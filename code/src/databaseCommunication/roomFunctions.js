@@ -1,6 +1,6 @@
 import firestore from './permissions.js';
 import { roomBase } from '../store/dataBases';
-import { addPoll, fetchAgenda } from './pollFunctions';
+import { addPoll, fetchAgenda, setPollOrder } from './pollFunctions';
 
 function generateRoomCode() {
     const code = Math.floor(Math.random() * 10000);
@@ -169,17 +169,18 @@ const updateRoom = async (host_id, room_id, room_state) => {
         let { order, ...rooms } = await fetchHostRooms(host_id);
         let room = rooms['rooms'][room_id];
         
-        let newPolls = {...fetchAgenda(host_id, room_id),
+        let oldPolls = await fetchAgenda(host_id, room_id);
+
+        let newPolls = {...oldPolls.polls,
                         ...room_state.polls,
                         order: room_state.order };
 
-        room.title = room_state.title;
+        //room.title = room_state.title;
         room.status = room_state.status;
         //room.polls = newPolls;
-        
+ 
         await firestore.collection(host_id).doc(room_id).update(room);
-        //console.log(newPolls.order)
-        await setRoomOrder(host_id, newPolls.order);
+        await setPollOrder(host_id, room_id, newPolls.order);
 
         return {
             ...room_state
