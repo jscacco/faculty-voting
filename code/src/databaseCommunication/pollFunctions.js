@@ -131,25 +131,23 @@ const fetchAgenda = async (host_id, room_id) => {
 const addPoll = async (host_id, room_id) => {
     try {
         let poll_id = generatePollId();
-        let exists = true;
 
-        while(exists) {
-            await firestore
-                .collection(host_id)
-                .doc(room_id)
-                .collection('polls')
-                .get()
-                .then(snap => {
-                    snap.forEach(function (doc) {
-                        if(doc.exists && doc.id != 'order') {
-                            poll_id = generatePollId();
-                        }
-                        else {
-                            exists = false;
-                        }
-                    });
+        let collectRef = await firestore
+                        .collection(host_id)
+                        .doc(room_id)
+                        .collection('polls');
+                        
+        let collectSnap = await collectRef.get();
+        
+        let ids = [];
+        for(let i = 0; i < collectSnap.docs; i++) {
+            if(collectSnap.docs[i].data().exists) {
+                ids.push(collectSnap.docs[i].data().id);
+            }
+        }
 
-                });
+        while(poll_id in ids) {
+            poll_id = generatePollId(); 
         }
 
         let poll = pollBase(poll_id);
