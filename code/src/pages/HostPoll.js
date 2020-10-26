@@ -24,6 +24,14 @@ const HostPollPage = ( props ) => {
     props.onFetchPoll(roomcode, pollcode);
   }, [])
 
+
+  if (props.poll.status === 'closed') {
+    console.log('here')
+    history.replace(`/PollResults/${roomcode}/${pollcode}`);
+  }
+
+  console.log(props);
+
   const sideContent = props.editing ?
     <HostEditPanelCard pollType={props.poll.type}
                        userInputOption={props.poll.userInputOption}
@@ -32,6 +40,7 @@ const HostPollPage = ( props ) => {
                        medium
                        /> :
     <HostPollStatusCard pollStatus={props.poll.status}
+                        onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, pollcode, newStatus)}
                         medium/>
 
   return (
@@ -81,7 +90,7 @@ const mapDispatchToProps = dispatch => {
                                                event }),
     onUpdateSettings: (settings) => dispatch({ type:ActionTypes.hostpoll.UPDATE_SETTINGS,
                                                settings }),
-    onUpdateSettings: (room_id, poll_id, status) => dispatch({ type:ActionTypes.hostpoll.UPDATE_POLL_STATUS_START,
+    onUpdateStatus: (room_id, poll_id, status) => dispatch({ type:ActionTypes.hostpoll.UPDATE_POLL_STATUS_START,
                                                                room_id, poll_id, status }),
   }
 }

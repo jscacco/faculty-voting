@@ -33,15 +33,16 @@ export function* fetchHostPoll (action) {
 	}
 };
 
-export function* changePollStatus (action) {
+export function* changePollStatusPoll (action) {
 
 	try {
 		console.log('here');
 		const response = yield call(() => updatePollStatus(action.room_id, action.poll_id, action.status))
-		console.log(response);
+	  const poll = response.polls[action.poll_id];
+    console.log(response);
 		yield put({
 			type: ActionTypes.hostpoll.UPDATE_POLL_STATUS_SUCCESS,
-			poll: response.polls[action.poll_id]
+			poll
 		});
 
 	} catch(error) {
