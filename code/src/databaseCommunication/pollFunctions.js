@@ -1,7 +1,11 @@
 import firestore from './permissions.js';
+
 //import firebase  from './permissions.js';
+import { generateHash, compareHashes } from './hashFunctions';
 import { pollBase } from '../store/dataBases';
 import { fetchHostRooms } from './roomFunctions';
+
+
 
 function generatePollId() {
     const id = Math.floor(Math.random() * 100);
@@ -54,7 +58,15 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
         });
             
         console.log(poll.options)
-        return poll;
+
+	// Check the hash to make sure it's good
+	if (!compareHashes(poll, docData['pollHash'])) {
+	    // hash is bad:
+	    console.log("!!Warning!! Data fetched from poll " + docData['title'] + " has a bad hash. This means that the data has been tampered with via the Firebase Console!");
+	    alert("Bad hash warning - see console for more info.");
+	}
+	
+	return poll;
     } catch (error) {
         throw error;
     }
@@ -63,10 +75,12 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
 const fetchAgenda = async (host_id, room_id) => {
     try {
         let agenda = { polls: {}, order: {} };
+	let fetchedHash = "";
 
         await firestore.collection(host_id).doc(room_id).get().then(roomSnap => {
             agenda['title'] = roomSnap.data()['roomTitle'];
             agenda['status'] = roomSnap.data()['status'];
+	    fetchedHash = roomSnap.data()['agendaHash'];
         });
 
         const collect = firestore
@@ -93,14 +107,14 @@ const fetchAgenda = async (host_id, room_id) => {
             });
             //return res.status(200).send(agenda);
         });
-
-        return agenda;
+      return agenda;
     } catch (error) {
         throw error;
     }
 }
 
 const addPoll = async (host_id, room_id) => {
+    // TODO - update hash here
     try {
         let poll_id = generatePollId();
         let exists = true;
@@ -171,6 +185,7 @@ const addPoll = async (host_id, room_id) => {
 }
 
 const setPollOrder = async (host_id, room_id, poll_id, new_order) => {
+    // Update hash here - this seems like a Room hash issue
     try {
         await firestore
                 .collection(host_id)
@@ -186,6 +201,7 @@ const setPollOrder = async (host_id, room_id, poll_id, new_order) => {
 }
 
 const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
+    // Update hash here - this seems like a Room hash issue
     try {
         let newPoll = await fetchPollData(host_id, room_id, poll_id);
         const oldStatus = newPoll.status;

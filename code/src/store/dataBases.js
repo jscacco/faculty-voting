@@ -20,6 +20,7 @@ export const pollBase = (id) => {
     userInputOption: false,
     optionsOrder: ['00', '01', '02'],
     showResults: true,
+    pollHash: "",
   }
 }
 
@@ -50,5 +51,6 @@ export const roomBase = (id) => {
         'pending': ['00']
       },
     },
+    roomHash: ""
   }
 }
