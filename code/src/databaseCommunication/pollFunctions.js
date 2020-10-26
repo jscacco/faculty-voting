@@ -198,7 +198,7 @@ const addPoll = async (host_id, room_id) => {
     }
 }
 
-const setPollOrder = async (host_id, room_id, poll_id, new_order) => {
+const setPollOrder = async (host_id, room_id, new_order) => {
     try {
         await firestore
                 .collection(host_id)
@@ -224,7 +224,7 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
         newOrder[oldStatus] = newOrder[oldStatus].filter(i => i !== poll_id);
         newOrder[new_status].push(poll_id);
 
-        await setPollOrder(host_id, room_id, poll_id, newOrder);
+        await setPollOrder(host_id, room_id, newOrder);
         //console.log(newOrder)
         await firestore
             .collection(host_id)
@@ -246,4 +246,64 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
     }
 }
 
-export { fetchAgenda, addPoll, updatePollStatus, fetchPollData };
+const getPollResults = async (host_id, room_id, poll_id) => {
+    try {
+        let options = {};
+        let results = {};
+        
+        const docRef = await firestore
+                        .collection(host_id)
+                        .doc(room_id)
+                        .collection('polls')
+                        .doc(poll_id);
+
+        const docSnap = await docRef.get();
+        const docData = docSnap.data();
+        
+        for (let i = 0; i < docData['optionsOrder'].length; i++) {
+            const option_id = docData['optionsOrder'][i];
+
+            const optionRef = firestore
+                            .collection(host_id)
+                            .doc(room_id)
+                            .collection('polls')
+                            .doc(poll_id)
+                            .collection('Options')
+                            .doc(option_id);
+
+            let optDocSnap = await optionRef.get();
+            let optDocData = optDocSnap.data();
+
+            //console.log(optDocData);
+
+            var opt = {
+                id: optDocData['id'],
+                value: optDocData['value'],
+                count: optDocData['count']
+            };
+
+            var res = {
+                id: optDocData['id'],
+                count: optDocData['count']
+            }
+
+            options[opt.id] = opt;
+            results[opt.id] = res;
+        }
+        
+        console.log(docData['title'])
+
+        return {
+        title: docData['title'],
+        description: docData['description'],
+        optionsOrder: docData['optionsOrder'],
+        options: {...options},
+        results: {...results}
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+  
+
+export { fetchAgenda, addPoll, updatePollStatus, fetchPollData, getPollResults };
