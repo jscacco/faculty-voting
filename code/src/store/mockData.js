@@ -64,8 +64,8 @@ const data = {
           }
         },
         order: {
-          'open': [],
-          'closed': ['00', '01'],
+          'open': ['01'],
+          'closed': ['00'],
           'pending': ['02']
         },
       },
