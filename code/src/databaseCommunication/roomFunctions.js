@@ -178,7 +178,7 @@ const updateRoom = async (host_id, room_id, room_state) => {
         //room.polls = newPolls;
         
         await firestore.collection(host_id).doc(room_id).update(room);
-        console.log(newPolls.order)
+        //console.log(newPolls.order)
         await setRoomOrder(host_id, newPolls.order);
 
         return {
