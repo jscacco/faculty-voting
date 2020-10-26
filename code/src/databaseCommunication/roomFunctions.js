@@ -250,7 +250,7 @@ const setPollOrder = async (host_id, room_id, new_order) => {
         const roomDocument = firestore
                                 .collection(host_id)
                                 .doc(room_id);
-        let roomDocSnap = await document.get();
+        let roomDocSnap = await roomDocument.get();
         let roomDocData = roomDocSnap.data();
 
         // Construct the new room map

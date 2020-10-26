@@ -225,16 +225,15 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
         newPoll.status = new_status;
 
         // generate new poll hash
-        let newHash = generateHash(newPoll);
-        
+        let newHash = await generateHash(newPoll);
         var docSnap = await firestore.collection(host_id).doc(room_id).collection('polls').doc('order').get();
+        
         const newOrder = {...docSnap.data()};
         newOrder[oldStatus] = newOrder[oldStatus].filter(i => i !== poll_id);
         newOrder[new_status].push(poll_id);
 
         await setPollOrder(host_id, room_id, newOrder);
-        //console.log(newOrder)
-        
+
 	    // update the status and hash of the poll object
         await firestore
             .collection(host_id)
@@ -259,53 +258,23 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
 
 const getPollResults = async (host_id, room_id, poll_id) => {
     try {
-        let options = {};
+        let poll = await fetchPollData(host_id, room_id, poll_id);
+        let options = poll.options;
         let results = {};
         
-        const docRef = await firestore
-                        .collection(host_id)
-                        .doc(room_id)
-                        .collection('polls')
-                        .doc(poll_id);
+        for (let i = 0; i < poll.optionsOrder.length; i++) {
+            const option_id = poll.optionsOrder[i];
 
-        const docSnap = await docRef.get();
-        const docData = docSnap.data();
-        
-        for (let i = 0; i < docData['optionsOrder'].length; i++) {
-            const option_id = docData['optionsOrder'][i];
-
-            const optionRef = firestore
-                            .collection(host_id)
-                            .doc(room_id)
-                            .collection('polls')
-                            .doc(poll_id)
-                            .collection('Options')
-                            .doc(option_id);
-
-            let optDocSnap = await optionRef.get();
-            let optDocData = optDocSnap.data();
-
-            var opt = {
-                id: optDocData['id'],
-                value: optDocData['value'],
-                count: optDocData['count']
+            results[option_id] = {
+                id: option_id,
+                count: options[option_id].count
             };
-
-            var res = {
-                id: optDocData['id'],
-                count: optDocData['count']
-            }
-
-            options[opt.id] = opt;
-            results[opt.id] = res;
         }
-        
-        console.log(docData['title'])
 
         return {
-        title: docData['title'],
-        description: docData['description'],
-        optionsOrder: docData['optionsOrder'],
+        title: poll.title,
+        description: poll.description,
+        optionsOrder: poll.optionsOrder,
         options: {...options},
         results: {...results}
         }
