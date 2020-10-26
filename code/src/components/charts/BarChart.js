@@ -33,12 +33,20 @@ const BarChart = (props) => {
   const options = {
     legend: {
             display: false
-         }
+         },
+     scales: {
+         xAxes: [{
+             ticks: {
+                 beginAtZero: true
+             }
+         }]
+     }
   }
 
   return (
     <HorizontalBar data={data}
-                   options={options}/>
+                   options={options}
+                   height={50}/>
   )
 }
 
