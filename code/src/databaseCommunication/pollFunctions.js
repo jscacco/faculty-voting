@@ -303,5 +303,4 @@ const getPollResults = async (host_id, room_id, poll_id) => {
     }
 }
   
-
 export { fetchAgenda, addPoll, updatePollStatus, fetchPollData, getPollResults, setPollOrder };
