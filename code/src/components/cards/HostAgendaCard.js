@@ -59,7 +59,8 @@ const HostAgendaCard = ( props ) => {
   )
 
   return (
-    <SecondaryCard header={title}
+    <SecondaryCard  width={'100%'}
+                    header={title}
                     extraSmall={extraSmall} small={small}
                     medium={medium} large={large} extraLarge={extraLarge}
                     headerButton={status === 'closed' ? undefined : headerButton}>

@@ -11,6 +11,7 @@ import { fetchHostAgenda, updateHostAgenda,
          changePollStatus }     from './hostagenda.saga.js';
 import { fetchUserPoll }  from './userpoll.saga';
 import { fetchHostPoll }  from './hostpoll.saga';
+import { fetchPollResults } from './pollresults.saga';
 
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
@@ -27,6 +28,6 @@ export function* watcherSaga() {
     yield takeLatest(ActionTypes.hostagenda.UPDATE_POLL_STATUS_START, changePollStatus );
     yield takeLatest(ActionTypes.userpoll.FETCH_POLL_START, fetchUserPoll );
     yield takeLatest(ActionTypes.hostpoll.FETCH_POLL_START, fetchHostPoll );
-
+    yield takeLatest(ActionTypes.pollresults.FETCH_RESULTS_START, fetchPollResults );
 
 }

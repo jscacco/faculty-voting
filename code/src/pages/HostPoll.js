@@ -3,62 +3,38 @@ import styled               from 'styled-components';
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
-
 import history              from '../history';
 
 import { Colors }           from '../components/theme/Colors';
+import SideBarPage          from './format-pages/SideBarPage';
+
 import HostPollCard         from '../components/cards/HostPollCard';
 import EditPollCard         from '../components/cards/EditPollCard';
+import HostPollStatusCard   from '../components/cards/HostPollStatusCard'
 import HostEditPanelCard    from '../components/cards/HostEditPanelCard';
 
-import { fetchPollData } from '../store/MockDataFunctions'
-import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
-import MainSidebar      from './format-pages/MainSidebar'
 
-const PageWrapper = styled.div`
-  background-color: ${Colors.LightBlue};
-  right: 0;
-  left: 0;
-  top: 0;
-  bottom: 0;
-
-  position: fixed;
-  overflow: auto;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ComponentWrapper = styled.div`
-  border: 1px solid black;
-  height: 80%;
-  width: 80%;
-`;
 
 const HostPollPage = ( props ) => {
 
   const roomcode = props.match.params.roomcode || '0000';
   const pollcode = props.match.params.pollcode || '00';
 
-  console.log(props)
-
   useEffect(() =>  {
     props.onFetchPoll(roomcode, pollcode);
   }, [])
 
-  console.log(props);
-
+  const sideContent = props.editing ?
+    <HostEditPanelCard pollType={props.poll.type}
+                       userInputOption={props.poll.userInputOption}
+                       showResults={props.poll.showResults}
+                       updateSettings={props.onUpdateSettings}
+                       medium
+                       /> :
+    <HostPollStatusCard medium/>
 
   return (
-    <PageWrapper>
-      <MainSidebar header={<DemoNavBar />}
-                   sideContent={props.editing ?
-                     <HostEditPanelCard pollType={props.poll.type}
-                                        userInputOption={props.poll.userInputOption}
-                                        showResults={props.poll.showResults}
-                                        updateSettings={props.onUpdateSettings}
-                                        /> : undefined}>
+      <SideBarPage sideContent={sideContent}>
         { props.editing ?
           <EditPollCard pollData={props.poll}
                         onEditClick={props.onToggleEdit}
@@ -73,8 +49,7 @@ const HostPollPage = ( props ) => {
                         onEditClick={props.onToggleEdit}
                         medium />
         }
-      </MainSidebar>
-    </PageWrapper>
+      </SideBarPage>
   );
 }
 

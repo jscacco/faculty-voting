@@ -23,7 +23,7 @@ import PieChart    from '../charts/PieChart';
 import BarChart    from '../charts/BarChart';
 
 
-import { fetchPollData } from '../../store/MockDataFunctions'
+import { fetchPollResults } from '../../store/MockDataFunctions'
 
 const ChildWrapper = styled.div`
   padding-top: 20px;
@@ -46,24 +46,24 @@ function getValues(map, key){
 
 const PollResultsCard = ( props ) => {
 
-  const { pollData } = props;
+  const { pollResults } = props;
 
   const _header = (
     <Jumbo extraSmall color={Colors.LightBlue}>
-      {pollData.title}
+      {pollResults.title}
     </Jumbo>
   )
 
   const _description = (
     <Body small color={Colors.Charcol}>
-      {pollData.description}
+      {pollResults.description}
     </Body>
   )
 
 
   const _chart = (
-    <BarChart dataLabels={pollData.optionsOrder.map(id => pollData.options[id].value)}
-              dataValues={pollData.optionsOrder.map(id => pollData.options[id].count)}/>
+    <BarChart dataLabels={pollResults.optionsOrder.map(id => pollResults.options[id].value)}
+              dataValues={pollResults.optionsOrder.map(id => pollResults.results[id].count)}/>
   )
 
   const _children = (
@@ -74,7 +74,7 @@ const PollResultsCard = ( props ) => {
   )
 
   return (
-    <PrimaryCard extraSmall cardColor={Colors.White}
+    <PrimaryCard cardColor={Colors.White} width={`100%`}
                  header={_header} children={_children}/>
   )
 };

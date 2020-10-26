@@ -16,6 +16,7 @@ const propTypes = {
   backgroundColor: ExtraPropTypes.color,
   borderColor: ExtraPropTypes.color,
 
+  extraSmall: PropTypes.bool,
   small: PropTypes.bool,
   medium: PropTypes.bool,
   large: PropTypes.bool,
@@ -29,14 +30,14 @@ const AdderOption = ( props ) => {
 
   const { iconColor, onClick,
           placeholder, fontColor, backgroundColor, borderColor,
-          small, medium, large, extraLarge } = props;
+          extraSmall, small, medium, large, extraLarge } = props;
 
   return (
     <InputOption inputType={'select'} iconType={'add'}
                  iconColor={iconColor} onClick={onClick}
                  placeholder={placeholder} fontColor={fontColor}
                  backgroundColor={backgroundColor} borderColor={borderColor}
-                 small={small} medium={medium} large={large} extraLarge={extraLarge}/>
+                 extraSmall={extraSmall} small={small} medium={medium} large={large} extraLarge={extraLarge}/>
   )
 
 };

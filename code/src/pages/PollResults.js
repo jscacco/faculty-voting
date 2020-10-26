@@ -1,55 +1,44 @@
-import React                from 'react';
+import React, { useEffect }                from 'react';
 import styled               from 'styled-components';
 
+import { connect }          from 'react-redux';
+import ActionTypes          from '../store/actionTypes';
+
 import { Colors }           from '../components/theme/Colors';
+import MainPage             from './format-pages/MainPage';
+
 import PollResultsCard         from '../components/cards/PollResultsCard';
 
-import { fetchPollData } from '../store/MockDataFunctions'
-import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
+const PollResultsPage = ( props ) => {
 
-const PageWrapper = styled.div`
-  background-color: ${Colors.LightBlue};
-  right: 0;
-  left: 0;
-  top: 0;
-  bottom: 0;
+  const roomcode = props.match.params.roomcode || '0000';
+  const pollcode = props.match.params.pollcode || '00';
 
-  position: fixed;
-  overflow: auto;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+  useEffect(() =>  {
+    props.onFetchResults(roomcode, pollcode);
+  }, [])
 
-const ComponentWrapper = styled.div`
-  height: 80%;
-  width: 80%;
-`;
+  return (
+    <MainPage color={Colors.LightBlue}>
+      <PollResultsCard pollResults={props.pollResults}/>
+    </MainPage>
+  );
+}
 
-class PollResultsPage extends React.Component {
-  constructor(props) {
-    super(props);
+const mapStateToProps = (state) => {
 
-    this.state = {
-      poll: fetchPollData('0002', '02'),
-    }
-  }
-
-  render() {
-    return (
-      <PageWrapper>
-        <DemoNavBar />
-        <ComponentWrapper>
-          <PollResultsCard pollData={this.state.poll}/>
-        </ComponentWrapper>
-      </PageWrapper>
-    );
+  return {
+    pollResults: state.pollresults.pollResults,
+    loading: state.pollresults.loading
   }
 }
 
-export default PollResultsPage;
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchResults: (room_id, poll_id ) => dispatch({ type: ActionTypes.pollresults.FETCH_RESULTS_START,
+                                                   room_id, poll_id }),
 
-/*
+  }
+}
 
-*/
+export default connect(mapStateToProps, mapDispatchToProps)(PollResultsPage);

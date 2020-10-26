@@ -15,6 +15,7 @@ const propTypes = {
   backgroundColor: ExtraPropTypes.color,
   borderColor: ExtraPropTypes.color,
 
+  extraSmall: PropTypes.bool,
   small: PropTypes.bool,
   medium: PropTypes.bool,
   large: PropTypes.bool,
@@ -33,13 +34,13 @@ const EditingOption = ( props ) => {
 
   const { children, onDelete,
           iconColor, fontColor, backgroundColor, borderColor,
-          small, medium, large, extraLarge } = props;
+          extraSmall, small, medium, large, extraLarge } = props;
 
   const extraIcons = [ deleteIcon(onDelete) ]
 
   const childProps = { iconColor: iconColor, fontColor: fontColor,
                        backgroundColor: backgroundColor, borderColor: borderColor,
-                       small: small, medium: medium,
+                       extraSmall: extraSmall, small: small, medium: medium,
                        large: large, extraLarge: extraLarge,
                        extraIcons: extraIcons, };
 

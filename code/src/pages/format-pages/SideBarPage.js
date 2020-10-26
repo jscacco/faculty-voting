@@ -1,24 +1,23 @@
 import React            from 'react';
 import styled           from 'styled-components';
+
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-// import { Colors }       from '../theme/Colors';
-// import Jumbo            from '../theme/Jumbo';
-// import Body             from '../theme/Body';
+import { Colors }       from '../../components/theme/Colors';
+import BasePage         from './BasePage';
 
-// import Card             from './Card';
-// import TextOption       from '../options/TextOption';
-// import OptionGroup      from '../option-group/OptionGroup';
+const propTypes = {
+  children: PropTypes.node,
+  header: PropTypes.node,
+  sideContent: PropTypes.node,
 
-const PageWrapper = styled.div`
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-`;
+  color: ExtraPropTypes.color,
+};
+
+const defaultProps = {
+  color: Colors.LightBlue
+};
 
 const HeaderWrapper = styled.div`
   padding-bottom: 20px;
@@ -44,27 +43,29 @@ const SideBarWrapper = styled.div`
 `;
 
 
-const MainSideBar = ( props ) => {
+const SideBarPage = ( props ) => {
 
   const mainComponent = props.sideContent ?
-    <ComponentWrapper>
+    <>
       {props.children}
       <SideBarWrapper>
         {props.sideContent}
       </SideBarWrapper>
-    </ComponentWrapper> :
-    <ComponentWrapper>
-      {props.children}
-    </ComponentWrapper>
+    </> : props.children
 
   return (
-    <PageWrapper>
+    <BasePage color={props.color}>
       <HeaderWrapper>
         {props.header}
       </HeaderWrapper>
-      {mainComponent}
-    </PageWrapper>
+      <ComponentWrapper>
+        {mainComponent}
+      </ComponentWrapper>
+    </BasePage>
   )
 }
 
-export default MainSideBar;
+SideBarPage.propTypes = propTypes;
+SideBarPage.defaultProps = defaultProps;
+
+export default SideBarPage;

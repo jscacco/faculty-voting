@@ -12,6 +12,23 @@ import TextOption       from '../options/TextOption';
 import Group            from '../groups/Group';
 import OptionGroup      from '../option-groups/OptionGroup';
 
+const propTypes = {
+  pollType: PropTypes.string,
+  showResults: PropTypes.bool,
+  userInputOption: PropTypes.bool,
+
+  updateSettings: PropTypes.func,
+
+  extraSmall: PropTypes.bool,
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
+  large: PropTypes.bool,
+  extraLarge: PropTypes.bool,
+};
+
+const defaultProps = {
+
+};
 
 const HeadingWrapper = styled.div`
 `;
@@ -28,7 +45,9 @@ const PanelHeader = ( props ) => {
 
   return (
     <HeadingWrapper>
-      <Jumbo threeExtraSmall color={Colors.Blue}>
+      <Jumbo fiveExtraSmall={props.extraSmall} fourExtraSmall={props.small}
+             threeExtraSmall={props.medium} twoExtraSmall={props.large}
+             extraSmall={props.extraLarge} color={Colors.Blue}>
         SETTINGS
       </Jumbo>
     </HeadingWrapper>
@@ -37,12 +56,12 @@ const PanelHeader = ( props ) => {
 
 const PanelSection = ( props ) => {
 
-  const { title, children, ...rest } = props;
+  const { title, children, size, ...rest } = props;
 
   return (
     <SectionWrapper>
       <SectionHeadingWrapper>
-        <Body medium color={Colors.Blue}>
+        <Body {...size} color={Colors.Blue}>
           {title}
         </Body>
       </SectionHeadingWrapper>
@@ -55,6 +74,14 @@ class HostEditPanelCard extends React.Component {
 
   constructor(props){
     super(props)
+
+    this.size = {
+      extraSmall: props.extraSmall,
+      small: props.small,
+      medium: props.medium,
+      large: props.large,
+      extraLarge: props.extraLarge
+    }
 
     this.state = {
       typeSelection: {
@@ -104,16 +131,12 @@ class HostEditPanelCard extends React.Component {
     this.updateSettings();
   }
 
-  // const onTypeChange = (selection) {
-  //
-  // }
-
   render () {
     return (
       <Card medium>
-        <PanelHeader/>
-        <PanelSection title={'POLL TYPE'}>
-          <Group medium>
+        <PanelHeader {...this.size}/>
+        <PanelSection title={'POLL TYPE'} size={this.size}>
+          <Group {...this.size}>
             <TextOption id={'0'} iconType={'bubble'} iconColor={Colors.Blue}
                         clicked={this.state.typeSelection['0']} onClick={() => this.onTypeClick('0')}>
               Single choice
@@ -124,10 +147,11 @@ class HostEditPanelCard extends React.Component {
             </TextOption>
           </Group>
         </PanelSection>
-        <PanelSection title={'OTHER'}>
+        <PanelSection title={'OTHER'} size={this.size}>
           <OptionGroup type={'multiple'}
                        selectedOptions={this.state.otherSelection}
-                       onSelect={this.onOtherClick} medium>
+                       onSelect={this.onOtherClick}
+                       {...this.size}>
             <TextOption id={'0'}>
               Display results
             </TextOption>
@@ -140,5 +164,8 @@ class HostEditPanelCard extends React.Component {
     )
   }
 }
+
+HostEditPanelCard.propTypes = propTypes;
+HostEditPanelCard.defaultProps = defaultProps;
 
 export default HostEditPanelCard;

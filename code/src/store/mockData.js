@@ -16,9 +16,14 @@ const data = {
             '01': {id: '01', value: "Option 2",},
             '02': {id: '02', value: "Option 3",}
           },
-          userInputOption: true,
+          userInputOption: false,
           optionsOrder: ['00', '01', '02'],
           showResults: true,
+          results: {
+            '00': {id: '00', count: 10},
+            '01': {id: '01', count: 5},
+            '02': {id: '02', count: 15},
+          }
         },
         '01': {
           id: '01',
@@ -33,6 +38,10 @@ const data = {
           userInputOption: false,
           optionsOrder: ['00', '01'],
           showResults: false,
+          results: {
+            '00': {id: '00', count: 5},
+            '01': {id: '01', count: 4},
+          }
         },
         '02': {
           id: '02',
@@ -48,6 +57,11 @@ const data = {
           userInputOption: false,
           optionsOrder: ['01', '02', '00'],
           showResults: true,
+          results: {
+            '00': {id: '00', count: 0},
+            '01': {id: '01', count: 0},
+            '02': {id: '02', count: 0},
+          }
         },
         order: {
           'open': ['01'],

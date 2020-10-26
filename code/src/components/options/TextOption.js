@@ -18,6 +18,7 @@ const propTypes = {
   // Body props
   fontColor: ExtraPropTypes.color,
 
+  extraSmall: PropTypes.bool,
   small: PropTypes.bool,
   medium: PropTypes.bool,
   large: PropTypes.bool,
@@ -32,14 +33,14 @@ const TextOption = ( props ) => {
   const { children, extraIcons,
           iconType, iconColor, onClick, clicked,
           fontColor,
-          small, medium, large, extraLarge } = props;
+          extraSmall, small, medium, large, extraLarge } = props;
 
   return (
     <Option extraIcons={extraIcons} type={iconType} iconColor={iconColor}
             onClick={onClick} clicked={clicked}
-            small={small} medium={medium} large={large} extraLarge={extraLarge}>
+            extraSmall={extraSmall} small={small} medium={medium} large={large} extraLarge={extraLarge}>
       <Body color={fontColor}
-            small={small} medium={medium} large={large} extraLarge={extraLarge}>
+            extraSmall={extraSmall} small={small} medium={medium} large={large} extraLarge={extraLarge}>
           {children}
       </Body>
     </Option>

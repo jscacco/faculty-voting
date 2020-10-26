@@ -13,7 +13,7 @@ import TextOption       from '../options/TextOption';
 import InputOption       from '../options/InputOption';
 import VotingOption       from '../options/VotingOption';
 import EditButton       from '../buttons/EditButton';
-// import SubmitButton     from '../buttons/SubmitButton';
+import SubmitButton     from '../buttons/SubmitButton';
 
 
 const HostPollCard = ( props ) => {
@@ -53,6 +53,10 @@ const HostPollCard = ( props ) => {
 
   const _editButton = <EditButton type={'edit'} color={Colors.Blue} onClick={onEditClick}/>
 
+  const _submitButton = (
+    <SubmitButton submissionStatus={'unselected'}
+                  {...rest}/>
+  )
 
   const sections = [{content: _description},
                     {content: _renderOptionGroup()}]
@@ -64,7 +68,8 @@ const HostPollCard = ( props ) => {
                    header={pollData.title}
                    headerColor={Colors.Blue}
                    headerButton={_editButton}
-                   sections={sections} />
+                   sections={sections}
+                   footer={_submitButton}/>
   )
 };
 

@@ -160,7 +160,19 @@ function generateOptionId() {
   return poll_id.slice(-2);
 }
 
+function getPollResults(room_id, poll_id) {
+
+  const poll = {...mockData.rooms[room_id].polls[poll_id]}
+  return {
+    title: poll.title,
+    description: poll.description,
+    optionsOrder: poll.optionsOrder,
+    options: {...poll.options},
+    results: {...poll.results}
+  }
+}
+
 export { checkRoomcode, fetchPollData,
          fetchHostRooms, deleteHostRoom, addHostRoom,
          fetchAgenda, updateRoom, addPoll, updatePollStatus,
-        generateOptionId }
+        generateOptionId, getPollResults }

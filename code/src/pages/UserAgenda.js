@@ -3,15 +3,13 @@ import styled               from 'styled-components';
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
-
 import history              from '../history';
 
 import { Colors }           from '../components/theme/Colors';
+import MainPage             from './format-pages/MainPage';
 
 import UserAgendaCard       from '../components/cards/UserAgendaCard';
 
-import { fetchAgenda }      from '../store/MockDataFunctions';
-import DemoNavBar       from '../components/DebuggingComponents/DemoNavBar';
 
 const PageWrapper = styled.div`
   background-color: ${Colors.LightBlue};
@@ -41,19 +39,22 @@ const UserAgendaPage = ( props ) => {
     props.onFetchAgenda(roomcode);
   }, [])
 
+  const onViewClick = (poll_id) => {
+    props.polls[poll_id].status === 'closed' ?
+      history.push(`/PollResults/${roomcode}/${poll_id}`) :
+      history.push(`/UserPoll/${roomcode}/${poll_id}`)
+  };
+
 
   return (
-    <PageWrapper>
-      <DemoNavBar />
-      <ComponentWrapper>
+    <MainPage>
         <UserAgendaCard medium roomcode={roomcode}
                                title={props.title}
                                status={props.status}
                                polls={props.polls}
                                order={props.order}
-                               onViewClick={(poll_id) => history.push(`/UserPoll/${roomcode}/${poll_id}`)}/> }/>
-      </ComponentWrapper>
-    </PageWrapper>
+                               onViewClick={onViewClick}/>
+    </MainPage>
   );
 
 }

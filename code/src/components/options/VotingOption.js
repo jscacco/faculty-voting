@@ -15,6 +15,7 @@ const propTypes = {
   backgroundColor: ExtraPropTypes.color,
   borderColor: ExtraPropTypes.color,
 
+  extraSmall: PropTypes.bool,
   small: PropTypes.bool,
   medium: PropTypes.bool,
   large: PropTypes.bool,
@@ -32,13 +33,13 @@ const submitIcon = (
 const VotingOption = ( props ) => {
 
   const { children, submitted,
-          small, medium, large, extraLarge,
+          extraSmall, small, medium, large, extraLarge,
           ...rest } = props;
 
   const extraIcons = submitted ? [ submitIcon ] : undefined;
 
   const childProps = { ...rest,
-                       small: small, medium: medium,
+                       extraSmall: extraSmall, small: small, medium: medium,
                        large: large, extraLarge: extraLarge,
                        extraIcons: extraIcons, };
 

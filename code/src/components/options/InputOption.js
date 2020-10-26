@@ -23,6 +23,7 @@ const propTypes = {
   borderColor: ExtraPropTypes.color,
   onChange: ExtraPropTypes.func,
 
+  extraSmall: PropTypes.bool,
   small: PropTypes.bool,
   medium: PropTypes.bool,
   large: PropTypes.bool,
@@ -39,16 +40,16 @@ const InputOption = ( props ) => {
   const { inputType, value, extraIcons,
           iconType, iconColor, onClick, clicked,
           placeholder, fontColor, backgroundColor, borderColor, onChange,
-          small, medium, large, extraLarge } = props;
+          extraSmall, small, medium, large, extraLarge } = props;
 
   return (
     <Option extraIcons={extraIcons} type={iconType} iconColor={iconColor}
             onClick={onClick} clicked={clicked}
-            small={small} medium={medium} large={large} extraLarge={extraLarge}>
+            extraSmall={extraSmall} small={small} medium={medium} large={large} extraLarge={extraLarge}>
       <Input type={inputType} value={value} onChange={onChange} placeholder={placeholder}
              fontColor={fontColor} backgroundColor={backgroundColor}
              borderColor={borderColor}
-             small={small} medium={medium} large={large} extraLarge={extraLarge}/>
+             extraSmall={extraSmall} small={small} medium={medium} large={large} extraLarge={extraLarge}/>
     </Option>
   )
 
