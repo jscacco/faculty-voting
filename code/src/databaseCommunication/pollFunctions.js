@@ -1,7 +1,7 @@
 import firestore from './permissions.js';
 import { generateHash, compareHashes } from './hashFunctions';
 import { pollBase } from '../store/dataBases';
-import { fetchHostRooms } from './roomFunctions';
+import { fetchHostRooms, setPollOrder } from './roomFunctions';
 
 function generatePollId() {
     const id = Math.floor(Math.random() * 100);
@@ -174,7 +174,7 @@ const addPoll = async (host_id, room_id) => {
         let options = poll['options'];
 
         // generate hash here:
-        let thisHash = generateHash(poll);
+        let thisHash = await generateHash(poll);
         poll.pollHash = thisHash;
 	
         delete poll.options;
@@ -212,50 +212,6 @@ const addPoll = async (host_id, room_id) => {
         return {
             newPoll: poll
         };
-    } catch (error) {
-        throw error;
-    }
-}
-
-const setPollOrder = async (host_id, room_id, new_order) => {
-    // TODO: move this to roomFunctions.js
-    // changes the order of the polls in the room
-
-    try {
-        // Get the room info so we can compute new hash
-        const roomDocument = firestore
-                                .collection(host_id)
-                                .doc(room_id);
-        let roomDocSnap = await document.get();
-        let roomDocData = docSnap.data();
-
-        // Construct the new room map
-        let newRoom = {
-            'id': roomDocData['id'],
-            'title': roomDocData['title'],
-            'status': roomDocData['status'],
-            'pollOrder': new_order
-        };
-
-        // Generate the new hash
-        let newHash = generateHash(newRoom);
-        
-        // update room orders in firebase
-        await firestore
-            .collection(host_id)
-            .doc(room_id)
-            .collection('polls')
-            .doc('order')
-            .set(new_order);
-
-        // update roomHash in firebase
-        // if this breaks, roomHash might not exist currently (go into firebase and add it manually
-        await firestore
-                    .collection(host_id)
-                    .doc(room_id)
-                    .update({roomHash: newHash});
-
-        return;
     } catch (error) {
         throw error;
     }
@@ -358,4 +314,4 @@ const getPollResults = async (host_id, room_id, poll_id) => {
     }
 }
   
-export { fetchAgenda, addPoll, updatePollStatus, fetchPollData, getPollResults, setPollOrder };
+export { fetchAgenda, addPoll, updatePollStatus, fetchPollData, getPollResults };

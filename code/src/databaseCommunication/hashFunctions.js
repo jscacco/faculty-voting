@@ -9,8 +9,9 @@ const generateHash = async (map) => {
     console.log("generating hash on " + JSON.stringify(map));
 
     let mapCopy = map;
-    delete map['roomHash'];
-    delete map['pollHash'];
+    
+    delete mapCopy['roomHash'];
+    delete mapCopy['pollHash'];
     
     let msg = JSON.stringify(mapCopy);
     let key = sjcl.codec.utf8String.toBits(KEY);
@@ -25,15 +26,16 @@ const generateHash = async (map) => {
 const compareHashes = async (map, fetched) => {
     // Given a map and a fetched hash, see if the hash is good.
     // Output: true if good, false if bad
-	
+
     // See what we would expect hash to be
-    let expectedHash = generateHash(map);
+    let expectedHash = await generateHash(map);
+   
     if (expectedHash != fetched) {
-	// The hashes don't match - bad!
-	return false;
+        // The hashes don't match - bad!
+        return false;
     } else {
-	// The hashes match - good.
-	return true;
+        // The hashes match - good.
+        return true;
     }
 }
 
