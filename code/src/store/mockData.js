@@ -16,7 +16,7 @@ const data = {
             '01': {id: '01', value: "Option 2",},
             '02': {id: '02', value: "Option 3",}
           },
-          userInputOption: false,
+          userInputOption: true,
           optionsOrder: ['00', '01', '02'],
           showResults: true,
           results: {
@@ -35,7 +35,7 @@ const data = {
             '00': {id: '00', value: "Option 1"},
             '01': {id: '01', value: "Option 2"},
           },
-          userInputOption: false,
+          userInputOption: true,
           optionsOrder: ['00', '01'],
           showResults: false,
           results: {

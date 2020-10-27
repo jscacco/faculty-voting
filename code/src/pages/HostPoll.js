@@ -47,7 +47,7 @@ const HostPollPage = ( props ) => {
       <SideBarPage sideContent={sideContent}>
         { props.editing ?
           <EditPollCard pollData={props.poll}
-                        onEditClick={props.onToggleEdit}
+                        onEditClick={() => props.onToggleEdit(roomcode, pollcode)}
                         onAddClick={props.onAddOption}
                         onDeleteClick={props.onDeleteOption}
                         onDragEnd={props.onUpdateOrder}
@@ -56,7 +56,7 @@ const HostPollPage = ( props ) => {
                         onOptionChange={props.onUpdateOption}
                         medium /> :
           <HostPollCard pollData={props.poll}
-                        onEditClick={props.onToggleEdit}
+                        onEditClick={() => props.onToggleEdit(roomcode, pollcode)}
                         medium />
         }
       </SideBarPage>
@@ -76,7 +76,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onFetchPoll: (room_id, poll_id ) => dispatch({ type: ActionTypes.hostpoll.FETCH_POLL_START,
                                                    room_id, poll_id }),
-    onToggleEdit: () => dispatch({ type: ActionTypes.hostpoll.TOGGLE_EDIT,}),
+    onToggleEdit: (room_id, poll_id ) => { dispatch({ type: ActionTypes.hostpoll.TOGGLE_EDIT});
+                                           dispatch({ type: ActionTypes.hostpoll.UPDATE_POLL_START,
+                                           room_id, poll_id })},
     onAddOption: () => dispatch({ type: ActionTypes.hostpoll.ADD_POLL, }),
     onDeleteOption: (option_id) => dispatch({ type: ActionTypes.hostpoll.DELETE_POLL,
                                             option_id }),
