@@ -96,7 +96,7 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
     }
 }
 
-const fetchAgenda = async (host_id, room_id) => {
+const fetchAgenda2 = async (host_id, room_id) => {
     try {
         let agenda = { polls: {}, order: {} };
 	    let fetchedHash = "";
@@ -131,6 +131,42 @@ const fetchAgenda = async (host_id, room_id) => {
             });
         });
         
+        return agenda;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const fetchAgenda = async (host_id, room_id) => {
+    try {
+        let agenda = { polls: {}, order: {} };
+	    let fetchedHash = "";
+
+        await firestore.collection(host_id).doc(room_id).get().then(roomSnap => {
+            agenda['title'] = roomSnap.data()['title'];
+            agenda['status'] = roomSnap.data()['status'];
+	        fetchedHash = roomSnap.data()['agendaHash'];
+        });
+
+        const collect = firestore
+                            .collection(host_id)
+                            .doc(room_id)
+                            .collection('polls');
+
+        const collectSnap = await collect.get();
+        const collectData = collectSnap.docs;
+
+        for (let i = 0; i < collectData.length; i++) {
+            const poll_id = collectData[i].id;
+            
+            if(poll_id != 'order') { 
+                agenda['polls'][poll_id] = await fetchPollData(host_id, room_id, poll_id);
+            }
+            else {
+                agenda['order'] = collectData[i].data();
+            }
+        }
+
         return agenda;
     } catch (error) {
         throw error;
