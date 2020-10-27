@@ -10,6 +10,13 @@ function generatePollId() {
     return poll_id.slice(-2);
 }
 
+function generateUserOptionId() {
+    const id = Math.floor(Math.random() * 1000);
+    const poll_id = `000${id}`;
+  
+    return poll_id.slice(-3);
+}
+
 const fetchPollData = async (host_id, room_id, poll_id) => {
     try {
         const document = firestore
@@ -48,7 +55,7 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
           let optDocSnap = await optionRef.get();
           let optDocData = optDocSnap.data();
 
-          console.log(optDocData);
+          console.log(option_id);
 
           var opt = {
               id: optDocData['id'],
@@ -307,6 +314,35 @@ const getPollResults = async (host_id, room_id, poll_id) => {
             };
         }
 
+        let userCollectRef = firestore
+                                .collection(host_id)
+                                .doc(room_id)
+                                .collection('polls')
+                                .doc(poll_id)
+                                .collection('userOptions');
+        let userCollectSnap = await userCollectRef.get();
+        for(let x = 0; x < userCollectSnap.docs.length; x++) {
+            let optionSnap = await firestore
+                                    .collection(host_id)
+                                    .doc(room_id)
+                                    .collection('polls')
+                                    .doc(poll_id)
+                                    .collection('userOptions')
+                                    .doc(userCollectSnap.docs[x].id)
+                                    .get();
+            console.log(userCollectSnap.docs[x].id)
+            results[userCollectSnap.docs[x].id] = {
+                id: userCollectSnap.docs[x].id,
+                count: optionSnap.data()['count']
+            }
+            poll.optionsOrder.push(userCollectSnap.docs[x].id);
+            poll.options[userCollectSnap.docs[x].id] = {
+                ...results[userCollectSnap.docs[x].id],
+                value: optionSnap.data()['value']
+            }
+        }
+        // slap user input on end of optionsOrder
+        // another for loop to add userInputs to results
         return {
             title: poll.title,
             description: poll.description,
@@ -319,4 +355,90 @@ const getPollResults = async (host_id, room_id, poll_id) => {
     }
 }
   
-export { fetchAgenda, addPoll, updatePollStatus, fetchPollData, getPollResults, updatePoll };
+const submitVote = async (host_id, room_id, poll_id, selection, submission, userInput) => {
+    try {
+        let poll = await fetchPollData(host_id, room_id, poll_id);
+
+        for (let i = 0; i < poll.optionsOrder.length; i++) {
+            let option_id = poll.optionsOrder[i];
+            let docRef = firestore
+                            .collection(host_id)
+                            .doc(room_id)
+                            .collection('polls')
+                            .doc(poll_id)
+                            .collection('Options')
+                            .doc(option_id);
+            let docSnap = await docRef.get();
+            let count = docSnap.data()['count'];
+
+            if (submission[option_id]) { 
+                await docRef.update({ count: count - 1 });
+            }
+            if (selection[option_id]) { 
+                await docRef.update({ count: count + 1 });
+            }
+        }
+        // THE ABOVE WORKS PROPERLY
+
+        let inputcode = null;
+        if (selection[userInput.id]) {
+            
+            let userCollectRef = firestore
+                                    .collection(host_id)
+                                    .doc(room_id)
+                                    .collection('polls')
+                                    .doc(poll_id)
+                                    .collection('userOptions');
+
+            if (!userInput.submissionId) {
+                inputcode = generateUserOptionId();
+                
+                let userSnap = await userCollectRef.get();
+                let userIds = [];
+                for(let x = 0; x < userSnap.docs.length; x ++) {
+                    userIds.push(userSnap.docs[x].id)
+                }
+                
+                while (userIds.includes(inputcode) || poll.optionsOrder[inputcode]) {
+                    inputcode = generateUserOptionId();
+                }
+            }
+            else { 
+                inputcode = userInput.submissionId 
+            }
+       
+            const userInputResult = {
+              id: inputcode,
+              value: userInput.value,
+              count: 1
+            }
+    
+            // add vote to firebase
+            await userCollectRef.doc(inputcode).set(userInputResult);
+            //poll.results[inputcode] = userInputResult;
+        }
+        else if (userInput.submissionId ) {
+            // remove userInput from firebase
+            await firestore
+                .collection(host_id)
+                .doc(room_id)
+                .collection('polls')
+                .doc(poll_id)
+                .collection('userOptions')
+                .doc(userInput.submissionId)
+                .delete();
+            //delete poll.results[userInput.submissionId]
+        }
+        
+        return {
+            submitted: true,
+            inputSubmissionId: inputcode
+        }    
+  
+        return 
+    } catch (error) {
+        throw error;
+    }
+}
+
+export { fetchAgenda, addPoll, updatePollStatus, fetchPollData, getPollResults, updatePoll, submitVote };

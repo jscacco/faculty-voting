@@ -1,8 +1,6 @@
 import { call, put, select }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
-import { fetchPollData }   from '../../databaseCommunication/pollFunctions';
-import { 
- 				 submitVote }   from '../MockDataFunctions';
+import { fetchPollData, submitVote }   from '../../databaseCommunication/pollFunctions';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -47,7 +45,7 @@ export function* sendVote (action) {
 
 	try {
 		const currentPoll = yield select(pollSelector);
-		const response = yield call(() => submitVote(action.room_id, action.poll_id,
+		const response = yield call(() => submitVote('dubin', action.room_id, action.poll_id,
 			                                           currentPoll.selection, currentPoll.submission, currentPoll.userInput))
 		console.log(response);
 		yield put({
