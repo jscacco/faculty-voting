@@ -1,5 +1,5 @@
 import firestore from './permissions.js';
-import { generateHash, compareHashes } from './hashFunctions';
+import { generatePollHash, compareHashes } from './hashFunctions';
 import { pollBase } from '../store/dataBases';
 import { fetchHostRooms, setPollOrder } from './roomFunctions';
 
@@ -84,7 +84,7 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
         //console.log(poll.options)
 
         // Check the hash to make sure it's good
-        if (!compareHashes(poll, docData['pollHash'])) {
+        if (!compareHashes(poll, docData['pollHash'], "poll")) {
             // hash is bad:
             console.log("!!Warning!! Data fetched from poll " + docData['title'] + " has a bad hash. This means that the data has been tampered with via the Firebase Console!");
             alert("Bad hash warning - see console for more info.");
@@ -234,7 +234,7 @@ const addPoll = async (host_id, room_id) => {
         let options = poll['options'];
 
         // generate hash here:
-        let thisHash = await generateHash(poll);
+        let thisHash = await generatePollHash(poll);
         poll.pollHash = thisHash;
 	
         delete poll.options;
@@ -285,7 +285,7 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
         newPoll.status = new_status;
 
         // generate new poll hash
-        let newHash = await generateHash(newPoll);
+        let newHash = await generatePollHash(newPoll);
         var docSnap = await firestore.collection(host_id).doc(room_id).collection('polls').doc('order').get();
         
         const newOrder = {...docSnap.data()};

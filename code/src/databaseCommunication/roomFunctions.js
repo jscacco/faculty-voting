@@ -1,7 +1,7 @@
 import firestore from './permissions.js';
 import { roomBase } from '../store/dataBases';
 import { addPoll, fetchAgenda } from './pollFunctions';
-import { generateHash, compareHashes } from './hashFunctions';
+import { generateRoomHash, generatePollHash, compareHashes } from './hashFunctions';
 
 function generateRoomCode() {
     const code = Math.floor(Math.random() * 10000);
@@ -69,7 +69,7 @@ const fetchHostRooms = async (host_id) => {
                     //console.log(room)
                     // make sure the hash of that room is good
                     // room = {'id': '', 'title': '', 'status': '', 'pollOrder': ''}
-                    let hashComparison = await compareHashes(roomWithPollOrder, doc.data()['roomHash']);
+                    let hashComparison = await compareHashes(roomWithPollOrder, doc.data()['roomHash'], "room");
                     if (!hashComparison) {
                         // hash is bad:
                         console.log("!!Warning!! Data fetched from room " + room['id'] + " has a bad hash. This means that the data has been tampered with via the Firebase Console!");
@@ -176,16 +176,16 @@ const addHostRoom = async (host_id) => {
                 .doc(roomCode)
                 .set(room);
 
-        let { order, ...rooms } = await fetchHostRooms(host_id);
-        order['pending'].push(roomCode);
+        
 
         let orderRef = firestore.collection(host_id).doc(roomCode).collection('polls').doc('order');
         let orderSnap = await orderRef.get();
         let pollOrder = orderSnap.data();
 
+	// Compute the room hash and update it in firebase
         let roomHashData = { 'id': roomCode, 'title': room.title, 'status': room.status, 'pollOrder': pollOrder };
-        let roomHash = await generateHash(roomHashData);
-    
+        let roomHash = await generateRoomHash(roomHashData);
+	
         await firestore
                 .collection(host_id)
                 .doc(roomCode)
@@ -193,6 +193,10 @@ const addHostRoom = async (host_id) => {
                     roomHash: roomHash
                 });
 
+	// update the order of the rooms
+	let { order, ...rooms } = await fetchHostRooms(host_id);
+        order['pending'].push(roomCode);
+	
         await setRoomOrder(host_id, order);
         
         return {
@@ -228,7 +232,7 @@ const updateRoom = async (host_id, room_id, room_state) => {
             'title': room.title,
             'pollOrder': newPolls.order
         }
-        room['roomHash'] = generateHash(roomHashInfo);
+        room['roomHash'] = generateRoomHash(roomHashInfo);
 	
         await firestore.collection(host_id).doc(room_id).update(room);
         await setPollOrder(host_id, room_id, newPolls.order);
@@ -262,7 +266,7 @@ const setPollOrder = async (host_id, room_id, new_order) => {
         };
 
         // Generate the new hash
-        let newHash = await generateHash(newRoom);
+        let newHash = await generateRoomHash(newRoom);
         
         // update room orders in firebase
         await firestore
