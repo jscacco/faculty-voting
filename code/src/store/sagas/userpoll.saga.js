@@ -1,6 +1,7 @@
-import { call, put }     from "redux-saga/effects";
+import { call, put, select }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
-import { fetchPollData }   from '../MockDataFunctions';
+import { fetchPollData,
+ 				 submitVote }   from '../MockDataFunctions';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -32,25 +33,35 @@ export function* fetchUserPoll (action) {
 	}
 };
 
-// export function* deleteRoom (action) {
-//
-// 	try {
-// 		const response = yield call(() => deleteHostRoom(action.room_id))
-// 		console.log(response);
-// 		yield put({
-// 			type: ActionTypes.hostdash.DELETE_ROOM_SUCCESS,
-// 			response
-// 		});
-//
-// 	} catch(error) {
-//
-// 		yield put({
-// 			type: ActionTypes.hostdash.DELETE_ROOM_ERROR,
-//       error
-// 		});
-//
-// 	}
-// };
+export const pollSelector = ( state ) => {
+	return {
+		selection: state.userpoll.pollStatus.selection,
+		submission: state.userpoll.pollStatus.submission,
+		userInput: state.userpoll.userInput
+	}
+}
+
+export function* sendVote (action) {
+
+	try {
+		const currentPoll = yield select(pollSelector);
+		const response = yield call(() => submitVote(action.room_id, action.poll_id,
+			                                           currentPoll.selection, currentPoll.submission, currentPoll.userInput))
+		console.log(response);
+		yield put({
+			type: ActionTypes.userpoll.SUBMIT_VOTE_SUCCESS,
+			response
+		});
+
+	} catch(error) {
+
+		yield put({
+			type: ActionTypes.userpoll.SUBMIT_VOTE_ERROR,
+      error
+		});
+
+	}
+};
 //
 // export function* addRoom (action) {
 //
