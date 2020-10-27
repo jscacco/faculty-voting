@@ -10,13 +10,6 @@ const initialState = {
     optionsOrder: [],
     userInputOption: false,
   },
-  // inputOptionValue: '',
-  // selection: [],
-  // submission: [],
-  // submissionInputValue: null,
-  // selected: false,
-  // submitted: false,
-  // submissionStatus: 'unselected',
   userInput: {
     id: '000',
     value: '',
@@ -157,16 +150,23 @@ export default function reduceUserPoll(state = initialState, action) {
           submitStatus: submissionStatus(newState)
         }
       };
-    case ActionTypes.userpoll.UPDATE_SUBMISSION:
+
+    case ActionTypes.userpoll.SUBMIT_VOTE_START:
+      console.log('here');
+      return { ...state, loading: true, error: null };
+    case ActionTypes.userpoll.SUBMIT_VOTE_SUCCESS:
 
       console.log(state);
+      result = action.response;
 
       let inputSubmission = state.pollStatus.selection['000'] ? state.userInput.value : null;
 
+      console.log(action)
       newState = {
         ...state,
         userInput: {
           ...state.userInput,
+          submissionId: result.inputSubmissionId,
           submissionValue: inputSubmission
         },
         pollStatus: {
@@ -185,6 +185,13 @@ export default function reduceUserPoll(state = initialState, action) {
           submitStatus: submissionStatus(newState)
         }
       }
+
+      case ActionTypes.userpoll.SUBMIT_VOTE_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          error: true
+        };
 
       // newState = {
       //   ...state,

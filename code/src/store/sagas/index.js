@@ -9,8 +9,11 @@ import { fetchUserAgenda }     from './useragenda.saga.js';
 import { fetchHostAgenda, updateHostAgenda,
          addRoomPoll,
          changePollStatus }     from './hostagenda.saga.js';
-import { fetchUserPoll }  from './userpoll.saga';
-import { fetchHostPoll }  from './hostpoll.saga';
+import { fetchUserPoll,
+         sendVote }  from './userpoll.saga';
+import { fetchHostPoll,
+         updateHostPoll,
+         changePollStatusPoll }  from './hostpoll.saga';
 import { fetchPollResults } from './pollresults.saga';
 
 
@@ -28,6 +31,9 @@ export function* watcherSaga() {
     yield takeLatest(ActionTypes.hostagenda.UPDATE_POLL_STATUS_START, changePollStatus );
     yield takeLatest(ActionTypes.userpoll.FETCH_POLL_START, fetchUserPoll );
     yield takeLatest(ActionTypes.hostpoll.FETCH_POLL_START, fetchHostPoll );
+    yield takeLatest(ActionTypes.hostpoll.UPDATE_POLL_START, updateHostPoll );
+    yield takeLatest(ActionTypes.hostpoll.UPDATE_POLL_STATUS_START, changePollStatusPoll );
+    yield takeLatest(ActionTypes.userpoll.SUBMIT_VOTE_START, sendVote );
     yield takeLatest(ActionTypes.pollresults.FETCH_RESULTS_START, fetchPollResults );
 
 }

@@ -69,7 +69,7 @@ const UserPollCard = ( props ) => {
                     {content: _renderOptionGroup()}]
 
   return (
-    <TertiaryCard {...rest} cardColor={Colors.White}
+    <TertiaryCard {...rest} width={`100%`} cardColor={Colors.White}
                    header={pollData.title} headerColor={Colors.Blue}
                    sections={sections} footer={_submitButton}/>
   )

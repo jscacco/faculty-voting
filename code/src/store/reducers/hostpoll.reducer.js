@@ -45,7 +45,6 @@ export default function reduceUserPoll(state = initialState, action) {
         error: true
       };
     case ActionTypes.hostpoll.TOGGLE_EDIT:
-      console.log('here')
       return {
         ...state,
         editing: !state.editing,
@@ -131,6 +130,44 @@ export default function reduceUserPoll(state = initialState, action) {
                ...action.settings,
               }
     }
+
+    case ActionTypes.hostpoll.UPDATE_POLL_START:
+      console.log('here');
+      return { ...state, loading: true, error: null };
+
+    case ActionTypes.hostpoll.UPDATE_POLL_SUCCESS:
+      result = action.response;
+      console.log(result)
+      return {
+        ...state,
+        poll: {...result},
+        loading: false,
+      };
+    case ActionTypes.hostpoll.UPDATE_POLL_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: true
+      };
+
+    case ActionTypes.hostpoll.UPDATE_POLL_STATUS_START:
+      console.log('here 0');
+      return { ...state, loading: true, error: null };
+
+    case ActionTypes.hostpoll.UPDATE_POLL_STATUS_SUCCESS:
+      result = action.poll;
+      console.log(result)
+      return {
+        ...state,
+        poll: {...result},
+        loading: false,
+      };
+    case ActionTypes.hostpoll.UPDATE_POLL_STATUS_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: true
+      };
 
     default:
       return state;

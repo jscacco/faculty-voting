@@ -45,9 +45,6 @@ const propTypes = {
 };
 
 const defaultProps = {
-  // type: 'inputfield',
-  // iconColor: Colors.Blue,
-  // fontColor: Colors.Black,
 };
 
 

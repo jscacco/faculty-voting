@@ -24,6 +24,14 @@ const HostPollPage = ( props ) => {
     props.onFetchPoll(roomcode, pollcode);
   }, [])
 
+
+  if (props.poll.status === 'closed') {
+    console.log('here')
+    history.replace(`/PollResults/${roomcode}/${pollcode}`);
+  }
+
+  console.log(props);
+
   const sideContent = props.editing ?
     <HostEditPanelCard pollType={props.poll.type}
                        userInputOption={props.poll.userInputOption}
@@ -31,13 +39,15 @@ const HostPollPage = ( props ) => {
                        updateSettings={props.onUpdateSettings}
                        medium
                        /> :
-    <HostPollStatusCard medium/>
+    <HostPollStatusCard pollStatus={props.poll.status}
+                        onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, pollcode, newStatus)}
+                        medium/>
 
   return (
       <SideBarPage sideContent={sideContent}>
         { props.editing ?
           <EditPollCard pollData={props.poll}
-                        onEditClick={props.onToggleEdit}
+                        onEditClick={() => props.onToggleEdit(roomcode, pollcode)}
                         onAddClick={props.onAddOption}
                         onDeleteClick={props.onDeleteOption}
                         onDragEnd={props.onUpdateOrder}
@@ -46,7 +56,7 @@ const HostPollPage = ( props ) => {
                         onOptionChange={props.onUpdateOption}
                         medium /> :
           <HostPollCard pollData={props.poll}
-                        onEditClick={props.onToggleEdit}
+                        onEditClick={() => props.onToggleEdit(roomcode, pollcode)}
                         medium />
         }
       </SideBarPage>
@@ -66,7 +76,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onFetchPoll: (room_id, poll_id ) => dispatch({ type: ActionTypes.hostpoll.FETCH_POLL_START,
                                                    room_id, poll_id }),
-    onToggleEdit: () => dispatch({ type: ActionTypes.hostpoll.TOGGLE_EDIT,}),
+    onToggleEdit: (room_id, poll_id ) => { dispatch({ type: ActionTypes.hostpoll.TOGGLE_EDIT});
+                                           dispatch({ type: ActionTypes.hostpoll.UPDATE_POLL_START,
+                                           room_id, poll_id })},
     onAddOption: () => dispatch({ type: ActionTypes.hostpoll.ADD_POLL, }),
     onDeleteOption: (option_id) => dispatch({ type: ActionTypes.hostpoll.DELETE_POLL,
                                             option_id }),
@@ -80,6 +92,8 @@ const mapDispatchToProps = dispatch => {
                                                event }),
     onUpdateSettings: (settings) => dispatch({ type:ActionTypes.hostpoll.UPDATE_SETTINGS,
                                                settings }),
+    onUpdateStatus: (room_id, poll_id, status) => dispatch({ type:ActionTypes.hostpoll.UPDATE_POLL_STATUS_START,
+                                                               room_id, poll_id, status }),
   }
 }
 

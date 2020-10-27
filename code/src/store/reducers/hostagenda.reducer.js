@@ -42,6 +42,12 @@ export default function reduceHostAgenda(state = initialState, action) {
         error: true
       };
 
+    case ActionTypes.hostagenda.UPDATE_TITLE:
+      return {
+        ...state,
+        title: action.event.target.value,
+      };
+
     case ActionTypes.hostagenda.ADD_POLL_START:
       console.log('here')
       return { ...state, loading: true, error: null };

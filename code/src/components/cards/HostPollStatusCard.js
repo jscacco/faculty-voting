@@ -60,6 +60,7 @@ const StatusButton = ( props ) => {
   let disabled = false;
   let text;
   let color;
+  let newStatus;
 
   if ( status === 'closed') {
     disabled = true;
@@ -69,14 +70,16 @@ const StatusButton = ( props ) => {
   else if ( status === 'open' ) {
     text = 'CLOSE';
     color = Colors.Red;
+    newStatus = 'closed';
   }
   else {
     text = 'OPEN';
     color = Colors.Green;
+    newStatus = 'open';
   }
 
   return (
-    <Button backgroundColor={color} onClick={onClick}
+    <Button backgroundColor={color} onClick={() => onClick(newStatus)}
             disabled={disabled} {...size}>
       {text}
     </Button>
@@ -99,7 +102,7 @@ const PanelSection = ( props ) => {
   )
 }
 
-const HostEditPanelCard = ( props ) => {
+const HostStatusCard = ( props ) => {
 
   const size = {
     extraSmall: props.extraSmall,
@@ -112,12 +115,12 @@ const HostEditPanelCard = ( props ) => {
   return (
     <Card medium>
       <PanelHeader {...size}/>
-      <PanelSection status={'closed'} onStatusClick={props.onStatusClick} size={size}/>
+      <PanelSection status={props.pollStatus} onStatusClick={props.onStatusClick} size={size}/>
     </Card>
   )
 }
 
-HostEditPanelCard.propTypes = propTypes;
-HostEditPanelCard.defaultProps = defaultProps;
+HostStatusCard.propTypes = propTypes;
+HostStatusCard.defaultProps = defaultProps;
 
-export default HostEditPanelCard;
+export default HostStatusCard;

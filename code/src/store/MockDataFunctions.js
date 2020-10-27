@@ -1,5 +1,5 @@
 import mockData from './mockData'
-import { optionBase, pollBase, roomBase } from './dataBases'
+import { optionBase, pollBase, roomBase, } from './dataBases'
 
 
 
@@ -131,19 +131,44 @@ function addPoll(roomcode) {
   }
 }
 
+function updatePoll (roomcode, pollcode, pollState) {
+  console.log(pollState)
+
+  let room = {...mockData.rooms[roomcode]};
+  let poll = {...room.polls[pollcode]};
+  console.log(poll)
+  room.polls[pollcode] = {
+    ...room.polls[pollcode],
+    ...pollState
+  };
+
+  mockData.rooms[roomcode] = room;
+
+  console.log(mockData)
+
+  console.log('updated');
+  console.log(pollState)
+
+  return {
+    ...pollState
+  }
+}
+
 function updatePollStatus(roomcode, pollcode, newStatus) {
 
-  let newPoll = {...mockData.rooms[roomcode].polls[pollcode]};
-  const oldStatus = newPoll.status;
-  newPoll.status = newStatus;
+  if (mockData.rooms[roomcode].status === 'open') {
 
-  const newOrder = {...mockData.rooms[roomcode].polls.order}
-  newOrder[oldStatus] = newOrder[oldStatus].filter(i => i !== pollcode);
-  newOrder[newStatus].push(pollcode);
+    let newPoll = {...mockData.rooms[roomcode].polls[pollcode]};
+    const oldStatus = newPoll.status;
+    newPoll.status = newStatus;
 
-  mockData.rooms[roomcode].polls[pollcode] = {...newPoll};
-  mockData.rooms[roomcode].polls.order = {...newOrder};
+    const newOrder = {...mockData.rooms[roomcode].polls.order}
+    newOrder[oldStatus] = newOrder[oldStatus].filter(i => i !== pollcode);
+    newOrder[newStatus].push(pollcode);
 
+    mockData.rooms[roomcode].polls[pollcode] = {...newPoll};
+    mockData.rooms[roomcode].polls.order = {...newOrder};
+  }
 
   const { order, ...rest } = mockData.rooms[roomcode].polls;
 
@@ -172,7 +197,57 @@ function getPollResults(room_id, poll_id) {
   }
 }
 
+function generateUserOptionId() {
+  const id = Math.floor(Math.random() * 1000);
+  const poll_id = `000${id}`;
+
+  return poll_id.slice(-3);
+}
+
+function submitVote(room_id, poll_id, selection, submission, userInput) {
+   const poll = mockData.rooms[room_id].polls[poll_id];
+
+   for (let i; i < poll.optionsOrder.length; i++) {
+     let option_id = poll.optionsOrder[i];
+     let count = poll.results[option_id].count;
+
+     if (submission[option_id]) { count = count - 1}
+     if (selection[option_id]) { count = count + 1}
+
+     poll.results[option_id].count = count;
+   }
+
+   let inputcode = null;
+   if (selection[userInput.id]) {
+     if (!userInput.submissionId) {
+       inputcode = generateUserOptionId();
+       while (poll.results[inputcode]) {
+         inputcode = generateUserOptionId();
+       }
+     }
+     else { inputcode = userInput.submissionId }
+
+     const userInputResult = {
+       id: inputcode,
+       value: userInput.value,
+       count: 1
+     }
+
+     poll.results[inputcode] = userInputResult;
+   }
+   else if (userInput.submissionId ){
+     delete poll.results[userInput.submissionId]
+   }
+   console.log(mockData.rooms[room_id].polls[poll_id].results)
+   mockData.rooms[room_id].polls[poll_id] = poll;
+
+   return {
+     submitted: true,
+     inputSubmissionId: inputcode
+   }
+}
+
 export { checkRoomcode, fetchPollData,
          fetchHostRooms, deleteHostRoom, addHostRoom,
-         fetchAgenda, updateRoom, addPoll, updatePollStatus,
-        generateOptionId, getPollResults }
+         fetchAgenda, updateRoom, addPoll, updatePoll, updatePollStatus,
+        generateOptionId, getPollResults, submitVote }
