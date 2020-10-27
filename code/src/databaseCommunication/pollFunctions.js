@@ -96,61 +96,6 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
     }
 }
 
-const fetchAgenda2 = async (host_id, room_id) => {
-    try {
-        let agenda = { polls: {}, order: {} };
-	    let fetchedHash = "";
-
-        await firestore.collection(host_id).doc(room_id).get().then(roomSnap => {
-            agenda['title'] = roomSnap.data()['title'];
-            agenda['status'] = roomSnap.data()['status'];
-	        fetchedHash = roomSnap.data()['agendaHash'];
-        });
-
-        const collect = firestore
-                            .collection(host_id)
-                            .doc(room_id)
-                            .collection('polls');
-
-        await collect.get().then(snap => {
-            //console.log(snap)
-            snap.forEach(async function (pollSnap) {
-                if(pollSnap.id != 'order') {
-                    /*var poll = { title: '', status: '', id: '' };
-                    //console.log(doc)
-                    poll['id'] = pollSnap.id;
-                    poll['status'] = pollSnap.data()['status'];
-                    poll['title'] = pollSnap.data()['title'];*/
-                    let poll = await fetchPollData(host_id, room_id, pollSnap.id);
-                    delete poll.userInputOption;
-                    delete poll.type;
-                    delete poll.showResults;
-                    delete poll.optionsOrder;
-                    delete poll.options;
-                    delete poll.description;
-
-                    console.log(poll);
-
-                    agenda['polls'][pollSnap.id] = poll;
-                }
-                else {
-                    agenda['order'] = pollSnap.data();
-
-                    //console.log(agenda['order'])
-                    /*agenda['order']['pending'] = pollSnap.data()['pending'];
-                    agenda['order']['open'] = pollSnap.data()['open'];
-                    agenda['order']['closed'] = pollSnap.data()['closed'];*/
-                }
-                });
-        });
-        console.log(agenda)
-        return agenda;
-    } catch (error) {
-        console.log("oh shit")
-        throw error;
-    }
-}
-
 const fetchAgenda = async (host_id, room_id) => {
     try {
         let agenda = { polls: {}, order: {} };
@@ -184,13 +129,8 @@ const fetchAgenda = async (host_id, room_id) => {
                     agenda['order']['closed'] = pollSnap.data()['closed'];
                 }
             });
-            //return res.status(200).send(agenda);
         });
-        // console.log('current')
-        // console.log(agenda)
-        // console.log('new')
-        // await fetchAgenda2(host_id, room_id);
-
+        
         return agenda;
     } catch (error) {
         throw error;
