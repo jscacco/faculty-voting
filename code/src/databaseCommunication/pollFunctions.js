@@ -96,42 +96,42 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
     }
 }
 
-const fetchAgenda2 = async (host_id, room_id) => {
+const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
     try {
-        let agenda = { polls: {}, order: {} };
-	    let fetchedHash = "";
+        let rooms = await fetchHostRooms(host_id);
+        let room = rooms['rooms'][room_id];
+        let poll = await fetchPollData(host_id, room_id, poll_id);
 
-        await firestore.collection(host_id).doc(room_id).get().then(roomSnap => {
-            agenda['title'] = roomSnap.data()['title'];
-            agenda['status'] = roomSnap.data()['status'];
-	        fetchedHash = roomSnap.data()['agendaHash'];
-        });
+        let pollRef = firestore
+                        .collection(host_id)
+                        .doc(room_id)
+                        .collection('polls')
+                        .doc(poll_id);
 
-        const collect = firestore
-                            .collection(host_id)
-                            .doc(room_id)
-                            .collection('polls');
+        let options = poll_state.options;
 
-        await collect.get().then(snap => {
-            //console.log(snap)
-            snap.forEach(function (pollSnap) {
-                if(pollSnap.id != 'order') {
-                    var poll = { title: '', status: '', id: '' };
-                    //console.log(doc)
-                    poll['id'] = pollSnap.id;
-                    poll['status'] = pollSnap.data()['status'];
-                    poll['title'] = pollSnap.data()['title'];
-                    agenda['polls'][pollSnap.id] = poll;
-                }
-                else {
-                    agenda['order']['pending'] = pollSnap.data()['pending'];
-                    agenda['order']['open'] = pollSnap.data()['open'];
-                    agenda['order']['closed'] = pollSnap.data()['closed'];
-                }
-            });
-        });
+        delete poll_state.options;
+
+        await pollRef.update(poll_state);
+            
+        for(const opt of Object.entries(options)) {
+            //console.log(opt)
+            pollRef.collection('Options').doc(opt[1].id.toString()).set(opt)
+        }; 
+
+        // // update options
+        // options.forEach(opt => {
+        //   await pollRef.collection('Options').doc(opt.id).update({
+        //     count: opt.count,
+        //     optionType: opt.optionType,
+        //     id: opt.id,
+        //     value: opt.value
+        //   })
+        // });
         
-        return agenda;
+        return {
+            ...poll_state
+        };
     } catch (error) {
         throw error;
     }
@@ -220,7 +220,7 @@ const addPoll = async (host_id, room_id) => {
 
 	    // fill out the options of the poll (in the correct location)
         for(const opt of Object.entries(options)) {
-            console.log(opt)
+            //console.log(opt)
             pollRef.collection('Options').doc(opt[1].id.toString()).set({
                 count: 0,
                 id: opt[1].id,
@@ -319,4 +319,4 @@ const getPollResults = async (host_id, room_id, poll_id) => {
     }
 }
   
-export { fetchAgenda, addPoll, updatePollStatus, fetchPollData, getPollResults };
+export { fetchAgenda, addPoll, updatePollStatus, fetchPollData, getPollResults, updatePoll };
