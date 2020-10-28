@@ -51,7 +51,7 @@ const fetchHostRooms = async (host_id) => {
                 let room = { title: '', status: '', id: '' };
                 //console.log(doc)
 
-                if(doc.id != 'order') {
+                if(doc.id !== 'order') {
                     room['id'] = doc.id;               
                     room['title'] = doc.data()['title'];
                     room['status'] = doc.data()['status'];
@@ -120,7 +120,7 @@ const deleteHostRoom = async (host_id, room_id) => {
                             .collection(host_id)
                             .doc(room_id);
         
-        const newOrder = order[room.status].filter((i) => i != room_id);
+        const newOrder = order[room.status].filter((i) => i !== room_id);
         order[room.status] = newOrder;
         //console.log('deleting')
         await roomRef.delete();
@@ -219,7 +219,7 @@ const updateRoom = async (host_id, room_id, room_state) => {
                         ...room_state.polls,
                         order: room_state.order };
 
-        //room.title = room_state.title;
+        room.title = room_state.title;
         room.status = room_state.status;
         //room.polls = newPolls;
 
@@ -232,10 +232,21 @@ const updateRoom = async (host_id, room_id, room_state) => {
             'title': room.title,
             'pollOrder': newPolls.order
         }
-        room['roomHash'] = generateRoomHash(roomHashInfo);
-	
-        await firestore.collection(host_id).doc(room_id).update(room);
+        room['roomHash'] = await generateRoomHash(roomHashInfo);
+        console.log(host_id)
+        console.log(room_id)
+        await firestore
+            .collection(host_id)
+            .doc(room_id)
+            .update({
+                id: room_id,
+                roomHash: room.roomHash,
+                status: room.status,
+                title: room.title
+            });
+
         await setPollOrder(host_id, room_id, newPolls.order);
+        console.log(newPolls.order)
 
         return {
             ...room_state
