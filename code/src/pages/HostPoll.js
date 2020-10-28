@@ -10,9 +10,9 @@ import SideBarPage          from './format-pages/SideBarPage';
 
 import HostPollCard         from '../components/cards/HostPollCard';
 import EditPollCard         from '../components/cards/EditPollCard';
-import HostPollStatusCard   from '../components/cards/HostPollStatusCard'
+import HostPollStatusCard   from '../components/cards/HostPollStatusCard';
 import HostEditPanelCard    from '../components/cards/HostEditPanelCard';
-
+import HostQuickPollCard    from '../components/cards/HostQuickPollCard';
 
 
 const HostPollPage = ( props ) => {
@@ -33,15 +33,18 @@ const HostPollPage = ( props ) => {
   console.log(props);
 
   const sideContent = props.editing ?
-    <HostEditPanelCard pollType={props.poll.type}
+    [<HostEditPanelCard pollType={props.poll.type}
                        userInputOption={props.poll.userInputOption}
                        showResults={props.poll.showResults}
                        updateSettings={props.onUpdateSettings}
                        medium
-                       /> :
-    <HostPollStatusCard pollStatus={props.poll.status}
+                       />] :
+    [<HostPollStatusCard pollStatus={props.poll.status}
                         onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, pollcode, newStatus)}
+                        medium/>,
+     <HostQuickPollCard pollStatus={'open'}
                         medium/>
+    ]
 
   return (
       <SideBarPage sideContent={sideContent}>

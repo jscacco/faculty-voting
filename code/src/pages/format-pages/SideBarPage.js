@@ -37,10 +37,33 @@ const MainCardWrapper = styled.div`
   width: 70%;
 `;
 
+const SideComponentWrapper = styled.div `
+  ${({lastChild}) => !lastChild ? `padding-bottom: 10px` : ``}
+`;
+
 const SideBarWrapper = styled.div`
   width: 40%;
   padding-left: 10px;
 `;
+
+const SideBar = ( props ) => {
+
+  const { sideContent } = props;
+
+  return (
+    <SideBarWrapper>
+      {sideContent.map((comp, index) => {
+        const lastChild = index === sideContent.length;
+
+        return (
+          <SideComponentWrapper lastChild={lastChild}>
+            {comp}
+          </SideComponentWrapper>
+        )
+      })}
+    </SideBarWrapper>
+  )
+}
 
 
 const SideBarPage = ( props ) => {
@@ -48,9 +71,7 @@ const SideBarPage = ( props ) => {
   const mainComponent = props.sideContent ?
     <>
       {props.children}
-      <SideBarWrapper>
-        {props.sideContent}
-      </SideBarWrapper>
+      <SideBar sideContent={props.sideContent}/>
     </> : props.children
 
   return (
