@@ -79,7 +79,7 @@ const PendingSectionGroup = ( props ) => {
 
         return (
         <EditItem id={id} onDelete={() => onDeleteClick(id)} iconColor={Colors.White}>
-          <HostEditAgendaItem text={poll.title} buttonText={'EDIT'} onClick={onEditClick}/>
+          <HostEditAgendaItem text={poll.title} buttonText={'EDIT'} onClick={() => onEditClick(id)}/>
         </EditItem>
       )})}
     </EditingGroup>
@@ -104,6 +104,7 @@ const HostEditAgendaCard = ( props ) => {
 
   const { roomcode, title, status, polls, order,
           onDeleteClick, onViewClick, onEditClick,
+          onPollEditClick,
           onDragEnd, onAddClick,
           ...rest } = props;
 
@@ -117,9 +118,6 @@ const HostEditAgendaCard = ( props ) => {
 
   let statusList = ['open', 'closed'];
   statusList = statusList.filter((status) => order[status] && order[status].length != 0);
-  // statusList = ['pending'].concat(statusList);
-
-  // console.log([].map(i => i));
 
   let sections = [
     { status: 'pending',
@@ -128,7 +126,7 @@ const HostEditAgendaCard = ( props ) => {
                              polls={polls}
                              order={order['pending']}
                              onDragEnd={onDragEnd}
-                             onEditClick={onEditClick}
+                             onEditClick={onPollEditClick}
                              onAddClick={onAddClick}
                              onDeleteClick={onDeleteClick}
                              size={size}/>
@@ -158,111 +156,6 @@ const HostEditAgendaCard = ( props ) => {
   )
 
 }
-
-// class HostEditAgendaCard extends React.Component {
-//
-//   constructor(props){
-//     super(props);
-//
-//     this.size = {
-//       extraSmall: props.extraSmall,
-//       small: props.small,
-//       medium: props.medium,
-//       large: props.large,
-//       extraLarge: props.extraLarge
-//     }
-//
-//     this.sections = [
-//       { status: 'pending',
-//         content: undefined },
-//       { status: 'open',
-//         content: <SectionGroup polls={props.openPolls} onViewClick={props.onViewClick} {...this.size}/> },
-//       { status: 'closed',
-//         content: <SectionGroup polls={props.closedPolls} onViewClick={props.onViewClick} {...this.size}/> },
-//     ]
-//
-//     this.state = {
-//       pendingPolls: props.pendingPolls,
-//       pendingOrder: props.pendingOrder
-//     };
-//
-//     this.onDelete = this.onDelete.bind(this);
-//     this.onAdd = this.onAdd.bind(this);
-//     this.onDragEnd = this.onDragEnd.bind(this);
-//
-//   }
-//
-//   async onDelete( index ){
-//     let newPendingPolls = this.state.pendingPolls.map(item => item);
-//     newPendingPolls.splice(index, 1);
-//
-//     let newPendingOrder = this.state.pendingOrder.filter((i) => i != index);
-//     newPendingOrder = newPendingOrder.map((i) => i > index ? i - 1 : i)
-//
-//     await this.setState({
-//       ...this.state,
-//       pendingPolls: newPendingPolls,
-//       pendingOrder: newPendingOrder
-//     })
-//   }
-//
-//   async onAdd() {
-//     const newPoll = PollData;
-//     const newPendingPolls = this.state.pendingPolls.map(item => item);
-//     newPendingPolls.push(newPoll)
-//
-//     const newPendingOrder = this.state.pendingOrder.map(item => item);
-//     newPendingOrder.push(newPendingPolls.length - 1);
-//
-//     await this.setState({
-//       ...this.state,
-//       pendingPolls: newPendingPolls,
-//       pendingOrder: newPendingOrder
-//     })
-//   }
-//
-//   async onDragEnd(newOrder) {
-//     await this.setState({
-//       ...this.state,
-//       pendingOrder: newOrder
-//     })
-//   }
-//
-//   addPollComponent = (
-//     <AddItem onClick={() => this.onAdd(this)} textColor={Colors.White} iconColor={Colors.White}>
-//       Add new poll
-//     </AddItem>
-//   )
-//
-//
-//   render() {
-//
-//     const pendingContent = (
-//       <EditingGroup addItem={this.addPollComponent} order={this.state.pendingOrder}
-//                     onDragEnd={this.onDragEnd}
-//                     {...this.size}>
-//         {this.state.pendingPolls.map((poll, index) => (
-//           <EditItem onDelete={() => this.onDelete(index)} iconColor={Colors.White}>
-//             <HostEditAgendaItem text={poll.title} buttonText={'EDIT'} onClick={this.props.onEditClick}/>
-//           </EditItem>
-//         ))}
-//       </EditingGroup>
-//     )
-//
-//     this.sections[0].content = pendingContent;
-//
-//     const headerButton = (
-//       <EditButton type={'save'} color={Colors.White} onClick={this.props.onEditClick}/>
-//     )
-//
-//     return (
-//       <StatusTertiaryCard header={this.props.roomTitle}
-//                            headerButton={headerButton}
-//                            sections={this.sections}
-//                            {...this.size}/>
-//     )
-//   }
-// }
 
 HostEditAgendaCard.propTypes = propTypes;
 HostEditAgendaCard.defaultProps = defaultProps;

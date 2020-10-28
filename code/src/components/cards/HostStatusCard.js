@@ -18,6 +18,11 @@ const propTypes = {
 
   updateStatus: PropTypes.func,
 
+  headerColor: ExtraPropTypes.color,
+  textColor: ExtraPropTypes.color,
+  cardColor: ExtraPropTypes.color,
+  borderColor: ExtraPropTypes.color,
+
   extraSmall: PropTypes.bool,
   small: PropTypes.bool,
   medium: PropTypes.bool,
@@ -26,7 +31,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-
+  headerColor: Colors.White
 };
 
 const HeadingWrapper = styled.div`
@@ -46,7 +51,7 @@ const PanelHeader = ( props ) => {
     <HeadingWrapper>
       <Jumbo fiveExtraSmall={props.extraSmall} fourExtraSmall={props.small}
              threeExtraSmall={props.medium} twoExtraSmall={props.large}
-             extraSmall={props.extraLarge} color={Colors.Blue}>
+             extraSmall={props.extraLarge} color={props.color}>
         STATUS
       </Jumbo>
     </HeadingWrapper>
@@ -89,12 +94,12 @@ const StatusButton = ( props ) => {
 
 const PanelSection = ( props ) => {
 
-  const { status, children, onStatusClick, size, ...rest } = props;
+  const { status, children, onStatusClick, color, size, ...rest } = props;
 
   return (
     <SectionWrapper>
       <SectionHeadingWrapper>
-        <StatusText status={status} {...size}/>
+        <StatusText status={status} color={color} {...size}/>
       </SectionHeadingWrapper>
       {children}
       <StatusButton status={status} onClick={onStatusClick} size={size}/>
@@ -113,9 +118,10 @@ const HostStatusCard = ( props ) => {
   }
 
   return (
-    <Card medium>
-      <PanelHeader {...size}/>
-      <PanelSection status={props.pollStatus} onStatusClick={props.onStatusClick} size={size}/>
+    <Card color={props.cardColor} borderColor={props.borderColor} medium>
+      <PanelHeader color={props.headerColor} {...size}/>
+      <PanelSection status={props.pollStatus} onStatusClick={props.onStatusClick}
+                    color={props.textColor} size={size}/>
     </Card>
   )
 }

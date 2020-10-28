@@ -149,6 +149,25 @@ export default function reduceHostAgenda(state = initialState, action) {
         error: true
       };
 
+    case ActionTypes.hostagenda.UPDATE_ROOM_STATUS_START:
+      return { ...state, loading: true, error: null };
+
+    case ActionTypes.hostagenda.UPDATE_ROOM_STATUS_SUCCESS:
+      result = action.response;
+
+      return {
+        ...state,
+        status: result.status,
+        polls: {...result.polls},
+        order: { ...result.order}
+      };
+    case ActionTypes.hostagenda.UPDATE_ROOM_STATUS_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: true
+      };
+
   }
   return state;
 }

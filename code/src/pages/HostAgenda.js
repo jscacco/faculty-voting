@@ -8,11 +8,11 @@ import history              from '../history';
 
 import { Colors }           from '../components/theme/Colors';
 
-import MainPage             from './format-pages/MainPage';
+import SideBarPage          from './format-pages/SideBarPage';
 
-import HostAgendaCard        from '../components/cards/HostAgendaCard';
-import HostEditAgendaCard        from '../components/cards/HostEditAgendaCard';
-
+import HostAgendaCard       from '../components/cards/HostAgendaCard';
+import HostEditAgendaCard   from '../components/cards/HostEditAgendaCard';
+import HostStatusCard       from '../components/cards/HostStatusCard'
 
 const HostAgendaPage = ( props ) => {
 
@@ -39,19 +39,33 @@ const HostAgendaPage = ( props ) => {
       history.push(`/HostPoll/${roomcode}/${poll_id}`)
   };
 
+  const onPollEditClick = (poll_id) => {
+    props.onEditClick(poll_id);
+    // props.togglePollEdit();
+    history.push(`/HostPoll/${roomcode}/${poll_id}`)
+  }
+
+  const sideContent =
+    <HostStatusCard pollStatus={props.status}
+                    onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, newStatus)}
+                    headerColor={Colors.White}
+                    textColor={Colors.White}
+                    cardColor={`none`} borderColor={Colors.White}
+                    medium/>
 
   return (
-    <MainPage color={Colors.LightBlue}>
+    <SideBarPage sideContent={sideContent} color={Colors.LightBlue}>
       { props.editing ?
         <HostEditAgendaCard medium onAddClick={() => props.onAddClick(roomcode)}
                                    onDeleteClick={props.onDeleteClick}
                                    onDragEnd={props.onDragEnd}
                                    onTitleChange={props.onTitleChange}
+                                   onPollEditClick={onPollEditClick}
                                    {...cardProps}/> :
         <HostAgendaCard medium {...cardProps}
-                        onStatusClick={(poll_id, newStatus) => props.onStatusClick(roomcode, poll_id, newStatus)}
+                        onStatusClick={(poll_id, newStatus) => props.onUpdatePollStatus(roomcode, poll_id, newStatus)}
                         onViewClick={onViewClick}/> }
-    </MainPage>
+    </SideBarPage>
   )
 }
 
@@ -83,8 +97,11 @@ const mapDispatchToProps = dispatch => {
                                            poll_id }),
     onDragEnd: (newPendingOrder) => dispatch({ type: ActionTypes.hostagenda.UPDATE_ORDER,
                                         newPendingOrder }),
-    onStatusClick: (room_id, poll_id, newStatus) => dispatch({ type: ActionTypes.hostagenda.UPDATE_POLL_STATUS_START,
+    onUpdatePollStatus: (room_id, poll_id, newStatus) => dispatch({ type: ActionTypes.hostagenda.UPDATE_POLL_STATUS_START,
                                                               room_id, poll_id, newStatus }),
+    onUpdateStatus: (room_id, newStatus) => dispatch({ type:ActionTypes.hostagenda.UPDATE_ROOM_STATUS_START,
+                                                    room_id, newStatus }),
+
   }
 }
 
