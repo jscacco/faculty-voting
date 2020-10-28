@@ -1,9 +1,7 @@
 import { select, call, put }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
 import { fetchAgenda, addPoll, updatePollStatus } 		  from '../../databaseCommunication/pollFunctions';
-import { updateRoom } 		  from '../../databaseCommunication/roomFunctions';
-import { 
-         updateRoomStatus }   from '../MockDataFunctions';
+import { updateRoom, updateRoomStatus } 		  from '../../databaseCommunication/roomFunctions';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -132,7 +130,7 @@ export function* changeRoomStatus (action) {
 
 	try {
     console.log('jere')
-		const response = yield call(() => updateRoomStatus(action.room_id, action.newStatus ));
+		const response = yield call(() => updateRoomStatus('dubin', action.room_id, action.newStatus ));
     console.log(response)
 		yield put({
 			type: ActionTypes.hostagenda.UPDATE_ROOM_STATUS_SUCCESS,

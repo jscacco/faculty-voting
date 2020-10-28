@@ -1,6 +1,6 @@
 import firestore from './permissions.js';
 import { roomBase } from '../store/dataBases';
-import { addPoll, fetchAgenda } from './pollFunctions';
+import { addPoll, fetchAgenda, updatePollStatus } from './pollFunctions';
 import { generateRoomHash, generatePollHash, compareHashes } from './hashFunctions';
 
 function generateRoomCode() {
@@ -313,4 +313,54 @@ const getHost = async (room_id) => {
     }
 } 
 
-export { fetchHostRooms, deleteHostRoom, addHostRoom, updateRoom, setRoomOrder, checkRoomcode, setPollOrder }
+const updateRoomStatus = async (host_id, room_id, new_status) => {
+    try {
+        const rooms = await fetchHostRooms(host_id)
+        const room = rooms.rooms[room_id];
+        const currentStatus = room.status;
+        const order = rooms.order;
+        order[currentStatus] = order[currentStatus].filter((i) => i !== room_id);
+        order[new_status].push(room_id);
+
+        await firestore
+                .collection(host_id)
+                .doc(room_id)
+                .update({ status: new_status });
+
+        await setRoomOrder(host_id, order);
+
+        if (new_status === 'open') {
+            await firestore
+                .collection('openRooms')
+                .doc(room_id)
+                .set({ host_id: host_id })
+        }
+        else if(new_status === 'closed') {
+            await firestore
+                .collection('openRooms')
+                .doc(room_id)
+                .delete();
+
+            // set polls to be closed
+            let newPollsOrder = room.pollOrder;
+            let allPolls = newPollsOrder['closed'].concat(newPollsOrder['open'], newPollsOrder['pending']);
+        
+            for (let i = 0; i < allPolls.length; i++) {
+                let poll_id = allPolls[i];
+                await updatePollStatus(host_id, room_id, poll_id, 'closed');
+            }
+        }
+
+
+        let agenda = await fetchAgenda(host_id, room_id);
+        console.log(agenda.polls)
+        return {
+            status: new_status,
+            polls: {...agenda.polls},
+            order: order
+        }
+    } catch(error) {
+        console.log(error)
+    }
+}
+export { fetchHostRooms, deleteHostRoom, addHostRoom, updateRoom, setRoomOrder, checkRoomcode, setPollOrder, updateRoomStatus }
