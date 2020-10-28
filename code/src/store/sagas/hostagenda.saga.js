@@ -3,7 +3,8 @@ import ActionTypes       from '../actionTypes';
 import { fetchAgenda,
  				 updateRoom,
          addPoll,
-         updatePollStatus }   from '../MockDataFunctions';
+         updatePollStatus,
+         updateRoomStatus }   from '../MockDataFunctions';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -119,6 +120,27 @@ export function* changePollStatus (action) {
 
 		yield put({
 			type: ActionTypes.hostagenda.UPDATE_POLL_STATUS_ERROR,
+      error
+		});
+
+	}
+};
+
+export function* changeRoomStatus (action) {
+
+	try {
+    console.log('jere')
+		const response = yield call(() => updateRoomStatus(action.room_id, action.newStatus ));
+    console.log(response)
+		yield put({
+			type: ActionTypes.hostagenda.UPDATE_ROOM_STATUS_SUCCESS,
+			response
+		});
+
+	} catch(error) {
+
+		yield put({
+			type: ActionTypes.hostagenda.UPDATE_ROOM_STATUS_ERROR,
       error
 		});
 

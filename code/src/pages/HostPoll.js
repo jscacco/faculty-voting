@@ -10,7 +10,7 @@ import SideBarPage          from './format-pages/SideBarPage';
 
 import HostPollCard         from '../components/cards/HostPollCard';
 import EditPollCard         from '../components/cards/EditPollCard';
-import HostPollStatusCard   from '../components/cards/HostPollStatusCard'
+import HostStatusCard       from '../components/cards/HostStatusCard'
 import HostEditPanelCard    from '../components/cards/HostEditPanelCard';
 
 
@@ -39,7 +39,7 @@ const HostPollPage = ( props ) => {
                        updateSettings={props.onUpdateSettings}
                        medium
                        /> :
-    <HostPollStatusCard pollStatus={props.poll.status}
+    <HostStatusCard pollStatus={props.poll.status}
                         onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, pollcode, newStatus)}
                         medium/>
 

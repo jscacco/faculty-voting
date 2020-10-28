@@ -154,6 +154,54 @@ function updatePoll (roomcode, pollcode, pollState) {
   }
 }
 
+function  updateRoomStatus(roomcode, newStatus) {
+
+  const currentStatus = mockData.rooms[roomcode].status;
+  console.log(currentStatus)
+  let newRoomOrder = mockData.rooms.order;
+  console.log(newRoomOrder)
+  newRoomOrder[currentStatus] = newRoomOrder[currentStatus].filter((i) => i !== roomcode);
+  console.log(newRoomOrder)
+  console.log(newStatus)
+  newRoomOrder[newStatus].push(roomcode);
+  console.log(newRoomOrder)
+
+  if (newStatus === 'closed') {
+
+    let newPollsOrder = mockData.rooms[roomcode].polls.order;
+    console.log(newPollsOrder)
+    let allPolls = newPollsOrder['closed'].concat(newPollsOrder['open'], newPollsOrder['pending']);
+    newPollsOrder = {
+      'closed': allPolls,
+      'open': [],
+      'pending': [],
+    }
+
+    console.log(newPollsOrder)
+
+    for (let i = 0; i < allPolls.length; i++) {
+      let poll_id = allPolls[i];
+      mockData.rooms[roomcode].polls[poll_id].status = 'closed';
+    }
+
+    mockData.rooms[roomcode].polls.order = newPollsOrder;
+  }
+
+  mockData.rooms.order = newRoomOrder;
+  mockData.rooms[roomcode].status = newStatus;
+
+  console.log(mockData)
+
+  const { order, ...rest } = mockData.rooms[roomcode].polls;
+
+  return {
+    status: mockData.rooms[roomcode].status,
+    polls: {...rest},
+    order: order
+  }
+}
+
+
 function updatePollStatus(roomcode, pollcode, newStatus) {
 
   if (mockData.rooms[roomcode].status === 'open') {
@@ -250,4 +298,5 @@ function submitVote(room_id, poll_id, selection, submission, userInput) {
 export { checkRoomcode, fetchPollData,
          fetchHostRooms, deleteHostRoom, addHostRoom,
          fetchAgenda, updateRoom, addPoll, updatePoll, updatePollStatus,
+         updateRoomStatus,
         generateOptionId, getPollResults, submitVote }
