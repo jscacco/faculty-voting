@@ -41,7 +41,6 @@ const checkRoomStatuses = async (rooms, order) => {
 }
 
 const fetchHostRooms = async (host_id) => {
-    //console.log('here')
     try {
         let rooms = {}; //{ openRooms: [], pendingRooms: [], closedRooms: [] };
         let collect = firestore.collection(host_id);
@@ -299,5 +298,19 @@ const setPollOrder = async (host_id, room_id, new_order) => {
         throw error;
     }
 }
+
+const getHost = async (room_id) => {
+    try {
+        let docRef = firestore
+                        .collection('openRooms')
+                        .doc(room_id);
+        let docSnap = await docRef.get();
+        let docData = docSnap.data();
+
+        return docData.host_id;
+    } catch(error) {
+        console.log(error)
+    }
+} 
 
 export { fetchHostRooms, deleteHostRoom, addHostRoom, updateRoom, setRoomOrder, checkRoomcode, setPollOrder }
