@@ -39,6 +39,12 @@ const HostAgendaPage = ( props ) => {
       history.push(`/HostPoll/${roomcode}/${poll_id}`)
   };
 
+  const onPollEditClick = (poll_id) => {
+    props.onEditClick(poll_id);
+    // props.togglePollEdit();
+    history.push(`/HostPoll/${roomcode}/${poll_id}`)
+  }
+
 
   return (
     <MainPage color={Colors.LightBlue}>
@@ -47,6 +53,7 @@ const HostAgendaPage = ( props ) => {
                                    onDeleteClick={props.onDeleteClick}
                                    onDragEnd={props.onDragEnd}
                                    onTitleChange={props.onTitleChange}
+                                   onPollEditClick={onPollEditClick}
                                    {...cardProps}/> :
         <HostAgendaCard medium {...cardProps}
                         onStatusClick={(poll_id, newStatus) => props.onStatusClick(roomcode, poll_id, newStatus)}
@@ -85,6 +92,7 @@ const mapDispatchToProps = dispatch => {
                                         newPendingOrder }),
     onStatusClick: (room_id, poll_id, newStatus) => dispatch({ type: ActionTypes.hostagenda.UPDATE_POLL_STATUS_START,
                                                               room_id, poll_id, newStatus }),
+    // togglePollEdit: () => dispatch({ type: ActionTypes.hostpoll.TOGGLE_EDIT}),
   }
 }
 
