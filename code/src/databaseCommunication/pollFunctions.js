@@ -99,7 +99,7 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
 	
 	    return poll;
     } catch (error) {
-        throw error;
+        console.log(error);
     }
 }
 
@@ -140,7 +140,7 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
             ...poll_state
         };
     } catch (error) {
-        throw error;
+        console.log(error);
     }
 }
 
@@ -176,7 +176,7 @@ const fetchAgenda = async (host_id, room_id) => {
 
         return agenda;
     } catch (error) {
-        throw error;
+        console.log(error);
     }
 }
 
@@ -258,7 +258,7 @@ const addPoll = async (host_id, room_id) => {
             newPoll: poll
         };
     } catch (error) {
-        throw error;
+        console.log(error);
     }
 }
 
@@ -297,7 +297,7 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
             order: newOrder
         }
     } catch (error) {
-        throw error;
+        console.log(error);
     }
 }
 
@@ -353,7 +353,7 @@ const getPollResults = async (host_id, room_id, poll_id) => {
             results: {...results}
         }
     } catch (error) {
-        throw error;
+        console.log(error);
     }
 }
   
@@ -481,7 +481,7 @@ const submitVote = async (host_id, room_id, poll_id, selection, submission, user
   
         return 
     } catch (error) {
-        throw error;
+        console.log(error);
     }
 }
 

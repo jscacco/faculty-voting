@@ -91,7 +91,7 @@ const fetchHostRooms = async (host_id) => {
             order: order
         }
     } catch (error) {
-        throw error;
+        console.log(error);
     }
 }
 
@@ -105,7 +105,7 @@ const setRoomOrder = async (host_id, new_order) => {
 
         return;
     } catch (error) {
-        throw error;
+        console.log(error);
     }
 }
 
@@ -123,6 +123,7 @@ const deleteHostRoom = async (host_id, room_id) => {
         order[room.status] = newOrder;
         //console.log('deleting')
         await roomRef.delete();
+
         await setRoomOrder(host_id, order);
         delete rooms[room_id];
 
@@ -131,7 +132,7 @@ const deleteHostRoom = async (host_id, room_id) => {
             order: order
         };
     } catch (error) {
-        throw error;
+        console.log(error);
     }
 }
 
@@ -203,7 +204,7 @@ const addHostRoom = async (host_id) => {
             order: order
         };
     } catch (error) {
-        throw error;
+        console.log(error);
     }
 }
 
@@ -251,7 +252,7 @@ const updateRoom = async (host_id, room_id, room_state) => {
             ...room_state
         }
     } catch (error) {
-        throw error;
+        console.log(error);
     }
 }
 
@@ -295,7 +296,7 @@ const setPollOrder = async (host_id, room_id, new_order) => {
 
         return;
     } catch (error) {
-        throw error;
+        console.log(error);
     }
 }
 
