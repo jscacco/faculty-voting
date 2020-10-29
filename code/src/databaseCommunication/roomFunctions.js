@@ -122,6 +122,31 @@ const deleteHostRoom = async (host_id, room_id) => {
         const newOrder = order[room.status].filter((i) => i !== room_id);
         order[room.status] = newOrder;
         //console.log('deleting')
+
+        // must individually delete subcollections
+        let pollSnap = await roomRef.collection('polls').get();
+
+        for (let i = 0; i < pollSnap.docs.length; i++) {
+            let optionRef = roomRef.collection('polls').doc(pollSnap.docs[i].id).collection('Options');
+            let userOptionRef = roomRef.collection('polls').doc(pollSnap.docs[i].id).collection('userOptions');
+            let optionSnap = await optionRef.get();
+            let userOptionSnap = await userOptionRef.get();
+
+            // delete options collection
+            for (let x = 0; x < optionSnap.docs.length; x++) {
+                await optionRef.doc(optionSnap.docs[x].id).delete();
+            }
+
+            // delete userOptions collection
+            for (let x = 0; x < userOptionSnap.docs.length; x++) {
+                await userOptionRef.doc(userOptionSnap.docs[x].id).delete();
+            }
+
+            // delete poll
+            await roomRef.collection('polls').doc(pollSnap.docs[i].id).delete();
+        }
+
+        // delete room
         await roomRef.delete();
 
         await setRoomOrder(host_id, order);
