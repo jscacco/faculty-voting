@@ -9,17 +9,32 @@ import history              from '../history';
 
 import LoginCard            from '../components/cards/LoginCard';
 
+import {userLogin, signOutCurrentUser, getCurrentUserEmail, userIsHamiltonian } from '../LoginUtils.js';
+
 
 const LoginWrapper = styled.div`
   width: 50%;
 `;
+
+const userLoginHandler = async () => {
+    await signOutCurrentUser();
+    await userLogin().then(() => {
+	console.log(userIsHamiltonian());
+	if (!userIsHamiltonian()) {
+	    console.log("User " + getCurrentUserEmail + " is not within Hamilton domain. Logging out.");
+	    alert("Please refresh the page and log in with a Hamilton account.");
+	    signOutCurrentUser();
+	}
+    });
+    // history.push('/RoomCode');
+}
 
 const LoginPage = ( props ) => {
 
   return (
     <MainPage color={Colors.LightBlue}>
         <LoginWrapper>
-          <LoginCard onUserLogin={() => history.push('/Roomcode')}
+          <LoginCard onUserLogin={userLoginHandler}
                      onHostLogin={() => history.push('/HostDash')}/>
         </LoginWrapper>
     </MainPage>

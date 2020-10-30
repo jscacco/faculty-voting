@@ -1,7 +1,9 @@
-import firestore from './permissions.js';
+import firebase from './permissions.js';
 import { roomBase } from '../store/dataBases';
 import { addPoll, fetchAgenda, updatePollStatus, fetchPollData } from './pollFunctions';
 import { generateRoomHash, generatePollHash, compareHashes } from './hashFunctions';
+
+const firestore = firebase.firestore();
 
 function generateRoomCode() {
     const code = Math.floor(Math.random() * 10000);

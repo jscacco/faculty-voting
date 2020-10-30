@@ -1,7 +1,9 @@
-import firestore from './permissions.js';
-import { generatePollHash, compareHashes } from './hashFunctions';
+import firebase from './permissions.js';
+import { generatePollHash, generateRoomHash, compareHashes } from './hashFunctions';
 import { pollBase } from '../store/dataBases';
 import { fetchHostRooms, setPollOrder } from './roomFunctions';
+
+const firestore = firebase.firestore()
 
 function generatePollId() {
     const id = Math.floor(Math.random() * 100);
