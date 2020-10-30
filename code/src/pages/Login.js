@@ -21,7 +21,7 @@ const userLoginHandler = async () => {
 	console.log(userIsHamiltonian());
 	if (!userIsHamiltonian()) {
 	    console.log("User " + getCurrentUserEmail() + " is not within Hamilton domain. Logging out.");
-	    alert("Please log in with a Hamilton account.");
+	    alert("Please log in with a Hamilton account. (And enable pop-ups so the new login window appears)");
 	    signOutCurrentUser();
 	    userLoginHandler();
 	} else {

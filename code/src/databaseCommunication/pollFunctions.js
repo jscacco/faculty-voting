@@ -158,8 +158,7 @@ const fetchAgenda = async (host_id, room_id) => {
         });
 
         const collect = firestore
-                            .collection(host_id)
-                            .doc(room_id)
+                            .collection(host_id)                            .doc(room_id)
                             .collection('polls');
 
         const collectSnap = await collect.get();
