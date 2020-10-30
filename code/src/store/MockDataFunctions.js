@@ -295,8 +295,36 @@ function submitVote(room_id, poll_id, selection, submission, userInput) {
    }
 }
 
+function getRoomResults(room_id) {
+
+  const room = {...mockData.rooms[room_id]}
+  console.log(room)
+  const polls = {...room.polls}
+  console.log(polls)
+  const closedPolls = polls.order['closed'];
+  console.log(closedPolls);
+
+  const pollsResults = {};
+
+  for (let i = 0; i < closedPolls.length; i++) {
+    const poll_id = closedPolls[i];
+    console.log(poll_id)
+    const poll_result = getPollResults(room_id, poll_id);
+    pollsResults[poll_id] = poll_result;
+  }
+
+  console.log(pollsResults);
+
+
+  return {
+    title: room.title,
+    order: closedPolls,
+    allResults: pollsResults,
+  }
+}
+
 export { checkRoomcode, fetchPollData,
          fetchHostRooms, deleteHostRoom, addHostRoom,
          fetchAgenda, updateRoom, addPoll, updatePoll, updatePollStatus,
          updateRoomStatus,
-        generateOptionId, getPollResults, submitVote }
+        generateOptionId, getPollResults, getRoomResults, submitVote }

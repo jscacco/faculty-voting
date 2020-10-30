@@ -23,7 +23,7 @@ import PieChart    from '../charts/PieChart';
 import BarChart    from '../charts/BarChart';
 
 
-import { fetchAgenda, getPollResults } from '../../store/MockDataFunctions'
+// import { fetchAgenda, getPollResults } from '../../store/MockDataFunctions'
 
 const ChildWrapper = styled.div`
   padding-top: 20px;
@@ -47,23 +47,25 @@ function getValues(map, key){
 const RoomResultsCard = ( props ) => {
 
   // const { room } = props;
-  const roomcode = '0000'
-  const room = fetchAgenda(roomcode);
+  // const roomcode = '0000'
+  // const room = fetchAgenda(roomcode);
 
 
   const _header = (
     <Jumbo extraSmall color={Colors.LightBlue}>
-      {room.title}
+      {props.roomResults.title}
     </Jumbo>
   )
 
   const _renderCharts = () =>  {
-    console.log(room);
-    console.log(roomcode);
-    console.log(room.order['closed'])
-    var chartComponents = room.order['closed'].map((poll_id) => {
-      var pollResults = getPollResults(roomcode, poll_id)
-      console.log(pollResults)
+    // console.log(room);
+    // console.log(roomcode);
+    // console.log(room.order['closed'])
+    var chartComponents = props.roomResults.order.map((poll_id) => {
+      // var pollResults = getPollResults(roomcode, poll_id)
+
+    const pollResults = props.roomResults.allResults[poll_id]
+    console.log(pollResults)
 
       return (
         <>
