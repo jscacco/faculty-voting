@@ -17,16 +17,18 @@ const LoginWrapper = styled.div`
 `;
 
 const userLoginHandler = async () => {
-    await signOutCurrentUser();
     await userLogin().then(() => {
 	console.log(userIsHamiltonian());
 	if (!userIsHamiltonian()) {
-	    console.log("User " + getCurrentUserEmail + " is not within Hamilton domain. Logging out.");
-	    alert("Please refresh the page and log in with a Hamilton account.");
+	    console.log("User " + getCurrentUserEmail() + " is not within Hamilton domain. Logging out.");
+	    alert("Please log in with a Hamilton account.");
 	    signOutCurrentUser();
+	    userLoginHandler();
+	} else {
+	    history.push('/RoomCode');
 	}
     });
-    // history.push('/RoomCode');
+    
 }
 
 const LoginPage = ( props ) => {

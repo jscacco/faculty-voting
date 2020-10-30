@@ -24,16 +24,16 @@ const getCurrentUserEmail = () => {
 
 const userLogin = async () => {
     var provider = new firebase.auth.GoogleAuthProvider();
-
+    provider.setCustomParameters({
+	'prompt': 'select_account'
+    });
+    
     await fireauth.signInWithPopup(provider).then(function(result) {
 	// This gives you a Google Access Token. You can use it to access the Google API.
 	var token = result.credential.accessToken;
 	// The signed-in user info.
 	var user = result.user;
 	// ...
-	
-	// TODO: Finish this?
-	
     }).catch(function(error) {
 	// Handle Errors here.
 	var errorCode = error.code;
@@ -44,7 +44,6 @@ const userLogin = async () => {
 	var credential = error.credential;
 	// ...
 	
-	// TODO: finish this?
 	console.log(error);  // Handle Errors here.
 	var errorCode = error.code;
 	console.log(errorCode);
@@ -54,7 +53,6 @@ const userLogin = async () => {
 	console.log(errorMessage);
 	alert(errorMessage);
     });
-    return;
 }
 
 const userIsHamiltonian = () => {
