@@ -118,7 +118,7 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
                         .doc(poll_id);
 
         let options = poll_state.options;
-
+	
         delete poll_state.options;
 
         await pollRef.update(poll_state);
