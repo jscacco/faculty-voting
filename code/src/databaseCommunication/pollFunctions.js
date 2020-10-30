@@ -28,7 +28,7 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
                             .doc(poll_id);
         let docSnap = await document.get();
         let docData = docSnap.data();
-
+        
         let poll = {
             id: poll_id,
             title: docData['title'],
@@ -223,6 +223,7 @@ const addPoll = async (host_id, room_id) => {
         poll.pollHash = thisHash;
 	
         delete poll.options;
+        delete poll.results;
 
 	    // join the object and the poll location
         await pollRef.set(poll);
@@ -291,6 +292,7 @@ const addPoll = async (host_id, room_id) => {
 }
 
 const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
+    // NEED TO CHECK DIFFERENCE IN POLLS IN NEW_STATUS AND CURRENT STATE AND THEN DELETE THOSE POLLS
     try {
 	    // new poll map
         let newPoll = await fetchPollData(host_id, room_id, poll_id);
@@ -351,28 +353,31 @@ const getPollResults = async (host_id, room_id, poll_id) => {
                                 .doc(poll_id)
                                 .collection('userOptions');
         let userCollectSnap = await userCollectRef.get();
-        for(let x = 0; x < userCollectSnap.docs.length; x++) {
-            let optionSnap = await firestore
-                                    .collection(host_id)
-                                    .doc(room_id)
-                                    .collection('polls')
-                                    .doc(poll_id)
-                                    .collection('userOptions')
-                                    .doc(userCollectSnap.docs[x].id)
-                                    .get();
-            console.log(userCollectSnap.docs[x].id)
-            results[userCollectSnap.docs[x].id] = {
-                id: userCollectSnap.docs[x].id,
-                count: optionSnap.data()['count']
-            }
-            poll.optionsOrder.push(userCollectSnap.docs[x].id);
-            poll.options[userCollectSnap.docs[x].id] = {
-                ...results[userCollectSnap.docs[x].id],
-                value: optionSnap.data()['value']
+
+        // checks to see if write-in options exist
+        if(userCollectSnap.docs.length > 1) {
+            for(let x = 0; x < userCollectSnap.docs.length; x++) {
+                let optionSnap = await firestore
+                                        .collection(host_id)
+                                        .doc(room_id)
+                                        .collection('polls')
+                                        .doc(poll_id)
+                                        .collection('userOptions')
+                                        .doc(userCollectSnap.docs[x].id)
+                                        .get();
+                console.log(userCollectSnap.docs[x].id)
+                results[userCollectSnap.docs[x].id] = {
+                    id: userCollectSnap.docs[x].id,
+                    count: optionSnap.data()['count']
+                }
+                poll.optionsOrder.push(userCollectSnap.docs[x].id);
+                poll.options[userCollectSnap.docs[x].id] = {
+                    ...results[userCollectSnap.docs[x].id],
+                    value: optionSnap.data()['value']
+                }
             }
         }
-        // slap user input on end of optionsOrder
-        // another for loop to add userInputs to results
+
         return {
             title: poll.title,
             description: poll.description,
@@ -514,4 +519,19 @@ const submitVote = async (host_id, room_id, poll_id, selection, submission, user
     }
 }
 
-export { fetchAgenda, addPoll, updatePollStatus, fetchPollData, getPollResults, updatePoll, submitVote };
+const getPollOrder = async (host_id, room_id) => {
+    try {
+        let pollSnap = await firestore
+                                .collection(host_id)
+                                .doc(room_id)
+                                .collection('polls')
+                                .doc('order')
+                                .get();
+
+        return pollSnap.data();
+    } catch(error) {
+        console.log(error);
+    }
+}
+
+export { fetchAgenda, addPoll, updatePollStatus, fetchPollData, getPollResults, updatePoll, submitVote, getPollOrder };

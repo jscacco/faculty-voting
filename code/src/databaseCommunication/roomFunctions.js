@@ -1,6 +1,6 @@
 import firebase from './permissions.js';
 import { roomBase } from '../store/dataBases';
-import { addPoll, fetchAgenda, updatePollStatus, fetchPollData } from './pollFunctions';
+import { addPoll, fetchAgenda, updatePollStatus, fetchPollData, getPollResults, getPollOrder } from './pollFunctions';
 import { generateRoomHash, generatePollHash, compareHashes } from './hashFunctions';
 
 const firestore = firebase.firestore();
@@ -413,4 +413,30 @@ const updateRoomStatus = async (host_id, room_id, new_status) => {
         console.log(error)
     }
 }
-export { fetchHostRooms, deleteHostRoom, addHostRoom, updateRoom, setRoomOrder, checkRoomcode, setPollOrder, updateRoomStatus }
+
+const getRoomResults = async (host_id, room_id) => {
+    try {
+        let hostDash = await fetchHostRooms(host_id);
+        let room = hostDash.rooms[room_id];
+        let pollOrder = await getPollOrder(host_id, room_id);
+        let closedPolls = pollOrder.closed;
+
+        const pollsResults = {};
+
+        for (let i = 0; i < closedPolls.length; i++) {
+            const poll_id = closedPolls[i];
+            const poll_result = await getPollResults(host_id, room_id, poll_id);
+            pollsResults[poll_id] = poll_result;
+        }
+        
+        return {
+            title: room.title,
+            order: closedPolls,
+            allResults: pollsResults,
+        }
+    } catch(error) {
+        console.log(error);
+    }
+}
+
+export { fetchHostRooms, deleteHostRoom, addHostRoom, updateRoom, setRoomOrder, checkRoomcode, setPollOrder, updateRoomStatus, getRoomResults }
