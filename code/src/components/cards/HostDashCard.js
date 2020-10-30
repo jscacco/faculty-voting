@@ -44,11 +44,11 @@ const SectionGroup = ( props ) => {
     room.status === 'open' ?
     <HostRoomItem roomTitle={room.title}
                   roomCode={room.id}
-                  onViewClick={() => onViewClick(room.id)}/> :
+                  onViewClick={() => onViewClick(room.id, room.status)}/> :
     <EditItem iconColor={Colors.White} onDelete={() => onDelete(room.id)}>
       <HostRoomItem roomTitle={room.title}
                 roomCode={room.id}
-                onViewClick={() => onViewClick(room.id)}/>
+                onViewClick={() => onViewClick(room.id, room.status)}/>
     </EditItem>
   ));
 
