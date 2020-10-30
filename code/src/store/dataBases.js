@@ -20,6 +20,11 @@ export const pollBase = (id) => {
     userInputOption: false,
     optionsOrder: ['00', '01', '02'],
     showResults: true,
+    results: {
+      '00': {id: '00', count: 0},
+      '01': {id: '01', count: 0},
+      '02': {id: '02', count: 0},
+    }
   }
 }
 
@@ -43,6 +48,11 @@ export const roomBase = (id) => {
         userInputOption: false,
         optionsOrder: ['00', '01', '02'],
         showResults: true,
+        results: {
+          '00': {id: '00', count: 0},
+          '01': {id: '01', count: 0},
+          '02': {id: '02', count: 0},
+        }
       },
       order: {
         'open': [],
