@@ -21,7 +21,8 @@ const HostPollPage = ( props ) => {
   const pollcode = props.match.params.pollcode || '00';
 
   useEffect(() =>  {
-    props.onFetchPoll(roomcode, pollcode);
+    console.log(props.location.state);
+    props.onFetchPoll(roomcode, pollcode, props.location.state);
   }, [])
 
 
@@ -30,7 +31,14 @@ const HostPollPage = ( props ) => {
     history.replace(`/PollResults/${roomcode}/${pollcode}`);
   }
 
-  console.log(props);
+  // let isEditing = (props.location.state && props.location.state.editing)
+  //
+  // const onEditClick = () => {
+  //   props.onToggleEdit(roomcode, pollcode);
+  //   console.log('her')
+  //   isEditing = props.editing;
+  //   console.log(props.editing)
+  // }
 
   const sideContent = props.editing ?
     <HostEditPanelCard pollType={props.poll.type}
@@ -40,8 +48,9 @@ const HostPollPage = ( props ) => {
                        medium
                        /> :
     <HostStatusCard pollStatus={props.poll.status}
-                        onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, pollcode, newStatus)}
-                        medium/>
+                    headerColor={Colors.Blue}
+                    onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, pollcode, newStatus)}
+                    medium/>
 
   return (
       <SideBarPage sideContent={sideContent}>
@@ -74,8 +83,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchPoll: (room_id, poll_id ) => dispatch({ type: ActionTypes.hostpoll.FETCH_POLL_START,
-                                                   room_id, poll_id }),
+    onFetchPoll: (room_id, poll_id, location_state ) => dispatch({ type: ActionTypes.hostpoll.FETCH_POLL_START,
+                                                                    room_id, poll_id, location_state }),
     onToggleEdit: (room_id, poll_id ) => { dispatch({ type: ActionTypes.hostpoll.TOGGLE_EDIT});
                                            dispatch({ type: ActionTypes.hostpoll.UPDATE_POLL_START,
                                            room_id, poll_id })},

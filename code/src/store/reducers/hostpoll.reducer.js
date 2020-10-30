@@ -32,10 +32,10 @@ export default function reduceUserPoll(state = initialState, action) {
 
     case ActionTypes.hostpoll.FETCH_POLL_SUCCESS:
       result = action.response;
-      console.log(result)
       return {
         ...state,
         poll: {...result},
+        editing: action.location_state ? action.location_state.editing : false,
         loading: false,
       };
     case ActionTypes.hostpoll.FETCH_POLL_ERROR:

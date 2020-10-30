@@ -18,10 +18,20 @@ const HostDashPage = ( props ) => {
 
   console.log(props)
 
+  const onViewClick = (roomcode, roomStatus) => {
+    console.log(roomStatus)
+    if (roomStatus === 'closed') {
+      history.push(`/RoomResults/${roomcode}`)
+    }
+    else {
+      history.push(`/HostAgenda/${roomcode}`)
+    }
+  }
+
   return (
     <MainPage>
         <HostDashCard medium
-                      onViewClick={(roomcode) => history.push(`/HostAgenda/${roomcode}`)}
+                      onViewClick={onViewClick}
                       rooms={props.rooms}
                       order={props.order}
                       onDelete={props.onDeleteRoom}

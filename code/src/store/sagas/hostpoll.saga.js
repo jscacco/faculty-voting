@@ -19,7 +19,8 @@ export function* fetchHostPoll (action) {
 		console.log(response);
 		yield put({
 			type: ActionTypes.hostpoll.FETCH_POLL_SUCCESS,
-			response
+			response,
+      location_state: action.location_state
 		});
 
 	} catch(error) {
