@@ -245,6 +245,25 @@ const addPoll = async (host_id, room_id) => {
             pend = snap.data()['pending'];
         });
 
+	// Get the room info so we can compute new hash
+        const roomDocument = firestore
+                                .collection(host_id)
+                                .doc(room_id);
+        let roomDocSnap = await roomDocument.get();
+        let roomDocData = roomDocSnap.data();
+
+        // Construct the new room map
+        let newRoom = {
+            'id': roomDocData['id'],
+            'title': roomDocData['title'],
+            'status': roomDocData['status'],
+            'pollOrder': [...pend, poll_id]
+        };
+
+        // Generate the new hash
+        let newHash = await generateRoomHash(newRoom);
+
+	// update the poll order in firebase
         await firestore
             .collection(host_id)
             .doc(room_id)
@@ -253,6 +272,13 @@ const addPoll = async (host_id, room_id) => {
             .update({
                 pending: [...pend, poll_id]//admin.firestore.FieldValue.arrayUnion(poll_id)
             });
+
+	// update roomHash in firebase
+        // if this breaks, roomHash might not exist currently (go into firebase and add it manually
+        await firestore
+                    .collection(host_id)
+                    .doc(room_id)
+                    .update({roomHash: newHash});
 
         return {
             newPoll: poll
@@ -358,6 +384,7 @@ const getPollResults = async (host_id, room_id, poll_id) => {
 }
   
 const submitVote = async (host_id, room_id, poll_id, selection, submission, userInput) => {
+    // TODO (Jack): Need to update hash of the poll
     try {
         let poll = await fetchPollData(host_id, room_id, poll_id);
 
