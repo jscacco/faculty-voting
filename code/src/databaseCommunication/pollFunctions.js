@@ -108,7 +108,7 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
 const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
     try {
         let options = poll_state.options;
-        let original_state = Object.assign(poll_state, {});
+        let original_state = {...poll_state};
         //console.log(original_state);
         let pollRef = firestore
                         .collection(host_id)
