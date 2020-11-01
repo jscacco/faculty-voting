@@ -54,12 +54,8 @@ const RoomResultsCard = ( props ) => {
   )
 
   const _renderCharts = () =>  {
-    console.log(room);
-    console.log(roomcode);
-    console.log(room.order['closed'])
     var chartComponents = room.order['closed'].map((poll_id) => {
       var pollResults = getPollResults(roomcode, poll_id)
-      console.log(pollResults)
 
       return (
         <>

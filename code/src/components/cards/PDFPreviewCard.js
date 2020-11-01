@@ -24,8 +24,6 @@ import BarChart    from '../charts/BarChart';
 
 import Pdf from "react-to-pdf";
 
-// import { fetchAgenda, getPollResults } from '../../store/MockDataFunctions'
-
 const ChildWrapper = styled.div`
   padding-top: 20px;
 `;

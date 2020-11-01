@@ -84,11 +84,9 @@ const PollResultsCard = ( props ) => {
   )
 
   return (
-    <>
     <PrimaryCard cardColor={Colors.White} width={`100%`}
                  header={_header} headerButton={_toPDFButton}
                  children={_children}/>
-    </>
   )
 };
 
