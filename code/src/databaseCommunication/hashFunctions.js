@@ -24,6 +24,7 @@ const generateRoomMsg = async (room) => {
     msg += "id=" + room['id'] + ";";
     msg += "title=" + room['title'] + ";";
     msg += "status=" + room['status'] + ";";
+    msg += "hosts=" + room['hosts'] + ";";
     msg += "pollOrder={\"pending\":" + JSON.stringify(room['pollOrder']['pending']);
     msg += ",\"closed\":" + JSON.stringify(room['pollOrder']['closed']);
     msg += ",\"open\":" + JSON.stringify(room['pollOrder']['open']) + "}";

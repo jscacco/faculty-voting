@@ -158,8 +158,9 @@ const fetchAgenda = async (host_id, room_id) => {
         });
 
         const collect = firestore
-                            .collection(host_id)                            .doc(room_id)
-                            .collection('polls');
+              .collection(host_id)
+	      .doc(room_id)
+              .collection('polls');
 
         const collectSnap = await collect.get();
         const collectData = collectSnap.docs;
@@ -224,7 +225,7 @@ const addPoll = async (host_id, room_id) => {
         delete poll.options;
         delete poll.results;
 
-	    // join the object and the poll location
+	    // join the object and the poll location (hash is updated here)
         await pollRef.set(poll);
 
 	    // fill out the options of the poll (in the correct location)
@@ -256,10 +257,11 @@ const addPoll = async (host_id, room_id) => {
 
         // Construct the new room map
         let newRoom = {
-            'id': roomDocData['id'],
-            'title': roomDocData['title'],
-            'status': roomDocData['status'],
-            'pollOrder': [...pend, poll_id]
+            id: roomDocData['id'],
+            title: roomDocData['title'],
+            status: roomDocData['status'],
+            pollOrder: [...pend, poll_id],
+	    hosts: roomDocData['hosts']
         };
 
         // Generate the new hash
@@ -512,7 +514,6 @@ const submitVote = async (host_id, room_id, poll_id, selection, submission, user
             inputSubmissionId: inputcode
         }    
   
-        return 
     } catch (error) {
         console.log(error);
     }
