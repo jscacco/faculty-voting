@@ -56,6 +56,7 @@ const fetchHostRooms = async (host_id) => {
                     room['id'] = doc.id;               
                     room['title'] = doc.data()['title'];
                     room['status'] = doc.data()['status'];
+		    room['hosts'] = doc.data()['hosts'];
                     rooms[doc.id] = room;
                     
                     // add in polls['order'] so we can factor that into the hash
@@ -183,6 +184,7 @@ const addHostRoom = async (host_id) => {
         }
         
         let room = roomBase(roomCode);
+	room.hosts.push(host_id);
         delete room.polls;
 
         await firestore
@@ -210,7 +212,7 @@ const addHostRoom = async (host_id) => {
         let pollOrder = orderSnap.data();
 
 	// Compute the room hash and update it in firebase
-        let roomHashData = { 'id': roomCode, 'title': room.title, 'status': room.status, 'pollOrder': pollOrder };
+        let roomHashData = { id: roomCode, title: room.title, status: room.status, pollOrder: pollOrder, hosts: room.hosts };
         let roomHash = await generateRoomHash(roomHashData);
 	
         await firestore
@@ -254,10 +256,11 @@ const updateRoom = async (host_id, room_id, room_state) => {
         // Compute the room's hash and update it
         // If something doens't work, check what room is (room.title)
         let roomHashInfo = {
-            'id': room_id,
-            'status': room.status,
-            'title': room.title,
-            'pollOrder': newPolls.order
+            id: room_id,
+            status: room.status,
+            title: room.title,
+            pollOrder: newPolls.order,
+	    hosts: room.hosts
         }
         room['roomHash'] = await generateRoomHash(roomHashInfo);
         console.log(host_id)
@@ -297,10 +300,11 @@ const setPollOrder = async (host_id, room_id, new_order) => {
 
         // Construct the new room map
         let newRoom = {
-            'id': roomDocData['id'],
-            'title': roomDocData['title'],
-            'status': roomDocData['status'],
-            'pollOrder': new_order
+            id: roomDocData['id'],
+            title: roomDocData['title'],
+            status: roomDocData['status'],
+            pollOrder: new_order,
+	    hosts: roomDocData['hosts']
         };
 
         // Generate the new hash
