@@ -68,7 +68,17 @@ const config = {
               text: 'RESUBMIT',
               color: Colors.Yellow,
               disabled: false
-            }
+            },
+  pollpending: { subText: 'Please wait to record your response.',
+                 text: 'SUBMIT',
+                 color: Colors.LightGrey,
+                 disabled: true
+               },
+  submitloading: { subText: 'Your response is being recorded.',
+                   text: 'SUBMIT',
+                   color: Colors.LightGrey,
+                   disabled: true
+                },
 }
 
 const renderText = (props) => {
@@ -126,6 +136,12 @@ const SubmitButton = (props) => {
       break;
     case 'resubmit':
       buttonConfig = config.resubmit;
+      break;
+    case 'pollpending':
+      buttonConfig = config.pollpending;
+      break;
+    case 'submitloading':
+      buttonConfig = config.pollpending;
       break;
     default:
       buttonConfig = config.unselected;

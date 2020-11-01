@@ -19,6 +19,8 @@ const UserPollPage = ( props ) => {
     props.onFetchPoll(roomcode, pollcode);
   }, [])
 
+  console.log(props);
+
   return (
     <MainPage>
         <UserPollCard pollData={props.poll}
@@ -28,6 +30,7 @@ const UserPollPage = ( props ) => {
                       onSubmit={() => props.onSubmit(roomcode, pollcode)}
                       submittedOptions={props.submission}
                       submissionStatus={props.submissionStatus}
+                      submitLoading={props.submitLoading}
                       medium />
     </MainPage>
   );
@@ -41,6 +44,7 @@ const mapStateToProps = (state) => {
     selection: state.userpoll.pollStatus.selection,
     submission: state.userpoll.pollStatus.submission,
     submissionStatus: state.userpoll.pollStatus.submitStatus,
+    submitloading: state.userpoll.submitLoading,
     loading: state.userpoll.loading
   }
 }
