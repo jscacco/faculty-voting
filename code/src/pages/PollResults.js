@@ -1,5 +1,7 @@
 import React, { useEffect }                from 'react';
 import styled               from 'styled-components';
+import ReactDOMServer       from "react-dom/server";
+
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
@@ -8,6 +10,7 @@ import { Colors }           from '../components/theme/Colors';
 import MainPage             from './format-pages/MainPage';
 
 import PollResultsCard         from '../components/cards/PollResultsCard';
+
 
 const PollResultsPage = ( props ) => {
 
@@ -20,7 +23,7 @@ const PollResultsPage = ( props ) => {
 
   return (
     <MainPage color={Colors.LightBlue}>
-      <PollResultsCard pollResults={props.pollResults}/>
+      <PollResultsCard pollResults={props.pollResults} toPDF={props.toPDF}/>
     </MainPage>
   );
 }

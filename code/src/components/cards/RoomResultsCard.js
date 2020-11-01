@@ -18,31 +18,21 @@ import InputField       from '../inputs/InputField';
 import TextArea         from '../inputs/TextArea';
 import EditingOption    from '../options/EditingOption';
 import PrimaryCard      from '../format-cards/PrimaryCard';
+import PDFPreviewCard      from './PDFPreviewCard';
 
 import PieChart    from '../charts/PieChart';
 import BarChart    from '../charts/BarChart';
 
+import Pdf from "react-to-pdf";
 
 import { fetchAgenda, getPollResults } from '../../store/MockDataFunctions'
 
-const ChildWrapper = styled.div`
-  padding-top: 20px;
-`;
+const ref = React.createRef();
 
-const LeftColumnWrapper = styled.div`
-  width: 30%;
+const HiddenWrapper = styled.div`
+  position: absolute;
+  bottom: 20000px;
 `;
-const TwoColumnWrapper = styled.div`
-  display: flex;
-  direction: row;
-  align-items: flex-start;
-`;
-
-function getValues(map, key){
-  var values = [];
-
-  return values;
-}
 
 const RoomResultsCard = ( props ) => {
 
@@ -55,6 +45,12 @@ const RoomResultsCard = ( props ) => {
     <Jumbo extraSmall color={Colors.LightBlue}>
       {room.title}
     </Jumbo>
+  )
+
+  const _toPDFButton = (
+    <Pdf targetRef={ref} filename="poll-results.pdf">
+      {({ toPdf }) => <Button medium onClick={toPdf}>Download Pdf</Button>}
+    </Pdf>
   )
 
   const _renderCharts = () =>  {
@@ -83,17 +79,31 @@ const RoomResultsCard = ( props ) => {
     )
   }
 
+  const MyPDF = React.forwardRef((props, ref) => (
+    <div ref={ref}>
+      <PDFPreviewCard header={props.header} children={props.children} />
+    </div>
+  ));
 
-
-  const _children = (
+  const _pdfChildren = (
     <>
       {_renderCharts()}
     </>
   )
 
+  const _children = (
+    <>
+      {_renderCharts()}
+      <HiddenWrapper>
+        {<MyPDF ref={ref} header={_header} children={_pdfChildren} />}
+      </HiddenWrapper>
+    </>
+  )
+
   return (
     <PrimaryCard cardColor={Colors.White} width={`100%`}
-                 header={_header} children={_children}/>
+                 header={_header} headerButton={_toPDFButton}
+                 children={_children}/>
   )
 };
 
