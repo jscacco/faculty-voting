@@ -40,7 +40,7 @@ const HostAgendaPage = ( props ) => {
   };
 
   const onPollEditClick = (poll_id) => {
-    props.onEditClick(poll_id);
+    props.onEditClick(roomcode);
     // props.togglePollEdit();
     history.push(`/HostPoll/${roomcode}/${poll_id}`, {editing: true})
   }
