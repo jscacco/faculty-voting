@@ -8,11 +8,16 @@ import { fetchRooms,
 import { fetchUserAgenda }     from './useragenda.saga.js';
 import { fetchHostAgenda, updateHostAgenda,
          addRoomPoll,
-         changePollStatus }     from './hostagenda.saga.js';
-import { fetchUserPoll }  from './userpoll.saga';
+         changePollStatus,
+         changeRoomStatus }     from './hostagenda.saga.js';
+import { fetchUserPoll,
+         sendVote }  from './userpoll.saga';
 import { fetchHostPoll,
+         updateHostPoll,
          changePollStatusPoll }  from './hostpoll.saga';
 import { fetchPollResults } from './pollresults.saga';
+import { fetchRoomResults } from './roomresults.saga';
+
 
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
@@ -27,9 +32,13 @@ export function* watcherSaga() {
     yield takeLatest(ActionTypes.hostagenda.ADD_POLL_START, addRoomPoll );
     yield takeLatest(ActionTypes.hostagenda.UPDATE_AGENDA_START, updateHostAgenda );
     yield takeLatest(ActionTypes.hostagenda.UPDATE_POLL_STATUS_START, changePollStatus );
+    yield takeLatest(ActionTypes.hostagenda.UPDATE_ROOM_STATUS_START, changeRoomStatus );
     yield takeLatest(ActionTypes.userpoll.FETCH_POLL_START, fetchUserPoll );
     yield takeLatest(ActionTypes.hostpoll.FETCH_POLL_START, fetchHostPoll );
+    yield takeLatest(ActionTypes.hostpoll.UPDATE_POLL_START, updateHostPoll );
     yield takeLatest(ActionTypes.hostpoll.UPDATE_POLL_STATUS_START, changePollStatusPoll );
+    yield takeLatest(ActionTypes.userpoll.SUBMIT_VOTE_START, sendVote );
     yield takeLatest(ActionTypes.pollresults.FETCH_RESULTS_START, fetchPollResults );
+    yield takeLatest(ActionTypes.roomresults.FETCH_RESULTS_START, fetchRoomResults );
 
 }

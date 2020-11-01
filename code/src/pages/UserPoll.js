@@ -19,15 +19,18 @@ const UserPollPage = ( props ) => {
     props.onFetchPoll(roomcode, pollcode);
   }, [])
 
+  console.log(props);
+
   return (
     <MainPage>
         <UserPollCard pollData={props.poll}
                       userInput={props.userInput}
                       onOptionChange={props.onOptionChange}
                       onInputChange={props.onInputChange}
-                      onSubmit={props.onSubmit}
+                      onSubmit={() => props.onSubmit(roomcode, pollcode)}
                       submittedOptions={props.submission}
                       submissionStatus={props.submissionStatus}
+                      submitLoading={props.submitLoading}
                       medium />
     </MainPage>
   );
@@ -41,6 +44,7 @@ const mapStateToProps = (state) => {
     selection: state.userpoll.pollStatus.selection,
     submission: state.userpoll.pollStatus.submission,
     submissionStatus: state.userpoll.pollStatus.submitStatus,
+    submitloading: state.userpoll.submitLoading,
     loading: state.userpoll.loading
   }
 }
@@ -51,7 +55,8 @@ const mapDispatchToProps = dispatch => {
                                                    room_id, poll_id }),
     onOptionChange: (selection) => dispatch({ type: ActionTypes.userpoll.UPDATE_SELECTION,
                                               selection}),
-    onSubmit: () => dispatch({ type: ActionTypes.userpoll.UPDATE_SUBMISSION, }),
+    onSubmit: (room_id, poll_id) => dispatch({ type: ActionTypes.userpoll.SUBMIT_VOTE_START,
+                                                room_id, poll_id }),
     onInputChange: (event) => dispatch({ type: ActionTypes.userpoll.UPDATE_INPUT,
                                          event}),
 

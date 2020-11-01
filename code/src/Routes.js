@@ -28,6 +28,7 @@ export default class Routes extends Component {
                     <Route path="/UserPoll/:roomcode/:pollcode" exact component={UserPoll}/>
                     <Route path="/PollResults/:roomcode/:pollcode" exact component={PollResults}/>
                     <Route path="/RoomResults/:roomcode" exact component={RoomResults}/>
+                    <Route path="/:" exact component={Login}/>
                 </Switch>
             </Router>
         )

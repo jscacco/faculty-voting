@@ -10,7 +10,7 @@ import SideBarPage          from './format-pages/SideBarPage';
 
 import HostPollCard         from '../components/cards/HostPollCard';
 import EditPollCard         from '../components/cards/EditPollCard';
-import HostPollStatusCard   from '../components/cards/HostPollStatusCard'
+import HostStatusCard       from '../components/cards/HostStatusCard'
 import HostEditPanelCard    from '../components/cards/HostEditPanelCard';
 
 
@@ -21,7 +21,8 @@ const HostPollPage = ( props ) => {
   const pollcode = props.match.params.pollcode || '00';
 
   useEffect(() =>  {
-    props.onFetchPoll(roomcode, pollcode);
+    console.log(props.location.state);
+    props.onFetchPoll(roomcode, pollcode, props.location.state);
   }, [])
 
 
@@ -30,7 +31,14 @@ const HostPollPage = ( props ) => {
     history.replace(`/PollResults/${roomcode}/${pollcode}`);
   }
 
-  console.log(props);
+  // let isEditing = (props.location.state && props.location.state.editing)
+  //
+  // const onEditClick = () => {
+  //   props.onToggleEdit(roomcode, pollcode);
+  //   console.log('her')
+  //   isEditing = props.editing;
+  //   console.log(props.editing)
+  // }
 
   const sideContent = props.editing ?
     <HostEditPanelCard pollType={props.poll.type}
@@ -39,15 +47,16 @@ const HostPollPage = ( props ) => {
                        updateSettings={props.onUpdateSettings}
                        medium
                        /> :
-    <HostPollStatusCard pollStatus={props.poll.status}
-                        onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, pollcode, newStatus)}
-                        medium/>
+    <HostStatusCard pollStatus={props.poll.status}
+                    headerColor={Colors.Blue}
+                    onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, pollcode, newStatus)}
+                    medium/>
 
   return (
       <SideBarPage sideContent={sideContent}>
         { props.editing ?
           <EditPollCard pollData={props.poll}
-                        onEditClick={props.onToggleEdit}
+                        onEditClick={() => props.onToggleEdit(roomcode, pollcode)}
                         onAddClick={props.onAddOption}
                         onDeleteClick={props.onDeleteOption}
                         onDragEnd={props.onUpdateOrder}
@@ -56,7 +65,7 @@ const HostPollPage = ( props ) => {
                         onOptionChange={props.onUpdateOption}
                         medium /> :
           <HostPollCard pollData={props.poll}
-                        onEditClick={props.onToggleEdit}
+                        onEditClick={() => props.onToggleEdit(roomcode, pollcode)}
                         medium />
         }
       </SideBarPage>
@@ -74,9 +83,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchPoll: (room_id, poll_id ) => dispatch({ type: ActionTypes.hostpoll.FETCH_POLL_START,
-                                                   room_id, poll_id }),
-    onToggleEdit: () => dispatch({ type: ActionTypes.hostpoll.TOGGLE_EDIT,}),
+    onFetchPoll: (room_id, poll_id, location_state ) => dispatch({ type: ActionTypes.hostpoll.FETCH_POLL_START,
+                                                                    room_id, poll_id, location_state }),
+    onToggleEdit: (room_id, poll_id ) => { dispatch({ type: ActionTypes.hostpoll.TOGGLE_EDIT});
+                                           dispatch({ type: ActionTypes.hostpoll.UPDATE_POLL_START,
+                                           room_id, poll_id })},
     onAddOption: () => dispatch({ type: ActionTypes.hostpoll.ADD_POLL, }),
     onDeleteOption: (option_id) => dispatch({ type: ActionTypes.hostpoll.DELETE_POLL,
                                             option_id }),
@@ -96,86 +107,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HostPollPage);
-
-
-// class HostPollPage extends React.Component {
-//   constructor(props) {
-//     super(props);
-//
-//     this.state = {
-//       poll: fetchPollData('0002', '02'),
-//       isEditing: false,
-//
-//       submitted: false,
-//       submitButton: {
-//         submitted: false,
-//         color: Colors.LightGrey,
-//         text: 'Submit',
-//         statusText: 'Select your choice.'
-//       },
-//       selectedOptions: [],
-//     }
-//
-//     this.setState({
-//       ...this.state,
-//       onSelectOption: Array(this.state.poll.options.length).fill(false),
-//
-//     })
-//
-//     console.log(this.state.poll)
-//
-//     this.onEditClick = this.onEditClick.bind(this);
-//     this.onSubmit = this.onSubmit.bind(this);
-//     this.onOptionChange = this.onOptionChange.bind(this);
-//   }
-//
-//
-//   async onEditClick() {
-//     await this.setState({
-//       ...this.state,
-//       isEditing: !this.state.isEditing
-//     })
-//   }
-//
-//   async onSubmit() {
-//     await this.setState({
-//       ...this.state,
-//       submitted: true,
-//       submitButton: {
-//         color: Colors.Green,
-//         text: 'Submitted',
-//         statusText: 'Your vote has been recorded.',
-//       }
-//     })
-//   }
-//
-//   async onOptionChange(event) {
-//     await this.setState({
-//       ...this.state,
-//       submitButton: {
-//         color: this.state.submitted ? Colors.Yellow : Colors.Blue,
-//         text: this.state.submitted ? 'Resubmit' : 'Submit',
-//         statusText: this.state.submitted ? 'Resubmit my vote.' : 'Submit my vote.',
-//       }
-//     })
-//   }
-//
-//   render() {
-//     return (
-//       <PageWrapper>
-//         <DemoNavBar />
-//         <ComponentWrapper>
-//           { this.state.isEditing ?
-//             <EditPollCard pollData={this.state.poll} onSubmit={this.onSubmit}
-//                           onOptionChange={this.onOptionChange} onEditClick={this.onEditClick} /> :
-//             <HostPollCard pollData={this.state.poll} onSubmit={this.onSubmit} onOptionChange={this.onOptionChange}
-//                         buttonColor={this.state.submitButton.color} buttonText={this.state.submitButton.text}
-//                         statusText={this.state.submitButton.statusText} onEditClick={this.onEditClick} />
-//           }
-//         </ComponentWrapper>
-//       </PageWrapper>
-//     );
-//   }
-// }
-//
-// export default HostPollPage;

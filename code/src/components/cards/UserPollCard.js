@@ -20,6 +20,7 @@ const UserPollCard = ( props ) => {
 
   const { pollData, userInput, submittedOptions, onOptionChange,
           onSubmit, submissionStatus, onInputChange,
+          submitLoading,
           ...rest } = props;
 
   const _description = (
@@ -60,8 +61,12 @@ const UserPollCard = ( props ) => {
     );
   }
 
+  let submitButtonStatus = submissionStatus;
+  if ( pollData.status === 'pending' ) { submitButtonStatus = 'pollpending'}
+  else if (submitLoading) { submitButtonStatus = 'submitloading'}
+
   const _submitButton = (
-    <SubmitButton submissionStatus={submissionStatus}
+    <SubmitButton submissionStatus={submitButtonStatus}
                   onClick={onSubmit} {...rest}/>
   )
 

@@ -25,7 +25,7 @@ import BarChart    from '../charts/BarChart';
 
 import Pdf from "react-to-pdf";
 
-import { fetchAgenda, getPollResults } from '../../store/MockDataFunctions'
+// import { fetchAgenda, getPollResults } from '../../store/MockDataFunctions'
 
 const ref = React.createRef();
 
@@ -37,13 +37,13 @@ const HiddenWrapper = styled.div`
 const RoomResultsCard = ( props ) => {
 
   // const { room } = props;
-  const roomcode = '0000'
-  const room = fetchAgenda(roomcode);
+  // const roomcode = '0000'
+  // const room = fetchAgenda(roomcode);
 
 
   const _header = (
     <Jumbo extraSmall color={Colors.LightBlue}>
-      {room.title}
+      {props.roomResults.title}
     </Jumbo>
   )
 
@@ -54,8 +54,14 @@ const RoomResultsCard = ( props ) => {
   )
 
   const _renderCharts = () =>  {
-    var chartComponents = room.order['closed'].map((poll_id) => {
-      var pollResults = getPollResults(roomcode, poll_id)
+    // console.log(room);
+    // console.log(roomcode);
+    // console.log(room.order['closed'])
+    var chartComponents = props.roomResults.order.map((poll_id) => {
+      // var pollResults = getPollResults(roomcode, poll_id)
+
+    const pollResults = props.roomResults.allResults[poll_id]
+    console.log(pollResults)
 
       return (
         <>

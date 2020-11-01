@@ -1,5 +1,5 @@
 import mockData from './mockData'
-import { optionBase, pollBase, roomBase } from './dataBases'
+import { optionBase, pollBase, roomBase, } from './dataBases'
 
 
 
@@ -131,6 +131,77 @@ function addPoll(roomcode) {
   }
 }
 
+function updatePoll (roomcode, pollcode, pollState) {
+  console.log(pollState)
+
+  let room = {...mockData.rooms[roomcode]};
+  let poll = {...room.polls[pollcode]};
+  console.log(poll)
+  room.polls[pollcode] = {
+    ...room.polls[pollcode],
+    ...pollState
+  };
+
+  mockData.rooms[roomcode] = room;
+
+  console.log(mockData)
+
+  console.log('updated');
+  console.log(pollState)
+
+  return {
+    ...pollState
+  }
+}
+
+function  updateRoomStatus(roomcode, newStatus) {
+
+  const currentStatus = mockData.rooms[roomcode].status;
+  console.log(currentStatus)
+  let newRoomOrder = mockData.rooms.order;
+  console.log(newRoomOrder)
+  newRoomOrder[currentStatus] = newRoomOrder[currentStatus].filter((i) => i !== roomcode);
+  console.log(newRoomOrder)
+  console.log(newStatus)
+  newRoomOrder[newStatus].push(roomcode);
+  console.log(newRoomOrder)
+
+  if (newStatus === 'closed') {
+
+    let newPollsOrder = mockData.rooms[roomcode].polls.order;
+    console.log(newPollsOrder)
+    let allPolls = newPollsOrder['closed'].concat(newPollsOrder['open'], newPollsOrder['pending']);
+    newPollsOrder = {
+      'closed': allPolls,
+      'open': [],
+      'pending': [],
+    }
+
+    console.log(newPollsOrder)
+
+    for (let i = 0; i < allPolls.length; i++) {
+      let poll_id = allPolls[i];
+      mockData.rooms[roomcode].polls[poll_id].status = 'closed';
+    }
+
+    mockData.rooms[roomcode].polls.order = newPollsOrder;
+  }
+
+  mockData.rooms.order = newRoomOrder;
+  mockData.rooms[roomcode].status = newStatus;
+
+  console.log(mockData)
+
+  const { order, ...rest } = mockData.rooms[roomcode].polls;
+
+  return {
+    status: mockData.rooms[roomcode].status,
+    polls: {...rest},
+    order: order
+  }
+}
+
+
 function updatePollStatus(roomcode, pollcode, newStatus) {
 
   if (mockData.rooms[roomcode].status === 'open') {
@@ -174,7 +245,86 @@ function getPollResults(room_id, poll_id) {
   }
 }
 
+function generateUserOptionId() {
+  const id = Math.floor(Math.random() * 1000);
+  const poll_id = `000${id}`;
+
+  return poll_id.slice(-3);
+}
+
+function submitVote(room_id, poll_id, selection, submission, userInput) {
+   const poll = mockData.rooms[room_id].polls[poll_id];
+
+   for (let i; i < poll.optionsOrder.length; i++) {
+     let option_id = poll.optionsOrder[i];
+     let count = poll.results[option_id].count;
+
+     if (submission[option_id]) { count = count - 1}
+     if (selection[option_id]) { count = count + 1}
+
+     poll.results[option_id].count = count;
+   }
+
+   let inputcode = null;
+   if (selection[userInput.id]) {
+     if (!userInput.submissionId) {
+       inputcode = generateUserOptionId();
+       while (poll.results[inputcode]) {
+         inputcode = generateUserOptionId();
+       }
+     }
+     else { inputcode = userInput.submissionId }
+
+     const userInputResult = {
+       id: inputcode,
+       value: userInput.value,
+       count: 1
+     }
+
+     poll.results[inputcode] = userInputResult;
+   }
+   else if (userInput.submissionId ){
+     delete poll.results[userInput.submissionId]
+   }
+   console.log(mockData.rooms[room_id].polls[poll_id].results)
+   mockData.rooms[room_id].polls[poll_id] = poll;
+
+   return {
+     submitted: true,
+     inputSubmissionId: inputcode
+   }
+}
+
+function getRoomResults(room_id) {
+
+  const room = {...mockData.rooms[room_id]}
+  console.log(room)
+  const polls = {...room.polls}
+  console.log(polls)
+  const closedPolls = polls.order['closed'];
+  console.log(closedPolls);
+
+  const pollsResults = {};
+
+  for (let i = 0; i < closedPolls.length; i++) {
+    const poll_id = closedPolls[i];
+    console.log(poll_id)
+    const poll_result = getPollResults(room_id, poll_id);
+    pollsResults[poll_id] = poll_result;
+  }
+
+  console.log(pollsResults);
+
+
+  return {
+    title: room.title,
+    order: closedPolls,
+    allResults: pollsResults,
+  }
+}
+
 export { checkRoomcode, fetchPollData,
          fetchHostRooms, deleteHostRoom, addHostRoom,
-         fetchAgenda, updateRoom, addPoll, updatePollStatus,
-        generateOptionId, getPollResults }
+         fetchAgenda, updateRoom, addPoll, updatePoll, updatePollStatus,
+         updateRoomStatus,
+        generateOptionId, getPollResults, getRoomResults, submitVote }

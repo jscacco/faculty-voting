@@ -14,12 +14,14 @@ const PollResultsPage = ( props ) => {
   const roomcode = props.match.params.roomcode || '0000';
 
   useEffect(() =>  {
-    // props.onFetchResults(roomcode, pollcode);
+    props.onFetchResults(roomcode);
   }, [])
+
+  console.log(props);
 
   return (
     <MainPage color={Colors.LightBlue}>
-      <RoomResultsCard room={roomcode}/>
+      <RoomResultsCard roomResults={props.roomResults}/>
     </MainPage>
   );
 }
@@ -27,15 +29,15 @@ const PollResultsPage = ( props ) => {
 const mapStateToProps = (state) => {
 
   return {
-    pollResults: state.pollresults.pollResults,
-    loading: state.pollresults.loading
+    roomResults: state.roomresults.roomResults,
+    loading: state.roomresults.loading
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchResults: (room_id, poll_id ) => dispatch({ type: ActionTypes.pollresults.FETCH_RESULTS_START,
-                                                   room_id, poll_id }),
+    onFetchResults: (room_id) => dispatch({ type: ActionTypes.roomresults.FETCH_RESULTS_START,
+                                            room_id }),
 
   }
 }
