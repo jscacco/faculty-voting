@@ -25,10 +25,31 @@ const userLoginHandler = async () => {
 	    signOutCurrentUser();
 	    userLoginHandler();
 	} else {
-	    history.push('/RoomCode');
+	    pushLandingPage("user");
 	}
     });
-    
+}
+
+const hostLoginHandler = async () => {
+    await userLogin().then(() => {
+	console.log(userIsHamiltonian());
+	if (!userIsHamiltonian()) {
+	    console.log("User " + getCurrentUserEmail() + " is not within Hamilton domain. Logging out.");
+	    alert("Please log in with a Hamilton account. (And enable pop-ups so the new login window appears)");
+	    signOutCurrentUser();
+	    userLoginHandler();
+	} else {
+	    pushLandingPage("host");
+	}
+    });
+}
+
+const pushLandingPage = async (userOrHost) => {
+    if (userOrHost == "user") {
+	history.push('/RoomCode');
+    } else {
+	history.push('/HostDash');
+    }
 }
 
 const LoginPage = ( props ) => {
