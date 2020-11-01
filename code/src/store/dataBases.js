@@ -61,6 +61,7 @@ export const roomBase = (id) => {
         'pending': ['00']
       },
     },
-    roomHash: ""
+    roomHash: "",
+    hosts: []
   }
 }

@@ -184,7 +184,7 @@ const addHostRoom = async (host_id) => {
         }
         
         let room = roomBase(roomCode);
-	room.hosts.push(host_id);
+	    room.hosts.push(host_id);
         delete room.polls;
 
         await firestore
@@ -198,14 +198,12 @@ const addHostRoom = async (host_id) => {
                     closed: []
                 });
 
-        await addPoll(host_id, roomCode);
-
         await firestore
                 .collection(host_id)
                 .doc(roomCode)
                 .set(room);
 
-        
+        await addPoll(host_id, roomCode);
 
         let orderRef = firestore.collection(host_id).doc(roomCode).collection('polls').doc('order');
         let orderSnap = await orderRef.get();
