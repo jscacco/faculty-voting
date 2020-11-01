@@ -121,7 +121,9 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
                             .doc(poll_id);
 
             delete poll_state.options;
-    
+            
+            poll_state['pollHash'] = await generatePollHash(original_state);
+
             await pollRef.update(poll_state);
 
             for(const [key, value] of Object.entries(options)) {
@@ -138,7 +140,6 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
     }
 }
 
-
 const fetchAgenda = async (host_id, room_id) => {
     try {
         let agenda = { polls: {}, order: {} };
@@ -151,7 +152,22 @@ const fetchAgenda = async (host_id, room_id) => {
         //console.log(roomData)
         agenda['title'] = roomData['title'];
         agenda['status'] = roomData['status'];
-        fetchedHash = roomData['agendaHash'];
+        fetchedHash = roomData['roomHash'];
+
+        let room = {
+            id: room_id,
+            title: agenda['title'],
+            status: agenda['status'],
+            pollOrder: await getPollOrder(host_id, room_id),
+            hosts: roomData['hosts']
+        }
+
+        let hashComparison = await compareHashes(room, fetchedHash, "room");
+        if (!hashComparison) {
+            // hash is bad:
+            console.log("!!Warning!! Data fetched from agenda " + room['id'] + " has a bad hash. This means that the data has been tampered with via the Firebase Console!");
+            alert("Bad hash warning - see console for more info.");
+        }
 
         const collect = firestore
                             .collection(host_id)
@@ -182,116 +198,118 @@ const addPoll = async (host_id, room_id) => {
     if (!(userIsHost(host_id))) {
 	console.log("You are not the host! Call to addHostRoom cancelled.");
     } else {
-	try {
-            let poll_id = generatePollId();
-	    
-            // Make sure we aren't reusing PollId
-            let collectRef = await firestore
-                .collection(host_id)
-                .doc(room_id)
-                .collection('polls');
+        try {
+                let poll_id = generatePollId();
             
-            let collectSnap = await collectRef.get();
+                // Make sure we aren't reusing PollId
+                let collectRef = await firestore
+                    .collection(host_id)
+                    .doc(room_id)
+                    .collection('polls');
+                
+                let collectSnap = await collectRef.get();
+                
+                let ids = [];
+                for(let i = 0; i < collectSnap.docs; i++) {
+                    if(collectSnap.docs[i].data().exists) {
+                        ids.push(collectSnap.docs[i].data().id);
+                    }
+                }
             
-            let ids = [];
-            for(let i = 0; i < collectSnap.docs; i++) {
-		if(collectSnap.docs[i].data().exists) {
-                    ids.push(collectSnap.docs[i].data().id);
-		}
-            }
-	    
-            while(poll_id in ids) {
-		poll_id = generatePollId(); 
-            }
-	    
-	    // object we will return
-            let poll = pollBase(poll_id);
-	    
-	    // reference to specific poll location
-            let pollRef = firestore
-                .collection(host_id)
-                .doc(room_id)
-                .collection('polls')
-                .doc(poll_id);
-	    
-	    // remove options right now so firebase doesn't add an unwanted field to the collection
-            let options = poll['options'];
-	    
-            // generate hash here:
-            let thisHash = await generatePollHash(poll);
-            poll.pollHash = thisHash;
-	    
-            delete poll.options;
-            delete poll.results;
-	    
-	    // join the object and the poll location (hash is updated here)
-            await pollRef.set(poll);
-	    
-	    // fill out the options of the poll (in the correct location)
-            for(const opt of Object.entries(options)) {
-		//console.log(opt)
-		pollRef.collection('Options').doc(opt[1].id.toString()).set({
-                    count: 0,
-                    id: opt[1].id,
-                    value: opt[1].value
-		})
-            }; 
-	    
-            await pollRef.collection('userOptions').doc('order').set({ values : {} });
-	    
-	    // At this point, poll is done being created and added to firebase
-	    
-            // temporary until admin sdk is in place
-            let pend = [];
-            await firestore.collection(host_id).doc(room_id).collection('polls').doc('order').get().then(snap => {
-		pend = snap.data()['pending'];
-            });
-	    
-	    // Get the room info so we can compute new hash
-            const roomDocument = firestore
-                  .collection(host_id)
-                  .doc(room_id);
-            let roomDocSnap = await roomDocument.get();
-            let roomDocData = roomDocSnap.data();
-	    
-            // Construct the new room map
-            let newRoom = {
-		id: roomDocData['id'],
-		title: roomDocData['title'],
-		status: roomDocData['status'],
-		pollOrder: [...pend, poll_id],
-		hosts: roomDocData['hosts']
-            };
-	    
-            // Generate the new hash
-            let newHash = await generateRoomHash(newRoom);
-	    
-	    // update the poll order in firebase
-            await firestore
-		.collection(host_id)
-		.doc(room_id)
-		.collection('polls')
-		.doc('order')
-		.update({
-                    pending: [...pend, poll_id]//admin.firestore.FieldValue.arrayUnion(poll_id)
-		});
-	    
-	    // update roomHash in firebase
-            // if this breaks, roomHash might not exist currently (go into firebase and add it manually
-            await firestore
-                .collection(host_id)
-                .doc(room_id)
-                .update({roomHash: newHash});
-	    
-            return {
-		newPoll: poll
-            };
-	} catch (error) {
-            console.log(error);
-	}
+                while(poll_id in ids) {
+                    poll_id = generatePollId(); 
+                }
+            
+            // object we will return
+                let poll = pollBase(poll_id);
+            
+            // reference to specific poll location
+                let pollRef = firestore
+                    .collection(host_id)
+                    .doc(room_id)
+                    .collection('polls')
+                    .doc(poll_id);
+            
+            // remove options right now so firebase doesn't add an unwanted field to the collection
+                let options = poll['options'];
+            
+                // generate hash here:
+                let thisHash = await generatePollHash(poll);
+                poll.pollHash = thisHash;
+            
+                delete poll.options;
+                delete poll.results;
+            
+            // join the object and the poll location (hash is updated here)
+                await pollRef.set(poll);
+            
+            // fill out the options of the poll (in the correct location)
+                for(const opt of Object.entries(options)) {
+            //console.log(opt)
+                    pollRef.collection('Options').doc(opt[1].id.toString()).set({
+                        count: 0,
+                        id: opt[1].id,
+                        value: opt[1].value
+                    })
+                }; 
+            
+                await pollRef.collection('userOptions').doc('order').set({ values : {} });
+            
+            // At this point, poll is done being created and added to firebase
+            
+                // temporary until admin sdk is in place
+                let pend = [];
+                await firestore.collection(host_id).doc(room_id).collection('polls').doc('order').get().then(snap => {
+                    pend = snap.data()['pending'];
+                });
+            
+
+                // update the poll order in firebase
+                await firestore
+                    .collection(host_id)
+                    .doc(room_id)
+                    .collection('polls')
+                    .doc('order')
+                    .update({
+                        pending: [...pend, poll_id]//admin.firestore.FieldValue.arrayUnion(poll_id)
+                    });
+
+            // Get the room info so we can compute new hash
+                const roomDocument = firestore
+                                        .collection(host_id)
+                                        .doc(room_id);
+                let roomDocSnap = await roomDocument.get();
+                let roomDocData = roomDocSnap.data();
+            
+                // Construct the new room map
+                let newRoom = {
+                    id: roomDocData['id'],
+                    title: roomDocData['title'],
+                    status: roomDocData['status'],
+                    pollOrder: await getPollOrder(host_id, room_id),
+                    hosts: roomDocData['hosts']
+                };
+            
+                // Generate the new hash
+                let newHash = await generateRoomHash(newRoom);
+            
+            
+            
+            // update roomHash in firebase
+                // if this breaks, roomHash might not exist currently (go into firebase and add it manually
+                await firestore
+                    .collection(host_id)
+                    .doc(room_id)
+                    .update({roomHash: newHash});
+            
+                return {
+                    newPoll: poll
+                };
+        } catch (error) {
+                console.log(error);
+        }
     }
 }
-
 
 const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
     // NEED TO CHECK DIFFERENCE IN POLLS IN NEW_STATUS AND CURRENT STATE AND THEN DELETE THOSE POLLS
@@ -316,14 +334,14 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
 	    
 	    // update the status and hash of the poll object
             await firestore
-		.collection(host_id)
-		.doc(room_id)
-		.collection('polls')
-		.doc(poll_id)
-		.update({
+                .collection(host_id)
+                .doc(room_id)
+                .collection('polls')
+                .doc(poll_id)
+                .update({
                     status: new_status,
-		    pollHash: newHash
-		});
+                    pollHash: newHash
+                });
 	    
             const polls = await fetchAgenda(host_id, room_id);
 	    

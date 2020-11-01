@@ -58,7 +58,7 @@ const LoginPage = ( props ) => {
     <MainPage color={Colors.LightBlue}>
         <LoginWrapper>
           <LoginCard onUserLogin={userLoginHandler}
-                     onHostLogin={() => history.push('/HostDash')}/>
+                     onHostLogin={hostLoginHandler}/>
         </LoginWrapper>
     </MainPage>
   )
