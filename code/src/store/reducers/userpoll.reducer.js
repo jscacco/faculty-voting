@@ -21,6 +21,7 @@ const initialState = {
     submission: {},
     submitStatus: 'unselected'
   },
+  submitLoading: false,
   loading: false,
   error: null,
 }
@@ -153,7 +154,7 @@ export default function reduceUserPoll(state = initialState, action) {
 
     case ActionTypes.userpoll.SUBMIT_VOTE_START:
       console.log('here');
-      return { ...state, loading: true, error: null };
+      return { ...state, submitLoading: true, loading: true, error: null };
     case ActionTypes.userpoll.SUBMIT_VOTE_SUCCESS:
 
       console.log(state);
@@ -174,6 +175,8 @@ export default function reduceUserPoll(state = initialState, action) {
           submission: {...state.pollStatus.selection},
           submitted: true,
         },
+        submitLoading: false,
+        loading: false,
       }
 
       console.log(newState)
@@ -186,9 +189,10 @@ export default function reduceUserPoll(state = initialState, action) {
         }
       }
 
-      case ActionTypes.userpoll.SUBMIT_VOTE_SUCCESS:
+      case ActionTypes.userpoll.SUBMIT_VOTE_ERROR:
         return {
           ...state,
+          submitLoading: false,
           loading: false,
           error: true
         };
