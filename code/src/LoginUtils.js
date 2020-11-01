@@ -1,6 +1,7 @@
 import firebase from './databaseCommunication/permissions.js'
 
 const fireauth = firebase.auth();
+const firestore = firebase.firestore();
 
 const signOutCurrentUser = async () => {
     fireauth.signOut().then(function() {
@@ -61,4 +62,45 @@ const userIsHamiltonian = () => {
     return result;
 }
 
-export {userLogin, getCurrentUserEmail, signOutCurrentUser, userIsHamiltonian};
+const getUserId = () => {
+    if (fireauth.currentUser === null) {
+	return "";
+    } else {
+	let email = getCurrentUserEmail();
+	return email.split('@')[0];
+    }
+}
+
+const userIsHost = (host_id) => {
+    return true;
+    /*
+    console.log("userId: " + getUserId());
+    console.log("host_id: " + host_id);
+    return getUserId() == host_id;
+    */
+}
+
+const userIsVoter = async () => {
+    // Return true if the current user is a voter
+    // code from
+    // https://stackoverflow.com/questions/53332471/checking-if-a-document-exists-in-a-firestore-collection
+    try {
+	let docRef = firestore
+	    .collection("voting")
+	    .doc(getUserId())
+	
+	let doc = await docRef.get();
+	
+	if (doc.exists) {
+	    return true;
+	} else {
+	    return false;
+	}
+    } catch(error) {
+	console.log(error);
+	return false;
+    }
+}
+
+
+export {userLogin, getCurrentUserEmail, signOutCurrentUser, userIsHamiltonian, userIsHost, userIsVoter};
