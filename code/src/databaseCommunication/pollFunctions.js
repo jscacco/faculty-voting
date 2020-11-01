@@ -41,7 +41,7 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
             showResults: docData['showResults']
         };
 
-        console.log(poll.optionsOrder)
+        //console.log(poll.optionsOrder)
 
         for (let i = 0; i < poll.optionsOrder.length; i++) {
           const option_id = poll.optionsOrder[i];
@@ -107,39 +107,26 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
 
 const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
     try {
-        let rooms = await fetchHostRooms(host_id);
-        let room = rooms['rooms'][room_id];
-        let poll = await fetchPollData(host_id, room_id, poll_id);
-
+        let options = poll_state.options;
+        let original_state = Object.assign(poll_state, {});
+        //console.log(original_state);
         let pollRef = firestore
                         .collection(host_id)
                         .doc(room_id)
                         .collection('polls')
                         .doc(poll_id);
 
-        let options = poll_state.options;
-	
         delete poll_state.options;
-
+ 
         await pollRef.update(poll_state);
-            
-        for(const opt of Object.entries(options)) {
-            //console.log(opt)
-            pollRef.collection('Options').doc(opt[1].id.toString()).set(opt)
-        }; 
 
-        // // update options
-        // options.forEach(opt => {
-        //   await pollRef.collection('Options').doc(opt.id).update({
-        //     count: opt.count,
-        //     optionType: opt.optionType,
-        //     id: opt.id,
-        //     value: opt.value
-        //   })
-        // });
-        
+        for(const [key, value] of Object.entries(options)) {
+            //console.log(opt)
+            await pollRef.collection('Options').doc(key).set(value)
+        }; 
+        //console.log(original_state);
         return {
-            ...poll_state
+            ...original_state
         };
     } catch (error) {
         console.log(error);
@@ -151,16 +138,19 @@ const fetchAgenda = async (host_id, room_id) => {
         let agenda = { polls: {}, order: {} };
 	    let fetchedHash = "";
 
-        await firestore.collection(host_id).doc(room_id).get().then(roomSnap => {
-            agenda['title'] = roomSnap.data()['title'];
-            agenda['status'] = roomSnap.data()['status'];
-	        fetchedHash = roomSnap.data()['agendaHash'];
-        });
+        let roomSnap = await firestore.collection(host_id).doc(room_id).get();
+        //console.log(host_id)
+        //console.log(room_id)
+        let roomData = roomSnap.data();
+        //console.log(roomData)
+        agenda['title'] = roomData['title'];
+        agenda['status'] = roomData['status'];
+        fetchedHash = roomData['agendaHash'];
 
         const collect = firestore
-              .collection(host_id)
-	      .doc(room_id)
-              .collection('polls');
+                            .collection(host_id)
+                            .doc(room_id)
+                            .collection('polls');
 
         const collectSnap = await collect.get();
         const collectData = collectSnap.docs;

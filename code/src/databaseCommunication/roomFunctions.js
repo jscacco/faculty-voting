@@ -56,7 +56,7 @@ const fetchHostRooms = async (host_id) => {
                     room['id'] = doc.id;               
                     room['title'] = doc.data()['title'];
                     room['status'] = doc.data()['status'];
-		    room['hosts'] = doc.data()['hosts'];
+		            room['hosts'] = doc.data()['hosts'];
                     rooms[doc.id] = room;
                     
                     // add in polls['order'] so we can factor that into the hash
@@ -237,9 +237,9 @@ const addHostRoom = async (host_id) => {
 
 const updateRoom = async (host_id, room_id, room_state) => {
     try {
-        let { order, ...rooms } = await fetchHostRooms(host_id);
-        let room = rooms['rooms'][room_id];
-        
+        let { order, ...hostDash } = await fetchHostRooms(host_id);
+        let room = hostDash['rooms'][room_id];
+        console.log(room)
         let oldPolls = await fetchAgenda(host_id, room_id);
 
         let newPolls = {...oldPolls.polls,
@@ -258,7 +258,7 @@ const updateRoom = async (host_id, room_id, room_state) => {
             status: room.status,
             title: room.title,
             pollOrder: newPolls.order,
-	    hosts: room.hosts
+	        hosts: room.hosts
         }
         room['roomHash'] = await generateRoomHash(roomHashInfo);
         console.log(host_id)
