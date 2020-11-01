@@ -126,6 +126,23 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
             delete poll_state.options;
 	    
             await pollRef.update(poll_state);
+
+            let rooms = await fetchHostRooms(host_id);
+            let room = rooms['rooms'][room_id];
+            let poll = await fetchPollData(host_id, room_id, poll_id);
+	    
+            let pollRef = firestore
+                .collection(host_id)
+                .doc(room_id)
+                .collection('polls')
+                .doc(poll_id);
+	    
+            let options = poll_state.options;
+	    
+            delete poll_state.options;
+	    
+            await pollRef.update(poll_state);
+		>>>>>>> Stashed changes
             
             for(const opt of Object.entries(options)) {
 		//console.log(opt)
@@ -160,7 +177,7 @@ const fetchAgenda = async (host_id, room_id) => {
         await firestore.collection(host_id).doc(room_id).get().then(roomSnap => {
             agenda['title'] = roomSnap.data()['title'];
             agenda['status'] = roomSnap.data()['status'];
-	        fetchedHash = roomSnap.data()['agendaHash'];
+	    fetchedHash = roomSnap.data()['agendaHash'];
         });
 
         const collect = firestore
