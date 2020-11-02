@@ -396,10 +396,10 @@ const updateRoomStatus = async (host_id, room_id, new_status) => {
                         .set({ host_id: host_id })
                     }
             else if(new_status === 'closed') {
-                await firestore
-                        .collection('openRooms')
-                        .doc(room_id)
-                        .delete();
+                // await firestore
+                //         .collection('openRooms')
+                //         .doc(room_id)
+                //         .delete();
 
                 // set polls to be closed
                 let newPollsOrder = room.pollOrder;
