@@ -3,6 +3,7 @@ import ActionTypes       from '../actionTypes';
 import { fetchHostRooms,
 		 deleteHostRoom,
 		 addHostRoom }	 from '../../databaseCommunication/roomFunctions';
+import { getUserId } 			from '../../LoginUtils';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -16,8 +17,9 @@ import { fetchHostRooms,
 export function* fetchRooms (action) {
 
 	try {
+		const user_id = getUserId();
 							                     // host_id
-		const response = yield call(fetchHostRooms, 'dubin');
+		const response = yield call(fetchHostRooms, user_id);
 		console.log(response);
 		yield put({
 			type: ActionTypes.hostdash.FETCH_ROOMS_SUCCESS,
@@ -37,8 +39,9 @@ export function* fetchRooms (action) {
 export function* deleteRoom (action) {
 
 	try {
+		const user_id = getUserId();
 		                							  // host_id
-		const response = yield call(() => deleteHostRoom('dubin', action.room_id))
+		const response = yield call(() => deleteHostRoom(user_id, action.room_id))
 		console.log(response);
 		yield put({
 			type: ActionTypes.hostdash.DELETE_ROOM_SUCCESS,
@@ -58,8 +61,9 @@ export function* deleteRoom (action) {
 export function* addRoom (action) {
 
 	try {
+		const user_id = getUserId();
 		                                      // host_id
-		const response = yield call(addHostRoom, 'dubin');
+		const response = yield call(addHostRoom, user_id);
 		console.log(response);
 		yield put({
 			type: ActionTypes.hostdash.ADD_ROOM_SUCCESS,

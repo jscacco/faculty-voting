@@ -28,7 +28,7 @@ const userLogin = async () => {
     provider.setCustomParameters({
 	'prompt': 'select_account'
     });
-    
+
     await fireauth.signInWithPopup(provider).then(function(result) {
 	// This gives you a Google Access Token. You can use it to access the Google API.
 	var token = result.credential.accessToken;
@@ -44,12 +44,12 @@ const userLogin = async () => {
 	// The firebase.auth.AuthCredential type that was used.
 	var credential = error.credential;
 	// ...
-	
+
 	console.log(error);  // Handle Errors here.
 	var errorCode = error.code;
 	console.log(errorCode);
 	alert(errorCode);
-	
+
 	var errorMessage = error.message;
 	console.log(errorMessage);
 	alert(errorMessage);
@@ -88,9 +88,9 @@ const userIsVoter = async () => {
 	let docRef = firestore
 	    .collection("voting")
 	    .doc(getUserId())
-	
+
 	let doc = await docRef.get();
-	
+
 	if (doc.exists) {
 	    return true;
 	} else {
@@ -103,4 +103,4 @@ const userIsVoter = async () => {
 }
 
 
-export {userLogin, getCurrentUserEmail, signOutCurrentUser, userIsHamiltonian, userIsHost, userIsVoter};
+export {userLogin, getUserId, getCurrentUserEmail, signOutCurrentUser, userIsHamiltonian, userIsHost, userIsVoter};

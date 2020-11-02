@@ -16,7 +16,7 @@ export function* validateRoomcode (action) {
 	try {
 	console.log('here')
 													 // host_id
-		const response = yield call(() => checkRoomcode('dubin', action.room_id))
+		const response = yield call(() => checkRoomcode(action.room_id))
 		yield put({
 			type: ActionTypes.roomcode.CHECK_ROOMCODE_SUCCESS,
 			response

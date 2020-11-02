@@ -16,7 +16,7 @@ export function* fetchUserAgenda (action) {
 	try {
 		console.log('here');
 		                                          // host_id
-		const response = yield call(() => fetchAgenda('dubin', action.room_id))
+		const response = yield call(() => fetchAgenda(null, action.room_id))
 		console.log(response);
 		yield put({
 			type: ActionTypes.useragenda.FETCH_AGENDA_SUCCESS,

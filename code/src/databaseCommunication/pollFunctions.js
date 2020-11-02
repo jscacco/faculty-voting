@@ -1,7 +1,7 @@
 import firebase from './permissions.js';
 import { generatePollHash, generateRoomHash, compareHashes } from './hashFunctions';
 import { pollBase } from '../store/dataBases';
-import { fetchHostRooms, setPollOrder } from './roomFunctions';
+import { fetchHostRooms, setPollOrder, getHost } from './roomFunctions';
 import { userIsHost } from '../LoginUtils.js';
 
 const firestore = firebase.firestore()
@@ -16,11 +16,17 @@ function generatePollId() {
 function generateUserOptionId() {
     const id = Math.floor(Math.random() * 1000);
     const poll_id = `000${id}`;
-  
+
     return poll_id.slice(-3);
 }
 
 const fetchPollData = async (host_id, room_id, poll_id) => {
+
+  if ( host_id === null ){
+    host_id = await getHost(room_id);
+    console.log(host_id);
+  }
+
     try {
         const document = firestore
                             .collection(host_id)
@@ -29,7 +35,7 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
                             .doc(poll_id);
         let docSnap = await document.get();
         let docData = docSnap.data();
-        
+
         let poll = {
             id: poll_id,
             title: docData['title'],
@@ -99,7 +105,7 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
             console.log("!!Warning!! Data fetched from poll " + docData['title'] + " has a bad hash. This means that the data has been tampered with via the Firebase Console!");
             alert("Bad hash warning - see console for more info.");
         }
-	
+
 	    return poll;
     } catch (error) {
         console.log(error);
@@ -121,7 +127,7 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
                             .doc(poll_id);
 
             delete poll_state.options;
-            
+
             poll_state['pollHash'] = await generatePollHash(original_state);
 
             await pollRef.update(poll_state);
@@ -129,7 +135,7 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
             for(const [key, value] of Object.entries(options)) {
                 //console.log(opt)
                 await pollRef.collection('Options').doc(key).set(value)
-            }; 
+            };
             //console.log(original_state);
             return {
                 ...original_state
@@ -141,6 +147,13 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
 }
 
 const fetchAgenda = async (host_id, room_id) => {
+// const fetchAgenda = async (room_id) => {
+
+    if ( host_id === null ){
+      host_id = await getHost(room_id);
+      console.log(host_id);
+    }
+
     try {
         let agenda = { polls: {}, order: {} };
 	    let fetchedHash = "";
@@ -179,8 +192,8 @@ const fetchAgenda = async (host_id, room_id) => {
 
         for (let i = 0; i < collectData.length; i++) {
             const poll_id = collectData[i].id;
-            
-            if(poll_id != 'order') { 
+
+            if(poll_id != 'order') {
                 agenda['polls'][poll_id] = await fetchPollData(host_id, room_id, poll_id);
             }
             else {
@@ -200,49 +213,49 @@ const addPoll = async (host_id, room_id) => {
     } else {
         try {
                 let poll_id = generatePollId();
-            
+
                 // Make sure we aren't reusing PollId
                 let collectRef = await firestore
                     .collection(host_id)
                     .doc(room_id)
                     .collection('polls');
-                
+
                 let collectSnap = await collectRef.get();
-                
+
                 let ids = [];
                 for(let i = 0; i < collectSnap.docs; i++) {
                     if(collectSnap.docs[i].data().exists) {
                         ids.push(collectSnap.docs[i].data().id);
                     }
                 }
-            
+
                 while(poll_id in ids) {
-                    poll_id = generatePollId(); 
+                    poll_id = generatePollId();
                 }
-            
+
             // object we will return
                 let poll = pollBase(poll_id);
-            
+
             // reference to specific poll location
                 let pollRef = firestore
                     .collection(host_id)
                     .doc(room_id)
                     .collection('polls')
                     .doc(poll_id);
-            
+
             // remove options right now so firebase doesn't add an unwanted field to the collection
                 let options = poll['options'];
-            
+
                 // generate hash here:
                 let thisHash = await generatePollHash(poll);
                 poll.pollHash = thisHash;
-            
+
                 delete poll.options;
                 delete poll.results;
-            
+
             // join the object and the poll location (hash is updated here)
                 await pollRef.set(poll);
-            
+
             // fill out the options of the poll (in the correct location)
                 for(const opt of Object.entries(options)) {
             //console.log(opt)
@@ -251,18 +264,18 @@ const addPoll = async (host_id, room_id) => {
                         id: opt[1].id,
                         value: opt[1].value
                     })
-                }; 
-            
+                };
+
                 await pollRef.collection('userOptions').doc('order').set({ values : {} });
-            
+
             // At this point, poll is done being created and added to firebase
-            
+
                 // temporary until admin sdk is in place
                 let pend = [];
                 await firestore.collection(host_id).doc(room_id).collection('polls').doc('order').get().then(snap => {
                     pend = snap.data()['pending'];
                 });
-            
+
 
                 // update the poll order in firebase
                 await firestore
@@ -280,7 +293,7 @@ const addPoll = async (host_id, room_id) => {
                                         .doc(room_id);
                 let roomDocSnap = await roomDocument.get();
                 let roomDocData = roomDocSnap.data();
-            
+
                 // Construct the new room map
                 let newRoom = {
                     id: roomDocData['id'],
@@ -289,19 +302,19 @@ const addPoll = async (host_id, room_id) => {
                     pollOrder: await getPollOrder(host_id, room_id),
                     hosts: roomDocData['hosts']
                 };
-            
+
                 // Generate the new hash
                 let newHash = await generateRoomHash(newRoom);
-            
-            
-            
+
+
+
             // update roomHash in firebase
                 // if this breaks, roomHash might not exist currently (go into firebase and add it manually
                 await firestore
                     .collection(host_id)
                     .doc(room_id)
                     .update({roomHash: newHash});
-            
+
                 return {
                     newPoll: poll
                 };
@@ -321,17 +334,17 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
             let newPoll = await fetchPollData(host_id, room_id, poll_id);
             const oldStatus = newPoll.status;
             newPoll.status = new_status;
-	    
+
             // generate new poll hash
             let newHash = await generatePollHash(newPoll);
             var docSnap = await firestore.collection(host_id).doc(room_id).collection('polls').doc('order').get();
-            
+
             const newOrder = {...docSnap.data()};
             newOrder[oldStatus] = newOrder[oldStatus].filter(i => i !== poll_id);
             newOrder[new_status].push(poll_id);
-	    
+
             await setPollOrder(host_id, room_id, newOrder);
-	    
+
 	    // update the status and hash of the poll object
             await firestore
                 .collection(host_id)
@@ -342,9 +355,9 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
                     status: new_status,
                     pollHash: newHash
                 });
-	    
+
             const polls = await fetchAgenda(host_id, room_id);
-	    
+
             return {
 		polls: polls['polls'],
 		order: newOrder
@@ -355,12 +368,18 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
     }
 }
 
-const getPollResults = async (host_id, room_id, poll_id) => {
+const getPollResults = async (user_id, room_id, poll_id, host_id = null) => {
+
+    // USE user_id TO CHECK IF THEY CAN SEE RESULTS
+    if (host_id !== null ) { host_id = host_id }
+    else { host_id = await getHost(room_id); }
+    // const host_id = await getHost(room_id);
+    console.log(host_id)
     try {
         let poll = await fetchPollData(host_id, room_id, poll_id);
         let options = poll.options;
         let results = {};
-        
+
         for (let i = 0; i < poll.optionsOrder.length; i++) {
             const option_id = poll.optionsOrder[i];
 
@@ -413,9 +432,14 @@ const getPollResults = async (host_id, room_id, poll_id) => {
         console.log(error);
     }
 }
-  
-const submitVote = async (host_id, room_id, poll_id, selection, submission, userInput) => {
+
+const submitVote = async (user_id, room_id, poll_id, selection, submission, userInput) => {
     // TODO (Jack): Need to update hash of the poll
+
+    // USER user_id to check if have voting status
+
+    const host_id = await getHost(room_id);
+
     try {
         let poll = await fetchPollData(host_id, room_id, poll_id);
 
@@ -431,10 +455,10 @@ const submitVote = async (host_id, room_id, poll_id, selection, submission, user
             let docSnap = await docRef.get();
             let count = docSnap.data()['count'];
 
-            if (submission[option_id]) { 
+            if (submission[option_id]) {
                 await docRef.update({ count: count - 1 });
             }
-            if (selection[option_id]) { 
+            if (selection[option_id]) {
                 await docRef.update({ count: count + 1 });
             }
         }
@@ -442,7 +466,7 @@ const submitVote = async (host_id, room_id, poll_id, selection, submission, user
 
         let inputcode = null;
         let exists = false;
-        
+
         if (selection[userInput.id]) {
             let userCollectRef = firestore
                                     .collection(host_id)
@@ -454,20 +478,20 @@ const submitVote = async (host_id, room_id, poll_id, selection, submission, user
             let existingValuesSnap = await userCollectRef.doc('order').get();
             let existingValuesData = existingValuesSnap.data();
             let vals = existingValuesData.values;
-            
+
             if (Object.keys(vals).includes(userInput.value)) {
                 inputcode = vals[userInput.value];
                 exists = true;
             }
             else if (!userInput.submissionId) {
                 inputcode = generateUserOptionId();
-                
+
                 let userSnap = await userCollectRef.get();
                 let userIds = [];
                 for(let x = 0; x < userSnap.docs.length; x ++) {
                     userIds.push(userSnap.docs[x].id)
                 }
-                
+
                 while (poll.optionsOrder[inputcode]) {
                     inputcode = generateUserOptionId();
                 }
@@ -478,10 +502,10 @@ const submitVote = async (host_id, room_id, poll_id, selection, submission, user
                     values: vals
                 })
             }
-            else { 
-                inputcode = userInput.submissionId 
+            else {
+                inputcode = userInput.submissionId
             }
-       
+
             if (!exists) {
                 const userInputResult = {
                     id: inputcode,
@@ -497,10 +521,10 @@ const submitVote = async (host_id, room_id, poll_id, selection, submission, user
                 let docSnap = await userCollectRef.doc(inputcode).get();
                 let count = docSnap.data()['count'];
 
-                if (submission['000']) { 
+                if (submission['000']) {
                     await userCollectRef.doc(inputcode).update({ count: count - 1 });
                 }
-                if (selection['000']) { 
+                if (selection['000']) {
                     await userCollectRef.doc(inputcode).update({ count: count + 1 });
                 }
             }
@@ -515,7 +539,7 @@ const submitVote = async (host_id, room_id, poll_id, selection, submission, user
                             .collection('userOptions')
                             .doc(userInput.submissionId);
             let docSnap = await docRef.get();
-            
+
             if (docSnap.data().count > 1) {
                 await docRef.update({ count: docSnap.data().count - 1})
             }
@@ -531,12 +555,12 @@ const submitVote = async (host_id, room_id, poll_id, selection, submission, user
             }
             //delete poll.results[userInput.submissionId]
         }
-        
+
         return {
             submitted: true,
             inputSubmissionId: inputcode
-        }    
-  
+        }
+
     } catch (error) {
         console.log(error);
     }
