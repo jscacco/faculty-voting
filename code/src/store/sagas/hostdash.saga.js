@@ -1,8 +1,9 @@
 import { call, put }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
 import { fetchHostRooms,
- 				 deleteHostRoom,
-			   addHostRoom }   from '../MockDataFunctions';
+		 deleteHostRoom,
+		 addHostRoom }	 from '../../databaseCommunication/roomFunctions';
+import { getUserId } 			from '../../LoginUtils';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -16,8 +17,9 @@ import { fetchHostRooms,
 export function* fetchRooms (action) {
 
 	try {
-		console.log('here');
-		const response = yield call(fetchHostRooms)
+		const user_id = getUserId();
+							                     // host_id
+		const response = yield call(fetchHostRooms, user_id);
 		console.log(response);
 		yield put({
 			type: ActionTypes.hostdash.FETCH_ROOMS_SUCCESS,
@@ -37,7 +39,9 @@ export function* fetchRooms (action) {
 export function* deleteRoom (action) {
 
 	try {
-		const response = yield call(() => deleteHostRoom(action.room_id))
+		const user_id = getUserId();
+		                							  // host_id
+		const response = yield call(() => deleteHostRoom(user_id, action.room_id))
 		console.log(response);
 		yield put({
 			type: ActionTypes.hostdash.DELETE_ROOM_SUCCESS,
@@ -57,8 +61,9 @@ export function* deleteRoom (action) {
 export function* addRoom (action) {
 
 	try {
-    console.log('here')
-		const response = yield call(addHostRoom);
+		const user_id = getUserId();
+		                                      // host_id
+		const response = yield call(addHostRoom, user_id);
 		console.log(response);
 		yield put({
 			type: ActionTypes.hostdash.ADD_ROOM_SUCCESS,

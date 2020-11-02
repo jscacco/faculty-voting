@@ -1,6 +1,7 @@
 import { call, put }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
-import { getRoomResults }   from '../MockDataFunctions';
+import { getRoomResults }   from '../../databaseCommunication/roomFunctions';
+import { getUserId }				from '../../LoginUtils';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -15,7 +16,9 @@ export function* fetchRoomResults (action) {
 
 	try {
 		console.log('here');
-		const response = yield call(() => getRoomResults(action.room_id))
+		const user_id = getUserId();
+		console.log(user_id);
+		const response = yield call(() => getRoomResults(user_id, action.room_id))
 		console.log(response);
 		yield put({
 			type: ActionTypes.roomresults.FETCH_RESULTS_SUCCESS,

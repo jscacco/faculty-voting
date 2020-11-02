@@ -1,6 +1,6 @@
 import { call, put }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
-import { checkRoomcode }   from '../MockDataFunctions';
+import { checkRoomcode }   from '../../databaseCommunication/roomFunctions';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -14,7 +14,8 @@ import { checkRoomcode }   from '../MockDataFunctions';
 export function* validateRoomcode (action) {
 
 	try {
-    console.log('here')
+	console.log('here')
+													 // host_id
 		const response = yield call(() => checkRoomcode(action.room_id))
 		yield put({
 			type: ActionTypes.roomcode.CHECK_ROOMCODE_SUCCESS,

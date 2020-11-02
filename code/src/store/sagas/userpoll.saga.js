@@ -1,7 +1,7 @@
 import { call, put, select }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
-import { fetchPollData,
- 				 submitVote }   from '../MockDataFunctions';
+import { fetchPollData, submitVote }   from '../../databaseCommunication/pollFunctions';
+import { getUserId }				from '../../LoginUtils';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -16,7 +16,8 @@ export function* fetchUserPoll (action) {
 
 	try {
 		console.log('here');
-		const response = yield call(() => fetchPollData(action.room_id, action.poll_id))
+		                                             // host_id
+		const response = yield call(() => fetchPollData(null, action.room_id, action.poll_id))
 		console.log(response);
 		yield put({
 			type: ActionTypes.userpoll.FETCH_POLL_SUCCESS,
@@ -44,8 +45,9 @@ export const pollSelector = ( state ) => {
 export function* sendVote (action) {
 
 	try {
+		const user_id = getUserId();
 		const currentPoll = yield select(pollSelector);
-		const response = yield call(() => submitVote(action.room_id, action.poll_id,
+		const response = yield call(() => submitVote(user_id, action.room_id, action.poll_id,
 			                                           currentPoll.selection, currentPoll.submission, currentPoll.userInput))
 		console.log(response);
 		yield put({
