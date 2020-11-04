@@ -14,14 +14,21 @@ const signOutCurrentUser = async () => {
 const getCurrentUserEmail = () => {
     let email = "";
     if (fireauth.currentUser === null) {
-	email = "null";
+		email = "null";
     } else {
-	email = fireauth.currentUser.email;
+		email = fireauth.currentUser.email;
     }
     console.log(email);
     return email;
 }
 
+const getToken = () => {
+	if (fireauth.currentUser === null) {
+		return null;
+    } else {
+		return fireauth.currentUser.uid;
+    }
+}
 
 const userLogin = async () => {
     var provider = new firebase.auth.GoogleAuthProvider();
@@ -64,10 +71,10 @@ const userIsHamiltonian = () => {
 
 const getUserId = () => {
     if (fireauth.currentUser === null) {
-	return "";
+		return "";
     } else {
-	let email = getCurrentUserEmail();
-	return email.split('@')[0];
+		let email = getCurrentUserEmail();
+		return email.split('@')[0];
     }
 }
 
@@ -103,4 +110,4 @@ const userIsVoter = async () => {
 }
 
 
-export {userLogin, getUserId, getCurrentUserEmail, signOutCurrentUser, userIsHamiltonian, userIsHost, userIsVoter};
+export {userLogin, getUserId, getCurrentUserEmail, signOutCurrentUser, userIsHamiltonian, userIsHost, userIsVoter, getToken};
