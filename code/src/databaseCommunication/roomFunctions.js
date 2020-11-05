@@ -168,6 +168,8 @@ const deleteHostRoom = async (host_id, room_id) => {
         await setRoomOrder(host_id, order);
         delete rooms[room_id];
 
+        await firestore.collection('openRooms').doc(room_id).delete();
+
         return {
             rooms: rooms,
             order: order
@@ -264,6 +266,7 @@ const updateRoom = async (host_id, room_id, room_state) => {
         console.log("You are not the host! Call to updateRoom cancelled.");
     } else {
         try {
+            console.log("HERE")
             let { order, ...hostDash } = await fetchHostRooms(host_id);
             let room = hostDash['rooms'][room_id];
             //console.log(room)

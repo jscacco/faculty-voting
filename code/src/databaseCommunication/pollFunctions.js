@@ -106,7 +106,7 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
             delete poll_state.options;
 
             poll_state['pollHash'] = await generatePollHash(original_state);
-
+            
             await pollRef.update(poll_state);
 
             for(const [key, value] of Object.entries(options)) {
