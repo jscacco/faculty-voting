@@ -599,7 +599,32 @@ const countVotes = async (host_id, room_id, poll_id) => {
 
 const deletePoll = async (host_id, room_id, poll_id) => {
     try {
+        let pollRef = firestore
+                        .collection(host_id)
+                        .doc(room_id)
+                        .collection('polls')
+                        .doc(poll_id);
 
+        let optionRef = pollRef.collection('Options');
+        let userOptionRef = pollRef.collection('userOptions');
+        let optionSnap = await optionRef.get();
+        let userOptionSnap = await userOptionRef.get();
+
+        // delete options collection
+        for (let x = 0; x < optionSnap.docs.length; x++) {
+            await optionRef.doc(optionSnap.docs[x].id).delete();
+        }
+
+        // delete userOptions collection
+        for (let x = 0; x < userOptionSnap.docs.length; x++) {
+            await userOptionRef.doc(userOptionSnap.docs[x].id).delete();
+        }
+
+        // delete votes document
+        await pollRef.collection('Votes').doc('votes').delete();
+
+        // delete poll
+        await pollRef.delete();
     } catch(error) {
         console.log(error);
     }

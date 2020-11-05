@@ -1,6 +1,6 @@
 import firebase from './permissions.js';
 import { roomBase } from '../store/dataBases';
-import { addPoll, fetchAgenda, updatePollStatus, fetchPollData, getPollResults, getPollOrder } from './pollFunctions';
+import { addPoll, fetchAgenda, updatePollStatus, fetchPollData, getPollResults, getPollOrder, deletePoll } from './pollFunctions';
 import { generateRoomHash, generatePollHash, compareHashes } from './hashFunctions';
 import { userIsHost, userIsVoter } from '../LoginUtils.js';
 
@@ -140,26 +140,7 @@ const deleteHostRoom = async (host_id, room_id) => {
         let pollSnap = await roomRef.collection('polls').get();
 
         for (let i = 0; i < pollSnap.docs.length; i++) {
-            let optionRef = roomRef.collection('polls').doc(pollSnap.docs[i].id).collection('Options');
-            let userOptionRef = roomRef.collection('polls').doc(pollSnap.docs[i].id).collection('userOptions');
-            let optionSnap = await optionRef.get();
-            let userOptionSnap = await userOptionRef.get();
-
-            // delete options collection
-            for (let x = 0; x < optionSnap.docs.length; x++) {
-                await optionRef.doc(optionSnap.docs[x].id).delete();
-            }
-
-            // delete userOptions collection
-            for (let x = 0; x < userOptionSnap.docs.length; x++) {
-                await userOptionRef.doc(userOptionSnap.docs[x].id).delete();
-            }
-
-            // delete votes document
-            await roomRef.collection('polls').doc(pollSnap.docs[i].id).collection('Votes').doc('votes').delete();
-
-            // delete poll
-            await roomRef.collection('polls').doc(pollSnap.docs[i].id).delete();
+            await deletePoll(host_id, room_id, pollSnap.docs[i].id)
         }
 
         // delete room
@@ -302,6 +283,15 @@ const updateRoom = async (host_id, room_id, room_state) => {
                     status: room.status,
                     title: room.title
                 });
+
+            let old_order = await getPollOrder(host_id, room_id);
+            let a = newPolls.order['pending'].concat(newPolls.order['closed'], newPolls.order['open']);
+            let b = old_order['pending'].concat(old_order['closed'], old_order['open']);
+            let deleted = b.filter(x => !a.includes(x));
+           
+            for(let i = 0; i < deleted.length; i++) {
+                await deletePoll(host_id, room_id, deleted[i]);
+            }
 
             await setPollOrder(host_id, room_id, newPolls.order);
 
