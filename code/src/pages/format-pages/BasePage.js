@@ -27,9 +27,7 @@ const PageWrapper = styled.div`
   height: 100vh;
 `;
 
-const BasePageWrapper = ( props ) => {
-
-
+const BasePageWrapper = (props) => {
   return (
     <PageWrapper color={props.color}>
       {props.children}

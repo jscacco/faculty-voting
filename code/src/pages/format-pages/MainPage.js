@@ -29,10 +29,12 @@ const ComponentWrapper = styled.div`
 
 const MainPage = ( props ) => {
 
+  console.log(props);
+
   return (
     <BasePage color={props.color}>
       <ComponentWrapper>
-        {props.children}
+        {React.cloneElement(props.children, { viewport: props.viewport })}
       </ComponentWrapper>
     </BasePage>
   )
