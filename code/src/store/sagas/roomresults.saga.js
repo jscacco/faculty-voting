@@ -15,8 +15,8 @@ import { getUserId }				from '../../LoginUtils';
 export function* fetchRoomResults (action) {
 
 	try {
-		console.log('here');
-		const user_id = getUserId();
+		//console.log('here');
+		const user_id = yield getUserId();
 		console.log(user_id);
 		const response = yield call(() => getRoomResults(user_id, action.room_id))
 		console.log(response);

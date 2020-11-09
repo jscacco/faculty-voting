@@ -31,36 +31,37 @@ const getToken = () => {
 }
 
 const userLogin = async () => {
+	//await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
     var provider = new firebase.auth.GoogleAuthProvider();
     provider.setCustomParameters({
 	'prompt': 'select_account'
     });
 
-    await fireauth.signInWithPopup(provider).then(function(result) {
-	// This gives you a Google Access Token. You can use it to access the Google API.
-	var token = result.credential.accessToken;
-	// The signed-in user info.
-	var user = result.user;
-	// ...
-    }).catch(function(error) {
-	// Handle Errors here.
-	var errorCode = error.code;
-	var errorMessage = error.message;
-	// The email of the user's account used.
-	var email = error.email;
-	// The firebase.auth.AuthCredential type that was used.
-	var credential = error.credential;
-	// ...
-
-	console.log(error);  // Handle Errors here.
-	var errorCode = error.code;
-	console.log(errorCode);
-	alert(errorCode);
-
-	var errorMessage = error.message;
-	console.log(errorMessage);
-	alert(errorMessage);
-    });
+	await fireauth.signInWithPopup(provider).then(function(result) {
+	 	// This gives you a Google Access Token. You can use it to access the Google API.
+	 	var token = result.credential.accessToken;
+	 	// The signed-in user info.
+	 	var user = result.user;
+	 	// ...
+	}).catch(function(error) {
+	 	// Handle Errors here.
+	 	var errorCode = error.code;
+	 	var errorMessage = error.message;
+	 	// The email of the user's account used.
+	 	var email = error.email;
+	 	// The firebase.auth.AuthCredential type that was used.
+	 	var credential = error.credential;
+	 	// ...
+	
+	 	console.log(error);  // Handle Errors here.
+	 	var errorCode = error.code;
+	 	console.log(errorCode);
+	 	alert(errorCode);
+	
+	 	var errorMessage = error.message;
+	 	console.log(errorMessage);
+		alert(errorMessage);
+	});
 }
 
 const userIsHamiltonian = () => {
@@ -69,9 +70,10 @@ const userIsHamiltonian = () => {
     return result;
 }
 
-const getUserId = () => {
+const getUserId = async () => {
     if (fireauth.currentUser === null) {
-		return "";
+		await userLogin();
+		return getUserId();
     } else {
 		let email = getCurrentUserEmail();
 		return email.split('@')[0];

@@ -16,8 +16,7 @@ import { getUserId } 			from '../../LoginUtils';
 export function* fetchHostAgenda (action) {
 
 	try {
-		const user_id = getUserId();
-		// console.log('here');                       host_id
+		const user_id = yield getUserId();                     
 		const response = yield call(() => fetchAgenda(user_id, action.room_id))
 		// const response = yield call(() => fetchAgenda(action.room_id))
 
@@ -50,7 +49,7 @@ export function* updateHostAgenda (action) {
 
 	try {
 		const roomState = yield select(roomSelector);
-		const user_id = getUserId();
+		const user_id = yield getUserId();
 		                                          // host_id
 		const response = yield call(() => updateRoom(user_id, action.room_id, {...roomState}))
 		// console.log(response);
@@ -92,7 +91,7 @@ export function* updateHostAgenda (action) {
 export function* addRoomPoll (action) {
 
 	try {
-		const user_id = getUserId();
+		const user_id = yield getUserId();
 		                                       // host_id
 		const response = yield call(() => addPoll(user_id, action.room_id));
 		yield put({
@@ -104,7 +103,7 @@ export function* addRoomPoll (action) {
 
 		yield put({
 			type: ActionTypes.hostagenda.ADD_POLL_ERROR,
-      error
+      		error
 		});
 
 	}
@@ -113,7 +112,7 @@ export function* addRoomPoll (action) {
 export function* changePollStatus (action) {
 
 	try {
-		const user_id = getUserId();
+		const user_id = yield getUserId();
 		                                                // host_id
 		const response = yield call(() => updatePollStatus(user_id, action.room_id,
                                                        action.poll_id,
@@ -127,7 +126,7 @@ export function* changePollStatus (action) {
 
 		yield put({
 			type: ActionTypes.hostagenda.UPDATE_POLL_STATUS_ERROR,
-      error
+      		error
 		});
 
 	}
@@ -136,10 +135,10 @@ export function* changePollStatus (action) {
 export function* changeRoomStatus (action) {
 
 	try {
-		const user_id = getUserId();
-    console.log('jere')
+		const user_id = yield getUserId();
+    	//console.log('jere')
 		const response = yield call(() => updateRoomStatus(user_id, action.room_id, action.newStatus ));
-    console.log(response)
+    	//console.log(response)
 		yield put({
 			type: ActionTypes.hostagenda.UPDATE_ROOM_STATUS_SUCCESS,
 			response
@@ -149,7 +148,7 @@ export function* changeRoomStatus (action) {
 
 		yield put({
 			type: ActionTypes.hostagenda.UPDATE_ROOM_STATUS_ERROR,
-      error
+      		error
 		});
 
 	}

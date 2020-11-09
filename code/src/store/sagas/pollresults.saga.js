@@ -16,8 +16,8 @@ import { getUserId }				from '../../LoginUtils';
 export function* fetchPollResults (action) {
 
 	try {
-		console.log('here');
-		const user_id = getUserId();
+		//console.log('here');
+		const user_id = yield getUserId();
 		const response = yield call(() => getPollResults(user_id, action.room_id, action.poll_id))
 		console.log(response);
 		yield put({

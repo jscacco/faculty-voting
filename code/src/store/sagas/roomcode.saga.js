@@ -14,7 +14,7 @@ import { checkRoomcode }   from '../../databaseCommunication/roomFunctions';
 export function* validateRoomcode (action) {
 
 	try {
-	console.log('here')
+		//console.log('here')
 													 // host_id
 		const response = yield call(() => checkRoomcode(action.room_id))
 		yield put({
@@ -23,11 +23,10 @@ export function* validateRoomcode (action) {
 		});
 
 	} catch(error) {
-    console.log('here')
+    	console.log('here')
 		yield put({
 			type: ActionTypes.roomcode.CHECK_ROOMCODE_ERROR,
-      error
+      		error
 		});
-
 	}
 };

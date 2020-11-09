@@ -14,7 +14,7 @@ import { fetchAgenda }   from '../../databaseCommunication/pollFunctions';
 export function* fetchUserAgenda (action) {
 
 	try {
-		console.log('here');
+		//console.log('here');
 		                                          // host_id
 		const response = yield call(() => fetchAgenda(null, action.room_id))
 		console.log(response);

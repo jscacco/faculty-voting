@@ -10,6 +10,7 @@ import MainPage             from './format-pages/MainPage';
 import { Colors }           from '../components/theme/Colors';
 
 import HostDashCard        from '../components/cards/HostDashCard';
+import firebase            from '../databaseCommunication/permissions';
 
 const HostDashPage = ( props ) => {
   useEffect(() =>  {

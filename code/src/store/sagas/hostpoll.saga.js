@@ -15,21 +15,21 @@ import { getUserId } 			from '../../LoginUtils';
 export function* fetchHostPoll (action) {
 
 	try {
-		const user_id = getUserId();
+		const user_id = yield getUserId();
 		//console.log('here');                       // host_id
 		const response = yield call(() => fetchPollData(user_id, action.room_id, action.poll_id))
-		console.log(response);
+		//console.log(response);
 		yield put({
 			type: ActionTypes.hostpoll.FETCH_POLL_SUCCESS,
 			response,
-      location_state: action.location_state
+      		location_state: action.location_state
 		});
 
 	} catch(error) {
 
 		yield put({
 			type: ActionTypes.hostpoll.FETCH_POLL_ERROR,
-      error
+      		error
 		});
 
 	}
@@ -42,12 +42,12 @@ const roomSelector = ( state ) => {
 export function* updateHostPoll (action) {
 
 	try {
-		const user_id = getUserId();
+		const user_id = yield getUserId();
 
-    console.log('update')
-    const pollState = yield select(roomSelector);
+		//console.log('update')
+		const pollState = yield select(roomSelector);
 		const response = yield call(() => updatePoll(user_id, action.room_id, action.poll_id, pollState))
-		console.log(response);
+		//console.log(response);
 		yield put({
 			type: ActionTypes.hostpoll.UPDATE_POLL_SUCCESS,
 			response
@@ -57,7 +57,7 @@ export function* updateHostPoll (action) {
 
 		yield put({
 			type: ActionTypes.hostpoll.UPDATE_POLL_ERROR,
-      error
+      		error
 		});
 
 	}
@@ -66,11 +66,11 @@ export function* updateHostPoll (action) {
 export function* changePollStatusPoll (action) {
 
 	try {
-		const user_id = getUserId();
+		const user_id = yield getUserId();
 		console.log('here');
 		const response = yield call(() => updatePollStatus(user_id, action.room_id, action.poll_id, action.status))
-	  const poll = response.polls[action.poll_id];
-    console.log(response);
+	  	const poll = response.polls[action.poll_id];
+    	//console.log(response);
 		yield put({
 			type: ActionTypes.hostpoll.UPDATE_POLL_STATUS_SUCCESS,
 			poll
@@ -80,7 +80,7 @@ export function* changePollStatusPoll (action) {
 
 		yield put({
 			type: ActionTypes.hostpoll.UPDATE_POLL_STATUS_ERROR,
-      error
+      		error
 		});
 
 	}

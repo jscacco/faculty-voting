@@ -17,10 +17,10 @@ import { getUserId } 			from '../../LoginUtils';
 export function* fetchRooms (action) {
 
 	try {
-		const user_id = getUserId();
+		const user_id = yield getUserId();
 							                     // host_id
 		const response = yield call(fetchHostRooms, user_id);
-		console.log(response);
+		//console.log(response);
 		yield put({
 			type: ActionTypes.hostdash.FETCH_ROOMS_SUCCESS,
 			response
@@ -30,7 +30,7 @@ export function* fetchRooms (action) {
 
 		yield put({
 			type: ActionTypes.hostdash.FETCH_ROOMS_ERROR,
-      error
+      		error
 		});
 
 	}
@@ -39,10 +39,10 @@ export function* fetchRooms (action) {
 export function* deleteRoom (action) {
 
 	try {
-		const user_id = getUserId();
+		const user_id = yield getUserId();
 		                							  // host_id
 		const response = yield call(() => deleteHostRoom(user_id, action.room_id))
-		console.log(response);
+		//console.log(response);
 		yield put({
 			type: ActionTypes.hostdash.DELETE_ROOM_SUCCESS,
 			response
@@ -52,7 +52,7 @@ export function* deleteRoom (action) {
 
 		yield put({
 			type: ActionTypes.hostdash.DELETE_ROOM_ERROR,
-      error
+      		error
 		});
 
 	}
@@ -61,10 +61,10 @@ export function* deleteRoom (action) {
 export function* addRoom (action) {
 
 	try {
-		const user_id = getUserId();
+		const user_id = yield getUserId();
 		                                      // host_id
 		const response = yield call(addHostRoom, user_id);
-		console.log(response);
+		//console.log(response);
 		yield put({
 			type: ActionTypes.hostdash.ADD_ROOM_SUCCESS,
 			response
@@ -74,7 +74,7 @@ export function* addRoom (action) {
 
 		yield put({
 			type: ActionTypes.hostdash.ADD_ROOM_ERROR,
-      error
+      		error
 		});
 
 	}

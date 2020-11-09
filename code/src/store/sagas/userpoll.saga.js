@@ -15,7 +15,7 @@ import { getUserId }				from '../../LoginUtils';
 export function* fetchUserPoll (action) {
 
 	try {
-		console.log('here');
+		//console.log('here');
 		                                             // host_id
 		const response = yield call(() => fetchPollData(null, action.room_id, action.poll_id))
 		console.log(response);
@@ -45,11 +45,11 @@ export const pollSelector = ( state ) => {
 export function* sendVote (action) {
 
 	try {
-		const user_id = getUserId();
+		const user_id = yield getUserId();
 		const currentPoll = yield select(pollSelector);
 		const response = yield call(() => submitVote(user_id, action.room_id, action.poll_id,
 			                                           currentPoll.selection, currentPoll.submission, currentPoll.userInput))
-		console.log(response);
+		//console.log(response);
 		yield put({
 			type: ActionTypes.userpoll.SUBMIT_VOTE_SUCCESS,
 			response
@@ -59,7 +59,7 @@ export function* sendVote (action) {
 
 		yield put({
 			type: ActionTypes.userpoll.SUBMIT_VOTE_ERROR,
-      error
+      		error
 		});
 
 	}
