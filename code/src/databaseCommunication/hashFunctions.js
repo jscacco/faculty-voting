@@ -33,7 +33,6 @@ const generateRoomMsg = async (room) => {
 
 
 const generateHmac = async (msg) => {
-    console.log(privKey);
     let key = sjcl.codec.utf8String.toBits(tempKey);
     let out = (new sjcl.misc.hmac(key, sjcl.hash.sha256)).mac(msg);
     let hmac = sjcl.codec.hex.fromBits(out);

@@ -48,11 +48,11 @@ const userLogin = async () => {
 	console.log(error);  // Handle Errors here.
 	var errorCode = error.code;
 	console.log(errorCode);
-	alert(errorCode);
 
 	var errorMessage = error.message;
 	console.log(errorMessage);
-	alert(errorMessage);
+
+	signOutCurrentUser();
     });
 }
 
@@ -63,7 +63,7 @@ const userIsHamiltonian = () => {
 }
 
 const getUserId = () => {
-    if (fireauth.currentUser === null) {
+    if (!(userIsLoggedIn())) {
 	return "";
     } else {
 	let email = getCurrentUserEmail();
@@ -72,18 +72,23 @@ const getUserId = () => {
 }
 
 const userIsHost = (host_id) => {
-    return true;
-    /*
-    console.log("userId: " + getUserId());
-    console.log("host_id: " + host_id);
-    return getUserId() == host_id;
-    */
+    console.log("Checking if host...");
+    
+    if (getUserId() == host_id) {
+	console.log("User is host.")
+	return true;
+    } else {
+	console.log("User isn't host.");
+	return false;
+    }
 }
 
 const userIsVoter = async () => {
     // Return true if the current user is a voter
     // code from
     // https://stackoverflow.com/questions/53332471/checking-if-a-document-exists-in-a-firestore-collection
+    console.log("Checking if voter...");
+    
     try {
 	let docRef = firestore
 	    .collection("voting")
@@ -92,8 +97,10 @@ const userIsVoter = async () => {
 	let doc = await docRef.get();
 
 	if (doc.exists) {
+	    console.log("User is a voter.");
 	    return true;
 	} else {
+	    console.log("User isn't a voter.");
 	    return false;
 	}
     } catch(error) {
@@ -103,4 +110,8 @@ const userIsVoter = async () => {
 }
 
 
-export {userLogin, getUserId, getCurrentUserEmail, signOutCurrentUser, userIsHamiltonian, userIsHost, userIsVoter};
+const userIsLoggedIn = async () => {
+    return fireauth.currentUser !== null;
+}
+
+export {userLogin, getUserId, getCurrentUserEmail, signOutCurrentUser, userIsHamiltonian, userIsHost, userIsVoter, userIsLoggedIn};
