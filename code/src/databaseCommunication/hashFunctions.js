@@ -1,8 +1,7 @@
 import sjcl from 'sjcl';
 
 // TODO (Jack): Change this so the key is stored on the server or in the directory
-var KEY = "test-key";
-
+var tempKey = "test-key";
 
 const generatePollMsg = async (poll) => {
     let msg = "";
@@ -34,7 +33,7 @@ const generateRoomMsg = async (room) => {
 
 
 const generateHmac = async (msg) => {
-    let key = sjcl.codec.utf8String.toBits(KEY);
+    let key = sjcl.codec.utf8String.toBits(tempKey);
     let out = (new sjcl.misc.hmac(key, sjcl.hash.sha256)).mac(msg);
     let hmac = sjcl.codec.hex.fromBits(out);
     return hmac;
