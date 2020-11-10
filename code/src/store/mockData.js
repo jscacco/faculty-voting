@@ -58,22 +58,22 @@ const data = {
           optionsOrder: ['01', '02', '00'],
           showResults: true,
           results: {
-            '00': {id: '00', count: 0},
-            '01': {id: '01', count: 0},
-            '02': {id: '02', count: 0},
+            '00': {id: '00', count: 24},
+            '01': {id: '01', count: 1},
+            '02': {id: '02', count: 24},
           }
         },
         order: {
-          'open': ['01'],
-          'closed': ['00'],
-          'pending': ['02']
+          'open': [],
+          'closed': ['00', '01', '02'],
+          'pending': []
         },
       },
     },
     order: {
-      'closed': [],
+      'closed': ['0000'],
       'pending': [],
-      'open': ['0000']
+      'open': []
     }
   },
 };

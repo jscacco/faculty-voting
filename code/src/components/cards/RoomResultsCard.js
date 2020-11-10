@@ -24,6 +24,10 @@ import PieChart    from '../charts/PieChart';
 import BarChart    from '../charts/BarChart';
 
 import Pdf from "react-to-pdf";
+import { PDFDownloadLink, Document, Page } from '@react-pdf/renderer'
+
+import mockData        from '../../store/mockData';
+
 
 const ref = React.createRef();
 
@@ -41,9 +45,9 @@ const RoomResultsCard = ( props ) => {
   )
 
   const _toPDFButton = (
-    <Pdf targetRef={ref} filename="poll-results.pdf">
-      {({ toPdf }) => <Button medium onClick={toPdf}>Download Pdf</Button>}
-    </Pdf>
+    <PDFDownloadLink document={<PDFPreviewCard />} fileName="somename.pdf">
+      {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
+    </PDFDownloadLink>
   )
 
   const _renderCharts = () =>  {
@@ -68,11 +72,11 @@ const RoomResultsCard = ( props ) => {
     )
   }
 
-  const MyPDF = React.forwardRef((props, ref) => (
-    <div ref={ref}>
-      <PDFPreviewCard room={props.roomResults}/>
-    </div>
-  ));
+  // const MyPDF = React.forwardRef((props, ref) => (
+  //   <div ref={ref}>
+  //     <PDFPreviewCard room={mockData.rooms['0000'] />
+  //   </div>
+  // );
 
   const _pdfChildren = (
     <>
@@ -83,11 +87,12 @@ const RoomResultsCard = ( props ) => {
   const _children = (
     <>
       {_renderCharts()}
-      <HiddenWrapper>
-        {<MyPDF ref={ref} header={_header} children={_pdfChildren} />}
-      </HiddenWrapper>
+
     </>
   )
+  // <HiddenWrapper>
+  //   {<MyPDF ref={ref} header={_header} children={_pdfChildren} />}
+  // </HiddenWrapper>
 
   return (
     <PrimaryCard cardColor={Colors.White} width={`100%`}

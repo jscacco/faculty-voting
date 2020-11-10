@@ -11,12 +11,18 @@ import PDFPreviewCard         from '../components/cards/PDFPreviewCard';
 
 import mockData        from '../store/mockData';
 
+const Wrapper = styled.div`
+  border: 1px solid black;
+  height: 11in;
+  width: 8.5in;
+`;
+
 const PollResultsPage = () => {
 
   return (
-    <MainPage color={Colors.LightBlue}>
+    <Wrapper>
       <PDFPreviewCard room={mockData.rooms['0000']}/>
-    </MainPage>
+    </Wrapper>
   );
 }
 
