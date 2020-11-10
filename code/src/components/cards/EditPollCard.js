@@ -68,7 +68,7 @@ const Description = ( props ) => (
 
 const AddComponent = ( props ) => {
   return (
-    <AddItem onClick={props.onAddClick} textColor={Colors.Blue} iconColor={Colors.Blue}>
+    <AddItem onClick={props.onAddClick} textColor={Colors.Blue} iconColor={Colors.Blue} {...props.size}>
       Add new option
     </AddItem>
   )
@@ -91,7 +91,9 @@ const EditPollCard = ( props ) => {
 
 
   const renderOptionGroup = () => {
-    const optionComponents = pollData.optionsOrder.map(id => {
+    let optionsOrder = pollData.optionsOrder || [];
+
+    const optionComponents = optionsOrder.map(id => {
 
       return(
           <HostEditPollOptionItem id={id} type={'inputfield'}
@@ -99,13 +101,14 @@ const EditPollCard = ( props ) => {
                                   onChange={(event) => onOptionChange(id, event)}
                                   onDelete={() => onDeleteClick(id)}
                                   fontColor={Colors.Charcol}
-                                  iconColor={Colors.Blue}/>
+                                  iconColor={Colors.Blue}
+                                  {...size}/>
       )
     });
 
     return (
       <EditingGroup order={pollData.optionsOrder}
-                    addItem={<AddComponent onAddClick={onAddClick}/>}
+                    addItem={<AddComponent onAddClick={onAddClick} size={size}/>}
                     onDragEnd={onDragEnd}
                     handleColor={Colors.Blue} {...rest}>
         {optionComponents}
@@ -113,15 +116,16 @@ const EditPollCard = ( props ) => {
     );
   }
 
-  const sections = [{content: <Description description={description} onChange={onDescriptionChange} {...size}/>},
+  const sections = [{content: <Description description={description} onChange={onDescriptionChange} size={size}/>},
                     {content: renderOptionGroup()}]
 
   return (
     <TertiaryCard {...rest}
                    width={'100%'}
+                   height={size.extraSmall ? `100%` : `stretch`}
                    cardColor={Colors.White}
-                   headerComponent={<Header onChange={onTitleChange} title={title} {...size}/>}
-                   headerButton={<HeaderButton onClick={onEditClick} {...size}/>}
+                   headerComponent={<Header onChange={onTitleChange} title={title} size={size}/>}
+                   headerButton={<HeaderButton onClick={onEditClick}  size={size}/>}
                    sections={sections} />
   )
 };

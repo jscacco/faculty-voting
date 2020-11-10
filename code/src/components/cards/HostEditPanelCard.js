@@ -37,6 +37,12 @@ const SectionWrapper = styled.div`
   padding-top: 15px;
 `;
 
+const HorizontalContentWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between
+`;
+
 const SectionHeadingWrapper = styled.div`
   padding-bottom: 10px;
 `;
@@ -70,18 +76,18 @@ const PanelSection = ( props ) => {
   )
 }
 
+const PanelContent = ( props ) => {
+
+  return props.extraSmall ?
+    <HorizontalContentWrapper>
+      {props.children}
+    </HorizontalContentWrapper> : props.children;
+}
+
 class HostEditPanelCard extends React.Component {
 
   constructor(props){
     super(props)
-
-    this.size = {
-      extraSmall: props.extraSmall,
-      small: props.small,
-      medium: props.medium,
-      large: props.large,
-      extraLarge: props.extraLarge
-    }
 
     this.state = {
       typeSelection: {
@@ -132,34 +138,44 @@ class HostEditPanelCard extends React.Component {
   }
 
   render () {
+    const size = {
+      extraSmall: this.props.extraSmall,
+      small: this.props.small,
+      medium: this.props.medium,
+      large: this.props.large,
+      extraLarge: this.props.extraLarge
+    }
+
     return (
-      <Card medium>
-        <PanelHeader {...this.size}/>
-        <PanelSection title={'POLL TYPE'} size={this.size}>
-          <Group {...this.size}>
-            <TextOption id={'0'} iconType={'bubble'} iconColor={Colors.Blue}
-                        clicked={this.state.typeSelection['0']} onClick={() => this.onTypeClick('0')}>
-              Single choice
-            </TextOption>
-            <TextOption id={'1'} iconType={'bubble'} iconColor={Colors.Blue}
-                        clicked={this.state.typeSelection['1']} onClick={() => this.onTypeClick('1')}>
-              Multiple choice
-            </TextOption>
-          </Group>
-        </PanelSection>
-        <PanelSection title={'OTHER'} size={this.size}>
-          <OptionGroup type={'multiple'}
-                       selectedOptions={this.state.otherSelection}
-                       onSelect={this.onOtherClick}
-                       {...this.size}>
-            <TextOption id={'0'}>
-              Display results
-            </TextOption>
-            <TextOption id={'1'}>
-              Input option
-            </TextOption>
-          </OptionGroup>
-        </PanelSection>
+      <Card borderMedium>
+        <PanelHeader {...size}/>
+        <PanelContent {...size}>
+          <PanelSection title={'POLL TYPE'} size={size}>
+            <Group {...size}>
+              <TextOption id={'0'} iconType={'bubble'} iconColor={Colors.Blue}
+                          clicked={this.state.typeSelection['0']} onClick={() => this.onTypeClick('0')}>
+                Single choice
+              </TextOption>
+              <TextOption id={'1'} iconType={'bubble'} iconColor={Colors.Blue}
+                          clicked={this.state.typeSelection['1']} onClick={() => this.onTypeClick('1')}>
+                Multiple choice
+              </TextOption>
+            </Group>
+          </PanelSection>
+          <PanelSection title={'OTHER'} size={size}>
+            <OptionGroup type={'multiple'}
+                         selectedOptions={this.state.otherSelection}
+                         onSelect={this.onOtherClick}
+                         {...size}>
+              <TextOption id={'0'}>
+                Display results
+              </TextOption>
+              <TextOption id={'1'}>
+                Input option
+              </TextOption>
+            </OptionGroup>
+          </PanelSection>
+        </PanelContent>
       </Card>
     )
   }

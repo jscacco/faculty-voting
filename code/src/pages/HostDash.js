@@ -6,10 +6,37 @@ import ActionTypes          from '../store/actionTypes';
 
 import history              from '../history';
 
+import ViewportHandler      from './format-pages/ViewportHandler';
 import MainPage             from './format-pages/MainPage';
 import { Colors }           from '../components/theme/Colors';
 
 import HostDashCard        from '../components/cards/HostDashCard';
+
+const DashComponent = ( props ) => {
+
+  let size = {};
+  switch (props.viewport) {
+    case 'mobile':
+    case 'smallMobile':
+      size.extraSmall = true;
+      break;
+    case 'hdDesktop':
+    case 'uhdDesktop':
+      size.medium = true;
+      break;
+    default:
+      size.small = true;
+  }
+
+  return (
+    <HostDashCard {...size}
+                  onViewClick={props.onViewClick}
+                  rooms={props.rooms}
+                  order={props.order}
+                  onDelete={props.onDelete}
+                  onAdd={props.onAdd}/>
+  )
+}
 
 const HostDashPage = ( props ) => {
   useEffect(() =>  {
@@ -29,14 +56,16 @@ const HostDashPage = ( props ) => {
   }
 
   return (
-    <MainPage>
-        <HostDashCard medium
-                      onViewClick={onViewClick}
-                      rooms={props.rooms}
-                      order={props.order}
-                      onDelete={props.onDeleteRoom}
-                      onAdd={props.onAddRoom}/>
-    </MainPage>
+    <ViewportHandler>
+      <MainPage>
+          <DashComponent viewport={props.viewport}
+                         onViewClick={onViewClick}
+                         rooms={props.rooms}
+                         order={props.order}
+                         onDelete={props.onDeleteRoom}
+                         onAdd={props.onAddRoom}/>
+      </MainPage>
+    </ViewportHandler>
   );
 
 }

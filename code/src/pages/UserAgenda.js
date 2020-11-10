@@ -6,6 +6,7 @@ import ActionTypes          from '../store/actionTypes';
 import history              from '../history';
 
 import { Colors }           from '../components/theme/Colors';
+import ViewportHandler      from './format-pages/ViewportHandler';
 import MainPage             from './format-pages/MainPage';
 
 import UserAgendaCard       from '../components/cards/UserAgendaCard';
@@ -31,6 +32,33 @@ const ComponentWrapper = styled.div`
   width: 80%;
 `;
 
+const AgendaComponent = ( props ) => {
+
+  let size = {};
+  switch (props.viewport) {
+    case 'mobile':
+    case 'smallMobile':
+      size.extraSmall = true;
+      break;
+    case 'hdDesktop':
+    case 'uhdDesktop':
+      size.medium = true;
+      break;
+    default:
+      size.small = true;
+  }
+
+  return (
+    <UserAgendaCard {...size}
+                    roomcode={props.roomcode}
+                    title={props.title}
+                    status={props.status}
+                    polls={props.polls}
+                    order={props.order}
+                    onViewClick={props.onViewClick}/>
+  )
+}
+
 const UserAgendaPage = ( props ) => {
 
   const roomcode = props.match.params.roomcode || '0000'
@@ -47,14 +75,17 @@ const UserAgendaPage = ( props ) => {
 
 
   return (
-    <MainPage>
-        <UserAgendaCard medium roomcode={roomcode}
-                               title={props.title}
-                               status={props.status}
-                               polls={props.polls}
-                               order={props.order}
-                               onViewClick={onViewClick}/>
-    </MainPage>
+    <ViewportHandler>
+      <MainPage>
+          <AgendaComponent viewport={props.viewport}
+                           roomcode={roomcode}
+                           title={props.title}
+                           status={props.status}
+                           polls={props.polls}
+                           order={props.order}
+                           onViewClick={onViewClick}/>
+      </MainPage>
+    </ViewportHandler>
   );
 
 }

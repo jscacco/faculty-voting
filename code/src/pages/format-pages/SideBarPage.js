@@ -31,36 +31,95 @@ const ComponentWrapper = styled.div`
   height: 80%;
 `;
 
-const MainCardWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 70%;
-`;
-
 const SideBarWrapper = styled.div`
   width: 40%;
   padding-left: 10px;
 `;
 
+const HorizontalSideBarWrapper = styled.div`
+  padding-bottom: 10px;
 
-const SideBarPage = ( props ) => {
+`;
+
+const VerticalComponentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 90%;
+  height: 80%;
+`;
+
+const MainComponentWrapper = styled.div`
+  height: 100%;
+`;
+
+const VerticalPage = ( props ) => {
 
   const mainComponent = props.sideContent ?
     <>
-      {props.children}
-      <SideBarWrapper>
-        {props.sideContent}
-      </SideBarWrapper>
-    </> : props.children
+      <HorizontalSideBarWrapper>
+        {React.cloneElement(props.sideContent, { viewport: props.viewport })}
+      </HorizontalSideBarWrapper>
+      <MainComponentWrapper>
+        {React.cloneElement(props.children, { viewport: props.viewport })}
+      </MainComponentWrapper>
+    </> :
+    <MainComponentWrapper>
+      {React.cloneElement(props.children, { viewport: props.viewport })}
+    </MainComponentWrapper>
+
+  const headerComponent = props.header ?
+    <HeaderWrapper>
+      {React.cloneElement(props.header, { viewport: props.viewport })}
+    </HeaderWrapper> :
+    <></>
 
   return (
-    <BasePage color={props.color}>
-      <HeaderWrapper>
-        {props.header}
-      </HeaderWrapper>
+    <>
+      {headerComponent}
+      <VerticalComponentWrapper>
+        {mainComponent}
+      </VerticalComponentWrapper>
+    </>
+  )
+}
+
+const HorizontalPage = ( props ) => {
+
+  const mainComponent = props.sideContent ?
+    <>
+      {React.cloneElement(props.children, { viewport: props.viewport })}
+      <SideBarWrapper>
+        {React.cloneElement(props.sideContent, { viewport: props.viewport })}
+      </SideBarWrapper>
+    </> : React.cloneElement(props.children, { viewport: props.viewport })
+
+  const headerComponent = props.header ?
+    <HeaderWrapper>
+      {React.cloneElement(props.header, { viewport: props.viewport })}
+    </HeaderWrapper> :
+    <></>
+
+  return (
+    <>
+      {headerComponent}
       <ComponentWrapper>
         {mainComponent}
       </ComponentWrapper>
+    </>
+  )
+}
+
+
+const SideBarPage = ( props ) => {
+
+  const small = props.viewport === 'mobile' || props.viewport === 'smallMobile';
+
+  console.log(small);
+  console.log(props.viewport);
+  return (
+    <BasePage color={props.color}>
+      {small ? <VerticalPage {...props}/> : <HorizontalPage {...props}/>}
     </BasePage>
   )
 }

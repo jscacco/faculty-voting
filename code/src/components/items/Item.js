@@ -58,7 +58,7 @@ const ItemBase = ( props ) => {
   })
 
   return (
-    <Card small>
+    <Card borderSmall {...rest}>
       <ComponentWrapper>
         <TextWrapper>
           <Body {...rest}>

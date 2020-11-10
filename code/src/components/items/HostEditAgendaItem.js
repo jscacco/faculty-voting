@@ -32,7 +32,7 @@ const HostEditAgendaItem = ( props ) => {
   const { text, buttonText, onClick, ...rest } = props;
 
   return (
-    <Item text={text}>
+    <Item text={text} {...rest}>
       <Button onClick={onClick}>
         { buttonText }
       </Button>

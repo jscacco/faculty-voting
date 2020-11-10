@@ -6,14 +6,54 @@ import { connect }          from 'react-redux';
 import ActionTypes           from '../store/actionTypes';
 import history              from '../history';
 
+import ViewportHandler      from './format-pages/ViewportHandler';
 import { Colors }           from '../components/theme/Colors';
 import MainPage             from './format-pages/MainPage';
 
 import RoomcodeCard         from '../components/cards/RoomcodeCard';
 
 const RoomcodeWrapper = styled.div`
-  width: 50%;
+  width: ${({width}) => width};
 `;
+
+const RoomcodeComponent = ( props ) => {
+
+  let width;
+  let size = {};
+  switch (props.viewport) {
+    case 'smallDesktop':
+      width = `75%`;
+      size.small = true;
+      break;
+    case 'tablet':
+      width = `100%`;
+      size.small = true;
+      break;
+    case 'mobile':
+    case 'smallMobile':
+      width = `100%`
+      size.extraSmall = true;
+      break;
+    case 'hdDesktop':
+    case 'uhdDesktop':
+      width = `50%`
+      size.medium = true;
+      break;
+    default:
+      width = `50%`
+      size.small = true;
+  }
+
+  return (
+    <RoomcodeWrapper width={width}>
+       <RoomcodeCard title="HamPolls" color={"transparent"}
+                     viewport={props.viewport} {...size}
+                     value={props.roomcode}
+                     handleChange={props.handleChange}
+                     handleSubmit={props.handleSubmit}/>
+    </RoomcodeWrapper>
+  )
+}
 
 const RoomCodeScreen = ( props ) => {
 
@@ -30,14 +70,14 @@ const RoomCodeScreen = ( props ) => {
   }
 
   return (
-     <MainPage color={Colors.LightBlue}>
-        <RoomcodeWrapper>
-           <RoomcodeCard title="HamPolls" medium
-                         color={"transparent"} value={props.roomcode}
-                         handleChange={(event) => props.updateCode(event.target.value)}
-                         handleSubmit={() => props.validateCode(props.roomcode)}/>
-        </RoomcodeWrapper>
-     </MainPage>
+    <ViewportHandler>
+       <MainPage color={Colors.LightBlue}>
+           <RoomcodeComponent viewport={props.viewport}
+                              value={props.roomcode}
+                              handleChange={(event) => props.updateCode(event.target.value)}
+                              handleSubmit={() => props.validateCode(props.roomcode)}/>
+       </MainPage>
+    </ViewportHandler>
    );
 }
 
