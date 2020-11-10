@@ -34,7 +34,7 @@ const HiddenWrapper = styled.div`
 
 const PollResultsCard = ( props ) => {
 
-  const { pollResults, toPDF } = props;
+  const { pollResults } = props;
 
   const _header = (
     <Jumbo extraSmall color={Colors.LightBlue}>

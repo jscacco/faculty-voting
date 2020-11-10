@@ -18,32 +18,36 @@ import InputField       from '../inputs/InputField';
 import TextArea         from '../inputs/TextArea';
 import EditingOption    from '../options/EditingOption';
 import PrimaryCard      from '../format-cards/PrimaryCard';
-
+import Card             from './Card';
 import PieChart    from '../charts/PieChart';
 import BarChart    from '../charts/BarChart';
 
 import Pdf from "react-to-pdf";
 
-const ChildWrapper = styled.div`
-  padding-top: 20px;
-`;
-
-const LeftColumnWrapper = styled.div`
-  width: 30%;
-`;
-const TwoColumnWrapper = styled.div`
-  display: flex;
-  direction: row;
-  align-items: flex-start;
+const ContentWrapper = styled.div`
+  margin: 25px;
 `;
 
 const ref = React.createRef();
 
 const PDFPreviewCard = ( props ) => {
 
+  const { room, ...rest } = props;
+
+  const _header = (
+    <>
+      <Body> {room.title} </Body>
+    </>
+  )
+
   return (
-    <PrimaryCard cardColor={Colors.White} borderColor={Colors.Blue}
-                 width={`21cm`} header={props.header} children={props.children}/>
+    <Card color={Colors.White} height={props.height || 'stretch'} width={props.width}
+          borderColor={Colors.White} width={`21cm`}
+          {...rest}>
+          {_header}
+    </Card>
+    // <PrimaryCard cardColor={Colors.White} borderColor={Colors.Blue}
+    //              width={`21cm`} header={_header} />
   )
 };
 
