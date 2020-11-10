@@ -10,8 +10,7 @@ import history              from '../history';
 
 import LoginCard            from '../components/cards/LoginCard';
 
-import {userLogin, signOutCurrentUser, getCurrentUserEmail, userIsHamiltonian } from '../LoginUtils.js';
-
+import {userIsLoggedIn, userLogin, signOutCurrentUser, getCurrentUserEmail, userIsHamiltonian } from '../LoginUtils.js';
 
 const LoginWrapper = styled.div`
   width: ${({width}) => width};
@@ -19,7 +18,6 @@ const LoginWrapper = styled.div`
 
 const userLoginHandler = async () => {
     await userLogin().then(() => {
-	console.log(userIsHamiltonian());
 	if (!userIsHamiltonian()) {
 	    console.log("User " + getCurrentUserEmail() + " is not within Hamilton domain. Logging out.");
 	    alert("Please log in with a Hamilton account. (And enable pop-ups so the new login window appears)");
@@ -33,12 +31,11 @@ const userLoginHandler = async () => {
 
 const hostLoginHandler = async () => {
     await userLogin().then(() => {
-	console.log(userIsHamiltonian());
 	if (!userIsHamiltonian()) {
 	    console.log("User " + getCurrentUserEmail() + " is not within Hamilton domain. Logging out.");
 	    alert("Please log in with a Hamilton account. (And enable pop-ups so the new login window appears)");
 	    signOutCurrentUser();
-	    userLoginHandler();
+	    hostLoginHandler();
 	} else {
 	    pushLandingPage("host");
 	}
@@ -46,10 +43,14 @@ const hostLoginHandler = async () => {
 }
 
 const pushLandingPage = async (userOrHost) => {
-    if (userOrHost == "user") {
-	history.push('/RoomCode');
+    if (userIsLoggedIn() && userIsHamiltonian()) {
+	if (userOrHost == "user") {
+	    history.push('/RoomCode');
+	} else {
+	    history.push('/HostDash');
+	}
     } else {
-	history.push('/HostDash');
+	console.log("Nobody is logged in, but new page was attempted to be loaded. User probably closed pop-up");
     }
 }
 
