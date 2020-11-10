@@ -59,8 +59,11 @@ const LoginComponent = ( props ) => {
   let size = {};
   switch (props.viewport) {
     case 'smallDesktop':
-    case 'tablet':
       width = `75%`;
+      size.small = true;
+      break;
+    case 'tablet':
+      width = `100%`;
       size.small = true;
       break;
     case 'mobile':
@@ -68,14 +71,14 @@ const LoginComponent = ( props ) => {
       width = `100%`
       size.extraSmall = true;
       break;
-    case 'desktop':
-    case 'largeDesktop':
-      width = `50%`;
+    case 'hdDesktop':
+    case 'uhdDesktop':
+      width = `50%`
       size.medium = true;
       break;
     default:
       width = `50%`
-      size.large = true;
+      size.small = true;
   }
 
   return (

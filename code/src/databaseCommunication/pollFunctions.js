@@ -24,7 +24,7 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
 
   if ( host_id === null ){
     host_id = await getHost(room_id);
-    console.log(host_id);
+    // console.log(host_id);
   }
 
     try {
@@ -64,7 +64,7 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
           let optDocSnap = await optionRef.get();
           let optDocData = optDocSnap.data();
 
-          console.log(option_id);
+          // console.log(option_id);
 
           var opt = {
               id: optDocData['id'],
@@ -102,7 +102,7 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
         // Check the hash to make sure it's good
         if (!compareHashes(poll, docData['pollHash'], "poll")) {
             // hash is bad:
-            console.log("!!Warning!! Data fetched from poll " + docData['title'] + " has a bad hash. This means that the data has been tampered with via the Firebase Console!");
+            // console.log("!!Warning!! Data fetched from poll " + docData['title'] + " has a bad hash. This means that the data has been tampered with via the Firebase Console!");
             alert("Bad hash warning - see console for more info.");
         }
 
@@ -151,7 +151,7 @@ const fetchAgenda = async (host_id, room_id) => {
 
     if ( host_id === null ){
       host_id = await getHost(room_id);
-      console.log(host_id);
+      // console.log(host_id);
     }
 
     try {
@@ -408,7 +408,7 @@ const getPollResults = async (user_id, room_id, poll_id, host_id = null) => {
                                         .collection('userOptions')
                                         .doc(userCollectSnap.docs[x].id)
                                         .get();
-                console.log(userCollectSnap.docs[x].id)
+                // console.log(userCollectSnap.docs[x].id)
                 results[userCollectSnap.docs[x].id] = {
                     id: userCollectSnap.docs[x].id,
                     count: optionSnap.data()['count']

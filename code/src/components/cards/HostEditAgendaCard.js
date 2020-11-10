@@ -55,8 +55,11 @@ const HeaderButton = (props) => (
 )
 
 const AddComponent = ( props ) => {
+
+  const { onAddClick, ...rest } = props;
+
   return (
-    <AddItem onClick={props.onAddClick} textColor={Colors.White} iconColor={Colors.White}>
+    <AddItem onClick={onAddClick} textColor={Colors.White} iconColor={Colors.White} {...rest}>
       Add new poll
     </AddItem>
   )
@@ -67,7 +70,6 @@ const PendingSectionGroup = ( props ) => {
   const { roomcode, polls, order,
           onDragEnd, onAddClick, onDeleteClick, onEditClick,
           size} = props;
-
 
   return (
     <EditingGroup addItem={<AddComponent onAddClick={onAddClick}/>}
@@ -116,6 +118,7 @@ const HostEditAgendaCard = ( props ) => {
     extraLarge: props.extraLarge
   }
 
+
   let statusList = ['open', 'closed'];
   statusList = statusList.filter((status) => order[status] && order[status].length != 0);
 
@@ -149,10 +152,11 @@ const HostEditAgendaCard = ( props ) => {
 
   return (
     <StatusTertiaryCard header={<Header title={props.title} onChange={props.onTitleChange} size={size}/>}
-                         headerButton={<HeaderButton onEditClick={onEditClick} size={size}/>}
-                         sections={sections}
-                         width={'100%'}
-                         {...size}/>
+                        headerButton={<HeaderButton onEditClick={onEditClick} size={size}/>}
+                        sections={sections}
+                        width={'100%'}
+                        height={props.extraSmall ? `100%` : `stretch`}
+                        {...size}/>
   )
 
 }

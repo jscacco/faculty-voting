@@ -60,6 +60,7 @@ const HostAgendaCard = ( props ) => {
 
   return (
     <SecondaryCard  width={'100%'}
+                    height={extraSmall ? `100%` : `stretch`}
                     header={title}
                     extraSmall={extraSmall} small={small}
                     medium={medium} large={large} extraLarge={extraLarge}

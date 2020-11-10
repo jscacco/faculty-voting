@@ -28,7 +28,7 @@ const generateRoomMsg = async (room) => {
     msg += "pollOrder={\"pending\":" + JSON.stringify(room['pollOrder']['pending']);
     msg += ",\"closed\":" + JSON.stringify(room['pollOrder']['closed']);
     msg += ",\"open\":" + JSON.stringify(room['pollOrder']['open']) + "}";
-    
+
     return msg;
 }
 
@@ -45,11 +45,11 @@ const generatePollHash = async (poll) => {
     // Given a poll, generate the hash associated with it
 
     let msg = await generatePollMsg(poll);
-    console.log("Generating hash of: " + msg);
-    
+    // console.log("Generating hash of: " + msg);
+
     let hmac = await generateHmac(msg);
-    console.log("Hash: " + hmac);
-    
+    // console.log("Hash: " + hmac);
+
     return hmac;
 }
 
@@ -57,11 +57,11 @@ const generateRoomHash = async (room) => {
     // Given a room, generate the hash associated with it
 
     let msg = await generateRoomMsg(room);
-    console.log("Generating hash of: " + msg);
-    
+    // console.log("Generating hash of: " + msg);
+
     let hmac = await generateHmac(msg);
-    console.log("Hash: " + hmac);
-    
+    // console.log("Hash: " + hmac);
+
     return hmac;
 }
 
@@ -70,14 +70,14 @@ const compareHashes = async (map, fetched, type) => {
     // Output: true if good, false if bad
 
     let expectedHash = "";
-    
+
     // See what we would expect hash to be
     if (type == "poll") {
 	expectedHash = await generatePollHash(map);
     } else {
 	expectedHash = await generateRoomHash(map);
     }
-   
+
     if (expectedHash != fetched) {
         // The hashes don't match - bad!
         return false;

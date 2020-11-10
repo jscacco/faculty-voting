@@ -35,7 +35,7 @@ const checkRoomcode = async (room_id) => {
 const checkRoomStatuses = async (rooms, order) => {
     // Ensure that all rooms' status matches the array they're in in order
     // (if they don't all match, the information was changed without updating the hash
-    console.log(typeof rooms);
+    // console.log(typeof rooms);
     for (let roomKey in rooms) {
         let room = rooms[roomKey];
         let roomStatus = room['status'];
@@ -51,8 +51,8 @@ const checkRoomStatuses = async (rooms, order) => {
 }
 
 const fetchHostRooms = async (host_id) => {
-    console.log("checking if user is voter...");
-    console.log(await userIsVoter());
+    // console.log("checking if user is voter...");
+    // console.log(await userIsVoter());
 
     try {
         let rooms = {}; //{ openRooms: [], pendingRooms: [], closedRooms: [] };
@@ -111,7 +111,7 @@ const fetchHostRooms = async (host_id) => {
 
 const setRoomOrder = async (host_id, new_order) => {
     try {
-        console.log(new_order)
+        // console.log(new_order)
         await firestore
                 .collection(host_id)
                 .doc('order')
@@ -261,9 +261,9 @@ const updateRoom = async (host_id, room_id, room_state) => {
         try {
             let { order, ...hostDash } = await fetchHostRooms(host_id);
             let room = hostDash['rooms'][room_id];
-            console.log(room)
+            // console.log(room)
             let oldPolls = await fetchAgenda(host_id, room_id);
-            console.log('AGENDA')
+            // console.log('AGENDA')
             let newPolls = {...oldPolls.polls,
                             ...room_state.polls,
                             order: room_state.order };
@@ -283,8 +283,8 @@ const updateRoom = async (host_id, room_id, room_state) => {
                 hosts: room.hosts
             }
             room['roomHash'] = await generateRoomHash(roomHashInfo);
-            console.log(host_id)
-            console.log(room_id)
+            // console.log(host_id)
+            // console.log(room_id)
             await firestore
                 .collection(host_id)
                 .doc(room_id)
@@ -296,7 +296,7 @@ const updateRoom = async (host_id, room_id, room_state) => {
                 });
 
             await setPollOrder(host_id, room_id, newPolls.order);
-            console.log(newPolls.order)
+            // console.log(newPolls.order)
 
             return {
                 ...room_state
@@ -473,7 +473,7 @@ const getRoomResults = async (host_id, room_id) => {
         for (let i = 0; i < closedPolls.length; i++) {
             const poll_id = closedPolls[i];
             const poll_result = await getPollResults(host_id, room_id, poll_id, host_id);
-            console.log(poll_result);
+            // console.log(poll_result);
             pollsResults[poll_id] = poll_result;
         }
 

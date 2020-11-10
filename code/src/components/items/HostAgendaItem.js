@@ -64,12 +64,13 @@ const HostAgendaItem = ( props ) => {
       nextStatus = 'open';
   };
 
-  const statusButton = (
+  const statusButton = status === 'closed' ?
+    undefined :
     <Button {...rest} disabled={status === 'closed'} onClick={() => onStatusClick(nextStatus)}
             backgroundColor={config.color} textColor={Colors.White}>
       {config.text}
     </Button>
-  );
+
 
   return (
     <AgendaItem status={status} hostButton={statusButton} {...rest}/>

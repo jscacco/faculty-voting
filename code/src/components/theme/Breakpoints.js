@@ -1,6 +1,6 @@
 export default {
   smallMobile: 320,
-  mobile: 414,
+  mobile: 480,
   tablet: 768,
   smallDesktop: 1024,
   desktop: 1280,

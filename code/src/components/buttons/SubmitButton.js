@@ -16,6 +16,7 @@ const propTypes = {
   submitted: PropTypes.bool,
   resubmit: PropTypes.bool,
 
+  extraSmall: PropTypes.bool,
   small: PropTypes.bool,
   medium: PropTypes.bool,
   large: PropTypes.bool,
@@ -28,6 +29,7 @@ const defaultProps = {
 const SubmitWrapper = styled.div`
 `
 const ComponentWrapper = styled.div`
+  ${({extraSmall}) => extraSmall && `padding-bottom: 16px`}
   ${({small}) => small && `padding-bottom: 20px`}
   ${({medium}) => medium && `padding-bottom: 26px`}
   ${({large}) => large && `padding-bottom: 32px`}
@@ -83,12 +85,13 @@ const config = {
 
 const renderText = (props) => {
 
-  const { buttonConfig, small, medium, large } = props;
+  const { buttonConfig, extraSmall, small, medium, large } = props;
 
+  console.log(extraSmall)
 
   return(
     <CenterWrapper>
-      <Body extraSmall={small} small={medium} medium={large} color={Colors.Black}>
+      <Body twoExtraSmall={extraSmall} extraSmall={small} small={medium} medium={large} color={Colors.Black}>
         {buttonConfig.subText}
       </Body>
     </CenterWrapper>
@@ -102,6 +105,7 @@ const renderButton = (props) => {
   let width;
   if (props.large) { width = 225}
   else if ( props.small ) { width = 125 }
+  else if ( props.extraSmall ) { width = 100 }
   else { width = 150 }
 
   return (

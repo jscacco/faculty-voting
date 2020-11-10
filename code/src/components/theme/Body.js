@@ -30,6 +30,7 @@ const fontConfig = {
   fontFamily: Fonts.WorkSans,
   fontWeight: 'bold',
 
+  twoExtraSmall: { fontSize: 12, lineHeight: 18  },
   extraSmall: { fontSize: 14, lineHeight: 20  },
   small: { fontSize: 16, lineHeight: 22 },
   medium: { fontSize: 20, lineHeight: 28  },
@@ -46,7 +47,7 @@ const BodyWrapper = styled(Text)`
 
 const Body = ( props ) => {
 
-  const { primitive, extraLarge, large, medium, small, extraSmall,
+  const { primitive, extraLarge, large, medium, small, extraSmall, twoExtraSmall,
           children, color, ...rest } = props;
 
   let sizeConfig = {};
@@ -54,6 +55,7 @@ const Body = ( props ) => {
   else if (large) { sizeConfig = fontConfig.large }
   else if (small) { sizeConfig = fontConfig.small }
   else if (extraSmall) { sizeConfig = fontConfig.extraSmall }
+  else if (twoExtraSmall) { sizeConfig = fontConfig.twoExtraSmall }
   else { sizeConfig = fontConfig.medium }
 
   return(

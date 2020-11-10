@@ -38,7 +38,7 @@ const SecondaryCard = ( props ) => {
   const { header, headerComponent, headerColor, ...rest } = props;
 
  const renderHeader = (
-   <Jumbo twoExtraSmall={props.extraSmall} extraSmall={props.small}
+   <Jumbo threeExtraSmall={props.extraSmall} extraSmall={props.small}
               small={props.medium} medium={props.large} large={props.extraLarge}
               color={headerColor}>
          {header}

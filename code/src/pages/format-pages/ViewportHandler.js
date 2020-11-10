@@ -13,14 +13,14 @@ const defaultProps = {};
 
 const getViewport = (windowWidth) => {
 
-  if (windowWidth >= Breakpoints.uhdDesktop) { return 'uhdDesktop' }
-  else if (windowWidth >= Breakpoints.hdDesktop) { return 'hdDesktop' }
-  else if (windowWidth >= Breakpoints.largeDesktop) { return 'largeDesktop' }
-  else if (windowWidth >= Breakpoints.desktop) { return 'desktop' }
-  else if (windowWidth >= Breakpoints.smallDesktop) { return 'smallDesktop' }
-  else if (windowWidth >= Breakpoints.tablet) { return 'tablet' }
-  else if (windowWidth >= Breakpoints.mobile) { return 'mobile' }
-  else { return 'smallMobile' }
+  if (windowWidth <= Breakpoints.smallMobile) { return 'smallMobile'}
+  else if (windowWidth <= Breakpoints.mobile) { return 'mobile' }
+  else if (windowWidth <= Breakpoints.tablet) { return 'tablet'}
+  else if (windowWidth <= Breakpoints.smallDesktop) { return 'smallDesktop' }
+  else if (windowWidth <= Breakpoints.desktop) { return 'desktop' }
+  else if (windowWidth <= Breakpoints.largeDesktop) { return 'largeDesktop' }
+  else if (windowWidth <= Breakpoints.hdDesktop) { return 'hdDesktop' }
+  else { return 'uhdDesktop' }
 
 }
 

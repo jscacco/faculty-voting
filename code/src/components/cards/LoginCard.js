@@ -54,9 +54,8 @@ const LoginCard = ( props ) => {
   const _renderHostLogin = (
     <CenterRowWrapper>
       <HostWrapper>
-        <Button large
-                twoExtraSmall={extraSmall} extraSmall={small}
-                small={medium} medium={large}
+        <Button small={extraSmall} medium={small}
+                large={medium} extraLarge={large}
                 onClick={onHostLogin}>
           LOGIN AS HOST
         </Button>
@@ -65,7 +64,7 @@ const LoginCard = ( props ) => {
   );
 
   return (
-    <Card>
+    <Card borderLarge {...{extraSmall, small, medium, large}}>
       {_renderLogin}
       {_renderHostLogin}
     </Card>

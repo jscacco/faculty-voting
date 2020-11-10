@@ -15,14 +15,18 @@ import { MdCheckBoxOutlineBlank,
          MdDragHandle,
          MdRemoveCircleOutline,
          MdEdit,
-         MdSave }                     from 'react-icons/md';
+         MdSave,
+         MdVisibility }                     from 'react-icons/md';
 
 import { IoMdTrash }                  from 'react-icons/io'
+
+// https://react-icons.github.io/react-icons/
 
 const propTypes = {
   type: PropTypes.oneOf(['box', 'checkbox', 'circle', 'bubble', 'check',
                          'checkCircle', 'fullCircle', 'addCircle', 'x',
-                         'dragHandle', 'xCircle', 'trash', 'edit', 'save' ]).isRequired,
+                         'dragHandle', 'xCircle', 'trash', 'edit', 'save',
+                         'view' ]).isRequired,
   onClick: PropTypes.func,
 
   color: ExtraPropTypes.color,
@@ -90,6 +94,8 @@ const Icon = ( props ) => {
       return( <MdEdit size={size ? size : baseSize} {...rest}/>)
     case 'save':
       return( <MdSave size={size ? size : baseSize} {...rest}/>)
+    case 'view':
+      return( <MdVisibility size={size ? size : baseSize} {...rest}/>)
     default:
       return( <MdCheckBoxOutlineBlank size={size ? size : baseSize} {...rest}/> )
   };

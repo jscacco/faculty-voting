@@ -15,11 +15,21 @@ import VotingOption       from '../options/VotingOption';
 import EditButton       from '../buttons/EditButton';
 import SubmitButton     from '../buttons/SubmitButton';
 
+const PollWrappper = styled.div``;
 
-const HostPollCard = ( props ) => {
+const DescriptionWrapper = styled.div`
+  ${({padding}) => padding && `padding-bottom: ${padding}px;`}
+`;
 
-  const { pollData, onEditClick,
-          ...rest } = props;
+const PollComponent = ( props ) => {
+  const { pollData, onEditClick, ...rest } = props;
+
+  let padding;
+  if (props.extraSmall) { padding = 14}
+  else if (props.small) { padding = 16}
+  else if (props.large) { padding = 28}
+  else if (props.extraLarge) { padding = 32}
+  else { padding = 22}
 
   const _description = (
     <Body color={Colors.Charcol}>
@@ -51,6 +61,21 @@ const HostPollCard = ( props ) => {
     );
   }
 
+  return (
+    <PollComponent>
+      <DescriptionWrapper padding={padding}>
+        {_description}
+      </DescriptionWrapper>
+      {_renderOptionGroup()}
+    </PollComponent>
+  )
+}
+
+const HostPollCard = ( props ) => {
+
+  const { pollData, onEditClick,
+          ...rest } = props;
+
   const _editButton = <EditButton type={'edit'} color={Colors.Blue} onClick={onEditClick}/>
 
   const _submitButton = (
@@ -58,12 +83,43 @@ const HostPollCard = ( props ) => {
                   {...rest}/>
   )
 
+  const _description = (
+    <Body color={Colors.Charcol}>
+      {pollData.description}
+    </Body>
+  )
+
+  const _renderOptionGroup = () => {
+    const optionComponents = pollData.optionsOrder.map(id => {
+
+      return (
+        <TextOption>
+          {pollData.options[id].value}
+        </TextOption>
+     )
+    });
+
+    if ( pollData.userInputOption ) {
+      optionComponents.push(
+        <InputOption/>
+      )
+    }
+
+    return (
+      <OptionGroup type={pollData.type} disabled fontColor={Colors.Black}
+                  {...rest}>
+        {optionComponents}
+      </OptionGroup>
+    );
+  }
+
   const sections = [{content: _description},
                     {content: _renderOptionGroup()}]
 
   return (
     <TertiaryCard {...rest}
                    width={'100%'}
+                   height={props.extraSmall ? `100%` : `stretch`}
                    cardColor={Colors.White}
                    header={pollData.title}
                    headerColor={Colors.Blue}
