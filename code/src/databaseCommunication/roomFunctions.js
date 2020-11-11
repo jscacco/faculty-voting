@@ -17,18 +17,20 @@ function generateRoomCode() {
 
 // const checkRoomcode = async (host_id, room_id) => {
 const checkRoomcode = async (room_id) => {
-
-    const host_id = await getHost(room_id);
-    const docRef = firestore.collection(host_id).doc(room_id)
-    const doc = await docRef.get();
-    //console.log(doc.exists)
-    if(doc.exists) {
-        return {};
+    try {
+        const host_id = await getHost(room_id);
+        const docRef = firestore.collection(host_id).doc(room_id)
+        const doc = await docRef.get();
+        //console.log(doc.exists)
+        if(doc.exists) {
+            return {};
+        }
+        else {
+            throw "Room undefined."
+        }
+    } catch(error) {
+        console.log(error);
     }
-    else {
-        throw "Room undefined."
-    }
-
 }
 
 const checkRoomStatuses = async (rooms, order) => {

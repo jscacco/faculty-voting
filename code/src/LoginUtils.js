@@ -73,7 +73,7 @@ const userIsHamiltonian = () => {
 
 const getUserId = () => {
     if (!(userIsLoggedIn())) {
-	return "";
+		return "";
     } else {
 		let email = getCurrentUserEmail();
 		return email.split('@')[0];
