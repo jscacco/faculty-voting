@@ -29,15 +29,15 @@ const userLoginHandler = async () => {
 }
 
 const hostLoginHandler = async () => {
-    await userLogin().then(() => {
-	if (!userIsHamiltonian()) {
-	    console.log("User " + getCurrentUserEmail() + " is not within Hamilton domain. Logging out.");
-	    alert("Please log in with a Hamilton account. (And enable pop-ups if you don't see the login window appear)");
-	    signOutCurrentUser();
-	} else {
-	    pushLandingPage("host");
-	}
-    });
+  await userLogin().then(() => {
+    if (!userIsHamiltonian()) {
+        console.log("User " + getCurrentUserEmail() + " is not within Hamilton domain. Logging out.");
+        alert("Please log in with a Hamilton account. (And enable pop-ups if you don't see the login window appear)");
+        signOutCurrentUser();
+    } else {
+        pushLandingPage("host");
+    }
+  });
 }
 
 const pushLandingPage = async (userOrHost) => {
