@@ -138,7 +138,7 @@ const InputFieldComponent = styled.textarea`
   white-space: pre;
   resize: none;
   ::placeholder {
-    color: ${Colors.LightBlue};
+    color: ${({placeholderColor}) => placeholderColor};
   }
   &:focus {
     outline: none;

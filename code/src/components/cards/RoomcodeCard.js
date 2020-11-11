@@ -106,7 +106,7 @@ const EnterButton = (props) => {
 const RoomCodeForm = (props) => {
 
     return (
-      <Card borderLarge color={Colors.Blue}>
+      <Card borderLarge color={Colors.Blue} borderColor={Colors.Blue}>
         <ComponentWrapper>
           <Title {...props}/>
           <CodeInput {...props}/>

@@ -46,7 +46,7 @@ const RoomcodeComponent = ( props ) => {
 
   return (
     <RoomcodeWrapper width={width}>
-       <RoomcodeCard title="HamPolls" color={"transparent"}
+       <RoomcodeCard title="Faculty Voting"
                      viewport={props.viewport} {...size}
                      value={props.roomcode}
                      handleChange={props.handleChange}

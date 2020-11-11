@@ -11,6 +11,7 @@ const propTypes = {
 
   fontColor: ExtraPropTypes.color,
   backgroundColor: ExtraPropTypes.color,
+  placeholderColor: ExtraPropTypes.color,
   borderColor: ExtraPropTypes.color,
 
   extraSmall: PropTypes.bool,
@@ -52,7 +53,7 @@ const TextAreaComponent = styled.textarea`
   overflow: visable;
   resize: none;
   ::placeholder {
-    color: ${Colors.LightBlue};
+    color: ${(placeholderColor) => placeholderColor ? placeholderColor : Colors.Blue};
   }
   &:focus {
     outline: none;
