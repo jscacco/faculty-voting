@@ -21,6 +21,7 @@ const propTypes = {
 
 const defaultProps = {
   color: Colors.White,
+  borderColor: Colors.White
 }
 
 const CardComponent = styled.div`

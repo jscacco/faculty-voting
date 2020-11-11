@@ -22,7 +22,7 @@ const PollResultsPage = ( props ) => {
   }, [])
 
   return (
-    <MainPage color={Colors.LightBlue}>
+    <MainPage>
       <PollResultsCard pollResults={props.pollResults} toPDF={props.toPDF}/>
     </MainPage>
   );

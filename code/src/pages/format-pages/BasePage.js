@@ -3,6 +3,9 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
+import PageHeader       from '../../components/theme/PageHeader'
+import PageFooter       from '../../components/theme/PageFooter'
+
 const propTypes = {
   children: PropTypes.node,
   color: ExtraPropTypes.color,
@@ -19,18 +22,29 @@ const PageWrapper = styled.div`
   position: fixed;
 
   overflow: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between
+`;
+
+const CenterWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  padding-top: 5vh;
+  flex-grow: 2;
 `;
 
 const BasePageWrapper = (props) => {
   return (
     <PageWrapper color={props.color}>
-      {props.children}
+      <PageHeader />
+      <CenterWrapper>
+        {props.children}
+      </CenterWrapper>
+      <PageFooter />
     </PageWrapper>
   )
 }

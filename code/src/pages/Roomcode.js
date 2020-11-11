@@ -46,7 +46,7 @@ const RoomcodeComponent = ( props ) => {
 
   return (
     <RoomcodeWrapper width={width}>
-       <RoomcodeCard title="HamPolls" color={"transparent"}
+       <RoomcodeCard title="Faculty Voting"
                      viewport={props.viewport} {...size}
                      value={props.roomcode}
                      handleChange={props.handleChange}
@@ -71,7 +71,7 @@ const RoomCodeScreen = ( props ) => {
 
   return (
     <ViewportHandler>
-       <MainPage color={Colors.LightBlue}>
+       <MainPage color={Colors.Blue}>
            <RoomcodeComponent viewport={props.viewport}
                               value={props.roomcode}
                               handleChange={(event) => props.updateCode(event.target.value)}

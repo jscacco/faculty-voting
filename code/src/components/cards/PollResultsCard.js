@@ -37,7 +37,7 @@ const PollResultsCard = ( props ) => {
   const { pollResults, toPDF } = props;
 
   const _header = (
-    <Jumbo extraSmall color={Colors.LightBlue}>
+    <Jumbo extraSmall color={Colors.Blue}>
       {pollResults.title}
     </Jumbo>
   )
