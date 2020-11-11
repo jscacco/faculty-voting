@@ -2,7 +2,7 @@ import firebase from './permissions.js';
 import { generatePollHash, generateRoomHash, compareHashes } from './hashFunctions';
 import { pollBase } from '../store/dataBases';
 import { fetchHostRooms, setPollOrder, getHost } from './roomFunctions';
-import { userIsHost, userIsVoter } from '../LoginUtils.js';
+import { userIsHost, userIsVoter, userIsHostOfRoom } from '../LoginUtils.js';
 
 const firestore = firebase.firestore()
 
