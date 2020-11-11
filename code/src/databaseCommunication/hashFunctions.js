@@ -10,10 +10,20 @@ const generatePollMsg = async (poll) => {
     msg += "status=" + poll['status'] + ";";
     msg += "type=" + poll['type'] + ";";
     msg += "desc=" + poll['description'] + ";";
-    msg += "options=" + JSON.stringify(poll['options']) + ";";
     msg += "userInputOption=" + poll['userInputOption'] + ";";
     msg += "optionsOrder=" + JSON.stringify(poll['optionsOrder']) + ";";
     msg += "showResults=" + poll['showResults'] + ";";
+    msg += "options={";
+    const optKeys = Object.keys(poll['options']).sort();
+    optKeys.forEach((key, index) => {
+	msg += "" + key + ":{";
+	const optKeys2 = Object.keys(poll['options'][key]).sort();
+	optKeys2.forEach((key2, index2) => {
+	    msg += "" + key2 + ":" + poll['options'][key][key2] + "";
+	});
+	msg += "}";
+    });
+    msg += "};";
     return msg;
 }
 

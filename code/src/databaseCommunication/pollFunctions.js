@@ -100,7 +100,8 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
         //console.log(poll.options)
 
         // Check the hash to make sure it's good
-        if (!compareHashes(poll, docData['pollHash'], "poll")) {
+	let hashComparison = await compareHashes(poll, docData['pollHash'], "poll");
+        if (!hashComparison) {
             // hash is bad:
             console.log("!!Warning!! Data fetched from poll " + docData['title'] + " has a bad hash. This means that the data has been tampered with via the Firebase Console!");
             alert("Bad hash warning - see console for more info.");
