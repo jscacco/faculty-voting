@@ -71,8 +71,6 @@ class Input extends React.Component {
 
     const component = this.props.type === 'textarea' ? <TextArea {...inputProps}/> : <InputField {...inputProps}/>;
 
-    console.log(this.props.placeholderColor)
-
     return (
       this.props.label ?
         <ComponentWrapper>
