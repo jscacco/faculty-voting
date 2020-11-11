@@ -73,7 +73,7 @@ const getUserId = () => {
 
 const userIsHost = (host_id) => {
     console.log("Checking if host...");
-    
+
     if (getUserId() == host_id) {
 	console.log("User is host.")
 	return true;
@@ -88,7 +88,7 @@ const userIsVoter = async () => {
     // code from
     // https://stackoverflow.com/questions/53332471/checking-if-a-document-exists-in-a-firestore-collection
     console.log("Checking if voter...");
-    
+
     try {
 	let docRef = firestore
 	    .collection("voting")
@@ -111,7 +111,8 @@ const userIsVoter = async () => {
 
 
 const userIsLoggedIn = async () => {
-    return fireauth.currentUser !== null;
+    let current_user = await fireauth.currentUser
+    return current_user !== null;
 }
 
 export {userLogin, getUserId, getCurrentUserEmail, signOutCurrentUser, userIsHamiltonian, userIsHost, userIsVoter, userIsLoggedIn};
