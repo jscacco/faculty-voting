@@ -126,7 +126,7 @@ const HostRoomPage = ( props ) => {
 
   return (
     <ViewportHandler>
-      <SideBarPage sideContent={sideContent} color={Colors.LightBlue}>
+      <SideBarPage sideContent={sideContent} color={Colors.Blue}>
         <AgendaComponent editing={props.editing}
                          onAddClick={() => props.onAddClick(roomcode)}
                          onDeleteClick={props.onDeleteClick}

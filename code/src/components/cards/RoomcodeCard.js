@@ -59,7 +59,7 @@ const Title = (props) => {
              small={medium}
              medium={large}
              large={extraLarge}
-             color={Colors.Blue}>
+             color={Colors.White}>
         {title}
       </Jumbo>
     </TitleWrapper>
@@ -79,8 +79,10 @@ const CodeInput = (props) => {
 
   return (
     <TextInputWrapper padding={inputPadding}>
-      <Input type={"inputfield"} value={value}
+      <Input type={"inputfield"} value={value} fontColor={Colors.White}
              onChange={handleChange} placeholder={"Enter Room Code"}
+             backgroundColor={Colors.Blue} borderColor={Colors.White}
+             placeholderColor={Colors.White}
              {...{extraSmall, small, medium, large, extraLarge}}/>
     </TextInputWrapper>
   )
@@ -92,7 +94,7 @@ const EnterButton = (props) => {
 
   return(
     <ButtonWrapper>
-      <Button onClick={handleSubmit}
+      <Button onClick={handleSubmit} color={Colors.White} backgroundColor={Colors.Buff}
               {...{extraSmall, small, medium, large, extraLarge}}>
          ENTER
       </Button>
@@ -104,7 +106,7 @@ const EnterButton = (props) => {
 const RoomCodeForm = (props) => {
 
     return (
-      <Card borderLarge>
+      <Card borderLarge color={Colors.Blue}>
         <ComponentWrapper>
           <Title {...props}/>
           <CodeInput {...props}/>

@@ -43,7 +43,7 @@ const LoginCard = ( props ) => {
         <Button jumbo
                 extraSmall={extraSmall} small={small}
                 medium={medium} large={large}
-                backgroundColor={Colors.Green}
+                backgroundColor={Colors.Buff}
                 onClick={onUserLogin}>
           LOGIN
         </Button>
@@ -64,7 +64,7 @@ const LoginCard = ( props ) => {
   );
 
   return (
-    <Card borderLarge {...{extraSmall, small, medium, large}}>
+    <Card borderLarge {...{extraSmall, small, medium, large}} color={Colors.Blue} borderColor={Colors.Blue}>
       {_renderLogin}
       {_renderHostLogin}
     </Card>

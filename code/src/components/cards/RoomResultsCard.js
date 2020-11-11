@@ -42,7 +42,7 @@ const RoomResultsCard = ( props ) => {
 
 
   const _header = (
-    <Jumbo extraSmall color={Colors.LightBlue}>
+    <Jumbo extraSmall color={Colors.Blue}>
       {props.roomResults.title}
     </Jumbo>
   )

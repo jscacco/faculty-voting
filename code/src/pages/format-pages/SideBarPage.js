@@ -16,7 +16,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  color: Colors.LightBlue
+  color: Colors.Blue
 };
 
 const HeaderWrapper = styled.div`

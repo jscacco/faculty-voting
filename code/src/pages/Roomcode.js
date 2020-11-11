@@ -71,7 +71,7 @@ const RoomCodeScreen = ( props ) => {
 
   return (
     <ViewportHandler>
-       <MainPage color={Colors.LightBlue}>
+       <MainPage color={Colors.Blue}>
            <RoomcodeComponent viewport={props.viewport}
                               value={props.roomcode}
                               handleChange={(event) => props.updateCode(event.target.value)}
