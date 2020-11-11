@@ -4,6 +4,7 @@ import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
+import Icon             from '../theme/Icon';
 
 import Item         from './Item';
 import StatusText       from '../format-text/StatusText';
@@ -29,6 +30,13 @@ const defaultProps = {
   status: 'pending'
 };
 
+const IconWrapper = styled.div`
+  display: flex;
+  flex-direction: column:
+  justify-content: center;
+  padding: 3px 0px 3px 0px;
+`;
+
 
 const AgendaItem = ( props ) => {
 
@@ -37,11 +45,16 @@ const AgendaItem = ( props ) => {
 
   const statusText = <StatusText status={status} {...rest}/>
 
-  const viewButton = (
+  const viewButton = props.extraSmall ?
+    <Button {...rest} onClick={onViewClick}>
+      <IconWrapper>
+        <Icon type={'view'} color={Colors.White} small/>
+      </IconWrapper>
+    </Button> :
     <Button {...rest} onClick={onViewClick}>
       VIEW
     </Button>
-  )
+
 
   if ( hostButton ){
     return (

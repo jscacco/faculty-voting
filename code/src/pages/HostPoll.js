@@ -6,6 +6,7 @@ import ActionTypes          from '../store/actionTypes';
 import history              from '../history';
 
 import { Colors }           from '../components/theme/Colors';
+import ViewportHandler      from './format-pages/ViewportHandler';
 import SideBarPage          from './format-pages/SideBarPage';
 
 import HostPollCard         from '../components/cards/HostPollCard';
@@ -13,7 +14,65 @@ import EditPollCard         from '../components/cards/EditPollCard';
 import HostStatusCard       from '../components/cards/HostStatusCard'
 import HostEditPanelCard    from '../components/cards/HostEditPanelCard';
 
+const getSize = (viewport) => {
 
+  let size = {};
+  switch (viewport) {
+    case 'mobile':
+    case 'smallMobile':
+      size.extraSmall = true;
+      break;
+    case 'hdDesktop':
+    case 'uhdDesktop':
+      size.medium = true;
+      break;
+    default:
+      size.small = true;
+  }
+
+  return size;
+}
+
+const SideBarComponent = ( props ) => {
+
+  const size = getSize(props.viewport)
+  console.log(size)
+
+  return ( props.editing ?
+    <HostEditPanelCard pollType={props.pollType}
+                       userInputOption={props.userInputOption}
+                       showResults={props.showResults}
+                       updateSettings={props.updateSettings}
+                       {...size}
+                       /> :
+    <HostStatusCard pollStatus={props.pollStatus}
+                    headerColor={Colors.Blue}
+                    onStatusClick={props.onStatusClick}
+                    {...size}/>
+  )
+}
+
+const PollComponent = ( props ) => {
+
+  const size = getSize(props.viewport)
+  console.log(props);
+  console.log(size)
+
+  return props.editing ?
+    <EditPollCard pollData={props.pollData}
+                  onEditClick={props.onEditClick}
+                  onAddClick={props.onAddClick}
+                  onDeleteClick={props.onDeleteClick}
+                  onDragEnd={props.onDragEnd}
+                  onTitleChange={props.onTitleChange}
+                  onDescriptionChange={props.onDescriptionChange}
+                  onOptionChange={props.onOptionChange}
+                  {...size} /> :
+    <HostPollCard pollData={props.pollData}
+                  onEditClick={props.onEditClick}
+                  {...size} />
+
+}
 
 const HostPollPage = ( props ) => {
 
@@ -27,7 +86,6 @@ const HostPollPage = ( props ) => {
 
 
   if (props.poll.status === 'closed') {
-    console.log('here')
     history.replace(`/PollResults/${roomcode}/${pollcode}`);
   }
 
@@ -40,35 +98,42 @@ const HostPollPage = ( props ) => {
   //   console.log(props.editing)
   // }
 
-  const sideContent = props.editing ?
-    <HostEditPanelCard pollType={props.poll.type}
-                       userInputOption={props.poll.userInputOption}
-                       showResults={props.poll.showResults}
-                       updateSettings={props.onUpdateSettings}
-                       medium
-                       /> :
-    <HostStatusCard pollStatus={props.poll.status}
-                    headerColor={Colors.Blue}
-                    onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, pollcode, newStatus)}
-                    medium/>
+  const sideContent = (
+    <SideBarComponent editing={props.editing}
+                      pollType={props.poll.type}
+                      pollStatus={props.poll.status}
+                      userInputOption={props.poll.userInputOption}
+                      showResults={props.poll.showResults}
+                      updateSettings={props.onUpdateSettings}
+                      onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, pollcode, newStatus)}/>
+  )
+
+  // props.editing ?
+  //   <HostEditPanelCard pollType={props.poll.type}
+  //                      userInputOption={props.poll.userInputOption}
+  //                      showResults={props.poll.showResults}
+  //                      updateSettings={props.onUpdateSettings}
+  //                      medium
+  //                      /> :
+  //   <HostStatusCard pollStatus={props.poll.status}
+  //                   headerColor={Colors.Blue}
+  //                   onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, pollcode, newStatus)}
+  //                   medium/>
 
   return (
+    <ViewportHandler>
       <SideBarPage sideContent={sideContent}>
-        { props.editing ?
-          <EditPollCard pollData={props.poll}
-                        onEditClick={() => props.onToggleEdit(roomcode, pollcode)}
-                        onAddClick={props.onAddOption}
-                        onDeleteClick={props.onDeleteOption}
-                        onDragEnd={props.onUpdateOrder}
-                        onTitleChange={props.onUpdateTitle}
-                        onDescriptionChange={props.onUpdateDescription}
-                        onOptionChange={props.onUpdateOption}
-                        medium /> :
-          <HostPollCard pollData={props.poll}
-                        onEditClick={() => props.onToggleEdit(roomcode, pollcode)}
-                        medium />
-        }
+        <PollComponent editing={props.editing}
+                       pollData={props.poll}
+                       onEditClick={() => props.onToggleEdit(roomcode, pollcode)}
+                       onAddClick={props.onAddOption}
+                       onDeleteClick={props.onDeleteOption}
+                       onDragEnd={props.onUpdateOrder}
+                       onTitleChange={props.onUpdateTitle}
+                       onDescriptionChange={props.onUpdateDescription}
+                       onOptionChange={props.onUpdateOption}/>
       </SideBarPage>
+    </ViewportHandler>
   );
 }
 

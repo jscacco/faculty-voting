@@ -2,7 +2,7 @@ import firebase from './permissions.js';
 import { generatePollHash, generateRoomHash, compareHashes } from './hashFunctions';
 import { pollBase } from '../store/dataBases';
 import { fetchHostRooms, setPollOrder, getHost, fetchRoomData } from './roomFunctions';
-import { userIsHost, getToken } from '../LoginUtils.js';
+import { userIsHost, getToken, userIsVoter, userIsHostOfRoom } from '../LoginUtils.js';
 
 const firestore = firebase.firestore()
 
@@ -77,7 +77,8 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
         }
 
         // Check the hash to make sure it's good
-        if (!compareHashes(poll, docData['pollHash'], "poll")) {
+	let hashComparison = await compareHashes(poll, docData['pollHash'], "poll");
+        if (!hashComparison) {
             // hash is bad:
             console.log("!!Warning!! Data fetched from poll " + docData['title'] + " has a bad hash. This means that the data has been tampered with via the Firebase Console!");
             alert("Bad hash warning - see console for more info.");
@@ -90,7 +91,7 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
 }
 
 const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
-    if (!(userIsHost(host_id))) {
+    if (!(await userIsHost(host_id))) {
         console.log("You are not the host! Call to addHostRoom cancelled.");
     } else {
         try {
@@ -185,7 +186,7 @@ const fetchAgenda = async (host_id, room_id) => {
 }
 
 const addPoll = async (host_id, room_id) => {
-    if (!(userIsHost(host_id))) {
+    if (!(await userIsHost(host_id))) {
 	console.log("You are not the host! Call to addHostRoom cancelled.");
     } else {
         try {
@@ -282,7 +283,8 @@ const addPoll = async (host_id, room_id) => {
 }
 
 const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
-    if (!(userIsHost(host_id))) {
+    // NEED TO CHECK DIFFERENCE IN POLLS IN NEW_STATUS AND CURRENT STATE AND THEN DELETE THOSE POLLS
+    if (!userIsHost(host_id)) {
 	console.log("You are not the host! Call to addHostRoom cancelled.");
     } else {
         try {
@@ -407,157 +409,173 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
     // USER user_id to check if have voting status
 
     const host_id = await getHost(room_id);
-    
-    try {
-        let poll = await fetchPollData(host_id, room_id, poll_id);
-        let token = getToken();
-        let voteRef = firestore
-                            .collection(host_id)
-                            .doc(room_id)
-                            .collection('polls')
-                            .doc(poll_id)
-                            .collection('Votes')
-                            .doc('votes');
-        let docSnap = await voteRef.get();
-        let docData = docSnap.data();
+    if (!(await userIsVoter())) {
+        console.log("You do not have voting rights! Call to submitVote cancelled.");
+        alert("You do not have voting rights. Speak to the Dean of Faculty if you believe this is an error.");
+    } else {
+        try {
+            let poll = await fetchPollData(host_id, room_id, poll_id);
+            let token = getToken();
+            let voteRef = firestore
+                                .collection(host_id)
+                                .doc(room_id)
+                                .collection('polls')
+                                .doc(poll_id)
+                                .collection('Votes')
+                                .doc('votes');
+            let docSnap = await voteRef.get();
+            let docData = docSnap.data();
 
-        for (let i = 0; i < poll.optionsOrder.length; i++) {
-            let option_id = poll.optionsOrder[i];
-            let vote = {};
-            vote[token] = option_id;
+            for (let i = 0; i < poll.optionsOrder.length; i++) {
+                let option_id = poll.optionsOrder[i];
+                let vote = {};
+                vote[token] = option_id;
 
-            if(selection[option_id] && docData[token]) {    
-                await voteRef.update(vote);   
-            }
-            else if(selection[option_id]) {
-                await voteRef.set(vote);
-            }
-        }
-        // THE ABOVE WORKS PROPERLY
-
-        let inputcode = null;
-        let exists = false;
-
-        if (selection[userInput.id]) {
-            let userCollectRef = firestore
-                                    .collection(host_id)
-                                    .doc(room_id)
-                                    .collection('polls')
-                                    .doc(poll_id)
-                                    .collection('userOptions');
-
-            let existingValuesSnap = await userCollectRef.doc('order').get();
-            let existingValuesData = existingValuesSnap.data();
-            let vals = existingValuesData.values;
-
-            if (Object.keys(vals).includes(userInput.value)) {
-                inputcode = vals[userInput.value];
-                exists = true;
-            }
-            else if (!userInput.submissionId) {
-                inputcode = generateUserOptionId();
-
-                let userSnap = await userCollectRef.get();
-                let userIds = [];
-                for(let x = 0; x < userSnap.docs.length; x ++) {
-                    userIds.push(userSnap.docs[x].id)
-                }
-
-                while (poll.optionsOrder[inputcode]) {
-                    inputcode = generateUserOptionId();
-                }
-
-                vals[userInput.value] = inputcode;
-
-                await userCollectRef.doc('order').update({
-                    values: vals
-                })
-            }
-            else {
-                inputcode = userInput.submissionId
-            }
-
-            let vote = {};
-            vote[token] = inputcode;
-
-            if (!exists) {    
-                const userInputResult = {
-                    id: inputcode,
-                    value: userInput.value
-                    //count: 1
-                }
-
-                // add vote to firebase
-                await userCollectRef.doc(inputcode).set(userInputResult);
-
-                if(docData[token]) {    
+                if(selection[option_id] && docData[token]) {    
                     await voteRef.update(vote);   
                 }
-                else {
+                else if(selection[option_id]) {
                     await voteRef.set(vote);
                 }
             }
-            else {
-                // console.log(submission)
-                // console.log(selection)
-                //let docSnap = await userCollectRef.doc(inputcode).get();
-                // let count = docSnap.data()['count'];
+            // THE ABOVE WORKS PROPERLY
 
-                // if (submission['000']) {
-                //     await userCollectRef.doc(inputcode).update({ count: count - 1 });
-                // }
-                if (selection['000']) {
-                    //await userCollectRef.doc(inputcode).update({ count: count + 1 });
-                    await voteRef.set(vote)
+            let inputcode = null;
+            let exists = false;
+
+            if (selection[userInput.id]) {
+                let userCollectRef = firestore
+                                        .collection(host_id)
+                                        .doc(room_id)
+                                        .collection('polls')
+                                        .doc(poll_id)
+                                        .collection('userOptions');
+
+                let existingValuesSnap = await userCollectRef.doc('order').get();
+                let existingValuesData = existingValuesSnap.data();
+                let vals = existingValuesData.values;
+
+                if (Object.keys(vals).includes(userInput.value)) {
+                    inputcode = vals[userInput.value];
+                    exists = true;
+                }
+                // THE ABOVE WORKS PROPERLY
+            
+                let inputcode = null;
+                let exists = false;
+            
+                if (selection[userInput.id]) {
+            let userCollectRef = firestore
+                        .collection(host_id)
+                        .doc(room_id)
+                        .collection('polls')
+                        .doc(poll_id)
+                        .collection('userOptions');
+            
+            let existingValuesSnap = await userCollectRef.doc('order').get();
+            let existingValuesData = existingValuesSnap.data();
+            let vals = existingValuesData.values;
+            
+            if (Object.keys(vals).includes(userInput.value)) {
+                        inputcode = vals[userInput.value];
+                        exists = true;
+            }
+            else if (!userInput.submissionId) {
+                        inputcode = generateUserOptionId();
+                    }
+
+                    vals[userInput.value] = inputcode;
+
+                    await userCollectRef.doc('order').update({
+                        values: vals
+                    })
+                }
+                else {
+                    inputcode = userInput.submissionId
+                }
+
+                let vote = {};
+                vote[token] = inputcode;
+
+                if (!exists) {    
+                    const userInputResult = {
+                        id: inputcode,
+                        value: userInput.value
+                        //count: 1
+                    }
+
+                    // add vote to firebase
+                    await userCollectRef.doc(inputcode).set(userInputResult);
+
+                    if(docData[token]) {    
+                        await voteRef.update(vote);   
+                    }
+                    else {
+                        await voteRef.set(vote);
+                    }
+                }
+                else {
+                    // console.log(submission)
+                    // console.log(selection)
+                    //let docSnap = await userCollectRef.doc(inputcode).get();
+                    // let count = docSnap.data()['count'];
+
+                    // if (submission['000']) {
+                    //     await userCollectRef.doc(inputcode).update({ count: count - 1 });
+                    // }
+                    if (selection['000']) {
+                        //await userCollectRef.doc(inputcode).update({ count: count + 1 });
+                        await voteRef.set(vote)
+                    }
                 }
             }
+            // else if (userInput.submissionId) {
+            //     // remove userInput from firebase if only one vote
+            //     let docRef = firestore
+            //                     .collection(host_id)
+            //                     .doc(room_id)
+            //                     .collection('polls')
+            //                     .doc(poll_id)
+            //                     .collection('userOptions')
+            //                     .doc(userInput.submissionId);
+            //     let docSnap = await docRef.get();
+
+            //     if (docSnap.data().count > 1) {
+            //         await docRef.update({ count: docSnap.data().count - 1})
+            //     }
+            //     else {
+            //         await firestore
+            //             .collection(host_id)
+            //             .doc(room_id)
+            //             .collection('polls')
+            //             .doc(poll_id)
+            //             .collection('userOptions')
+            //             .doc(userInput.submissionId)
+            //             .delete();
+            //     }
+            //     //delete poll.results[userInput.submissionId]
+            // }
+
+            return {
+                submitted: true,
+                inputSubmissionId: inputcode
+            }
+
+        } catch (error) {
+            console.log(error);
         }
-        // else if (userInput.submissionId) {
-        //     // remove userInput from firebase if only one vote
-        //     let docRef = firestore
-        //                     .collection(host_id)
-        //                     .doc(room_id)
-        //                     .collection('polls')
-        //                     .doc(poll_id)
-        //                     .collection('userOptions')
-        //                     .doc(userInput.submissionId);
-        //     let docSnap = await docRef.get();
-
-        //     if (docSnap.data().count > 1) {
-        //         await docRef.update({ count: docSnap.data().count - 1})
-        //     }
-        //     else {
-        //         await firestore
-        //             .collection(host_id)
-        //             .doc(room_id)
-        //             .collection('polls')
-        //             .doc(poll_id)
-        //             .collection('userOptions')
-        //             .doc(userInput.submissionId)
-        //             .delete();
-        //     }
-        //     //delete poll.results[userInput.submissionId]
-        // }
-
-        return {
-            submitted: true,
-            inputSubmissionId: inputcode
-        }
-
-    } catch (error) {
-        console.log(error);
     }
 }
 
 const getPollOrder = async (host_id, room_id) => {
     try {
         let pollSnap = await firestore
-                                .collection(host_id)
-                                .doc(room_id)
-                                .collection('polls')
-                                .doc('order')
-                                .get();
-
+            .collection(host_id)
+            .doc(room_id)
+            .collection('polls')
+            .doc('order')
+            .get();
+	
         return pollSnap.data();
     } catch(error) {
         console.log(error);

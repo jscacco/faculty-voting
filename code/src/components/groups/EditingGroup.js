@@ -34,14 +34,6 @@ class EditingGroup extends React.Component {
   constructor(props) {
     super(props);
 
-    this.size = {
-      extraSmall: props.extraSmall,
-      small: props.small,
-      medium: props.medium,
-      large: props.large,
-      extraLarge: props.extraLarge
-    }
-
     this.state = {
       order: props.order,
     }
@@ -80,6 +72,14 @@ class EditingGroup extends React.Component {
 
   render() {
 
+    const size = {
+      extraSmall: this.props.extraSmall,
+      small: this.props.small,
+      medium: this.props.medium,
+      large: this.props.large,
+      extraLarge: this.props.extraLarge
+    }
+
     const items = React.Children.map(this.props.children, (child, index) => {
       return {
         id: `${child.props.id}`,
@@ -89,16 +89,17 @@ class EditingGroup extends React.Component {
 
     if (this.state.order.length !== this.props.order.length) {
       return (
-      <Group {...this.size}/>)
+      <Group {...size}/>)
     }
+
 
     return (
 
-      <Group {...this.size}>
-        <DragGroup {...this.size} handleColor={this.props.handleColor}
+      <Group {...size}>
+        <DragGroup {...size} handleColor={this.props.handleColor}
                    items={this.state.order.map(i => items.find(item => item.id === i))}
                    onDragEnd={this.onDragEnd}/>
-        {this.props.addItem}
+        {React.cloneElement(this.props.addItem, {...size})}
       </Group>
 
     )

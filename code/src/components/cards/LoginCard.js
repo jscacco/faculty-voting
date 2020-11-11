@@ -16,6 +16,7 @@ const CenterRowWrapper = styled.div`
 
 const LoginWrapper = styled.div`
   width: 75%;
+  min-width: 250px;
 `;
 
 const HostWrapper = styled.div`
@@ -24,12 +25,25 @@ const HostWrapper = styled.div`
 
 const LoginCard = ( props ) => {
 
-  const { onHostLogin, onUserLogin } = props;
+  const { onHostLogin, onUserLogin,
+          extraSmall, small, medium, large } = props;
+
+  console.log(props)
+
+  let padding;
+
+  if ( extraSmall ) { padding = 20 }
+  else if ( small ) { padding = 25 }
+  else if ( large ) { padding = 35 }
+  else { padding = 30 }
 
   const _renderLogin = (
-    <CenterRowWrapper padding={30}>
+    <CenterRowWrapper padding={padding}>
       <LoginWrapper>
-        <Button jumbo medium backgroundColor={Colors.Green}
+        <Button jumbo
+                extraSmall={extraSmall} small={small}
+                medium={medium} large={large}
+                backgroundColor={Colors.Buff}
                 onClick={onUserLogin}>
           LOGIN
         </Button>
@@ -40,7 +54,9 @@ const LoginCard = ( props ) => {
   const _renderHostLogin = (
     <CenterRowWrapper>
       <HostWrapper>
-        <Button large onClick={onHostLogin}>
+        <Button small={extraSmall} medium={small}
+                large={medium} extraLarge={large}
+                onClick={onHostLogin}>
           LOGIN AS HOST
         </Button>
       </HostWrapper>
@@ -48,7 +64,7 @@ const LoginCard = ( props ) => {
   );
 
   return (
-    <Card>
+    <Card borderLarge {...{extraSmall, small, medium, large}} color={Colors.Blue} borderColor={Colors.Blue}>
       {_renderLogin}
       {_renderHostLogin}
     </Card>

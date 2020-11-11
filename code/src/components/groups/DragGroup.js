@@ -66,16 +66,6 @@ class DragGroup extends React.Component {
   constructor(props) {
     super(props);
 
-    const { extraSmall, small, medium, large, extraLarge } = props;
-
-    this.size = {
-      extraSmall: extraSmall,
-      small: small,
-      medium: medium,
-      large: large,
-      extraLarge: extraLarge
-    }
-
     this.onDragEnd = this.onDragEnd.bind(this);
 
   }
@@ -96,6 +86,16 @@ class DragGroup extends React.Component {
 
   render() {
 
+    const { extraSmall, small, medium, large, extraLarge } = this.props;
+
+    const size = {
+      extraSmall: extraSmall,
+      small: small,
+      medium: medium,
+      large: large,
+      extraLarge: extraLarge
+    }
+
     // console.log(this.props.items);
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
@@ -105,7 +105,7 @@ class DragGroup extends React.Component {
                            {...provided.droppableProps}>
               <InnerList items={this.props.items}
                          handleColor={this.props.handleColor}
-                         size={this.size}/>
+                         size={size}/>
               {provided.placeholder}
             </DropContainer>
           )}

@@ -11,7 +11,6 @@ import Button           from '../buttons/Button';
 import Jumbo             from '../theme/Jumbo';
 
 
-
 const propTypes = {
   value: PropTypes.string,
   handleChange: PropTypes.func,
@@ -24,7 +23,6 @@ const defaultProps = {
 };
 
 const ComponentWrapper = styled.div`
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -37,25 +35,31 @@ const ButtonWrapper = styled.div`
 `;
 
 const TextInputWrapper = styled.div`
-  padding-bottom: 20px;
+  padding-bottom: ${({padding}) => padding}px;
 `;
 
 const TitleWrapper = styled.div`
-  padding-bottom: 15px;
+  padding-bottom: ${({padding}) => padding}px;
 `;
 
 const Title = (props) => {
 
   const { title, extraSmall, small, medium, large, extraLarge } = props;
 
+  let titlePadding;
+  if ( extraSmall ) { titlePadding = 5; }
+  else if ( small ) { titlePadding = 10; }
+  else if ( large ) { titlePadding = 20; }
+  else { titlePadding = 15; }
+
   return (
-    <TitleWrapper {...{extraSmall, small, medium, large, extraLarge}}>
+    <TitleWrapper padding={titlePadding}>
       <Jumbo twoExtraSmall={extraSmall}
              extraSmall={small}
              small={medium}
              medium={large}
              large={extraLarge}
-             color={Colors.Blue}>
+             color={Colors.White}>
         {title}
       </Jumbo>
     </TitleWrapper>
@@ -63,12 +67,22 @@ const Title = (props) => {
 };
 
 const CodeInput = (props) => {
+
   const { label, value, handleChange, handleSubmit,
           extraSmall, small, medium, large, extraLarge } = props;
 
+  let inputPadding;
+  if ( extraSmall ) { inputPadding = 10 }
+  else if ( small ) { inputPadding = 15 }
+  else if ( large ) { inputPadding =  25 }
+  else { inputPadding = 20  }
+
   return (
-    <TextInputWrapper {...{extraSmall, small, medium, large, extraLarge}}>
-      <Input type={"inputfield"} value={value} onChange={handleChange} placeholder={"Enter Room Code"}
+    <TextInputWrapper padding={inputPadding}>
+      <Input type={"inputfield"} value={value} fontColor={Colors.White}
+             onChange={handleChange} placeholder={"Enter Room Code"}
+             backgroundColor={Colors.Blue} borderColor={Colors.White}
+             placeholderColor={Colors.White}
              {...{extraSmall, small, medium, large, extraLarge}}/>
     </TextInputWrapper>
   )
@@ -80,7 +94,7 @@ const EnterButton = (props) => {
 
   return(
     <ButtonWrapper>
-      <Button onClick={handleSubmit}
+      <Button onClick={handleSubmit} color={Colors.White} backgroundColor={Colors.Buff}
               {...{extraSmall, small, medium, large, extraLarge}}>
          ENTER
       </Button>
@@ -92,7 +106,7 @@ const EnterButton = (props) => {
 const RoomCodeForm = (props) => {
 
     return (
-      <Card>
+      <Card borderLarge color={Colors.Blue} borderColor={Colors.Blue}>
         <ComponentWrapper>
           <Title {...props}/>
           <CodeInput {...props}/>

@@ -5,10 +5,47 @@ import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 
 import { Colors }           from '../components/theme/Colors';
+import ViewportHandler      from './format-pages/ViewportHandler';
 import MainPage             from './format-pages/MainPage';
 
 import UserPollCard         from '../components/cards/UserPollCard';
 
+
+const getSize = (viewport) => {
+
+  let size = {};
+  switch (viewport) {
+    case 'mobile':
+    case 'smallMobile':
+      size.extraSmall = true;
+      break;
+    case 'hdDesktop':
+    case 'uhdDesktop':
+      size.medium = true;
+      break;
+    default:
+      size.small = true;
+  }
+
+  return size;
+}
+
+const PollComponent = ( props ) => {
+
+  const size = getSize(props.viewport);
+
+  return (
+    <UserPollCard pollData={props.pollData}
+                  userInput={props.userInput}
+                  onOptionChange={props.onOptionChange}
+                  onInputChange={props.onInputChange}
+                  onSubmit={props.onSubmit}
+                  submittedOptions={props.submittedOptions}
+                  submissionStatus={props.submissionStatus}
+                  submitLoading={props.submitLoading}
+                  {...size} />
+  )
+}
 
 const UserPollPage = ( props ) => {
 
@@ -19,19 +56,18 @@ const UserPollPage = ( props ) => {
     props.onFetchPoll(roomcode, pollcode);
   }, [])
 
-  console.log(props);
-
   return (
     <MainPage>
-        <UserPollCard pollData={props.poll}
-                      userInput={props.userInput}
-                      onOptionChange={props.onOptionChange}
-                      onInputChange={props.onInputChange}
-                      onSubmit={() => props.onSubmit(roomcode, pollcode)}
-                      submittedOptions={props.submission}
-                      submissionStatus={props.submissionStatus}
-                      submitLoading={props.submitLoading}
-                      medium />
+      <ViewportHandler>
+        <PollComponent pollData={props.poll}
+                       userInput={props.userInput}
+                       onOptionChange={props.onOptionChange}
+                       onInputChange={props.onInputChange}
+                       onSubmit={() => props.onSubmit(roomcode, pollcode)}
+                       submittedOptions={props.submission}
+                       submissionStatus={props.submissionStatus}
+                       submitLoading={props.submitLoading}/>
+      </ViewportHandler>
     </MainPage>
   );
 }

@@ -45,6 +45,17 @@ const SectionHeadingWrapper = styled.div`
   padding-bottom: 10px;
 `;
 
+const HorizontalSectionWrapper = styled.div`
+  padding-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const ButtonWrapper = styled.div`
+  width: auto;
+`;
+
 const PanelHeader = ( props ) => {
 
   return (
@@ -96,6 +107,17 @@ const PanelSection = ( props ) => {
 
   const { status, children, onStatusClick, color, size, ...rest } = props;
 
+  if (size.extraSmall) {
+    return (
+      <HorizontalSectionWrapper>
+        <StatusText status={status} color={color} {...size}/>
+        {children}
+        <ButtonWrapper>
+          <StatusButton status={status} onClick={onStatusClick} size={size}/>
+        </ButtonWrapper>
+      </HorizontalSectionWrapper>
+    )
+  }
   return (
     <SectionWrapper>
       <SectionHeadingWrapper>
@@ -118,7 +140,7 @@ const HostStatusCard = ( props ) => {
   }
 
   return (
-    <Card color={props.cardColor} borderColor={props.borderColor} medium>
+    <Card color={props.cardColor} borderColor={props.borderColor} borderMedium {...size}>
       <PanelHeader color={props.headerColor} {...size}/>
       <PanelSection status={props.pollStatus} onStatusClick={props.onStatusClick}
                     color={props.textColor} size={size}/>

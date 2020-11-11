@@ -21,6 +21,7 @@ const propTypes = {
 
 const defaultProps = {
   color: Colors.White,
+  borderColor: Colors.White
 }
 
 const CardComponent = styled.div`
@@ -30,36 +31,60 @@ const CardComponent = styled.div`
   ${({height}) => height ?`height: ${height}` : `height: auto`};
   width: ${({width}) => width ? `${width}` : `auto`};
   padding: ${({padding}) => padding}px;
-  ${({borderColor}) => borderColor ? `border: 5px solid ${borderColor}` : ``};
+  ${({borderColor, borderWidth}) => borderColor ? `border: ${borderWidth}px solid ${borderColor}` : ``};
 `;
 
-const sizeConfig = {
+const paddingConfig = {
+  extraSmall: {
+    small: 8,
+    medium: 10,
+    large: 20,
+  },
   small: {
-    borderRadius: 5,
-    padding: 10,
+    small: 10,
+    medium: 12,
+    large: 25,
   },
   medium: {
-    borderRadius: 15,
-    padding: 25,
+    small: 15,
+    medium: 25,
+    large: 35,
   },
   large: {
-    borderRadius: 20,
-    padding: 35
+    small: 20,
+    medium: 42,
+    large: 50,
   }
+}
+
+const getPadding = (size, borderSmall, borderMedium, borderLarge) => {
+
+  if (borderSmall) { return paddingConfig[size].small}
+  else if (borderLarge) { return paddingConfig[size].large}
+  else { return paddingConfig[size].medium}
 }
 
 const Card = ( props ) => {
 
-  const { children, small, large, ...rest } = props;
+  const { children, borderSmall, borderMedium, borderLarge,
+          extraSmall, small, medium, large, ...rest } = props;
 
-  let size;
-  if ( small ) { size = sizeConfig.small }
-  else if ( large ) { size = sizeConfig.large }
-  else { size = sizeConfig.large }
+  let borderRadius;
+  if ( borderSmall ) { borderRadius = 5 }
+  else if ( borderLarge ) { borderRadius = 20 }
+  else { borderRadius = 15 }
+
+  let padding;
+  let borderWidth;
+  if ( extraSmall ) { padding = getPadding('extraSmall', borderSmall, borderMedium, borderLarge); borderWidth = 3 }
+  else if ( small ) { padding = getPadding('small', borderSmall, borderMedium, borderLarge); borderWidth = 3 }
+  else if ( large ) { padding = getPadding('large', borderSmall, borderMedium, borderLarge); borderWidth = 5 }
+  else { padding = getPadding('medium', borderSmall, borderMedium, borderLarge); borderWidth = 5 }
 
   return (
-    <CardComponent borderRadius={size.borderRadius}
-                   padding={size.padding}
+    <CardComponent borderRadius={borderRadius}
+                   borderWidth={borderWidth}
+                   padding={padding}
                    {...rest}>
       {children}
     </CardComponent>
