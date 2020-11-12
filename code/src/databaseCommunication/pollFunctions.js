@@ -347,7 +347,7 @@ const getPollResults = async (user_id, room_id, poll_id, host_id = null) => {
                         .collection('Votes')
                         .doc('votes');
         let voteSnap = await voteRef.get();
-        let voteData = voteSnap.data().votes;
+        let voteData = voteSnap.data().finalVotes;
         
         for (let i = 0; i < poll.optionsOrder.length; i++) {
             const option_id = poll.optionsOrder[i];
@@ -626,7 +626,7 @@ const countVotes = async (host_id, room_id, poll_id) => {
         }
 
         await voteRef.set({
-            votes: votes
+            finalVotes: votes
         })
         
         return;
