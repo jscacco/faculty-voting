@@ -24,6 +24,8 @@ import PieChart    from '../charts/PieChart';
 import BarChart    from '../charts/BarChart';
 
 import Pdf from "react-to-pdf";
+import { CSVLink } from "react-csv";
+import { formatResultsAsCSV } from '../../csv/csvFunctions.js';
 
 // import { fetchAgenda, getPollResults } from '../../store/MockDataFunctions'
 
@@ -48,9 +50,11 @@ const RoomResultsCard = ( props ) => {
   )
 
   const _toPDFButton = (
-    <Pdf targetRef={ref} filename="poll-results.pdf">
-      {({ toPdf }) => <Button medium onClick={toPdf}>Download Pdf</Button>}
-    </Pdf>
+    <Button backgroundColor={Colors.Buff}>
+      <CSVLink data={formatResultsAsCSV(props.roomResults)}>
+        Export CSV
+      </CSVLink>
+    </Button>
   )
 
   const _renderCharts = () =>  {

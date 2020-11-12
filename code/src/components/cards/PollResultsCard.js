@@ -24,6 +24,8 @@ import PieChart    from '../charts/PieChart';
 import BarChart    from '../charts/BarChart';
 
 import Pdf from "react-to-pdf";
+import { CSVLink } from "react-csv";
+
 const ref = React.createRef();
 
 
@@ -34,7 +36,15 @@ const HiddenWrapper = styled.div`
 
 const PollResultsCard = ( props ) => {
 
-  const { pollResults, toPDF } = props;
+  const { pollResults } = props;
+
+  // Array of arrays. Each item is rendered as a CSV line
+  const data = [
+    ["firstname", "lastname", "email"],
+    ["Ahmed", "Tomi", "ah@smthing.co.com"],
+    ["Raed", "Labes", "rl@smthing.co.com"],
+    ["Yezzi", "Min l3b", "ymin@cocococo.com"]
+  ];
 
   const _header = (
     <Jumbo extraSmall color={Colors.Blue}>
@@ -43,9 +53,11 @@ const PollResultsCard = ( props ) => {
   )
 
   const _toPDFButton = (
-    <Pdf targetRef={ref} filename="poll-results.pdf">
-      {({ toPdf }) => <Button ref={ref} onClick={toPdf}>Generate Pdf</Button>}
-    </Pdf>
+    <Button>
+    <CSVLink data={data}>
+      Download me
+    </CSVLink>
+    </Button>
   )
 
   const _description = (
@@ -60,33 +72,16 @@ const PollResultsCard = ( props ) => {
               dataValues={pollResults.optionsOrder.map(id => pollResults.results[id].count)}/>
   )
 
-  const MyPDF = React.forwardRef((props, ref) => (
-    <div ref={ref}>
-      <PDFPreviewCard header={props.header} children={props.children} />
-    </div>
-  ));
-
-  const _pdfChildren = (
-    <>
-      {_description}
-      {_chart}
-    </>
-  )
-
   const _children = (
     <>
       {_description}
       {_chart}
-      <HiddenWrapper>
-        {<MyPDF ref={ref} header={_header} children={_pdfChildren} />}
-      </HiddenWrapper>
     </>
   )
 
   return (
     <PrimaryCard cardColor={Colors.White} width={`100%`}
-                 header={_header} headerButton={_toPDFButton}
-                 children={_children}/>
+                 header={_header} children={_children}/>
   )
 };
 
