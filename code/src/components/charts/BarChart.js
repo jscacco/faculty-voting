@@ -20,8 +20,8 @@ const BarChart = (props) => {
       {
         label: 'Responses',
         showLabel: false,
-        backgroundColor: Colors.LightBlue,
-        borderColor: Colors.LightBlue,
+        backgroundColor: Colors.Blue,
+        borderColor: Colors.Blue,
         borderWidth: 1,
         hoverBackgroundColor: Colors.Blue,
         hoverBorderColor: Colors.Blue,

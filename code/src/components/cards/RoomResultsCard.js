@@ -36,6 +36,16 @@ const HiddenWrapper = styled.div`
   bottom: 20000px;
 `;
 
+const csvLinkStyle  = {
+  // fontSize: 14,
+  // fontWeight: 500,
+  height: 52,
+  'text-decoration': 'none',
+  padding: '0 48px',
+  borderRadius: 5,
+  color: Colors.White,
+};
+
 const RoomResultsCard = ( props ) => {
 
   // const { room } = props;
@@ -49,9 +59,11 @@ const RoomResultsCard = ( props ) => {
     </Jumbo>
   )
 
+
+  const filename = props.roomResults.title + ".csv"
   const _toPDFButton = (
-    <Button backgroundColor={Colors.Buff}>
-      <CSVLink data={formatResultsAsCSV(props.roomResults)}>
+    <Button backgroundColor={Colors.Blue}>
+      <CSVLink data={formatResultsAsCSV(props.roomResults)} style={csvLinkStyle} filename={filename}>
         Export CSV
       </CSVLink>
     </Button>
