@@ -62,7 +62,7 @@ const AgendaComponent = ( props ) => {
                                  onPollEditClick={props.onPollEditClick}
                                  {...props.cardProps}/> :
       <HostAgendaCard {...size} {...props.cardProps}
-                      onStatusClick={props.onUpdatePollStatus}
+                      onStatusClick={props.onStatusClick}
                       onViewClick={props.onViewClick}/>
 
 }
@@ -126,7 +126,7 @@ const HostRoomPage = ( props ) => {
 
   return (
     <ViewportHandler>
-      <SideBarPage sideContent={sideContent} color={Colors.LightBlue}>
+      <SideBarPage sideContent={sideContent} color={Colors.Blue}>
         <AgendaComponent editing={props.editing}
                          onAddClick={() => props.onAddClick(roomcode)}
                          onDeleteClick={props.onDeleteClick}

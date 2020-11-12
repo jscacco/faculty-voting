@@ -8,10 +8,10 @@ export const Colors = {
   'Red' : '#F24236',
   '#F24236' : '#F24236',
 
-  'Blue' : '#1C77C3',
-  '#1C77C3' : '#1C77C3',
+  'Blue' : '#013087',
+  '#1C77C3' : '#013087',
 
-  'LightBlue' : '#39A9DB',
+  'LightBlue': '#39A9DB',
   '#39A9DB' : '#39A9DB',
 
   'DarkGreen' : '#19535F',
@@ -30,5 +30,8 @@ export const Colors = {
   '#FFFFFF' : '#FFFFFF',
 
   'LightGrey': '#d3d3d3',
-  '#d3d3d3': '#d3d3d3'
+  '#d3d3d3': '#d3d3d3',
+
+  'Buff': '#CFB387',
+  '#CFB387': '#CFB387',
 };

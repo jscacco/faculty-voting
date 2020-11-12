@@ -96,7 +96,7 @@ const LoginPage = ( props ) => {
 
   return (
     <ViewportHandler>
-      <MainPage color={Colors.LightBlue}>
+      <MainPage color={Colors.Blue}>
           <LoginComponent/>
       </MainPage>
     </ViewportHandler>

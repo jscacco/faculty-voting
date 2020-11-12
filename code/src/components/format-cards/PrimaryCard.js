@@ -26,7 +26,7 @@ const propTypes = {
 
 
 const defaultProps ={
-  cardColor: Colors.LightBlue,
+  cardColor: Colors.Blue,
   cardBorderColor: Colors.White,
 };
 
