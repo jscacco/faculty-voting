@@ -24,6 +24,8 @@ import PieChart    from '../charts/PieChart';
 import BarChart    from '../charts/BarChart';
 
 import Pdf from "react-to-pdf";
+import { CSVLink } from "react-csv";
+import { formatResultsAsCSV } from '../../csv/csvFunctions.js';
 
 // import { fetchAgenda, getPollResults } from '../../store/MockDataFunctions'
 
@@ -33,6 +35,16 @@ const HiddenWrapper = styled.div`
   position: absolute;
   bottom: 20000px;
 `;
+
+const csvLinkStyle  = {
+  // fontSize: 14,
+  // fontWeight: 500,
+  height: 52,
+  'text-decoration': 'none',
+  padding: '0 48px',
+  borderRadius: 5,
+  color: Colors.White,
+};
 
 const RoomResultsCard = ( props ) => {
 
@@ -47,10 +59,14 @@ const RoomResultsCard = ( props ) => {
     </Jumbo>
   )
 
+
+  const filename = props.roomResults.title + ".csv"
   const _toPDFButton = (
-    <Pdf targetRef={ref} filename="poll-results.pdf">
-      {({ toPdf }) => <Button medium onClick={toPdf}>Download Pdf</Button>}
-    </Pdf>
+    <Button backgroundColor={Colors.Blue}>
+      <CSVLink data={formatResultsAsCSV(props.roomResults)} style={csvLinkStyle} filename={filename}>
+        Export CSV
+      </CSVLink>
+    </Button>
   )
 
   const _renderCharts = () =>  {
