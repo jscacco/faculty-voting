@@ -62,7 +62,7 @@ const AgendaComponent = ( props ) => {
                                  onPollEditClick={props.onPollEditClick}
                                  {...props.cardProps}/> :
       <HostAgendaCard {...size} {...props.cardProps}
-                      onStatusClick={props.onUpdatePollStatus}
+                      onStatusClick={props.onStatusClick}
                       onViewClick={props.onViewClick}/>
 
 }
