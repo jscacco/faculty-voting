@@ -379,14 +379,16 @@ const getPollResults = async (user_id, room_id, poll_id, host_id = null) => {
                                         .doc(userCollectSnap.docs[x].id)
                                         .get();
                 //console.log(userCollectSnap.docs[x].id)
-                results[userCollectSnap.docs[x].id] = {
-                    id: userCollectSnap.docs[x].id,
-                    count: voteData[userCollectSnap.docs[x].id]
-                }
-                poll.optionsOrder.push(userCollectSnap.docs[x].id);
-                poll.options[userCollectSnap.docs[x].id] = {
-                    ...results[userCollectSnap.docs[x].id],
-                    value: optionSnap.data()['value']
+                if(voteData[userCollectSnap.docs[x].id] > 0) {
+                    results[userCollectSnap.docs[x].id] = {
+                        id: userCollectSnap.docs[x].id,
+                        count: voteData[userCollectSnap.docs[x].id]
+                    }
+                    poll.optionsOrder.push(userCollectSnap.docs[x].id);
+                    poll.options[userCollectSnap.docs[x].id] = {
+                        ...results[userCollectSnap.docs[x].id],
+                        value: optionSnap.data()['value']
+                    }
                 }
             }
         }
