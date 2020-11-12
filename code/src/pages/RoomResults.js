@@ -20,7 +20,7 @@ const PollResultsPage = ( props ) => {
   console.log(props);
 
   return (
-    <MainPage color={Colors.LightBlue}>
+    <MainPage>
       <RoomResultsCard roomResults={props.roomResults}/>
     </MainPage>
   );
