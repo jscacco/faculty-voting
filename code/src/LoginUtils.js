@@ -73,15 +73,14 @@ const userIsHamiltonian = () => {
 
 const getUserId = () => {
     if (!(userIsLoggedIn())) {
-		await userLogin();
-		return getUserId();
+		return "";
     } else {
 		let email = getCurrentUserEmail();
 		return email.split('@')[0];
     }
 }
 
-const userIsHost = (host_id) => {
+const userIsHost = async (host_id) => {
     console.log("Checking if host...");
     
     if (getUserId() == host_id) {
@@ -130,7 +129,7 @@ const userIsHostOfRoom = async (room_id) => {
 
     console.log("checking if current user is host of " + room_id);
     
-    let currentUser = getUserId();
+    let currentUser = await getUserId();
 
     try {
 	let docRef = firestore

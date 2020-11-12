@@ -429,13 +429,33 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
             for (let i = 0; i < poll.optionsOrder.length; i++) {
                 let option_id = poll.optionsOrder[i];
                 let vote = {};
-                vote[token] = option_id;
 
-                if(selection[option_id] && docData[token]) {    
-                    await voteRef.update(vote);   
+                if(poll.type === 'single') {
+                    vote[token] = option_id;
+                    if(selection[option_id] && docData[token]) {    
+                        await voteRef.update(vote);   
+                    }
+                    else if(selection[option_id]) {
+                        await voteRef.set(vote);
+                    }
                 }
-                else if(selection[option_id]) {
-                    await voteRef.set(vote);
+                else {
+                    let multi_token = token + option_id;
+                    vote[multi_token] = option_id;
+                    
+                    if(selection[option_id] && docData[multi_token]) {    
+                        await voteRef.update(vote);   
+                    }
+                    else if(selection[option_id]) {
+                        await voteRef.update(vote);
+                    }
+                    if(submission[option_id] && !selection[option_id]) {
+                        // console.log(option_id)
+                        // console.log(multi_token)
+                        vote[multi_token] = firebase.firestore.FieldValue.delete();
+                        await voteRef.update(vote)
+                    }
+
                 }
             }
             // THE ABOVE WORKS PROPERLY
