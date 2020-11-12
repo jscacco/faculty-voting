@@ -431,7 +431,7 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
                 let vote = {};
 
                 if(poll.type === 'single') {
-                    vote[token] = option_id;
+                    vote[token] = {vote: option_id};
                     if(selection[option_id] && docData[token]) {    
                         await voteRef.update(vote);   
                     }
@@ -441,7 +441,7 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
                 }
                 else {
                     let multi_token = token + option_id;
-                    vote[multi_token] = option_id;
+                    vote[multi_token] = {vote: option_id};
                     
                     if(selection[option_id] && docData[multi_token]) {    
                         await voteRef.update(vote);   
@@ -485,37 +485,37 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
                 let exists = false;
             
                 if (selection[userInput.id]) {
-            let userCollectRef = firestore
-                        .collection(host_id)
-                        .doc(room_id)
-                        .collection('polls')
-                        .doc(poll_id)
-                        .collection('userOptions');
-            
-            let existingValuesSnap = await userCollectRef.doc('order').get();
-            let existingValuesData = existingValuesSnap.data();
-            let vals = existingValuesData.values;
-            
-            if (Object.keys(vals).includes(userInput.value)) {
-                        inputcode = vals[userInput.value];
-                        exists = true;
-            }
-            else if (!userInput.submissionId) {
-                        inputcode = generateUserOptionId();
+                    let userCollectRef = firestore
+                                .collection(host_id)
+                                .doc(room_id)
+                                .collection('polls')
+                                .doc(poll_id)
+                                .collection('userOptions');
+                    
+                    let existingValuesSnap = await userCollectRef.doc('order').get();
+                    let existingValuesData = existingValuesSnap.data();
+                    let vals = existingValuesData.values;
+                    
+                    if (Object.keys(vals).includes(userInput.value)) {
+                                inputcode = vals[userInput.value];
+                                exists = true;
                     }
+                    else if (!userInput.submissionId) {
+                                inputcode = generateUserOptionId();
+                            }
 
                     vals[userInput.value] = inputcode;
 
                     await userCollectRef.doc('order').update({
                         values: vals
-                    })
+                    });
                 }
                 else {
                     inputcode = userInput.submissionId
                 }
 
                 let vote = {};
-                vote[token] = inputcode;
+                vote[token] = {vote: inputcode};
 
                 if (!exists) {    
                     const userInputResult = {
@@ -616,11 +616,12 @@ const countVotes = async (host_id, room_id, poll_id) => {
         let voteData = voteSnap.data();
         
         for(const[key, value] of Object.entries(voteData)) {
-            if(votes[value]) {
-                votes[value]++;
+            let vote = value.vote;
+            if(votes[vote]) {
+                votes[vote]++;
             }
             else {
-                votes[value] = 1;
+                votes[vote] = 1;
             }
         }
 
