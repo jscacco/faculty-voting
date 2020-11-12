@@ -1,8 +1,32 @@
-import sjcl from 'sjcl';
+var crypto = require("crypto");
+//UNCOMMENT ONCE ON SERVER
+// var fs = require("fs");
 
 // TODO (Jack): Change this so the key is stored on the server or in the directory
-var tempKey = "test-key";
+// let tempKey = "test-key";
+let SECRETKEY = null;
 
+
+/*
+// UNCOMMENT ONCE ON SERVER
+const readSecretKey = async () => {
+    // Reads the secret key in from 'secret_key.txt'
+    // code from
+    // https://stackoverflow.com/questions/5784621/how-to-read-binary-files-byte-by-byte-in-node-js
+    SECRETKEY = fs.readFile('secret_key.txt', function(err, data) {
+	if (err) {
+	    console.log(err);
+	}
+    });
+}
+
+*/
+// This is a dummy func since we can't do file reading on react
+const readSecretKey = async () => {
+    SECRETKEY = "placeholder secret key";
+}
+
+    
 const generatePollMsg = async (poll) => {
     let msg = "";
     msg += "id=" + poll['id'] + ";";
@@ -41,12 +65,23 @@ const generateRoomMsg = async (room) => {
     return msg;
 }
 
-
+/*
 const generateHmac = async (msg) => {
     let key = sjcl.codec.utf8String.toBits(tempKey);
     let out = (new sjcl.misc.hmac(key, sjcl.hash.sha256)).mac(msg);
     let hmac = sjcl.codec.hex.fromBits(out);
     return hmac;
+}
+*/
+
+const generateHmac = async (msg) => {
+    // If we haven't yet read in the secret key, do so now.
+    if (SECRETKEY === null) {
+	await readSecretKey();
+    }
+    const hmac = crypto.createHmac('sha256', SECRETKEY);
+    hmac.update(msg);
+    return hmac.digest('hex');
 }
 
 
