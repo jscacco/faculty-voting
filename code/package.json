@@ -12,6 +12,7 @@
     "canvasjs": "^1.8.3",
     "chart.js": "^2.9.4",
     "chartjs-plugin-datalabels": "^0.7.0",
+    "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "firebase": "^7.24.0",
     "firebase-admin": "^9.3.0",

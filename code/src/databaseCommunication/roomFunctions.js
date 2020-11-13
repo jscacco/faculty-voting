@@ -172,6 +172,20 @@ const addHostRoom = async (host_id) => {
             let roomSnap = await firestore
                             .collection(host_id)
                             .get();
+
+            if(roomSnap.docs.length < 1) {
+                await firestore
+                        .collection(host_id)
+                        .doc('order')
+                        .set({
+                            pending: [],
+                            open: [],
+                            closed: []
+                        });
+                roomSnap = await firestore
+                                    .collection(host_id)
+                                    .get();
+            }
             let roomDocs = roomSnap.docs;
 
             while(exists) {
