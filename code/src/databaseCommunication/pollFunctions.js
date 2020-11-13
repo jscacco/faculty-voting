@@ -609,6 +609,7 @@ const countVotes = async (host_id, room_id, poll_id) => {
         
         for(const[key, value] of Object.entries(voteData)) {
             let choices = value.choice;
+            //console.log(choices)
             for(let i = 0; i < choices.length; i++) {
                 if(votes[choices[i]]) {
                     votes[choices[i]]++;
