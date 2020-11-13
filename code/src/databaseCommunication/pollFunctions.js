@@ -414,6 +414,7 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
         try {
             let poll = await fetchPollData(host_id, room_id, poll_id);
             let token = getToken();
+	    // voteRef is the collection of all votes, like the "ballot box"
             let voteRef = firestore
                                 .collection(host_id)
                                 .doc(room_id)
@@ -424,14 +425,17 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
             let docSnap = await voteRef.get();
             let docData = docSnap.data();
 
+	    // Iterate through each of the poll options
             for (let i = 0; i < poll.optionsOrder.length; i++) {
                 let option_id = poll.optionsOrder[i];
                 let vote = {};
                 vote[token] = option_id;
 
+		// If we chose this option and we already voted, update the vote
                 if(selection[option_id] && docData[token]) {    
                     await voteRef.update(vote);   
                 }
+		// If we chose this option and didn't vote yet, add the vote
                 else if(selection[option_id]) {
                     await voteRef.set(vote);
                 }
