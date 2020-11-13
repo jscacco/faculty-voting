@@ -6,6 +6,8 @@ import ActionTypes          from '../store/actionTypes';
 
 import history              from '../history';
 
+import Loading              from './Loading';
+
 import { Colors }           from '../components/theme/Colors';
 import ViewportHandler      from './format-pages/ViewportHandler';
 import SideBarPage          from './format-pages/SideBarPage';
@@ -85,6 +87,10 @@ const HostRoomPage = ( props ) => {
     onEditClick: () => props.onEditClick(roomcode),
   }
 
+  console.log(props)
+  if (props.loading) return( <Loading/> )
+  if (props.error) {history.replace(`/Login`)}
+
 
   const onViewClick = (poll_id) => {
     props.polls[poll_id].status === 'closed' ?
@@ -150,7 +156,8 @@ const mapStateToProps = (state) => {
     polls: state.hostagenda.polls,
     order: state.hostagenda.order,
     editing: state.hostagenda.editing,
-    loading: state.hostagenda.loading
+    loading: state.hostagenda.loading,
+    error: state.hostagenda.error,
   }
 }
 

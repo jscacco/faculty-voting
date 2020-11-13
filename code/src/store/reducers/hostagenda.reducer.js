@@ -12,7 +12,7 @@ const initialState = {
   },
   editing: false,
   loading: false,
-  error: null,
+  error: false,
 }
 
 let result;
@@ -22,18 +22,21 @@ let newOrder;
 export default function reduceHostAgenda(state = initialState, action) {
 
   switch (action.type) {
-    case ActionTypes.hostagenda.FETCH_AGENGA_START:
-      return { ...state, loading: true, error: null };
+    case ActionTypes.hostagenda.FETCH_AGENDA_START:
+      console.log('started');
+      return { ...state, loading: true, error: false };
 
     case ActionTypes.hostagenda.FETCH_AGENDA_SUCCESS:
+      console.log('finished')
       result = action.response;
       return {
         ...state,
-        loading: false,
         title: result.title,
         status: result.status,
         polls: result.polls,
-        order: result.order
+        order: result.order,
+        loading: false,
+        error: false,
       };
     case ActionTypes.hostagenda.FETCH_AGENDA_ERROR:
       return {

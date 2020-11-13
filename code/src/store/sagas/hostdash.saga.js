@@ -3,7 +3,8 @@ import ActionTypes       from '../actionTypes';
 import { fetchHostRooms,
 		 deleteHostRoom,
 		 addHostRoom }	 from '../../databaseCommunication/roomFunctions';
-import { getUserId } 			from '../../LoginUtils';
+import { getUserId,
+ 				 userIsLoggedIn, userIsHostOfRoom } 			from '../../LoginUtils';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -17,8 +18,11 @@ import { getUserId } 			from '../../LoginUtils';
 export function* fetchRooms (action) {
 
 	try {
-		const user_id = getUserId();
-							                     // host_id
+		const user_id = yield call(getUserId);
+		console.log(user_id)
+		if (!user_id) { console.log('here'); throw 'Not logged in'};
+
+		// const user_id = getUserId();
 		const response = yield call(fetchHostRooms, user_id);
 		console.log(response);
 		yield put({
@@ -27,7 +31,7 @@ export function* fetchRooms (action) {
 		});
 
 	} catch(error) {
-
+		console.log('here')
 		yield put({
 			type: ActionTypes.hostdash.FETCH_ROOMS_ERROR,
       error
@@ -61,7 +65,8 @@ export function* deleteRoom (action) {
 export function* addRoom (action) {
 
 	try {
-		const user_id = getUserId();
+		const user_id = yield call(getUserId);
+		console.log(user_id);
 		                                      // host_id
 		const response = yield call(addHostRoom, user_id);
 		console.log(response);

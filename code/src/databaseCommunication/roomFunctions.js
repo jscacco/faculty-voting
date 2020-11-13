@@ -173,9 +173,10 @@ const deleteHostRoom = async (host_id, room_id) => {
 }
 
 const addHostRoom = async (host_id) => {
-    if (!(await userIsHost(host_id))) {
-	console.log("You are not the host! Call to addHostRoom cancelled.");
-    } else {
+  // if (false) {
+  //   // if (!(await userIsHost(host_id))) {
+	// console.log("You are not the host! Call to addHostRoom cancelled.");
+  //   } else {
         try {
                 let exists = true;
                 let roomCode = generateRoomCode();
@@ -248,13 +249,13 @@ const addHostRoom = async (host_id) => {
         } catch (error) {
                 console.log(error);
         }
-    }
+    // }
 }
 
 const updateRoom = async (host_id, room_id, room_state) => {
-    if (!(await userIsHost(host_id))) {
-        console.log("You are not the host! Call to updateRoom cancelled.");
-    } else {
+    // if (!(await userIsHost(host_id))) {
+    //     console.log("You are not the host! Call to updateRoom cancelled.");
+    // } else {
         try {
             let { order, ...hostDash } = await fetchHostRooms(host_id);
             let room = hostDash['rooms'][room_id];
@@ -301,16 +302,16 @@ const updateRoom = async (host_id, room_id, room_state) => {
         } catch (error) {
             console.log(error);
         }
-    }
+    // }
 }
 
 const setPollOrder = async (host_id, room_id, new_order) => {
     // TODO: move this to roomFunctions.js
     // changes the order of the polls in the room
 
-    if (!(await userIsHost(host_id))) {
-	console.log("You are not the host! Call to addHostRoom cancelled.");
-    } else {
+  //   if (!(await userIsHost(host_id))) {
+	// console.log("You are not the host! Call to addHostRoom cancelled.");
+  //   } else {
 	try {
             // Get the room info so we can compute new hash
             const roomDocument = firestore
@@ -350,7 +351,7 @@ const setPollOrder = async (host_id, room_id, new_order) => {
 	} catch (error) {
             console.log(error);
 	}
-    }
+    // }
 }
 
 const getHost = async (room_id) => {

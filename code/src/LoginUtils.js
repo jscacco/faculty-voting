@@ -62,9 +62,11 @@ const userIsHamiltonian = () => {
     return result;
 }
 
-const getUserId = () => {
-    if (!(userIsLoggedIn())) {
-	return "";
+
+const getUserId = async () => {
+  const logged_in = await userIsLoggedIn();
+    if (!logged_in) {
+	return null;
     } else {
 	let email = getCurrentUserEmail();
 	return email.split('@')[0];
@@ -73,8 +75,8 @@ const getUserId = () => {
 
 const userIsHost = (host_id) => {
     console.log("Checking if host...");
-
-    if (getUserId() == host_id) {
+    console.log(host_id);
+    if (getUserId() === host_id) {
 	console.log("User is host.")
 	return true;
     } else {
@@ -111,8 +113,36 @@ const userIsVoter = async () => {
 
 
 const userIsLoggedIn = async () => {
-    let current_user = await fireauth.currentUser
-    return current_user !== null;
+    return fireauth.currentUser !== null;
 }
 
-export {userLogin, getUserId, getCurrentUserEmail, signOutCurrentUser, userIsHamiltonian, userIsHost, userIsVoter, userIsLoggedIn};
+
+const userIsHostOfRoom = async (room_id) => {
+    // Given a roomId, returns true if the currently logged in user is the host of that room.
+
+    console.log("checking if current user is host of " + room_id);
+
+    let currentUser = await getUserId();
+    console.log(currentUser)
+
+    try {
+	let docRef = firestore
+	    .collection(currentUser)
+	    .doc(room_id);
+
+	let doc = await docRef.get();
+
+	if (doc.exists) {
+	    console.log("current user is host of " + room_id);
+	    return currentUser;
+	} else {
+	    console.log("current user isn't host of " + room_id);
+	    return null;
+	}
+    } catch(error) {
+	console.log(error);
+	return null;
+    }
+}
+
+export {userLogin, getUserId, getCurrentUserEmail, signOutCurrentUser, userIsHamiltonian, userIsHost, userIsVoter, userIsLoggedIn, userIsHostOfRoom};

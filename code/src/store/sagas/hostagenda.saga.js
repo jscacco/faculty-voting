@@ -2,7 +2,7 @@ import { select, call, put }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
 import { fetchAgenda, addPoll, updatePollStatus } 		  from '../../databaseCommunication/pollFunctions';
 import { updateRoom, updateRoomStatus } 		  from '../../databaseCommunication/roomFunctions';
-import { getUserId } 			from '../../LoginUtils';
+import { getUserId, userIsHostOfRoom } 			from '../../LoginUtils';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -16,8 +16,15 @@ import { getUserId } 			from '../../LoginUtils';
 export function* fetchHostAgenda (action) {
 
 	try {
-		const user_id = getUserId();
-		// console.log('here');                       host_id
+		const user_id = yield call(userIsHostOfRoom, action.room_id);
+		console.log(user_id)
+		if (!user_id) { throw 'Not host'};
+		console.log(user_id)
+		// const user_id = getUserId();
+		//
+		// const isHost = yield call(userIsHostOfRoom, '9911');
+		// if
+
 		const response = yield call(() => fetchAgenda(user_id, action.room_id))
 		// const response = yield call(() => fetchAgenda(action.room_id))
 
@@ -50,7 +57,9 @@ export function* updateHostAgenda (action) {
 
 	try {
 		const roomState = yield select(roomSelector);
-		const user_id = getUserId();
+		const user_id = yield call(userIsHostOfRoom, action.room_id);
+		console.log(user_id)
+		if (!user_id) { throw 'Not host'};
 		                                          // host_id
 		const response = yield call(() => updateRoom(user_id, action.room_id, {...roomState}))
 		// console.log(response);
