@@ -45,7 +45,7 @@ const Header = ( props ) => (
   <Input label={'Title'} type={'inputfield'}
          value={props.title} fontColor={Colors.White}
          onChange={props.onChange}
-         backgroundColor={Colors.LightBlue}
+         backgroundColor={Colors.Blue}
          labelColor={Colors.White}
          {...props.size}/>
 )
