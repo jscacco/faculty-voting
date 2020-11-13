@@ -89,10 +89,10 @@ const generatePollHash = async (poll) => {
     // Given a poll, generate the hash associated with it
 
     let msg = await generatePollMsg(poll);
-    //console.log("Generating hash of: " + msg);
+    console.log("Generating hash of: " + msg);
     
     let hmac = await generateHmac(msg);
-    //console.log("Hash: " + hmac);
+    console.log("Hash: " + hmac);
     
     return hmac;
 }
@@ -101,10 +101,10 @@ const generateRoomHash = async (room) => {
     // Given a room, generate the hash associated with it
 
     let msg = await generateRoomMsg(room);
-    //console.log("Generating hash of: " + msg);
+    console.log("Generating hash of: " + msg);
     
     let hmac = await generateHmac(msg);
-    //console.log("Hash: " + hmac);
+    console.log("Hash: " + hmac);
     
     return hmac;
 }

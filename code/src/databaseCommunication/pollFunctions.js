@@ -69,7 +69,6 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
           var opt = {
               id: optDocData['id'],
               value: optDocData['value'],
-              //count: optDocData['count']
           };
 
           poll.options[option_id] = opt;
@@ -238,7 +237,6 @@ const addPoll = async (host_id, room_id) => {
             for(const opt of Object.entries(options)) {
                 //console.log(opt)
                 pollRef.collection('Options').doc(opt[1].id.toString()).set({
-                    //count: 0,
                     id: opt[1].id,
                     value: opt[1].value
                 })
