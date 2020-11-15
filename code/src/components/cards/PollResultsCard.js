@@ -17,7 +17,7 @@ import Input            from '../inputs/Input';
 import InputField       from '../inputs/InputField';
 import TextArea         from '../inputs/TextArea';
 import EditingOption    from '../options/EditingOption';
-import PrimaryCard      from '../format-cards/PrimaryCard';
+import SecondaryCard      from '../format-cards/SecondaryCard';
 
 import PieChart    from '../charts/PieChart';
 import BarChart    from '../charts/BarChart';
@@ -34,14 +34,9 @@ const HiddenWrapper = styled.div`
 
 const PollResultsCard = ( props ) => {
 
-  const { pollResults } = props;
+  const { pollResults,
+          extraSmall, small, medium, large, extraLarge} = props;
 
-
-  const _header = (
-    <Jumbo extraSmall color={Colors.Blue}>
-      {pollResults.title}
-    </Jumbo>
-  )
 
   const _description = (
     <Body small color={Colors.Charcol}>
@@ -63,8 +58,12 @@ const PollResultsCard = ( props ) => {
   )
 
   return (
-    <PrimaryCard cardColor={Colors.White} width={`100%`}
-                 header={_header} children={_children}/>
+    <SecondaryCard cardColor={Colors.White} width={`100%`}
+                   height={extraSmall ? `100%` : `stretch`}
+                   header={props.pollResults.title} headerColor={Colors.Blue}
+                   extraSmall={extraSmall} small={small}
+                   medium={medium} large={large} extraLarge={extraLarge}
+                   children={_children}/>
   )
 };
 

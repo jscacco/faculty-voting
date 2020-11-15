@@ -15,6 +15,8 @@ const getSize = (viewport) => {
   let size = {};
   switch (viewport) {
     case 'mobile':
+      size.extraSmall = true;
+      break;
     case 'smallMobile':
       size.extraSmall = true;
       break;
@@ -29,10 +31,20 @@ const getSize = (viewport) => {
   return size;
 }
 
+const ResultsComponent = (props) => {
+  const size = getSize(props.viewport);
+  console.log('here')
+  console.log(props.viewport)
+
+  return <RoomResultsCard {...size} roomResults={props.roomResults}/>
+}
+
 const PollResultsPage = ( props ) => {
 
+  const { roomResults } = props
+
   const roomcode = props.match.params.roomcode || '0000';
-  const size = getSize(props.viewport)
+
 
   useEffect(() =>  {
     props.onFetchResults(roomcode);
@@ -43,7 +55,7 @@ const PollResultsPage = ( props ) => {
   return (
     <ViewportHandler>
       <MainPage>
-        <RoomResultsCard {...size} roomResults={props.roomResults}/>
+        <ResultsComponent roomResults={roomResults}/>
       </MainPage>
     </ViewportHandler>
   );

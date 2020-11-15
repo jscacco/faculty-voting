@@ -10,9 +10,9 @@ import Body             from '../theme/Body';
 import {HorizontalBar} from 'react-chartjs-2';
 import 'chartjs-plugin-datalabels';
 
-
 const BarChart = (props) => {
-  const { dataLabels, dataValues} = props;
+  const { dataLabels, dataValues,
+          extraSmall, small, medium, large, extraLarge} = props;
 
   const data = {
     labels: dataLabels,
@@ -46,7 +46,7 @@ const BarChart = (props) => {
   return (
     <HorizontalBar data={data}
                    options={options}
-                   height={50}/>
+                   height={medium || large || extraLarge ? 100 : 75}/>
   )
 }
 

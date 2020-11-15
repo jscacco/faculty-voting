@@ -38,19 +38,11 @@ const RoomResultsCard = ( props ) => {
 
   const { extraSmall, small, medium, large, extraLarge } = props;
 
-  const _header = (
-    <Jumbo threeExtraSmall={props.extraSmall} extraSmall={props.small}
-               small={props.medium} medium={props.large} large={props.extraLarge}
-               color={Colors.Blue}>
-          {props.roomResults.title}
-    </Jumbo>
-  );
-
   const filename = props.roomResults.title + ".csv"
 
   const _toCSVButton = (
-    <Button backgroundColor={Colors.Blue} extraSmall={extraSmall} small={small}
-            medium={medium} large={large} extraLarge={extraLarge}>
+    <Button backgroundColor={Colors.Blue} extraSmall={extraSmall} small={extraSmall}
+            medium={extraSmall} large={large} extraLarge={extraLarge}>
       <CSVLink data={formatResultsAsCSV(props.roomResults)} style={csvLinkStyle} filename={filename}>
         Export CSV
       </CSVLink>
@@ -67,7 +59,9 @@ const RoomResultsCard = ( props ) => {
             {pollResults.title}
           </Body>
           <BarChart dataLabels={pollResults.optionsOrder.map(id => pollResults.options[id].value)}
-                    dataValues={pollResults.optionsOrder.map(id => pollResults.results[id].count)} />
+                    dataValues={pollResults.optionsOrder.map(id => pollResults.results[id].count)}
+                    extraSmall={extraSmall} small={small}
+                    medium={medium} large={large} extraLarge={extraLarge}/>
         </>
       )
     });
@@ -88,10 +82,10 @@ const RoomResultsCard = ( props ) => {
   return (
     <SecondaryCard cardColor={Colors.White} width={`100%`}
                    height={extraSmall ? `100%` : `stretch`}
+                   header={props.roomResults.title} headerColor={Colors.Blue}
                    extraSmall={extraSmall} small={small}
                    medium={medium} large={large} extraLarge={extraLarge}
-                   header={'afdf'} headerButton={_toCSVButton}
-                   children={_children}/>
+                   headerButton={_toCSVButton} children={_children}/>
   )
 };
 
