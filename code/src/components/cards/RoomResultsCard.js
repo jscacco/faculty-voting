@@ -7,18 +7,8 @@ import { Colors }       from '../theme/Colors';
 import Jumbo            from '../theme/Jumbo';
 import Body             from '../theme/Body';
 
-import OptionGroup      from '../option-groups/OptionGroup';
-import TextOption       from '../options/TextOption';
-import InputOption      from '../options/InputOption';
-import AdderOption      from '../options/AdderOption';
-import Option           from '../options/Option';
 import Button           from '../buttons/Button';
-import Input            from '../inputs/Input';
-import InputField       from '../inputs/InputField';
-import TextArea         from '../inputs/TextArea';
-import EditingOption    from '../options/EditingOption';
-import PrimaryCard      from '../format-cards/PrimaryCard';
-import PDFPreviewCard      from './PDFPreviewCard';
+import SecondaryCard      from '../format-cards/SecondaryCard';
 
 import PieChart    from '../charts/PieChart';
 import BarChart    from '../charts/BarChart';
@@ -26,8 +16,6 @@ import BarChart    from '../charts/BarChart';
 import Pdf from "react-to-pdf";
 import { CSVLink } from "react-csv";
 import { formatResultsAsCSV } from '../../csv/csvFunctions.js';
-
-// import { fetchAgenda, getPollResults } from '../../store/MockDataFunctions'
 
 const ref = React.createRef();
 
@@ -48,21 +36,21 @@ const csvLinkStyle  = {
 
 const RoomResultsCard = ( props ) => {
 
-  // const { room } = props;
-  // const roomcode = '0000'
-  // const room = fetchAgenda(roomcode);
-
+  const { extraSmall, small, medium, large, extraLarge } = props;
 
   const _header = (
-    <Jumbo extraSmall color={Colors.Blue}>
-      {props.roomResults.title}
+    <Jumbo threeExtraSmall={props.extraSmall} extraSmall={props.small}
+               small={props.medium} medium={props.large} large={props.extraLarge}
+               color={Colors.Blue}>
+          {props.roomResults.title}
     </Jumbo>
-  )
-
+  );
 
   const filename = props.roomResults.title + ".csv"
-  const _toPDFButton = (
-    <Button backgroundColor={Colors.Blue}>
+
+  const _toCSVButton = (
+    <Button backgroundColor={Colors.Blue} extraSmall={extraSmall} small={small}
+            medium={medium} large={large} extraLarge={extraLarge}>
       <CSVLink data={formatResultsAsCSV(props.roomResults)} style={csvLinkStyle} filename={filename}>
         Export CSV
       </CSVLink>
@@ -70,14 +58,8 @@ const RoomResultsCard = ( props ) => {
   )
 
   const _renderCharts = () =>  {
-    // console.log(room);
-    // console.log(roomcode);
-    // console.log(room.order['closed'])
     var chartComponents = props.roomResults.order.map((poll_id) => {
-      // var pollResults = getPollResults(roomcode, poll_id)
-
     const pollResults = props.roomResults.allResults[poll_id]
-    console.log(pollResults)
 
       return (
         <>
@@ -97,31 +79,19 @@ const RoomResultsCard = ( props ) => {
     )
   }
 
-  const MyPDF = React.forwardRef((props, ref) => (
-    <div ref={ref}>
-      <PDFPreviewCard header={props.header} children={props.children} />
-    </div>
-  ));
-
-  const _pdfChildren = (
-    <>
-      {_renderCharts()}
-    </>
-  )
-
   const _children = (
     <>
       {_renderCharts()}
-      <HiddenWrapper>
-        {<MyPDF ref={ref} header={_header} children={_pdfChildren} />}
-      </HiddenWrapper>
     </>
   )
 
   return (
-    <PrimaryCard cardColor={Colors.White} width={`100%`}
-                 header={_header} headerButton={_toPDFButton}
-                 children={_children}/>
+    <SecondaryCard cardColor={Colors.White} width={`100%`}
+                   height={extraSmall ? `100%` : `stretch`}
+                   extraSmall={extraSmall} small={small}
+                   medium={medium} large={large} extraLarge={extraLarge}
+                   header={'afdf'} headerButton={_toCSVButton}
+                   children={_children}/>
   )
 };
 
