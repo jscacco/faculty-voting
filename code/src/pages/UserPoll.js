@@ -3,6 +3,9 @@ import styled               from 'styled-components';
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
+import history              from '../history';
+
+import Loading              from './Loading';
 
 import { Colors }           from '../components/theme/Colors';
 import ViewportHandler      from './format-pages/ViewportHandler';
@@ -56,6 +59,9 @@ const UserPollPage = ( props ) => {
     props.onFetchPoll(roomcode, pollcode);
   }, [])
 
+  if ( props.loading ) { return <Loading/> }
+  if ( props.error ) { console.log(props.error); history.replace('/Login') }
+
   return (
     <MainPage>
       <ViewportHandler>
@@ -81,7 +87,8 @@ const mapStateToProps = (state) => {
     submission: state.userpoll.pollStatus.submission,
     submissionStatus: state.userpoll.pollStatus.submitStatus,
     submitloading: state.userpoll.submitLoading,
-    loading: state.userpoll.loading
+    loading: state.userpoll.loading,
+    error: state.userpoll.error,
   }
 }
 

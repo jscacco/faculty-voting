@@ -18,12 +18,11 @@ export default function reduceHostDash(state = initialState, action) {
 
   switch (action.type) {
     case ActionTypes.hostdash.FETCH_ROOMS_START:
-      // console.log('here');
       return { ...state, loading: true, error: null };
 
     case ActionTypes.hostdash.FETCH_ROOMS_SUCCESS:
       result = action.response;
-      // console.log(result);
+
       return {
         ...state,
         loading: false,
@@ -34,7 +33,7 @@ export default function reduceHostDash(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        error: true
+        error: action.error
       };
 
 
@@ -54,7 +53,7 @@ export default function reduceHostDash(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        error: true
+        error: action.error
       };
 
     case ActionTypes.hostdash.ADD_ROOM_START:
@@ -74,7 +73,7 @@ export default function reduceHostDash(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        error: true
+        error: action.error
       };
     default:
       return state;

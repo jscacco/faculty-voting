@@ -5,6 +5,8 @@ import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 import history              from '../history';
 
+import Loading              from './Loading';
+
 import { Colors }           from '../components/theme/Colors';
 import ViewportHandler      from './format-pages/ViewportHandler';
 import SideBarPage          from './format-pages/SideBarPage';
@@ -84,19 +86,13 @@ const HostPollPage = ( props ) => {
     props.onFetchPoll(roomcode, pollcode, props.location.state);
   }, [])
 
+  console.log(props)
+  if ( props.loading ) { return <Loading/> }
+  if ( props.error ) { console.log(props.error); history.replace('/Login') }
 
   if (props.poll.status === 'closed') {
     history.replace(`/PollResults/${roomcode}/${pollcode}`);
   }
-
-  // let isEditing = (props.location.state && props.location.state.editing)
-  //
-  // const onEditClick = () => {
-  //   props.onToggleEdit(roomcode, pollcode);
-  //   console.log('her')
-  //   isEditing = props.editing;
-  //   console.log(props.editing)
-  // }
 
   const sideContent = (
     <SideBarComponent editing={props.editing}
@@ -142,7 +138,8 @@ const mapStateToProps = (state) => {
   return {
     poll: state.hostpoll.poll,
     editing: state.hostpoll.editing,
-    loading: state.hostpoll.loading
+    loading: state.hostpoll.loading,
+    error: state.hostpoll.error
   }
 }
 

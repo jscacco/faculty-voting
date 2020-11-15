@@ -6,6 +6,8 @@ import ActionTypes          from '../store/actionTypes';
 
 import history              from '../history';
 
+import Loading              from './Loading';
+
 import { Colors }           from '../components/theme/Colors';
 import ViewportHandler      from './format-pages/ViewportHandler';
 import SideBarPage          from './format-pages/SideBarPage';
@@ -51,8 +53,6 @@ const SideBarComponent = ( props ) => {
 const AgendaComponent = ( props ) => {
 
   const size = getSize(props.viewport)
-  console.log('here')
-  console.log(props.viewport)
 
   return props.editing ?
       <HostEditAgendaCard {...size} onAddClick={props.onAddClick}
@@ -76,6 +76,9 @@ const HostRoomPage = ( props ) => {
     props.onFetchAgenda(roomcode);
   }, [])
 
+  if ( props.loading ) { return <Loading/> }
+  if ( props.error ) { console.log(props.error); history.replace('/Login') }
+
   const cardProps = {
     roomcode: roomcode,
     title: props.title,
@@ -94,32 +97,8 @@ const HostRoomPage = ( props ) => {
 
   const onPollEditClick = (poll_id) => {
     props.onEditClick(roomcode);
-    // props.togglePollEdit();
     history.push(`/HostPoll/${roomcode}/${poll_id}`, {editing: true})
   }
-
-  // const sideContent =
-  //   <HostStatusCard pollStatus={props.status}
-  //                   onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, newStatus)}
-  //                   headerColor={Colors.White}
-  //                   textColor={Colors.White}
-  //                   cardColor={`none`} borderColor={Colors.White}
-  //                   medium/>
-  //
-  // return (
-  //   <SideBarPage sideContent={sideContent} color={Colors.LightBlue}>
-  //     { props.editing ?
-  //       <HostEditAgendaCard medium onAddClick={() => props.onAddClick(roomcode)}
-  //                                  onDeleteClick={props.onDeleteClick}
-  //                                  onDragEnd={props.onDragEnd}
-  //                                  onTitleChange={props.onTitleChange}
-  //                                  onPollEditClick={onPollEditClick}
-  //                                  {...cardProps}/> :
-  //       <HostAgendaCard medium {...cardProps}
-  //                       onStatusClick={(poll_id, newStatus) => props.onUpdatePollStatus(roomcode, poll_id, newStatus)}
-  //                       onViewClick={onViewClick}/> }
-  //   </SideBarPage>
-  // )
 
   const sideContent = <SideBarComponent pollStatus={props.status}
                                         onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, newStatus)}/>
@@ -150,7 +129,8 @@ const mapStateToProps = (state) => {
     polls: state.hostagenda.polls,
     order: state.hostagenda.order,
     editing: state.hostagenda.editing,
-    loading: state.hostagenda.loading
+    loading: state.hostagenda.loading,
+    error: state.hostagenda.error,
   }
 }
 

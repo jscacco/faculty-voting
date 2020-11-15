@@ -10,8 +10,8 @@ const propTypes = {
 
   height: PropTypes.string,
   width: PropTypes.string,
-  padding: PropTypes.int,
-  borderRadius: PropTypes.int,
+  padding: PropTypes.number,
+  borderRadius: PropTypes.number,
   borderColor: ExtraPropTypes.color,
 
   small: PropTypes.bool,

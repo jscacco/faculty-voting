@@ -19,7 +19,7 @@ let result;
 export default function reduceUserAgenda(state = initialState, action) {
 
   switch (action.type) {
-    case ActionTypes.useragenda.FETCH_AGENGA_START:
+    case ActionTypes.useragenda.FETCH_AGENDA_START:
       console.log('here');
       return { ...state, loading: true, error: null };
 
@@ -28,17 +28,17 @@ export default function reduceUserAgenda(state = initialState, action) {
       console.log(result)
       return {
         ...state,
-        loading: false,
         title: result.title,
         status: result.status,
         polls: result.polls,
-        order: result.order
+        order: result.order,
+        loading: false,
       };
     case ActionTypes.useragenda.FETCH_AGENDA_ERROR:
       return {
         ...state,
         loading: false,
-        error: true
+        error: action.error
       };
     default:
       return state;

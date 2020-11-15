@@ -5,6 +5,8 @@ import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 import history              from '../history';
 
+import Loading              from './Loading';
+
 import { Colors }           from '../components/theme/Colors';
 import ViewportHandler      from './format-pages/ViewportHandler';
 import MainPage             from './format-pages/MainPage';
@@ -67,6 +69,9 @@ const UserAgendaPage = ( props ) => {
     props.onFetchAgenda(roomcode);
   }, [])
 
+  if ( props.loading ) { return <Loading/> }
+  if ( props.error ) { console.log(props.error); history.replace('/Login') }
+
   const onViewClick = (poll_id) => {
     props.polls[poll_id].status === 'closed' ?
       history.push(`/PollResults/${roomcode}/${poll_id}`) :
@@ -96,7 +101,8 @@ const mapStateToProps = (state) => {
     status: state.useragenda.status,
     polls: state.useragenda.polls,
     order: state.useragenda.order,
-    loading: state.useragenda.loading
+    loading: state.useragenda.loading,
+    error: state.useragenda.error
   }
 }
 

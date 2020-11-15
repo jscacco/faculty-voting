@@ -114,9 +114,9 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
 }
 
 const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
-    if (!(await userIsHost(host_id))) {
-        console.log("You are not the host! Call to addHostRoom cancelled.");
-    } else {
+    // if (!(await userIsHost(host_id))) {
+    //     console.log("You are not the host! Call to addHostRoom cancelled.");
+    // } else {
         try {
             let options = poll_state.options;
             let original_state = {...poll_state};
@@ -143,8 +143,9 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
             };
         } catch (error) {
             console.log(error);
+            throw error
         }
-    }
+    // }
 }
 
 const fetchAgenda = async (host_id, room_id) => {
@@ -209,9 +210,6 @@ const fetchAgenda = async (host_id, room_id) => {
 }
 
 const addPoll = async (host_id, room_id) => {
-    if (!(await userIsHost(host_id))) {
-	console.log("You are not the host! Call to addHostRoom cancelled.");
-    } else {
         try {
                 let poll_id = generatePollId();
 
@@ -321,15 +319,16 @@ const addPoll = async (host_id, room_id) => {
                 };
         } catch (error) {
                 console.log(error);
+                throw error
         }
-    }
+
 }
 
 const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
     // NEED TO CHECK DIFFERENCE IN POLLS IN NEW_STATUS AND CURRENT STATE AND THEN DELETE THOSE POLLS
-    if (!(await userIsHost(host_id))) {
-	console.log("You are not the host! Call to addHostRoom cancelled.");
-    } else {
+  //   if (!(await userIsHost(host_id))) {
+	// console.log("You are not the host! Call to addHostRoom cancelled.");
+  //   } else {
 	try {
 	    // new poll map
             let newPoll = await fetchPollData(host_id, room_id, poll_id);
@@ -365,8 +364,9 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
             }
 	} catch (error) {
             console.log(error);
+      throw 'Firebase error';
 	}
-    }
+    // }
 }
 
 const getPollResults = async (user_id, room_id, poll_id, host_id = null) => {
@@ -447,7 +447,7 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
     } else {
 	try {
             let poll = await fetchPollData(host_id, room_id, poll_id);
-	    
+
             for (let i = 0; i < poll.optionsOrder.length; i++) {
 		let option_id = poll.optionsOrder[i];
 		let docRef = firestore
@@ -459,7 +459,7 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
                     .doc(option_id);
 		let docSnap = await docRef.get();
 		let count = docSnap.data()['count'];
-		
+
 		if (submission[option_id]) {
                     await docRef.update({ count: count - 1 });
 		}
@@ -468,10 +468,10 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
 		}
             }
             // THE ABOVE WORKS PROPERLY
-	    
+
             let inputcode = null;
             let exists = false;
-	    
+
             if (selection[userInput.id]) {
 		let userCollectRef = firestore
                     .collection(host_id)
@@ -479,30 +479,30 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
                     .collection('polls')
                     .doc(poll_id)
                     .collection('userOptions');
-		
+
 		let existingValuesSnap = await userCollectRef.doc('order').get();
 		let existingValuesData = existingValuesSnap.data();
 		let vals = existingValuesData.values;
-		
+
 		if (Object.keys(vals).includes(userInput.value)) {
                     inputcode = vals[userInput.value];
                     exists = true;
 		}
 		else if (!userInput.submissionId) {
                     inputcode = generateUserOptionId();
-		    
+
                     let userSnap = await userCollectRef.get();
                     let userIds = [];
                     for(let x = 0; x < userSnap.docs.length; x ++) {
 			userIds.push(userSnap.docs[x].id)
                     }
-		    
+
                     while (poll.optionsOrder[inputcode]) {
 			inputcode = generateUserOptionId();
                     }
-		    
+
                     vals[userInput.value] = inputcode;
-		    
+
                     await userCollectRef.doc('order').update({
 			values: vals
                     })
@@ -510,7 +510,7 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
 		else {
                     inputcode = userInput.submissionId
 		}
-		
+
 		if (!exists) {
                     const userInputResult = {
 			id: inputcode,
@@ -525,7 +525,7 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
                     // console.log(selection)
                     let docSnap = await userCollectRef.doc(inputcode).get();
                     let count = docSnap.data()['count'];
-		    
+
                     if (submission['000']) {
 			await userCollectRef.doc(inputcode).update({ count: count - 1 });
                     }
@@ -544,7 +544,7 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
                     .collection('userOptions')
                     .doc(userInput.submissionId);
 		let docSnap = await docRef.get();
-		
+
 		if (docSnap.data().count > 1) {
                     await docRef.update({ count: docSnap.data().count - 1})
 		}
@@ -560,12 +560,12 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
 		}
 		//delete poll.results[userInput.submissionId]
             }
-	    
+
             return {
 		submitted: true,
 		inputSubmissionId: inputcode
             }
-	    
+
 	} catch (error) {
             console.log(error);
 	}
@@ -580,7 +580,7 @@ const getPollOrder = async (host_id, room_id) => {
             .collection('polls')
             .doc('order')
             .get();
-	
+
         return pollSnap.data();
     } catch(error) {
         console.log(error);

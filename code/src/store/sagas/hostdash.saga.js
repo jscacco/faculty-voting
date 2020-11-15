@@ -3,31 +3,22 @@ import ActionTypes       from '../actionTypes';
 import { fetchHostRooms,
 		 deleteHostRoom,
 		 addHostRoom }	 from '../../databaseCommunication/roomFunctions';
-import { getUserId } 			from '../../LoginUtils';
+import { getUserId,
+         userIsHostOfRoom } 			from '../../LoginUtils';
 
-// async function fetchAsync (func) {
-// 	const response = await func();
-// 	if (response) {
-// 		return response;
-// 	}
-//
-// 	throw new Error ('bad');
-// }
 
 export function* fetchRooms (action) {
 
 	try {
-		const user_id = getUserId();
-							                     // host_id
+		const user_id = yield call(getUserId);
+		console.log('here')
 		const response = yield call(fetchHostRooms, user_id);
-		console.log(response);
 		yield put({
 			type: ActionTypes.hostdash.FETCH_ROOMS_SUCCESS,
 			response
 		});
 
 	} catch(error) {
-
 		yield put({
 			type: ActionTypes.hostdash.FETCH_ROOMS_ERROR,
       error
@@ -39,7 +30,7 @@ export function* fetchRooms (action) {
 export function* deleteRoom (action) {
 
 	try {
-		const user_id = getUserId();
+		const user_id = yield call(userIsHostOfRoom, action.room_id);
 		                							  // host_id
 		const response = yield call(() => deleteHostRoom(user_id, action.room_id))
 		console.log(response);
@@ -49,7 +40,7 @@ export function* deleteRoom (action) {
 		});
 
 	} catch(error) {
-
+		console.log(error)
 		yield put({
 			type: ActionTypes.hostdash.DELETE_ROOM_ERROR,
       error
@@ -61,7 +52,7 @@ export function* deleteRoom (action) {
 export function* addRoom (action) {
 
 	try {
-		const user_id = getUserId();
+		const user_id = yield call(getUserId);
 		                                      // host_id
 		const response = yield call(addHostRoom, user_id);
 		console.log(response);
@@ -71,7 +62,7 @@ export function* addRoom (action) {
 		});
 
 	} catch(error) {
-
+		console.log('error')
 		yield put({
 			type: ActionTypes.hostdash.ADD_ROOM_ERROR,
       error
