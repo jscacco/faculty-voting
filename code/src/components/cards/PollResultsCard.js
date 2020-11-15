@@ -17,14 +17,12 @@ import Input            from '../inputs/Input';
 import InputField       from '../inputs/InputField';
 import TextArea         from '../inputs/TextArea';
 import EditingOption    from '../options/EditingOption';
-import PrimaryCard      from '../format-cards/PrimaryCard';
-import PDFPreviewCard      from './PDFPreviewCard';
+import SecondaryCard      from '../format-cards/SecondaryCard';
 
 import PieChart    from '../charts/PieChart';
 import BarChart    from '../charts/BarChart';
 
 import Pdf from "react-to-pdf";
-import { CSVLink } from "react-csv";
 
 const ref = React.createRef();
 
@@ -36,29 +34,9 @@ const HiddenWrapper = styled.div`
 
 const PollResultsCard = ( props ) => {
 
-  const { pollResults } = props;
+  const { pollResults,
+          extraSmall, small, medium, large, extraLarge} = props;
 
-  // Array of arrays. Each item is rendered as a CSV line
-  const data = [
-    ["firstname", "lastname", "email"],
-    ["Ahmed", "Tomi", "ah@smthing.co.com"],
-    ["Raed", "Labes", "rl@smthing.co.com"],
-    ["Yezzi", "Min l3b", "ymin@cocococo.com"]
-  ];
-
-  const _header = (
-    <Jumbo extraSmall color={Colors.Blue}>
-      {pollResults.title}
-    </Jumbo>
-  )
-
-  const _toPDFButton = (
-    <Button>
-    <CSVLink data={data}>
-      Download me
-    </CSVLink>
-    </Button>
-  )
 
   const _description = (
     <Body small color={Colors.Charcol}>
@@ -80,8 +58,12 @@ const PollResultsCard = ( props ) => {
   )
 
   return (
-    <PrimaryCard cardColor={Colors.White} width={`100%`}
-                 header={_header} children={_children}/>
+    <SecondaryCard cardColor={Colors.White} width={`100%`}
+                   height={extraSmall ? `100%` : `stretch`}
+                   header={props.pollResults.title} headerColor={Colors.Blue}
+                   extraSmall={extraSmall} small={small}
+                   medium={medium} large={large} extraLarge={extraLarge}
+                   children={_children}/>
   )
 };
 
