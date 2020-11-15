@@ -14,6 +14,8 @@
     "chartjs-plugin-datalabels": "^0.7.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
+    "csv-parser": "^2.3.3",
+    "csv-writer": "^1.6.0",
     "firebase": "^7.24.0",
     "firebase-admin": "^9.3.0",
     "jspdf": "^2.1.1",
