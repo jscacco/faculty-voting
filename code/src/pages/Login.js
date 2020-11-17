@@ -29,6 +29,13 @@ const userLoginHandler = async () => {
 }
 
 const hostLoginHandler = async () => {
+
+    let response = await fetch('https://facultyvoting.hamilton.edu:4000/BOOM');
+    let responseText = await response.text()
+    console.log(responseText);
+  // fetch('https://facultyvoting.hamilton.edu:4000/BOOM')
+  //   .then(response => console.log(response));
+
   await userLogin().then(() => {
     if (!userIsHamiltonian()) {
         console.log("User " + getCurrentUserEmail() + " is not within Hamilton domain. Logging out.");
