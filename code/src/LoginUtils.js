@@ -63,18 +63,21 @@ const userIsHamiltonian = () => {
 }
 
 
-const getUserId = () => {
-    if (!(userIsLoggedIn())) {
-	return "";
+const getUserId = async () => {
+    if (!(await userIsLoggedIn())) {
+	throw 'Not logged in.';
     } else {
 	let email = getCurrentUserEmail();
+  console.log('made it')
+  console.log(email)
 	return email.split('@')[0];
     }
 }
 
+
 const userIsHost = (host_id) => {
     console.log("Checking if host...");
-    
+
     if (getUserId() == host_id) {
 	console.log("User is host.")
 	return true;
@@ -89,25 +92,25 @@ const userIsVoter = async () => {
     // code from
     // https://stackoverflow.com/questions/53332471/checking-if-a-document-exists-in-a-firestore-collection
     console.log("Checking if voter...");
-    
-    try {
+    const user_id = await getUserId();
+    // try {
 	let docRef = firestore
 	    .collection("voting")
-	    .doc(getUserId())
+	    .doc(user_id)
 
 	let doc = await docRef.get();
 
 	if (doc.exists) {
 	    console.log("User is a voter.");
-	    return true;
+	    return user_id;
 	} else {
 	    console.log("User isn't a voter.");
-	    return false;
+	    throw 'Not a voter.'
 	}
-    } catch(error) {
-	console.log(error);
-	return false;
-    }
+  //   } catch(error) {
+	// console.log(error);
+	// return false;
+  //   }
 }
 
 
@@ -120,10 +123,10 @@ const userIsHostOfRoom = async (room_id) => {
     // Given a roomId, returns true if the currently logged in user is the host of that room.
 
     console.log("checking if current user is host of " + room_id);
-    
-    let currentUser = getUserId();
 
-    try {
+    let currentUser = await getUserId();
+
+    // try {
 	let docRef = firestore
 	    .collection(currentUser)
 	    .doc(room_id);
@@ -132,15 +135,16 @@ const userIsHostOfRoom = async (room_id) => {
 
 	if (doc.exists) {
 	    console.log("current user is host of " + room_id);
-	    return true;
+	    return currentUser;
 	} else {
 	    console.log("current user isn't host of " + room_id);
-	    return false;
+	    // return null;
+      throw 'User is not host of room.'
 	}
-    } catch(error) {
-	console.log(error);
-	return false;
-    }
+  //   } catch(error) {
+	// console.log(error);
+	// return null;
+  //   }
 }
 
 export {userLogin, getUserId, getCurrentUserEmail, signOutCurrentUser, userIsHamiltonian, userIsHost, userIsVoter, userIsLoggedIn, userIsHostOfRoom};

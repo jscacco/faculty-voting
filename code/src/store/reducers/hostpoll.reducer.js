@@ -42,7 +42,7 @@ export default function reduceUserPoll(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        error: true
+        error: action.error
       };
     case ActionTypes.hostpoll.TOGGLE_EDIT:
       return {
@@ -147,7 +147,7 @@ export default function reduceUserPoll(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        error: true
+        error: action.error
       };
 
     case ActionTypes.hostpoll.UPDATE_POLL_STATUS_START:
@@ -166,7 +166,7 @@ export default function reduceUserPoll(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        error: true
+        error: action.error
       };
 
     default:

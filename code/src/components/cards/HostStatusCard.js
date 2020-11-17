@@ -14,6 +14,10 @@ import Card             from './Card';
 
 
 const propTypes = {
+  disabled: PropTypes.bool,
+
+  editing: PropTypes.bool,
+  loading: PropTypes.bool,
   pollStatus: PropTypes.string,
 
   updateStatus: PropTypes.func,
@@ -71,14 +75,19 @@ const PanelHeader = ( props ) => {
 
 const StatusButton = ( props ) => {
 
-  const { status, onClick, size, ...rest } = props;
+  const { editing, loading, status, onClick, size, ...rest } = props;
 
   let disabled = false;
   let text;
   let color;
   let newStatus;
 
-  if ( status === 'closed') {
+  if ( loading ) {
+    disabled = true;
+    text = 'WAIT';
+    color = Colors.LightGrey;
+  }
+  else if ( status === 'closed') {
     disabled = true;
     text = 'CLOSED';
     color = Colors.LightGrey;
@@ -94,9 +103,15 @@ const StatusButton = ( props ) => {
     newStatus = 'open';
   }
 
+  console.log(props.disable)
+  if ( editing || props.disable ) {
+    color = Colors.LightGrey;
+    disabled = true;
+  }
+
   return (
-    <Button backgroundColor={color} onClick={() => onClick(newStatus)}
-            disabled={disabled} {...size}>
+    <Button backgroundColor={editing ? Colors.LightGrey : color} onClick={() => onClick(newStatus)}
+            disabled={editing ? true : disabled} {...size}>
       {text}
     </Button>
   )
@@ -105,15 +120,17 @@ const StatusButton = ( props ) => {
 
 const PanelSection = ( props ) => {
 
-  const { status, children, onStatusClick, color, size, ...rest } = props;
+  const { disable, editing, loading, status, children,
+          onStatusClick, color, size, ...rest } = props;
 
   if (size.extraSmall) {
     return (
       <HorizontalSectionWrapper>
-        <StatusText status={status} color={color} {...size}/>
+        <StatusText status={loading ? 'loading' : status} color={color} {...size}/>
         {children}
         <ButtonWrapper>
-          <StatusButton status={status} onClick={onStatusClick} size={size}/>
+          <StatusButton disable={disable} editing={editing} loading={loading} status={status}
+                        onClick={onStatusClick} size={size}/>
         </ButtonWrapper>
       </HorizontalSectionWrapper>
     )
@@ -121,10 +138,11 @@ const PanelSection = ( props ) => {
   return (
     <SectionWrapper>
       <SectionHeadingWrapper>
-        <StatusText status={status} color={color} {...size}/>
+        <StatusText status={loading ? 'loading' : status} color={color} {...size}/>
       </SectionHeadingWrapper>
       {children}
-      <StatusButton status={status} onClick={onStatusClick} size={size}/>
+      <StatusButton disable={disable} editing={editing} loading={loading} status={status}
+                    onClick={onStatusClick} size={size}/>
     </SectionWrapper>
   )
 }
@@ -141,8 +159,9 @@ const HostStatusCard = ( props ) => {
 
   return (
     <Card color={props.cardColor} borderColor={props.borderColor} borderMedium {...size}>
-      <PanelHeader color={props.headerColor} {...size}/>
-      <PanelSection status={props.pollStatus} onStatusClick={props.onStatusClick}
+      <PanelHeader loading={props.loading} color={props.headerColor} {...size}/>
+      <PanelSection disable={props.disable} editing={props.editing} loading={props.loading}
+                    status={props.pollStatus} onStatusClick={props.onStatusClick}
                     color={props.textColor} size={size}/>
     </Card>
   )

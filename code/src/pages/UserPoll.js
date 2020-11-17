@@ -3,6 +3,9 @@ import styled               from 'styled-components';
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
+import history              from '../history';
+
+import LoadingCard              from '../components/cards/LoadingCard';
 
 import { Colors }           from '../components/theme/Colors';
 import ViewportHandler      from './format-pages/ViewportHandler';
@@ -34,6 +37,15 @@ const PollComponent = ( props ) => {
 
   const size = getSize(props.viewport);
 
+  if (props.loading) {
+    return (
+      <LoadingCard cardColor={Colors.White}
+                   cardBorderColor={Colors.White}
+                   textColor={Colors.Blue}
+                   {...size}/>
+    );
+  }
+
   return (
     <UserPollCard pollData={props.pollData}
                   userInput={props.userInput}
@@ -56,10 +68,14 @@ const UserPollPage = ( props ) => {
     props.onFetchPoll(roomcode, pollcode);
   }, [])
 
+  // if ( props.loading ) { return <Loading/> }
+  if ( props.error ) { console.log(props.error); history.replace('/Login') }
+
   return (
     <MainPage>
       <ViewportHandler>
-        <PollComponent pollData={props.poll}
+        <PollComponent loading={props.loading}
+                       pollData={props.poll}
                        userInput={props.userInput}
                        onOptionChange={props.onOptionChange}
                        onInputChange={props.onInputChange}
@@ -81,7 +97,8 @@ const mapStateToProps = (state) => {
     submission: state.userpoll.pollStatus.submission,
     submissionStatus: state.userpoll.pollStatus.submitStatus,
     submitloading: state.userpoll.submitLoading,
-    loading: state.userpoll.loading
+    loading: state.userpoll.loading,
+    error: state.userpoll.error,
   }
 }
 

@@ -6,11 +6,15 @@ import ActionTypes          from '../store/actionTypes';
 
 import history              from '../history';
 
+import Loading              from './Loading'
+import LoadingCard             from '../components/cards/LoadingCard'
+
+
 import ViewportHandler      from './format-pages/ViewportHandler';
 import MainPage             from './format-pages/MainPage';
 import { Colors }           from '../components/theme/Colors';
 
-import HostDashCard        from '../components/cards/HostDashCard';
+import HostDashCard         from '../components/cards/HostDashCard';
 
 const DashComponent = ( props ) => {
 
@@ -26,6 +30,15 @@ const DashComponent = ( props ) => {
       break;
     default:
       size.small = true;
+  }
+
+  if (props.loading) {
+    return (
+      <LoadingCard cardColor={Colors.Blue}
+                   cardBorderColor={Colors.White}
+                   textColor={Colors.White}
+                   {...size}/>
+    );
   }
 
   return (
@@ -45,6 +58,9 @@ const HostDashPage = ( props ) => {
 
   console.log(props)
 
+  // if ( props.loading ) { return <Loading/> }
+  if ( props.error ) { console.log(props.error); history.replace('/Login') }
+
   const onViewClick = (roomcode, roomStatus) => {
     console.log(roomStatus)
     if (roomStatus === 'closed') {
@@ -59,6 +75,7 @@ const HostDashPage = ( props ) => {
     <ViewportHandler>
       <MainPage>
           <DashComponent viewport={props.viewport}
+                         loading={props.loading}
                          onViewClick={onViewClick}
                          rooms={props.rooms}
                          order={props.order}
@@ -68,6 +85,14 @@ const HostDashPage = ( props ) => {
     </ViewportHandler>
   );
 
+  // return (
+  //   <ViewportHandler>
+  //     <MainPage>
+  //         <LoadingCard/>
+  //     </MainPage>
+  //   </ViewportHandler>
+  // );
+
 }
 
 
@@ -76,7 +101,8 @@ const mapStateToProps = (state) => {
   return {
     rooms: state.hostdash.rooms,
     order: state.hostdash.order,
-    loading: state.hostdash.loading
+    loading: state.hostdash.loading,
+    error: state.hostdash.error,
   }
 }
 

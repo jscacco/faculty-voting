@@ -9,8 +9,8 @@ const propTypes = {
   children: PropTypes.node.isRequired,
 
   color: ExtraPropTypes.color,
-  fontSize: PropTypes.int,
-  lineHeight: PropTypes.int,
+  fontSize: PropTypes.number,
+  lineHeight: PropTypes.number,
 };
 
 const defaultProps = {

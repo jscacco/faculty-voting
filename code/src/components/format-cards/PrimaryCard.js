@@ -63,6 +63,7 @@ const HeaderButtonWrapper  = styled.div``;
 
 const ScrollableWrapper = styled.div`
   overflow: scroll;
+  padding-right: 15px;
   height: 100%;
   width: 100%;
 `;

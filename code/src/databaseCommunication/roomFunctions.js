@@ -173,144 +173,139 @@ const deleteHostRoom = async (host_id, room_id) => {
 }
 
 const addHostRoom = async (host_id) => {
-    if (!(await userIsHost(host_id))) {
-	console.log("You are not the host! Call to addHostRoom cancelled.");
-    } else {
-        try {
-                let exists = true;
-                let roomCode = generateRoomCode();
-                while(exists) {
-                    await firestore
-                            .collection(host_id)
-                            .doc(roomCode)
-                            .get()
-                            .then(docData => {
-                                if(docData.exists) {
-                                    roomCode = generateRoomCode();
-                                }
-                                else {
-                                    exists = false;
-                                }
-                            });
-                }
+      try {
+              let exists = true;
+              let roomCode = generateRoomCode();
+              while(exists) {
+                  await firestore
+                          .collection(host_id)
+                          .doc(roomCode)
+                          .get()
+                          .then(docData => {
+                              if(docData.exists) {
+                                  roomCode = generateRoomCode();
+                              }
+                              else {
+                                  exists = false;
+                              }
+                          });
+              }
 
-                // update the order of the rooms
-                let { order, ...hostDash } = await fetchHostRooms(host_id);
-                order['pending'].push(roomCode);
+              // update the order of the rooms
+              let { order, ...hostDash } = await fetchHostRooms(host_id);
+              order['pending'].push(roomCode);
 
-                let room = roomBase(roomCode);
-                room.hosts.push(host_id);
+              let room = roomBase(roomCode);
+              room.hosts.push(host_id);
 
-                // can probably change room base to not have to do this
-                delete room.polls;
+              // can probably change room base to not have to do this
+              delete room.polls;
 
-                await firestore
-                    .collection(host_id)
-                    .doc(roomCode)
-                    .collection('polls')
-                    .doc('order')
-                    .set({
-                        pending: [],
-                        open: [],
-                        closed: []
-                    });
+              await firestore
+                  .collection(host_id)
+                  .doc(roomCode)
+                  .collection('polls')
+                  .doc('order')
+                  .set({
+                      pending: [],
+                      open: [],
+                      closed: []
+                  });
 
-                await firestore
-                    .collection(host_id)
-                    .doc(roomCode)
-                    .set(room);
+              await firestore
+                  .collection(host_id)
+                  .doc(roomCode)
+                  .set(room);
 
-                await addPoll(host_id, roomCode);
+              await addPoll(host_id, roomCode);
 
-                let orderRef = firestore.collection(host_id).doc(roomCode).collection('polls').doc('order');
-                let orderSnap = await orderRef.get();
-                let pollOrder = orderSnap.data();
+              let orderRef = firestore.collection(host_id).doc(roomCode).collection('polls').doc('order');
+              let orderSnap = await orderRef.get();
+              let pollOrder = orderSnap.data();
 
-                // Compute the room hash and update it in firebase
-                let roomHashData = { id: roomCode, title: room.title, status: room.status, pollOrder: pollOrder, hosts: room.hosts };
-                let roomHash = await generateRoomHash(roomHashData);
+              // Compute the room hash and update it in firebase
+              let roomHashData = { id: roomCode, title: room.title, status: room.status, pollOrder: pollOrder, hosts: room.hosts };
+              let roomHash = await generateRoomHash(roomHashData);
 
-                await firestore
-                    .collection(host_id)
-                    .doc(roomCode)
-                    .update({
-                        roomHash: roomHash
-                    });
+              await firestore
+                  .collection(host_id)
+                  .doc(roomCode)
+                  .update({
+                      roomHash: roomHash
+                  });
 
-                await setRoomOrder(host_id, order);
+              await setRoomOrder(host_id, order);
 
-                hostDash['rooms'][roomCode] = room;
+              hostDash['rooms'][roomCode] = room;
 
-                return {
-                    rooms: hostDash['rooms'],
-                    order: order
-                };
+              return {
+                  rooms: hostDash['rooms'],
+                  order: order
+              };
         } catch (error) {
                 console.log(error);
-        }
     }
 }
 
 const updateRoom = async (host_id, room_id, room_state) => {
-    if (!(await userIsHost(host_id))) {
-        console.log("You are not the host! Call to updateRoom cancelled.");
-    } else {
-        try {
-            let { order, ...hostDash } = await fetchHostRooms(host_id);
-            let room = hostDash['rooms'][room_id];
-            console.log(room)
-            let oldPolls = await fetchAgenda(host_id, room_id);
-            console.log('AGENDA')
-            let newPolls = {...oldPolls.polls,
-                            ...room_state.polls,
-                            order: room_state.order };
 
-            room.title = room_state.title;
-            room.status = room_state.status;
-            //room.polls = newPolls;
+      try {
+          let { order, ...hostDash } = await fetchHostRooms(host_id);
+          let room = hostDash['rooms'][room_id];
+          console.log(room)
+          let oldPolls = await fetchAgenda(host_id, room_id);
+          console.log('AGENDA')
+          let newPolls = {...oldPolls.polls,
+                          ...room_state.polls,
+                          order: room_state.order };
 
-            // TODO: make sure this still works
-            // Compute the room's hash and update it
-            // If something doens't work, check what room is (room.title)
-            let roomHashInfo = {
-                id: room_id,
-                status: room.status,
-                title: room.title,
-                pollOrder: newPolls.order,
-                hosts: room.hosts
-            }
-            room['roomHash'] = await generateRoomHash(roomHashInfo);
-            console.log(host_id)
-            console.log(room_id)
-            await firestore
-                .collection(host_id)
-                .doc(room_id)
-                .update({
-                    id: room_id,
-                    roomHash: room.roomHash,
-                    status: room.status,
-                    title: room.title
-                });
+          room.title = room_state.title;
+          room.status = room_state.status;
+          //room.polls = newPolls;
 
-            await setPollOrder(host_id, room_id, newPolls.order);
-            console.log(newPolls.order)
+          // TODO: make sure this still works
+          // Compute the room's hash and update it
+          // If something doens't work, check what room is (room.title)
+          let roomHashInfo = {
+              id: room_id,
+              status: room.status,
+              title: room.title,
+              pollOrder: newPolls.order,
+              hosts: room.hosts
+          }
+          room['roomHash'] = await generateRoomHash(roomHashInfo);
+          console.log(host_id)
+          console.log(room_id)
+          await firestore
+              .collection(host_id)
+              .doc(room_id)
+              .update({
+                  id: room_id,
+                  roomHash: room.roomHash,
+                  status: room.status,
+                  title: room.title
+              });
 
-            return {
-                ...room_state
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+          await setPollOrder(host_id, room_id, newPolls.order);
+          console.log(newPolls.order)
+
+          return {
+              ...room_state
+          }
+      } catch (error) {
+          console.log(error);
+          throw error;
+      }
+
 }
 
 const setPollOrder = async (host_id, room_id, new_order) => {
     // TODO: move this to roomFunctions.js
     // changes the order of the polls in the room
 
-    if (!(await userIsHost(host_id))) {
-	console.log("You are not the host! Call to addHostRoom cancelled.");
-    } else {
+  //   if (!(await userIsHost(host_id))) {
+	// console.log("You are not the host! Call to addHostRoom cancelled.");
+  //   } else {
 	try {
             // Get the room info so we can compute new hash
             const roomDocument = firestore
@@ -349,8 +344,9 @@ const setPollOrder = async (host_id, room_id, new_order) => {
             return;
 	} catch (error) {
             console.log(error);
+            throw error
 	}
-    }
+    // }
 }
 
 const getHost = async (room_id) => {
@@ -368,9 +364,9 @@ const getHost = async (room_id) => {
 }
 
 const updateRoomStatus = async (host_id, room_id, new_status) => {
-    if (!(await userIsHost(host_id))) {
-	console.log("You are not the host! Call to updateRoom cancelled.");
-    } else {
+  //   if (!(await userIsHost(host_id))) {
+	// console.log("You are not the host! Call to updateRoom cancelled.");
+  //   } else {
         try {
             const rooms = await fetchHostRooms(host_id)
             const room = rooms.rooms[room_id];
@@ -453,8 +449,9 @@ const updateRoomStatus = async (host_id, room_id, new_status) => {
             }
         } catch(error) {
                 console.log(error)
+                throw error
         }
-    }
+    // }
 }
 
 const getRoomResults = async (host_id, room_id) => {
