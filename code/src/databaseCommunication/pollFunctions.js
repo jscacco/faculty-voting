@@ -403,11 +403,16 @@ const getPollResults = async (user_id, room_id, poll_id, host_id = null) => {
     }
 }
 
+// selection = what is selected when the vote is submitted (bunch of ids)
+// submission = what has been voted on in the past
+// userInout = what the write-in option is
+//           = {id: _,
+//              value: _,
+//             submission: _
+//             }
 const submitVote = async (user_id, room_id, poll_id, selection, submission, userInput) => {
-    // TODO (Jack): Need to update hash of the poll
-
     // USER user_id to check if have voting status
-
+    
     const host_id = await getHost(room_id);
     if (!(await userIsVoter())) {
         console.log("You do not have voting rights! Call to submitVote cancelled.");
@@ -415,170 +420,127 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
     } else {
         try {
             let poll = await fetchPollData(host_id, room_id, poll_id);
+	    
+	    // TODO: obscure with peppering here
             let token = getToken();
+	    
 	    // voteRef is the collection of all votes, like the "ballot box"
             let voteRef = firestore
-                                .collection(host_id)
-                                .doc(room_id)
-                                .collection('polls')
-                                .doc(poll_id)
-                                .collection('Votes')
-                                .doc('votes');
+                .collection(host_id)
+                .doc(room_id)
+                .collection('polls')
+                .doc(poll_id)
+                .collection('Votes')
+                .doc('votes');
             let docSnap = await voteRef.get();
             let docData = docSnap.data();
-
-	    // Iterate through each of the poll options
 	    
-            let multi_vote = {};
-            multi_vote[token] = { choice: [] };
+	    // Iterate through each of the poll options
 
+	    let vote = {};
+	    let choice = [];
+            
+	    // Go through every default option in the poll
             for (let i = 0; i < poll.optionsOrder.length; i++) {
                 let option_id = poll.optionsOrder[i];
-                let vote = {};
-
-                if(poll.type === 'single') {
-                    vote[token] = { choice: [option_id] };
-                    if(selection[option_id] && docData[token]) {    
-                        await voteRef.update(vote);   
-                    }
-                    else if(selection[option_id]) {
-                        await voteRef.set(vote);
-                    }
-                }
-                else {
-                    //let multi_token = token + option_id;
-                    let choices = multi_vote[token]["choice"];
-                    
-                    if(selection[option_id]) {    
-                        multi_vote[token]["choice"] = choices.concat([option_id]);
-                        //await voteRef.update(vote);   
-                    }
-                    // else if(selection[option_id]) {
-                    //     await voteRef.update(vote);
-                    // }
-                    if(submission[option_id] && !selection[option_id]) {
-                        // console.log(option_id)
-                        // console.log(multi_token)
-                        multi_vote[token]["choice"] = choices.filter(item => item !== option_id);
-                        // vote[multi_token] = firebase.firestore.FieldValue.delete();
-                        // await voteRef.update(vote)
-                    }
-                    if(multi_vote[token]["choice"].length > 0) {
-                        console.log("HERE")
-                        await voteRef.update(multi_vote);
-                    }
-                }
+		
+		if(selection[option_id]) {
+		    // if we voted on this choice, add it to the list
+                    choice.push(option_id);
+		} else if(submission[option_id] && !selection[option_id]) {
+		    // If we have previously submitted but now it's not selected, delete
+                    choice = choice.filter(item => item !== option_id);
+		}
             }
+	    
+	    // THE ABOVE WORKS PROPERLY
+	    
+	    // Now, go through userInput options
+	    let inputcode = null; // id
+	    let exists = false;
+	    // Stores all custom inputs for this poll so far
+	    let userCollectRef = firestore
+		.collection(host_id)
+		.doc(room_id)
+		.collection('polls')
+		.doc(poll_id)
+		.collection('userOptions');
+	    
+	    // Check if they created a custom option
+	    if (selection[userInput.id]) {
+		// Get all the values in the docOrder (all previously existing custom options)
+		let existingValuesSnap = await userCollectRef.doc('order').get();
+		let existingValuesData = existingValuesSnap.data();
+		let vals = existingValuesData.values;
+		
+		// vals['order'] =>
+		// values: {
+		//      "Jack": 01,
+		//      "Chad": 02,
+		//      ...
+		//      }
+		
+		// In this case, the option already exists and fetch the existing id for that value
+		if (Object.keys(vals).includes(userInput.value)) {
+		    console.log('exists')
+		    inputcode = vals[userInput.value];
+		    exists = true;
+		}
+		// Otherwise, this is the first time this choice has been submitted
+		else {
+		    console.log('does not already exist')
+		    inputcode = generateUserOptionId();
+		    vals[userInput.value] = inputcode;
+		    
+		    // Adding the userInput to firebase so we can keep track of the id
+		    const userInputResult = {
+			id: inputcode,
+			value: userInput.value
+		    }
+		    
+		    // add new input to firebase
+		    await userCollectRef.doc(inputcode).set(userInputResult);
 
-            // THE ABOVE WORKS PROPERLY
+		    // Update our list of existing userInput options
+		    await userCollectRef.doc('order').update({
+			values: vals
+		    });
+		}
 
-            let inputcode = null;
-            let exists = false;
-            let userCollectRef = firestore
-                            .collection(host_id)
-                            .doc(room_id)
-                            .collection('polls')
-                            .doc(poll_id)
-                            .collection('userOptions');
-            
-            if (selection[userInput.id]) {           
-                let existingValuesSnap = await userCollectRef.doc('order').get();
-                let existingValuesData = existingValuesSnap.data();
-                let vals = existingValuesData.values;
-                
-                if (Object.keys(vals).includes(userInput.value)) {
-                    console.log('exists')
-                    inputcode = vals[userInput.value];
-                    exists = true;
-                }
-                else {
-                    console.log('genny')
-                    inputcode = generateUserOptionId();
-                }
+		// now that we've taken care of the new input, actually add it to the choice
+		choice.push(inputcode);
+	    }
 
-                vals[userInput.value] = inputcode;
+	    // If a userInput was submitted but is not selected, delete it from 'choice'
+	    if(!selection['000'] && submission['000']) {
+		choice = choice.filter(item => item !== inputcode);
+	    }
 
-                await userCollectRef.doc('order').update({
-                    values: vals
-                });
-            }
-            else {
-                console.log(userInput)
-                inputcode = userInput.submissionId
-            }
-            //console.log(inputcode)
-            if(inputcode)  {
-                let vote = {};
-                vote[token] = { choice: inputcode };
-                
-                if(poll.type === 'single') {
-                    if (!exists) {    
-                        const userInputResult = {
-                            id: inputcode,
-                            value: userInput.value
-                            //count: 1
-                        }
-
-                        // add vote to firebase
-                        await userCollectRef.doc(inputcode).set(userInputResult);
-                    
-                        if(docData[token]) {    
-                            await voteRef.update(vote);   
-                        }
-                        else {
-                            await voteRef.set(vote);
-                        }
-                    }
-                    else {
-                        // console.log(submission)
-                        // console.log(selection)
-                        //let docSnap = await userCollectRef.doc(inputcode).get();
-                        // let count = docSnap.data()['count'];
-
-                        // if (submission['000']) {
-                        //     await userCollectRef.doc(inputcode).update({ count: count - 1 });
-                        // }
-                        if (selection['000']) {
-                            //await userCollectRef.doc(inputcode).update({ count: count + 1 });
-                            await voteRef.set(vote)
-                        }
-                    }
-                }
-                else {
-                    if (!exists) {    
-                        const userInputResult = {
-                            id: inputcode,
-                            value: userInput.value
-                            //count: 1
-                        }
-
-                        // add vote to firebase
-                        await userCollectRef.doc(inputcode).set(userInputResult);
-                    }
-                    
-                    multi_vote[token]["choice"] = multi_vote[token]["choice"].concat([inputcode]);  
-
-                    if(!selection['000'] && submission['000']) {
-                        multi_vote[token]["choice"] = multi_vote[token]["choice"].filter(item => item !== inputcode);
-                    }
-
-                    if(multi_vote[token]["choice"].length > 0) {
-                        //console.log("HERE")
-                        await voteRef.update(multi_vote);
-                    }
-                }
-            }
-            
-            return {
-                submitted: true,
-                inputSubmissionId: inputcode
-            }
-
-        } catch (error) {
-            console.log(error);
-        }
+	    if(choice.length > 0) {
+		// NEED TO GENERATE HASH HERE
+		let voteHash = "";
+		vote[token] = {
+		    choice: choice,
+		    hash: voteHash
+		};
+		if (docData[token]) {
+		    await voteRef.update(vote);
+		} else {
+		    await voteRef.set(vote);
+		}
+	    }
+	    
+	    return {
+		submitted: true,
+		inputSubmissionId: inputcode
+	    }
+	    
+	} catch (error) {
+	    console.log(error);
+	}
     }
 }
+
 
 const getPollOrder = async (host_id, room_id) => {
     try {
@@ -597,6 +559,7 @@ const getPollOrder = async (host_id, room_id) => {
 
 const countVotes = async (host_id, room_id, poll_id) => {
     try {
+	// votes is where we tally the total votes
         let votes = {};
         let voteRef = firestore
                         .collection(host_id)
@@ -609,6 +572,9 @@ const countVotes = async (host_id, room_id, poll_id) => {
         let voteData = voteSnap.data();
         
         for(const[key, value] of Object.entries(voteData)) {
+
+	    // TODO: Check the hash of the vote before proceeding
+	    
             let choices = value.choice;
             //console.log(choices)
             for(let i = 0; i < choices.length; i++) {

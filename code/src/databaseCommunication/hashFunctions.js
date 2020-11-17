@@ -103,7 +103,7 @@ const generateRoomHash = async (room) => {
     return hmac;
 }
 
-
+/*
 // Reads in the JSON object stored in input_file
 const readJsonFile = (input_file) => {
     console.log("Reading JSON object from " + input_file);
@@ -121,15 +121,14 @@ const readJsonFile = (input_file) => {
 
 
 // Given a room and poll id, get that poll's pepper from peppers.json
-const getPollPepper = (room_id, poll_id) => {
+const getPollPepper = async (room_id, poll_id) => {
     console.log("Getting pepper for poll " + poll_id + " in room " + room_id + ".");
     let pepperData = await readJsonFile('peppers.json');
     if (pepperData !== null) {
 	if ((room_id in pepperData) && (poll_id in pepperData[room_id])) {
 	    return pepperData[room_id][poll_id];
 	} else {
-	    console.alert("No pepper data available for poll " + poll_id + \
-			  " in " + room_id + ".");
+	    console.alert("No pepper data available for poll " + poll_id + " in " + room_id + ".");
 	    return "";
 	}
     } else {
@@ -141,16 +140,14 @@ const getPollPepper = (room_id, poll_id) => {
 
 // Given a room id, poll id, and pepper, sets the pepper in peppers.json
 const setPollPepper = async (room_id, poll_id, pepper) => {
-    console.log("Setting pepper " + pepper + " for poll " + poll_id + \
-		" in room " + room_id + ".");
+    console.log("Setting pepper " + pepper + " for poll " + poll_id + " in room " + room_id + ".");
     let pepperData = await readJsonFile('peppers.json');
     if (pepperData !== null) {
 	if ((room_id in pepperData) && (poll_id in pepperData[room_id])) {
 	    // Case 1: we already have a pepper set for that poll and room
 	    if (pepperData[room_id][poll_id] === pepper) {
 		// Case 1a: it's the pepper we want
-		console.log("Pepper " + pepper + " already set for poll " + \
-			    poll_id + " in room " + room_id + ".");
+		console.log("Pepper " + pepper + " already set for poll " + poll_id + " in room " + room_id + ".");
 		return;
 	    } else {
 		// Case 1b: it's not the pepper we want
@@ -178,7 +175,7 @@ const setPollPepper = async (room_id, poll_id, pepper) => {
 
 
 // Given a room id and poll id, delete that poll from peppers.json
-const deletePollPepper = (room_id, poll_id) => {
+const deletePollPepper = async (room_id, poll_id) => {
     console.log("Deleting pepper for poll " + poll_id + " in room " + room_id + ".");
     let pepperData = await readJsonFile('peppers.json');
     if (pepperData !== null) {
@@ -188,8 +185,7 @@ const deletePollPepper = (room_id, poll_id) => {
 	    console.log("Pepper successfully deleted");
 	    return;
 	} else {
-	    console.alert("No pepper data to delete for poll " + \
-			  poll_id + " in " + room_id + ".");
+	    console.alert("No pepper data to delete for poll " + poll_id + " in " + room_id + ".");
 	    return;
 	}
     } else {
@@ -203,8 +199,7 @@ const deletePollPepper = (room_id, poll_id) => {
 // Expects a user_token, poll_id, and room_id
 // Returns the peppered (obscured) token
 const pepperToken = async (user_token, room_id, poll_id) => {
-    console.log("Peppering " + user_token + " for poll " + poll_id + \
-		" in room " + room_id + ".");
+    console.log("Peppering " + user_token + " for poll " + poll_id + " in room " + room_id + ".");
     let pepper = await getPollPepper(room_id, poll_id);
     let msg = user_token + pepper;
     let pepperedToken = await generateHmac(msg);
@@ -226,7 +221,7 @@ const generateVoteHash = async (vote, user_token, room_id, poll_id) => {
     console.log("voteHash: " + voteHash);
     return voteHash;
 }
-
+*/
 
 const compareHashes = async (map, fetched, type) => {
     // Given a map and a fetched hash, see if the hash is good.
