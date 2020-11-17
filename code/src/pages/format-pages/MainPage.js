@@ -18,12 +18,15 @@ const defaultProps = {
 };
 
 const ComponentWrapper = styled.div`
+  border: 1px solid white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 90%;
-  height: 80%;
+  width: 100%;
+  margin: 5vw;
+  /* width: 90%;
+  height: 80%; */
 `;
 
 

@@ -1,7 +1,5 @@
 import React            from 'react';
-import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
 
 import SecondaryCard      from '../format-cards/SecondaryCard'
 import HostAgendaItem                from '../items/HostAgendaItem';
@@ -39,9 +37,8 @@ const defaultProps = {
 
 const HostAgendaCard = ( props ) => {
 
-  const { roomcode, title, status, polls, order,
-          onEditClick, onStatusClick,
-          onViewClick, onStatusButtonClick,
+  const { title, status, polls, order,
+          onEditClick, onStatusClick, onViewClick,
           extraSmall, small, medium, large, extraLarge } = props;
 
   console.log(props)
@@ -49,7 +46,7 @@ const HostAgendaCard = ( props ) => {
 
   let allPolls = [];
   let statusList = ['open', 'pending', 'closed'];
-  statusList = statusList.filter((status) => order[status] && order[status].length != 0);
+  statusList = statusList.filter((status) => order[status] && order[status].length !== 0);
 
   for (let i = 0; i < statusList.length; i++) {
     allPolls = allPolls.concat(order[statusList[i]]) }

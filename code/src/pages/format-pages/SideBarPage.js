@@ -27,8 +27,9 @@ const ComponentWrapper = styled.div`
   display: flex;
   flex-direction:row;
   justify-content: space-between;
-  width: 90%;
-  height: 80%;
+  width: 100%;
+  margin: 5vw;
+  /* height: 80%; */
 `;
 
 const SideBarWrapper = styled.div`
@@ -45,8 +46,9 @@ const VerticalComponentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 90%;
-  height: 80%;
+  width: 100%;
+  margin: 5vw;
+  /* height: 80%; */
 `;
 
 const MainComponentWrapper = styled.div`

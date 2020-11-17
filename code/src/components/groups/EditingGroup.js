@@ -1,14 +1,10 @@
 import React            from 'react';
-import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
 
 import DragGroup        from './DragGroup';
-import AgendaItem       from '../items/AgendaItem';
-import EditItem         from '../items/EditItem';
-
 import Group            from './Group';
 
 const propTypes = {
@@ -51,7 +47,7 @@ class EditingGroup extends React.Component {
 
   componentDidUpdate(prevProps) {
 
-    if (prevProps.children != this.props.children) {
+    if (prevProps.children !== this.props.children) {
 
       this.awaitSetState({
         order: this.props.order

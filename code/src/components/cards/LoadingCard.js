@@ -41,7 +41,8 @@ const LoginCard = ( props ) => {
           extraSmall, small, medium, large, ...rest } = props;
 
   return (
-    <Card color={props.cardColor} height={props.height || 'stretch'} width={`100%`}
+    <Card color={props.cardColor}
+          height={props.extraSmall ? `100%` : `stretch`} width={`100%`}
           borderLarge borderColor={props.cardBorderColor}
           {...{extraSmall, small, medium, large}}
           {...rest}>
@@ -55,5 +56,8 @@ const LoginCard = ( props ) => {
     </Card>
   )
 };
+
+LoginCard.propTypes = propTypes;
+LoginCard.defaultProps = defaultProps;
 
 export default LoginCard;

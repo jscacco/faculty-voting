@@ -23,7 +23,7 @@ const PageWrapper = styled.div`
 
   overflow: auto;
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   flex-direction: column;
   justify-content: space-between
@@ -32,8 +32,8 @@ const PageWrapper = styled.div`
 const CenterWrapper = styled.div`
   display: flex;
   justify-content: center;
-  height: 100vh;
-  padding-top: 5vh;
+  height: 'stretch';
+  /* padding-top: 5vh; */
   flex-grow: 2;
 `;
 

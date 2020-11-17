@@ -1,14 +1,11 @@
 import React, { useEffect } from 'react';
-import styled               from 'styled-components';
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 
 import history              from '../history';
 
-import Loading              from './Loading'
 import LoadingCard             from '../components/cards/LoadingCard'
-
 
 import ViewportHandler      from './format-pages/ViewportHandler';
 import MainPage             from './format-pages/MainPage';
