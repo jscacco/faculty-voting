@@ -103,7 +103,7 @@ const generateRoomHash = async (room) => {
     return hmac;
 }
 
-/*
+
 // Reads in the JSON object stored in input_file
 const readJsonFile = (input_file) => {
     console.log("Reading JSON object from " + input_file);
@@ -195,7 +195,6 @@ const deletePollPepper = async (room_id, poll_id) => {
 }
 
 
-
 // Expects a user_token, poll_id, and room_id
 // Returns the peppered (obscured) token
 const pepperToken = async (user_token, room_id, poll_id) => {
@@ -213,10 +212,9 @@ const pepperToken = async (user_token, room_id, poll_id) => {
 //     choices: [00, 03],
 // }
 // a user token, and the room and poll ids to fetch the pepper
-const generateVoteHash = async (vote, user_token, room_id, poll_id) => {
+const generateVoteHash = async (vote, peppered_token, room_id, poll_id) => {
     console.log("Generating hash for " + JSON.stringify(vote) + " made by " + user_id);
-    let pepperedToken = await pepperToken(user_token, room_id, poll_id);
-    let msg = pepperToken + JSON.stringify(vote[choices]);
+    let msg = peppered_token + JSON.stringify(vote[choices]);
     let voteHash = await generateHmac(msg);
     console.log("voteHash: " + voteHash);
     return voteHash;
@@ -246,4 +244,4 @@ const compareHashes = async (map, fetched, type) => {
     }
 }
 
-export { generatePollHash, generateRoomHash, compareHashes };
+export { generatePollHash, generateRoomHash, compareHashes, generateVoteHash, pepperToken };

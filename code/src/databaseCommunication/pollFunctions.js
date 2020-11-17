@@ -1,5 +1,5 @@
 import firebase from './permissions.js';
-import { generatePollHash, generateRoomHash, compareHashes } from './hashFunctions';
+import { generatePollHash, generateRoomHash, compareHashes, generateVoteHash, pepperToken } from './hashFunctions';
 import { pollBase } from '../store/dataBases';
 import { fetchHostRooms, setPollOrder, getHost, fetchRoomData } from './roomFunctions';
 import { userIsHost, getToken, userIsVoter, userIsHostOfRoom } from '../LoginUtils.js';
@@ -421,9 +421,6 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
         try {
             let poll = await fetchPollData(host_id, room_id, poll_id);
 	    
-	    // TODO: obscure with peppering here
-            let token = getToken();
-	    
 	    // voteRef is the collection of all votes, like the "ballot box"
             let voteRef = firestore
                 .collection(host_id)
@@ -435,8 +432,6 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
             let docSnap = await voteRef.get();
             let docData = docSnap.data();
 	    
-	    // Iterate through each of the poll options
-
 	    let vote = {};
 	    let choice = [];
             
@@ -449,11 +444,10 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
                     choice.push(option_id);
 		} else if(submission[option_id] && !selection[option_id]) {
 		    // If we have previously submitted but now it's not selected, delete
+		    // (This seems pointless, since we are defining choice above)
                     choice = choice.filter(item => item !== option_id);
 		}
             }
-	    
-	    // THE ABOVE WORKS PROPERLY
 	    
 	    // Now, go through userInput options
 	    let inputcode = null; // id
@@ -512,17 +506,25 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
 	    }
 
 	    // If a userInput was submitted but is not selected, delete it from 'choice'
+	    // (Again, I think this is pointless since we have just define choice as [])
 	    if(!selection['000'] && submission['000']) {
 		choice = choice.filter(item => item !== inputcode);
 	    }
 
 	    if(choice.length > 0) {
-		// NEED TO GENERATE HASH HERE
-		let voteHash = "";
-		vote[token] = {
+		// generate necessary information
+		let token = getToken();
+		let peppered_token = await pepperToken(token, room_id, poll_id);
+		let voteHashInfo = { choices: choice };
+		let voteHash = await generateVoteHash(voteHashInfo, peppered_token, room_id, poll_id);
+
+		// construct vote object
+		vote[peppered_token] = {
 		    choice: choice,
 		    hash: voteHash
 		};
+
+		// upload to firebase
 		if (docData[token]) {
 		    await voteRef.update(vote);
 		} else {
@@ -574,17 +576,25 @@ const countVotes = async (host_id, room_id, poll_id) => {
         for(const[key, value] of Object.entries(voteData)) {
 
 	    // TODO: Check the hash of the vote before proceeding
+	    // key = peppered_token
+	    // value = { choice: [...], hash: "..." }
+            let theseChoices = value.choice;
+	    let voteHashData = { choices: theseChoices };
 	    
-            let choices = value.choice;
-            //console.log(choices)
-            for(let i = 0; i < choices.length; i++) {
-                if(votes[choices[i]]) {
-                    votes[choices[i]]++;
-                }
-                else {
-                    votes[choices[i]] = 1;
-                } 
-            }
+	    let voteHash = await generateVoteHash(voteHashData, key, room_id, poll_id);
+	    if (voteHash !== value.hash) {
+		console.log("!!Warning!! Vote in poll " + poll_id + " has a bad hash. Vote not counted.");
+            alert("Bad hash warning - see console for more info.");
+	    } else {
+		for(let i = 0; i < theseChoices.length; i++) {
+                    if(votes[theseChoices[i]]) {
+			votes[theseChoices[i]]++;
+                    }
+                    else {
+			votes[theseChoices[i]] = 1;
+                    } 
+		}
+	    }
         }
 
         await voteRef.update({
