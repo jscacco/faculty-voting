@@ -91,9 +91,9 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
 }
 
 const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
-    if (!(await userIsHost(host_id))) {
-        console.log("You are not the host! Call to addHostRoom cancelled.");
-    } else {
+    // if (!(await userIsHost(host_id))) {
+    //     console.log("You are not the host! Call to addHostRoom cancelled.");
+    // } else {
         try {
             let options = poll_state.options;
             let original_state = {...poll_state};
@@ -120,8 +120,9 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
             };
         } catch (error) {
             console.log(error);
+            throw error
         }
-    }
+    // }
 }
 
 const fetchAgenda = async (host_id, room_id) => {
@@ -186,9 +187,6 @@ const fetchAgenda = async (host_id, room_id) => {
 }
 
 const addPoll = async (host_id, room_id) => {
-    if (!(await userIsHost(host_id))) {
-	console.log("You are not the host! Call to addHostRoom cancelled.");
-    } else {
         try {
             let poll_id = generatePollId();
 
@@ -278,8 +276,9 @@ const addPoll = async (host_id, room_id) => {
             };
         } catch (error) {
                 console.log(error);
+                throw error
         }
-    }
+
 }
 
 const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
@@ -324,6 +323,7 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
             }
         } catch (error) {
                 console.log(error);
+        throw 'Firebase error';
         }
     }
 }
@@ -587,7 +587,7 @@ const getPollOrder = async (host_id, room_id) => {
             .collection('polls')
             .doc('order')
             .get();
-	
+
         return pollSnap.data();
     } catch(error) {
         console.log(error);

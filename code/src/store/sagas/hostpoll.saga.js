@@ -1,7 +1,8 @@
 import { call, put, select }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
 import { fetchPollData, updatePoll, updatePollStatus }   from '../../databaseCommunication/pollFunctions';
-import { getUserId } 			from '../../LoginUtils';
+import { getUserId,
+         userIsHostOfRoom } 			from '../../LoginUtils';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -15,7 +16,7 @@ import { getUserId } 			from '../../LoginUtils';
 export function* fetchHostPoll (action) {
 
 	try {
-		const user_id = yield getUserId();
+		const user_id = yield call(userIsHostOfRoom, action.room_id)
 		//console.log('here');                       // host_id
 		const response = yield call(() => fetchPollData(user_id, action.room_id, action.poll_id))
 		//console.log(response);
@@ -42,7 +43,7 @@ const roomSelector = ( state ) => {
 export function* updateHostPoll (action) {
 
 	try {
-		const user_id = yield getUserId();
+		const user_id = yield call(userIsHostOfRoom, action.room_id)
 
 		//console.log('update')
 		const pollState = yield select(roomSelector);
@@ -66,7 +67,7 @@ export function* updateHostPoll (action) {
 export function* changePollStatusPoll (action) {
 
 	try {
-		const user_id = yield getUserId();
+		const user_id = yield call(userIsHostOfRoom, action.room_id)
 		console.log('here');
 		const response = yield call(() => updatePollStatus(user_id, action.room_id, action.poll_id, action.status))
 	  	const poll = response.polls[action.poll_id];

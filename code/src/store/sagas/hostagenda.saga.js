@@ -2,7 +2,7 @@ import { select, call, put }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
 import { fetchAgenda, addPoll, updatePollStatus } 		  from '../../databaseCommunication/pollFunctions';
 import { updateRoom, updateRoomStatus } 		  from '../../databaseCommunication/roomFunctions';
-import { getUserId } 			from '../../LoginUtils';
+import { getUserId, userIsHostOfRoom } 			from '../../LoginUtils';
 
 // async function fetchAsync (func) {
 // 	const response = await func();
@@ -16,18 +16,18 @@ import { getUserId } 			from '../../LoginUtils';
 export function* fetchHostAgenda (action) {
 
 	try {
-		const user_id = yield getUserId();                     
+		const user_id = yield call(getUserId);
+		// need to check if has viewing rights
+		// console.log('here');                       host_id
 		const response = yield call(() => fetchAgenda(user_id, action.room_id))
-		// const response = yield call(() => fetchAgenda(action.room_id))
 
-		// console.log(response);
 		yield put({
 			type: ActionTypes.hostagenda.FETCH_AGENDA_SUCCESS,
 			response
 		});
 
 	} catch(error) {
-
+		console.log(error)
 		yield put({
 			type: ActionTypes.hostagenda.FETCH_AGENDA_ERROR,
       error
@@ -49,7 +49,7 @@ export function* updateHostAgenda (action) {
 
 	try {
 		const roomState = yield select(roomSelector);
-		const user_id = yield getUserId();
+		const user_id = yield call(userIsHostOfRoom, action.room_id);
 		                                          // host_id
 		const response = yield call(() => updateRoom(user_id, action.room_id, {...roomState}))
 		// console.log(response);
@@ -59,7 +59,7 @@ export function* updateHostAgenda (action) {
 		});
 
 	} catch(error) {
-
+		console.log(error)
 		yield put({
 			type: ActionTypes.hostagenda.UPDATE_AGENDA_ERROR,
       		error
@@ -91,7 +91,7 @@ export function* updateHostAgenda (action) {
 export function* addRoomPoll (action) {
 
 	try {
-		const user_id = yield getUserId();
+		const user_id = yield call(userIsHostOfRoom, action.room_id);
 		                                       // host_id
 		const response = yield call(() => addPoll(user_id, action.room_id));
 		yield put({
@@ -112,7 +112,7 @@ export function* addRoomPoll (action) {
 export function* changePollStatus (action) {
 
 	try {
-		const user_id = yield getUserId();
+		const user_id = yield call(userIsHostOfRoom, action.room_id);
 		                                                // host_id
 		const response = yield call(() => updatePollStatus(user_id, action.room_id,
                                                        action.poll_id,
@@ -135,8 +135,8 @@ export function* changePollStatus (action) {
 export function* changeRoomStatus (action) {
 
 	try {
-		const user_id = yield getUserId();
-    	//console.log('jere')
+		const user_id = yield call(userIsHostOfRoom, action.room_id);
+		
 		const response = yield call(() => updateRoomStatus(user_id, action.room_id, action.newStatus ));
     	//console.log(response)
 		yield put({

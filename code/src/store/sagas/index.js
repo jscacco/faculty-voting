@@ -1,6 +1,7 @@
 import { takeLatest, all }             from "redux-saga/effects";
 import ActionTypes                from '../actionTypes';
 
+import { loginHost, loginUser }  from './login.saga';
 import { validateRoomcode }   from './roomcode.saga'
 import { fetchRooms,
          deleteRoom,
@@ -23,6 +24,8 @@ import { fetchRoomResults } from './roomresults.saga';
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 
 export function* watcherSaga() {
+    yield takeLatest(ActionTypes.login.HOST_LOGIN_START, loginHost);
+    yield takeLatest(ActionTypes.login.USER_LOGIN_START, loginUser);
     yield takeLatest(ActionTypes.roomcode.CHECK_ROOMCODE_START, validateRoomcode);
     yield takeLatest(ActionTypes.hostdash.FETCH_ROOMS_START, fetchRooms);
     yield takeLatest(ActionTypes.hostdash.DELETE_ROOM_START, deleteRoom);

@@ -22,24 +22,25 @@ let newOrder;
 export default function reduceHostAgenda(state = initialState, action) {
 
   switch (action.type) {
-    case ActionTypes.hostagenda.FETCH_AGENGA_START:
+    case ActionTypes.hostagenda.FETCH_AGENDA_START:
       return { ...state, loading: true, error: null };
 
     case ActionTypes.hostagenda.FETCH_AGENDA_SUCCESS:
       result = action.response;
       return {
         ...state,
-        loading: false,
         title: result.title,
         status: result.status,
         polls: result.polls,
-        order: result.order
+        order: result.order,
+        loading: false,
       };
     case ActionTypes.hostagenda.FETCH_AGENDA_ERROR:
+      console.log('here')
       return {
         ...state,
         loading: false,
-        error: true
+        error: action.error
       };
 
     case ActionTypes.hostagenda.UPDATE_TITLE:
@@ -67,13 +68,14 @@ export default function reduceHostAgenda(state = initialState, action) {
         polls: newPolls,
         order: { ...newOrder,
                  'pending': newPending
-        }
+        },
+        loading: false
       };
     case ActionTypes.hostagenda.ADD_POLL_ERROR:
       return {
         ...state,
         loading: false,
-        error: true
+        error: result.error
       };
 
 
@@ -91,18 +93,18 @@ export default function reduceHostAgenda(state = initialState, action) {
       };
 
 
-    case ActionTypes.hostagenda.UPDATE_AGENGA_START:
+    case ActionTypes.hostagenda.UPDATE_AGENDA_START:
       return { ...state, loading: true, error: null };
 
     case ActionTypes.hostagenda.UPDATE_AGENDA_SUCCESS:
       result = action.response;
       return {
         ...state,
-        loading: false,
         title: result.title,
         status: result.status,
         polls: result.polls,
-        order: result.order
+        order: result.order,
+        loading: false,
       };
     case ActionTypes.hostagenda.UPDATE_AGENDA_ERROR:
       return {
@@ -140,13 +142,14 @@ export default function reduceHostAgenda(state = initialState, action) {
       return {
         ...state,
         polls: {...result.polls},
-        order: { ...result.order}
+        order: { ...result.order},
+        loading: false
       };
     case ActionTypes.hostagenda.UPDATE_POLL_STATUS_ERROR:
       return {
         ...state,
         loading: false,
-        error: true
+        error: result.error
       };
 
     case ActionTypes.hostagenda.UPDATE_ROOM_STATUS_START:
@@ -159,13 +162,14 @@ export default function reduceHostAgenda(state = initialState, action) {
         ...state,
         status: result.status,
         polls: {...result.polls},
-        order: { ...result.order}
+        order: { ...result.order},
+        loading: false,
       };
     case ActionTypes.hostagenda.UPDATE_ROOM_STATUS_ERROR:
       return {
         ...state,
         loading: false,
-        error: true
+        error: result.error
       };
 
   }

@@ -310,12 +310,13 @@ const updateRoom = async (host_id, room_id, room_state) => {
             }
 
             await setPollOrder(host_id, room_id, newPolls.order);
-
+            
             return {
                 ...room_state
             }
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -324,9 +325,9 @@ const setPollOrder = async (host_id, room_id, new_order) => {
     // TODO: move this to roomFunctions.js
     // changes the order of the polls in the room
 
-    if (!(await userIsHost(host_id))) {
-	console.log("You are not the host! Call to addHostRoom cancelled.");
-    } else {
+  //   if (!(await userIsHost(host_id))) {
+	// console.log("You are not the host! Call to addHostRoom cancelled.");
+  //   } else {
 	try {
             // Get the room info so we can compute new hash
             const roomDocument = firestore
@@ -365,8 +366,9 @@ const setPollOrder = async (host_id, room_id, new_order) => {
             return;
 	} catch (error) {
             console.log(error);
+            throw error
 	}
-    }
+    // }
 }
 
 const getHost = async (room_id) => {
@@ -384,9 +386,9 @@ const getHost = async (room_id) => {
 }
 
 const updateRoomStatus = async (host_id, room_id, new_status) => {
-    if (!(await userIsHost(host_id))) {
-	console.log("You are not the host! Call to updateRoom cancelled.");
-    } else {
+  //   if (!(await userIsHost(host_id))) {
+	// console.log("You are not the host! Call to updateRoom cancelled.");
+  //   } else {
         try {
             const rooms = await fetchHostRooms(host_id)
             const room = rooms.rooms[room_id];
@@ -465,8 +467,9 @@ const updateRoomStatus = async (host_id, room_id, new_status) => {
             }
         } catch(error) {
                 console.log(error)
+                throw error
         }
-    }
+    // }
 }
 
 const getRoomResults = async (host_id, room_id) => {

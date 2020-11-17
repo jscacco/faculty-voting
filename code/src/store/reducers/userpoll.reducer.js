@@ -118,10 +118,11 @@ export default function reduceUserPoll(state = initialState, action) {
         loading: false,
       };
     case ActionTypes.userpoll.FETCH_POLL_ERROR:
+      console.log('error')
       return {
         ...state,
         loading: false,
-        error: true
+        error: action.error
       };
 
     case ActionTypes.userpoll.UPDATE_SELECTION:
@@ -194,7 +195,7 @@ export default function reduceUserPoll(state = initialState, action) {
           ...state,
           submitLoading: false,
           loading: false,
-          error: true
+          error: action.error
         };
 
       // newState = {

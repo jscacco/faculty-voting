@@ -5,6 +5,8 @@ import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 import history              from '../history';
 
+import LoadingCard              from '../components/cards/LoadingCard';
+
 import { Colors }           from '../components/theme/Colors';
 import ViewportHandler      from './format-pages/ViewportHandler';
 import SideBarPage          from './format-pages/SideBarPage';
@@ -36,7 +38,7 @@ const getSize = (viewport) => {
 const SideBarComponent = ( props ) => {
 
   const size = getSize(props.viewport)
-  console.log(size)
+  console.log(props)
 
   return ( props.editing ?
     <HostEditPanelCard pollType={props.pollType}
@@ -45,7 +47,9 @@ const SideBarComponent = ( props ) => {
                        updateSettings={props.updateSettings}
                        {...size}
                        /> :
-    <HostStatusCard pollStatus={props.pollStatus}
+    <HostStatusCard disable={props.roomStatus === 'pending'}
+                    loading={props.loading}
+                    pollStatus={props.pollStatus}
                     headerColor={Colors.Blue}
                     onStatusClick={props.onStatusClick}
                     {...size}/>
@@ -57,6 +61,15 @@ const PollComponent = ( props ) => {
   const size = getSize(props.viewport)
   console.log(props);
   console.log(size)
+
+  if (props.loading) {
+    return (
+      <LoadingCard cardColor={Colors.White}
+                   cardBorderColor={Colors.White}
+                   textColor={Colors.Blue}
+                   {...size}/>
+    );
+  }
 
   return props.editing ?
     <EditPollCard pollData={props.pollData}
@@ -84,22 +97,18 @@ const HostPollPage = ( props ) => {
     props.onFetchPoll(roomcode, pollcode, props.location.state);
   }, [])
 
+  console.log(props)
+  // if ( props.loading ) { return <Loading/> }
+  if ( props.error ) { console.log(props.error); history.replace('/Login') }
 
   if (props.poll.status === 'closed') {
     history.replace(`/PollResults/${roomcode}/${pollcode}`);
   }
 
-  // let isEditing = (props.location.state && props.location.state.editing)
-  //
-  // const onEditClick = () => {
-  //   props.onToggleEdit(roomcode, pollcode);
-  //   console.log('her')
-  //   isEditing = props.editing;
-  //   console.log(props.editing)
-  // }
-
   const sideContent = (
-    <SideBarComponent editing={props.editing}
+    <SideBarComponent roomStatus={props.location.state.roomStatus}
+                      loading={props.loading}
+                      editing={props.editing}
                       pollType={props.poll.type}
                       pollStatus={props.poll.status}
                       userInputOption={props.poll.userInputOption}
@@ -123,7 +132,8 @@ const HostPollPage = ( props ) => {
   return (
     <ViewportHandler>
       <SideBarPage sideContent={sideContent}>
-        <PollComponent editing={props.editing}
+        <PollComponent loading={props.loading}
+                       editing={props.editing}
                        pollData={props.poll}
                        onEditClick={() => props.onToggleEdit(roomcode, pollcode)}
                        onAddClick={props.onAddOption}
@@ -142,7 +152,8 @@ const mapStateToProps = (state) => {
   return {
     poll: state.hostpoll.poll,
     editing: state.hostpoll.editing,
-    loading: state.hostpoll.loading
+    loading: state.hostpoll.loading,
+    error: state.hostpoll.error
   }
 }
 

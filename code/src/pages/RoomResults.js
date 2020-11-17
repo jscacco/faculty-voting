@@ -8,10 +8,43 @@ import { Colors }           from '../components/theme/Colors';
 import MainPage             from './format-pages/MainPage';
 
 import RoomResultsCard         from '../components/cards/RoomResultsCard';
+import ViewportHandler      from './format-pages/ViewportHandler';
+
+const getSize = (viewport) => {
+
+  let size = {};
+  switch (viewport) {
+    case 'mobile':
+      size.extraSmall = true;
+      break;
+    case 'smallMobile':
+      size.extraSmall = true;
+      break;
+    case 'hdDesktop':
+    case 'uhdDesktop':
+      size.medium = true;
+      break;
+    default:
+      size.small = true;
+  }
+
+  return size;
+}
+
+const ResultsComponent = (props) => {
+  const size = getSize(props.viewport);
+  console.log('here')
+  console.log(props.viewport)
+
+  return <RoomResultsCard {...size} roomResults={props.roomResults}/>
+}
 
 const PollResultsPage = ( props ) => {
 
+  const { roomResults } = props
+
   const roomcode = props.match.params.roomcode || '0000';
+
 
   useEffect(() =>  {
     props.onFetchResults(roomcode);
@@ -20,9 +53,11 @@ const PollResultsPage = ( props ) => {
   console.log(props);
 
   return (
-    <MainPage>
-      <RoomResultsCard roomResults={props.roomResults}/>
-    </MainPage>
+    <ViewportHandler>
+      <MainPage>
+        <ResultsComponent roomResults={roomResults}/>
+      </MainPage>
+    </ViewportHandler>
   );
 }
 

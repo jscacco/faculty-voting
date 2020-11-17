@@ -44,7 +44,7 @@ const statusButtonConfig = {
 
 const HostAgendaItem = ( props ) => {
 
-  const {  status, onStatusClick,
+  const {  roomStatus, status, onStatusClick,
           ...rest } = props;
 
   let config;
@@ -64,7 +64,7 @@ const HostAgendaItem = ( props ) => {
       nextStatus = 'open';
   };
 
-  const statusButton = status === 'closed' ?
+  const statusButton = ( roomStatus === 'pending' )|| (status === 'closed') ?
     undefined :
     <Button {...rest} disabled={status === 'closed'} onClick={() => onStatusClick(nextStatus)}
             backgroundColor={config.color} textColor={Colors.White}>

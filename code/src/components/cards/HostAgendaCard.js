@@ -69,7 +69,8 @@ const HostAgendaCard = ( props ) => {
         {allPolls.map((id) => {
           const poll = polls[id];
           return (
-            <HostAgendaItem pollTitle={poll.title}
+            <HostAgendaItem roomStatus={status}
+                            pollTitle={poll.title}
                             status={poll.status}
                             onStatusClick={(newStatus) => onStatusClick(id, newStatus)}
                             onViewClick={onViewClick ? () => onViewClick(id) : undefined}/>
