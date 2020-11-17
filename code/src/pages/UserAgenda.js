@@ -5,7 +5,7 @@ import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 import history              from '../history';
 
-import Loading              from './Loading';
+import LoadingCard              from '../components/cards/LoadingCard';
 
 import { Colors }           from '../components/theme/Colors';
 import ViewportHandler      from './format-pages/ViewportHandler';
@@ -50,6 +50,15 @@ const AgendaComponent = ( props ) => {
       size.small = true;
   }
 
+  if (props.loading) {
+    return (
+      <LoadingCard cardColor={Colors.Blue}
+                   cardBorderColor={Colors.White}
+                   textColor={Colors.White}
+                   {...size}/>
+    );
+  }
+
   return (
     <UserAgendaCard {...size}
                     roomcode={props.roomcode}
@@ -69,7 +78,7 @@ const UserAgendaPage = ( props ) => {
     props.onFetchAgenda(roomcode);
   }, [])
 
-  if ( props.loading ) { return <Loading/> }
+  // if ( props.loading ) { return <Loading/> }
   if ( props.error ) { console.log(props.error); history.replace('/Login') }
 
   const onViewClick = (poll_id) => {
@@ -82,7 +91,8 @@ const UserAgendaPage = ( props ) => {
   return (
     <ViewportHandler>
       <MainPage>
-          <AgendaComponent viewport={props.viewport}
+          <AgendaComponent loading={props.loading}
+                           viewport={props.viewport}
                            roomcode={roomcode}
                            title={props.title}
                            status={props.status}

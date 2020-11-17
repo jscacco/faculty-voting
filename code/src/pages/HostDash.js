@@ -7,6 +7,8 @@ import ActionTypes          from '../store/actionTypes';
 import history              from '../history';
 
 import Loading              from './Loading'
+import LoadingCard             from '../components/cards/LoadingCard'
+
 
 import ViewportHandler      from './format-pages/ViewportHandler';
 import MainPage             from './format-pages/MainPage';
@@ -30,6 +32,15 @@ const DashComponent = ( props ) => {
       size.small = true;
   }
 
+  if (props.loading) {
+    return (
+      <LoadingCard cardColor={Colors.Blue}
+                   cardBorderColor={Colors.White}
+                   textColor={Colors.White}
+                   {...size}/>
+    );
+  }
+
   return (
     <HostDashCard {...size}
                   onViewClick={props.onViewClick}
@@ -47,7 +58,7 @@ const HostDashPage = ( props ) => {
 
   console.log(props)
 
-  if ( props.loading ) { return <Loading/> }
+  // if ( props.loading ) { return <Loading/> }
   if ( props.error ) { console.log(props.error); history.replace('/Login') }
 
   const onViewClick = (roomcode, roomStatus) => {
@@ -64,6 +75,7 @@ const HostDashPage = ( props ) => {
     <ViewportHandler>
       <MainPage>
           <DashComponent viewport={props.viewport}
+                         loading={props.loading}
                          onViewClick={onViewClick}
                          rooms={props.rooms}
                          order={props.order}
@@ -72,6 +84,14 @@ const HostDashPage = ( props ) => {
       </MainPage>
     </ViewportHandler>
   );
+
+  // return (
+  //   <ViewportHandler>
+  //     <MainPage>
+  //         <LoadingCard/>
+  //     </MainPage>
+  //   </ViewportHandler>
+  // );
 
 }
 

@@ -5,7 +5,7 @@ import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 import history              from '../history';
 
-import Loading              from './Loading';
+import LoadingCard              from '../components/cards/LoadingCard';
 
 import { Colors }           from '../components/theme/Colors';
 import ViewportHandler      from './format-pages/ViewportHandler';
@@ -38,7 +38,7 @@ const getSize = (viewport) => {
 const SideBarComponent = ( props ) => {
 
   const size = getSize(props.viewport)
-  console.log(size)
+  console.log(props)
 
   return ( props.editing ?
     <HostEditPanelCard pollType={props.pollType}
@@ -47,7 +47,9 @@ const SideBarComponent = ( props ) => {
                        updateSettings={props.updateSettings}
                        {...size}
                        /> :
-    <HostStatusCard pollStatus={props.pollStatus}
+    <HostStatusCard disable={props.roomStatus === 'pending'}
+                    loading={props.loading}
+                    pollStatus={props.pollStatus}
                     headerColor={Colors.Blue}
                     onStatusClick={props.onStatusClick}
                     {...size}/>
@@ -59,6 +61,15 @@ const PollComponent = ( props ) => {
   const size = getSize(props.viewport)
   console.log(props);
   console.log(size)
+
+  if (props.loading) {
+    return (
+      <LoadingCard cardColor={Colors.White}
+                   cardBorderColor={Colors.White}
+                   textColor={Colors.Blue}
+                   {...size}/>
+    );
+  }
 
   return props.editing ?
     <EditPollCard pollData={props.pollData}
@@ -87,7 +98,7 @@ const HostPollPage = ( props ) => {
   }, [])
 
   console.log(props)
-  if ( props.loading ) { return <Loading/> }
+  // if ( props.loading ) { return <Loading/> }
   if ( props.error ) { console.log(props.error); history.replace('/Login') }
 
   if (props.poll.status === 'closed') {
@@ -95,7 +106,9 @@ const HostPollPage = ( props ) => {
   }
 
   const sideContent = (
-    <SideBarComponent editing={props.editing}
+    <SideBarComponent roomStatus={props.location.state.roomStatus}
+                      loading={props.loading}
+                      editing={props.editing}
                       pollType={props.poll.type}
                       pollStatus={props.poll.status}
                       userInputOption={props.poll.userInputOption}
@@ -119,7 +132,8 @@ const HostPollPage = ( props ) => {
   return (
     <ViewportHandler>
       <SideBarPage sideContent={sideContent}>
-        <PollComponent editing={props.editing}
+        <PollComponent loading={props.loading}
+                       editing={props.editing}
                        pollData={props.poll}
                        onEditClick={() => props.onToggleEdit(roomcode, pollcode)}
                        onAddClick={props.onAddOption}

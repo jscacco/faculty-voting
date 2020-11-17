@@ -48,6 +48,8 @@ const IconWrapper = styled.div`
 `;
 
 const statusConfig = {
+  loading: { color: Colors.Yellow,
+             text: 'LOADING' },
   pending: { color: Colors.Yellow,
              text: 'PENDING' },
   open: { color: Colors.Green,
@@ -72,6 +74,8 @@ const sizeConfig = {
 const getStatusConfig = ( status ) => {
 
   switch (status) {
+    case 'loading':
+      return statusConfig.loading;
     case 'open':
       return statusConfig.open;
     case 'closed':

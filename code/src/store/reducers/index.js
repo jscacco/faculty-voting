@@ -1,4 +1,5 @@
 import { combineReducers } 	  from 'redux';
+import login                  from './login.reducer';
 import roomcode               from './roomcode.reducer'
 import hostdash  						  from './hostdash.reducer';
 import useragenda  					  from './useragenda.reducer';
@@ -9,6 +10,7 @@ import pollresults            from './pollresults.reducer';
 import roomresults            from './roomresults.reducer';
 
 export default combineReducers({
+  login,
   roomcode,
   hostdash,
   useragenda,
@@ -18,9 +20,3 @@ export default combineReducers({
   pollresults,
   roomresults,
 });
-
-// export default combineReducers({
-// 	poll,
-// 	roomcode,
-// 	meetingroom,
-// });

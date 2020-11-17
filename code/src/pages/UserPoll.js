@@ -5,7 +5,7 @@ import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 import history              from '../history';
 
-import Loading              from './Loading';
+import LoadingCard              from '../components/cards/LoadingCard';
 
 import { Colors }           from '../components/theme/Colors';
 import ViewportHandler      from './format-pages/ViewportHandler';
@@ -37,6 +37,15 @@ const PollComponent = ( props ) => {
 
   const size = getSize(props.viewport);
 
+  if (props.loading) {
+    return (
+      <LoadingCard cardColor={Colors.White}
+                   cardBorderColor={Colors.White}
+                   textColor={Colors.Blue}
+                   {...size}/>
+    );
+  }
+
   return (
     <UserPollCard pollData={props.pollData}
                   userInput={props.userInput}
@@ -59,13 +68,14 @@ const UserPollPage = ( props ) => {
     props.onFetchPoll(roomcode, pollcode);
   }, [])
 
-  if ( props.loading ) { return <Loading/> }
+  // if ( props.loading ) { return <Loading/> }
   if ( props.error ) { console.log(props.error); history.replace('/Login') }
 
   return (
     <MainPage>
       <ViewportHandler>
-        <PollComponent pollData={props.poll}
+        <PollComponent loading={props.loading}
+                       pollData={props.poll}
                        userInput={props.userInput}
                        onOptionChange={props.onOptionChange}
                        onInputChange={props.onInputChange}

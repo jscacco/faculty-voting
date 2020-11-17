@@ -46,6 +46,7 @@ const Header = ( props ) => (
          value={props.title} fontColor={Colors.White}
          onChange={props.onChange}
          backgroundColor={Colors.Blue}
+         borderColor={Colors.White}
          labelColor={Colors.White}
          {...props.size}/>
 )
