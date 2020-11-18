@@ -73,12 +73,13 @@ const userIsHamiltonian = () => {
 
 const getUserId = async () => {
     if (!(await userIsLoggedIn())) {
-	throw 'Not logged in.';
-    } else {
-	let email = getCurrentUserEmail();
-  console.log('made it')
-  console.log(email)
-	return email.split('@')[0];
+		throw 'Not logged in.';
+	} 
+	else {
+		let email = getCurrentUserEmail();
+	//   console.log('made it')
+	//   console.log(email)
+		return email.split('@')[0];
     }
 }
 
