@@ -64,8 +64,8 @@ const userLogin = async () => {
     });
 }
 
-const userIsHamiltonian = () => {
-    let email = getCurrentUserEmail();
+const userIsHamiltonian = async () => {
+    let email = await getCurrentUserEmail();
     let result = (email.split('@')[1] == "hamilton.edu");
     return result;
 }
@@ -86,8 +86,8 @@ const getUserId = async () => {
 
 const userIsHost = (host_id) => {
     console.log("Checking if host...");
-
-    if (getUserId() == host_id) {
+    
+    if (await getUserId() == host_id) {
 	console.log("User is host.")
 	return true;
     } else {
@@ -105,7 +105,7 @@ const userIsVoter = async () => {
     // try {
 	let docRef = firestore
 	    .collection("voting")
-	    .doc(user_id)
+	    .doc(user_id);
 
 	let doc = await docRef.get();
 

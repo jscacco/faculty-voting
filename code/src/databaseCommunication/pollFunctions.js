@@ -140,6 +140,13 @@ const getPollResults = async (user_id, room_id, poll_id, host_id = null) => {
     }
 }
 
+// selection = what is selected when the vote is submitted (bunch of ids)
+// submission = what has been voted on in the past
+// userInout = what the write-in option is
+//           = {id: _,
+//              value: _,
+//             submission: _
+//             }
 const submitVote = async (user_id, room_id, poll_id, selection, submission, userInput) => {
     // HERE NEED TO PASS USERS USERNAME THROUGH SO EXPRESS CAN CHECK
     // if (!(await userIsVoter())) {
@@ -167,6 +174,7 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
         }
     // }
 }
+
 
 const getPollOrder = async (host_id, room_id) => {
     try {
