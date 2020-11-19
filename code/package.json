@@ -2,7 +2,6 @@
   "name": "faculty-voting",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:4000",
   "dependencies": {
     "@progress/kendo-react-pdf": "^4.0.0",
     "@react-navigation/native": "^5.7.3",
