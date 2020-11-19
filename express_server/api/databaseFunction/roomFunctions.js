@@ -130,29 +130,31 @@ const deleteHostRoom = async (host_id, room_id) => {
         let { order, ...rooms } = await fetchHostRooms(host_id);
         rooms = rooms.rooms;
         const room = rooms[room_id];
-        ////console.log(rooms)
-        const roomRef = firestore
-                            .collection(host_id)
-                            .doc(room_id);
+        if(room !== undefined) {
+            ////console.log(rooms)
+            const roomRef = firestore
+                                .collection(host_id)
+                                .doc(room_id);
 
-        const newOrder = order[room.status].filter((i) => i !== room_id);
-        order[room.status] = newOrder;
-        ////console.log('deleting')
+            const newOrder = order[room.status].filter((i) => i !== room_id);
+            order[room.status] = newOrder;
+            ////console.log('deleting')
 
-        // must individually delete subcollections
-        let pollSnap = await roomRef.collection('polls').get();
+            // must individually delete subcollections
+            let pollSnap = await roomRef.collection('polls').get();
 
-        for (let i = 0; i < pollSnap.docs.length; i++) {
-            await pollFuncs.deletePoll(host_id, room_id, pollSnap.docs[i].id);
+            for (let i = 0; i < pollSnap.docs.length; i++) {
+                await pollFuncs.deletePoll(host_id, room_id, pollSnap.docs[i].id);
+            }
+
+            // delete room
+            await roomRef.delete();
+
+            await setRoomOrder(host_id, order);
+            delete rooms[room_id];
+
+            await firestore.collection('openRooms').doc(room_id).delete();
         }
-
-        // delete room
-        await roomRef.delete();
-
-        await setRoomOrder(host_id, order);
-        delete rooms[room_id];
-
-        await firestore.collection('openRooms').doc(room_id).delete();
 
         return {
             rooms: rooms,

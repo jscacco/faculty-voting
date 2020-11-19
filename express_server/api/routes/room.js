@@ -76,9 +76,9 @@ router.post('/addHostRoom', async (req, res, next) => {
 
 router.put('/updateRoom', async (req, res, next) => {
     try {
-        console.log(req.body)
+        //console.log(req.body)
         let status = await roomFuncs.updateRoom(req.body.host_id, req.body.room_id, req.body.room_state);
-        console.log(status)
+        //console.log(status)
         if(status) {
             res.status(200).json(status);
         }

@@ -84,7 +84,7 @@ const getUserId = async () => {
 }
 
 
-const userIsHost = (host_id) => {
+const userIsHost = async (host_id) => {
     console.log("Checking if host...");
     
     if (await getUserId() == host_id) {
