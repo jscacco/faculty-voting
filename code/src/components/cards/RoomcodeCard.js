@@ -68,7 +68,7 @@ const Title = (props) => {
 
 const CodeInput = (props) => {
 
-  const { label, value, handleChange, handleSubmit,
+  const { label, value, handleChange, handleSubmit, onEnter,
           extraSmall, small, medium, large, extraLarge } = props;
 
   let inputPadding;
@@ -82,7 +82,7 @@ const CodeInput = (props) => {
       <Input type={"inputfield"} value={value} fontColor={Colors.White}
              onChange={handleChange} placeholder={"Enter Room Code"}
              backgroundColor={Colors.Blue} borderColor={Colors.White}
-             placeholderColor={Colors.White}
+             placeholderColor={Colors.White} maxLength={10} onKeyDown={onEnter}
              {...{extraSmall, small, medium, large, extraLarge}}/>
     </TextInputWrapper>
   )

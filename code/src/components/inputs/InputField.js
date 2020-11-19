@@ -27,6 +27,7 @@ const defaultProps = {
   placeholder: 'Write something...',
   fontColor: Colors.Black,
   borderColor: Colors.Blue,
+  maxLength: 50,
 }
 
 const fontConfig = {
