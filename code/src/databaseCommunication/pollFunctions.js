@@ -42,10 +42,13 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
     // } else {
         try {
             let url = `/poll/updatePoll`;
+            let user = firebase.auth().currentUser;
+            
             let response = await fetchPut(url, { host_id: host_id,
                                                  room_id: room_id,
                                                  poll_id: poll_id,
-                                                 poll_state: poll_state });
+                                                 poll_state: poll_state,
+                                                 user: user });
             const data = await response.json();
             if(response.status == 200) {
                 return data;
@@ -123,7 +126,7 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
 
 const getPollResults = async (user_id, room_id, poll_id, host_id = null) => {
     try {
-        let url = `/poll/getPollResults?user_id=${user_id}&room_id=${room_id}&pool_id=${poll_id}&host_id=${host_id}`;
+        let url = `/poll/getPollResults?user_id=${user_id}&room_id=${room_id}&poll_id=${poll_id}&host_id=${host_id}`;
         let response = await fetchGet(url);
         const data = await response.json();
         if(response.status == 200) {
