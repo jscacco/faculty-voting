@@ -79,6 +79,10 @@ const getUserId = () => {
     }
 }
 
+const getUserName = (user) => {
+	return user.email.split('@')[0];
+}
+
 const userIsHost = async (user_token, host_id) => {
     //console.log("Checking if host...");
     
@@ -150,6 +154,27 @@ const userIsHostOfRoom = async (room_id) => {
     }
 }
 
+const isHostOfRoom = async (user_id, room_id) => {
+	try {
+		let docRef = firestore
+						.collection(user_id)
+						.doc(room_id);
+
+		let doc = await docRef.get();
+
+		if (doc.exists) {
+			//console.log("current user is host of " + room_id);
+			return true;
+		} else {
+			//console.log("current user isn't host of " + room_id);
+			return false;
+		}
+    } catch(error) {
+		//console.log(error);
+		return false;
+    }
+}
+
 exports.userLogin = userLogin;
 exports.getUserId = getUserId;
 exports.getCurrentUserEmail = getCurrentUserEmail;
@@ -160,4 +185,6 @@ exports.userIsVoter = userIsVoter;
 exports.getToken = getToken;
 exports.userIsLoggedIn = userIsLoggedIn;
 exports.userIsHostOfRoom = userIsHostOfRoom;
+exports.getUserName = getUserName;
+exports.isHostOfRoom = isHostOfRoom;
 //module.exports = {userLogin, getUserId, getCurrentUserEmail, signOutCurrentUser, userIsHamiltonian, userIsHost, userIsVoter, getToken, userIsLoggedIn, userIsHostOfRoom};

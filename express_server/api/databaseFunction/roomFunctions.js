@@ -326,8 +326,9 @@ const setPollOrder = async (host_id, room_id, new_order) => {
 
     if (false) { //!(await userIsHost(host_id))) {
 	//console.log("You are not the host! Call to addHostRoom cancelled.");
-    } else {
-	try {
+    } 
+    else {
+	    try {
             // Get the room info so we can compute new hash
             const roomDocument = firestore
                                     .collection(host_id)
@@ -363,9 +364,9 @@ const setPollOrder = async (host_id, room_id, new_order) => {
                 .update({roomHash: newHash});
 
             return;
-	} catch (error) {
-            //console.log(error);
-	}
+        } catch (error) {
+                //console.log(error);
+        }
     }
 }
 
@@ -416,7 +417,10 @@ const updateRoomStatus = async (host_id, room_id, new_status) => {
                 // check to see if already closed //////////////////
                 for (let i = 0; i < allPolls.length; i++) {
                     let poll_id = allPolls[i];
-                    await pollFuncs.updatePollStatus(host_id, room_id, poll_id, 'closed');
+
+                    if(!newPollsOrder['closed'].includes(poll_id)) {
+                        await pollFuncs.updatePollStatus(host_id, room_id, poll_id, 'closed');
+                    }
                 }
             }
             // //console.log(room.hosts)

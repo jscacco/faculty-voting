@@ -25,7 +25,7 @@ router.get('/fetchPollData', async function(req, res, next) {
 
 router.put('/updatePoll', async function(req, res, next) {
     try {
-        let new_poll = await pollFuncs.updatePoll(req.body.host_id, req.body.room_id, req.body.poll_id, req.body.poll_state);
+        let new_poll = await pollFuncs.updatePoll(req.body.host_id, req.body.room_id, req.body.poll_id, req.body.poll_state, req.body.user);
         if(new_poll) {
             res.status(200).send(new_poll);
         }
