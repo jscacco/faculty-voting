@@ -516,25 +516,25 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
 
             if(choice.length > 0) {
                 // generate necessary information
-                //let token = await loginFuncs.getToken();
+                let token = await loginFuncs.getToken();
 
-                // let peppered_token = await hashFuncs.pepperToken(user_id, room_id, poll_id);
-                // let voteHashInfo = { choices: choice };
-                // let voteHash = await hashFuncs.generateVoteHash(voteHashInfo, peppered_token, room_id, poll_id);
+                let peppered_token = await hashFuncs.pepperToken(user_id, room_id, poll_id);
+                let voteHashInfo = { choices: choice };
+                let voteHash = await hashFuncs.generateVoteHash(voteHashInfo, peppered_token, room_id, poll_id);
 
                 // construct vote object
-                //vote[peppered_token] = {
+                vote[peppered_token] = {
                 vote[user_id] = {
                     choice: choice,
                     //hash: voteHash
                 };
 
                 // upload to firebase
-                // if (docData[user_id]) {//peppered_token]) {
-                //     await voteRef.update(vote);
-                // } else {
+                if (docData[user_id]) {//peppered_token]) {
+                    await voteRef.update(vote);
+                } else {
                     await voteRef.set(vote);
-                // }
+                }
             }
             
             return {
