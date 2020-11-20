@@ -10,7 +10,7 @@ import Body             from '../theme/Body';
 import Card             from './Card';
 import TextOption       from '../options/TextOption';
 import Group            from '../groups/Group';
-import OptionGroup      from '../option-groups/OptionGroup';
+import OptionGroup      from '../groups/OptionGroup';
 
 const propTypes = {
   pollType: PropTypes.string,

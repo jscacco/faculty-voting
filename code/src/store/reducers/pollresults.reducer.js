@@ -30,6 +30,9 @@ export default function reducePollResult(state = initialState, action) {
         loading: false,
         error: true
       };
+
+    default:
+      return state;
     };
   return state;
 }

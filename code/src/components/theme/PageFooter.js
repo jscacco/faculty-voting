@@ -9,7 +9,7 @@ import Body             from '../theme/Body'
 const Wrapper = styled.div`
   background: ${Colors.Blue};
   border-top: 2px solid ${Colors.Buff};
-  width: 100%;
+  /* width: 100%; */
   padding: 2px;
 
   display: flex;

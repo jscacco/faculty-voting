@@ -1,9 +1,5 @@
 import React            from 'react';
-import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
-
-import { Colors }       from '../theme/Colors';
 
 import Item             from './Item';
 import Button           from '../buttons/Button';

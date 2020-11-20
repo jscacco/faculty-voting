@@ -1,5 +1,4 @@
 import React            from 'react';
-import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 import { CSVLink }      from "react-csv";
@@ -13,6 +12,20 @@ import PieChart         from '../charts/PieChart';
 import BarChart         from '../charts/BarChart';
 import CSVButton        from '../buttons/CSVButton';
 import { formatResultsAsCSV } from '../../csv/csvFunctions.js';
+
+const propTypes = {
+  roomResults: PropTypes.object,
+
+  extraSmall: PropTypes.bool,
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
+  large: PropTypes.bool,
+  extraLarge: PropTypes.bool,
+};
+
+const defaultProps = {
+
+};
 
 const RoomResultsCard = ( props ) => {
 
@@ -65,5 +78,8 @@ const RoomResultsCard = ( props ) => {
                    headerButton={_toCSVButton} children={_children}/>
   )
 };
+
+RoomResultsCard.propTypes = propTypes;
+RoomResultsCard.defaultProps = defaultProps;
 
 export default RoomResultsCard;

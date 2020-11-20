@@ -1,5 +1,4 @@
 import React            from 'react';
-import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
@@ -9,6 +8,19 @@ import Body             from '../theme/Body';
 
 import {HorizontalBar} from 'react-chartjs-2';
 import 'chartjs-plugin-datalabels';
+
+const propTypes = {
+  dataLabels: PropTypes.arrayOf(PropTypes.string) ,
+  dataValues: PropTypes.arrayOf(PropTypes.number),
+
+  extraSmall: PropTypes.bool,
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
+  large: PropTypes.bool,
+  extraLarge: PropTypes.bool,
+};
+
+const defaultProps = {};
 
 const BarChart = (props) => {
   const { dataLabels, dataValues,
@@ -49,5 +61,8 @@ const BarChart = (props) => {
                    height={medium || large || extraLarge ? 100 : 75}/>
   )
 }
+
+BarChart.propTypes = propTypes;
+BarChart.defaultProps = defaultProps;
 
 export default BarChart;
