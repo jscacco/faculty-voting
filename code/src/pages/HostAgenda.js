@@ -9,6 +9,7 @@ import history              from '../history';
 import LoadingCard              from '../components/cards/LoadingCard';
 
 import { Colors }           from '../components/theme/Colors';
+import RoomcodeHeader       from '../components/theme/RoomcodeHeader';
 import ViewportHandler      from './format-pages/ViewportHandler';
 import SideBarPage          from './format-pages/SideBarPage';
 
@@ -56,26 +57,35 @@ const AgendaComponent = ( props ) => {
 
   const size = getSize(props.viewport)
 
+  let agendaContent;
+
   if (props.loading) {
-    return (
+    agendaContent = (
       <LoadingCard cardColor={Colors.Blue}
                    cardBorderColor={Colors.White}
                    textColor={Colors.White}
                    {...size}/>
     );
   }
-
-  return props.editing ?
-      <HostEditAgendaCard {...size} onAddClick={props.onAddClick}
-                                 onDeleteClick={props.onDeleteClick}
-                                 onDragEnd={props.onDragEnd}
-                                 onTitleChange={props.onTitleChange}
-                                 onPollEditClick={props.onPollEditClick}
-                                 {...props.cardProps}/> :
+  else if ( props.editing ) {
+    agendaContent = (
+    <HostEditAgendaCard {...size} onAddClick={props.onAddClick}
+                               onDeleteClick={props.onDeleteClick}
+                               onDragEnd={props.onDragEnd}
+                               onTitleChange={props.onTitleChange}
+                               onPollEditClick={props.onPollEditClick}
+                               {...props.cardProps}/>
+    );
+  }
+  else {
+    agendaContent = (
       <HostAgendaCard {...size} {...props.cardProps}
                       onStatusClick={props.onStatusClick}
                       onViewClick={props.onViewClick}/>
+    )
+  }
 
+  return agendaContent
 }
 
 const HostRoomPage = ( props ) => {
@@ -118,9 +128,10 @@ const HostRoomPage = ( props ) => {
 
   return (
     <ViewportHandler>
-      <SideBarPage sideContent={sideContent} color={Colors.Blue}>
+      <SideBarPage sideContent={sideContent} color={Colors.Blue} roomcode={roomcode}>
         <AgendaComponent editing={props.editing}
                          loading={props.loading}
+                         roomcode={roomcode}
                          onAddClick={() => props.onAddClick(roomcode)}
                          onDeleteClick={props.onDeleteClick}
                          onDragEnd={props.onDragEnd}

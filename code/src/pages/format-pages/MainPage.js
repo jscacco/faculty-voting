@@ -18,15 +18,12 @@ const defaultProps = {
 };
 
 const ComponentWrapper = styled.div`
-  border: 1px solid white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin: 5vw;
-  /* width: 90%;
-  height: 80%; */
+  margin: ${({roomcode}) => roomcode ? `2vh 5vw 5vh 5vw` : `5vh 5vw`};
 `;
 
 
@@ -35,8 +32,8 @@ const MainPage = ( props ) => {
   console.log(props);
 
   return (
-    <BasePage color={props.color}>
-      <ComponentWrapper>
+    <BasePage color={props.color} viewport={props.viewport} roomcode={props.roomcode}>
+      <ComponentWrapper roomcode={props.roomcode}>
         {React.cloneElement(props.children, { viewport: props.viewport })}
       </ComponentWrapper>
     </BasePage>

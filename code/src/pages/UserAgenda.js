@@ -69,7 +69,7 @@ const UserAgendaPage = ( props ) => {
 
   return (
     <ViewportHandler>
-      <MainPage>
+      <MainPage roomcode={roomcode}>
           <AgendaComponent loading={props.loading}
                            viewport={props.viewport}
                            roomcode={roomcode}
