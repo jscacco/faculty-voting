@@ -1,5 +1,4 @@
 import React            from 'react';
-import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
@@ -8,13 +7,34 @@ import Jumbo            from '../theme/Jumbo';
 import Body            from '../theme/Body';
 
 import TertiaryCard      from '../format-cards/TertiaryCard';
-import OptionGroup      from '../option-groups/OptionGroup';
+import OptionGroup      from '../groups/OptionGroup';
 import TextOption       from '../options/TextOption';
 import InputOption       from '../options/InputOption';
 import VotingOption       from '../options/VotingOption';
 import EditButton       from '../buttons/EditButton';
 import SubmitButton     from '../buttons/SubmitButton';
 
+const propTypes = {
+  pollData: PropTypes.object,
+  userInput: PropTypes.bool,
+  submittedOptions: PropTypes.arrayOf(PropTypes.string),
+
+  onOptionChange: PropTypes.func,
+  onSubmit: PropTypes.func,
+  submissionStatus: PropTypes.string,
+  onInputChange: PropTypes.func,
+  submitLoading: PropTypes. bool,
+
+  extraSmall: PropTypes.bool,
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
+  large: PropTypes.bool,
+  extraLarge: PropTypes.bool
+}
+
+const defaultProps = {
+
+}
 
 const UserPollCard = ( props ) => {
 
@@ -79,5 +99,8 @@ const UserPollCard = ( props ) => {
                    sections={sections} footer={_submitButton}/>
   )
 };
+
+UserPollCard.propTypes = propTypes;
+UserPollCard.defaultProps = defaultProps;
 
 export default UserPollCard;

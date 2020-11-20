@@ -1,4 +1,3 @@
-// import PollItem from '../../components/PollItem';
 import ActionTypes from '../actionTypes';
 
 const initialState = {
@@ -37,27 +36,24 @@ const submissionStatus = (state) => {
     if (state.pollStatus.selection['000'] && state.userInput.value === ''){
       status = 'unfilledInput'
     }
-    else { status= 'submit' }
+    else { status = 'submit' }
   }
   else if (!state.pollStatus.selected && state.pollStatus.submitted) {
     status = 'submitted'
   }
   else {
     status = 'submitted'
-    // let resubmit = false;
     for (let i=0; i < state.poll.optionsOrder.length; i++) {
       let id = state.poll.optionsOrder[i];
       if (state.pollStatus.selection[id] !== state.pollStatus.submission[id]) {
         status = 'resubmit'
-        // resubmit = true;
         break;}
     }
-    // console.log(resubmit);
+
     if (state.pollStatus.selection['000']) {
 
       if (!state.pollStatus.submission['000'] ) {
         if (state.userInput.value !== '') {
-          // resubmit = true;
           status = 'resubmit'
         }
         else { status = 'unfilledInput'}
@@ -66,34 +62,14 @@ const submissionStatus = (state) => {
         if (state.userInput.value !== state.userInput.submissionValue) {
           if (state.userInput.value !== '') {
             status = 'resubmit'
-            // resubmit = true;
           }
           else { status = 'unfilledInput'}
         }
       }
-
-      // if (!state.pollStatus.submission['000'] && state.userInput.value !== ''){
-      //   console.log('1')
-      //   resubmit = true;
-      // }
-      // else if (state.pollStatus.submission['000']){
-      //   if (state.userInput.value !== '' && state.userInput.value !== state.userInput.submissionValue){
-      //     console.log('2')
-      //     resubmit = true;
-      //   }
-      //   else if (resubmit && state.userInput.value === state.userInput.submissionValue){
-      //     resubmit = true;
-      //   }
-      //   else { resubmit = false }
-      // }
-      // else { resubmit = false }
     }
     else if (state.pollStatus.submission['000']) {
       status = 'resubmit'
-      // resubmit = true;
     }
-
-    // resubmit ? status = 'resubmit' : status = 'submitted';
   }
 
   return status;
@@ -198,17 +174,6 @@ export default function reduceUserPoll(state = initialState, action) {
           error: action.error
         };
 
-      // newState = {
-      //   ...state,
-      //   submission: {...state.selection},
-      //   submitted: true,
-      //   inputSubmission: inputSubmission
-      // }
-      //
-      // return {
-      //   ...newState,
-      //   submissionStatus: submissionStatus(newState)
-
     case ActionTypes.userpoll.UPDATE_INPUT:
 
       console.log(action);
@@ -231,5 +196,4 @@ export default function reduceUserPoll(state = initialState, action) {
       return state;
 
   }
-  return state;
 }

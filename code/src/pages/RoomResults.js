@@ -54,7 +54,7 @@ const PollResultsPage = ( props ) => {
 
   return (
     <ViewportHandler>
-      <MainPage>
+      <MainPage roomcode={roomcode}> 
         <ResultsComponent roomResults={roomResults}/>
       </MainPage>
     </ViewportHandler>

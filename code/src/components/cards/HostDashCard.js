@@ -1,12 +1,7 @@
 import React                from 'react';
-import styled               from 'styled-components';
 import PropTypes                      from 'prop-types';
-import ExtraPropTypes                 from 'react-extra-prop-types';
 
 import { Colors }           from '../theme/Colors';
-import Jumbo                from '../theme/Jumbo';
-import Body                 from '../theme/Body';
-import Button                from '../buttons/Button';
 
 import Group                  from '../groups/Group';
 import HostRoomItem                   from '../items/HostRoomItem';
@@ -76,7 +71,7 @@ const HostDashCard = ( props ) => {
           onViewClick, onDelete, onAdd, ...rest} = props;
 
   let statusList = ['open', 'pending', 'closed'];
-  statusList = statusList.filter((status) => order[status].length != 0 ||
+  statusList = statusList.filter((status) => order[status].length !== 0 ||
                                              status === 'pending');
 
 

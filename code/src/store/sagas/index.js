@@ -1,4 +1,4 @@
-import { takeLatest, all }             from "redux-saga/effects";
+import { takeLatest }             from "redux-saga/effects";
 import ActionTypes                from '../actionTypes';
 
 import { loginHost, loginUser }  from './login.saga';

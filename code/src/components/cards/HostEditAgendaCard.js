@@ -1,9 +1,6 @@
 import React            from 'react';
-import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
-
-import PollData          from '../../data-containers/PollData';
 
 import { Colors }        from '../theme/Colors';
 import Input             from '../inputs/Input';

@@ -1,5 +1,5 @@
 import mockData from './mockData'
-import { optionBase, pollBase, roomBase, } from './dataBases'
+import { pollBase, roomBase, } from './dataBases'
 
 
 
@@ -13,7 +13,7 @@ function checkRoomcode(room_id) {
     return {}
   }
   else {
-    throw "Room undefined."
+    throw Error("Room undefined.")
   }
 }
 
@@ -30,7 +30,7 @@ function deleteHostRoom(room_id) {
   let { order, ...rooms } = mockData.rooms;
   const room = mockData.rooms[room_id]
 
-  const newOrder = order[room.status].filter((i) => i != room_id);
+  const newOrder = order[room.status].filter((i) => i !== room_id);
   order[room.status] = newOrder;
 
   delete rooms[room_id];
@@ -52,7 +52,7 @@ function generateRoomCode() {
 
 function addHostRoom() {
   let roomcode = generateRoomCode();
-  while (mockData[roomcode] != undefined ) {
+  while (mockData[roomcode] !== undefined ) {
     roomcode = generateRoomCode();
   }
 
@@ -122,7 +122,7 @@ function generatePollId() {
 function addPoll(roomcode) {
 
   let poll_id = generatePollId();
-  while (mockData.rooms[roomcode].polls[poll_id] != undefined ) {
+  while (mockData.rooms[roomcode].polls[poll_id] !== undefined ) {
     poll_id = generatePollId();
   }
 

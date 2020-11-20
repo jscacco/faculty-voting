@@ -1,5 +1,4 @@
 import React            from 'react';
-import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
@@ -38,9 +37,6 @@ class OptionGroup extends React.Component {
 
   constructor(props) {
     super(props);
-
-    // const selectedOptions = props.selectedOptions ? props.selectedOptions.map((item) => item) :
-    //                                   Array(props.children.length).fill(false);
 
     this.state = { selectedOptions: props.selectedOptions ? {...props.selectedOptions} : {} }
 
@@ -91,9 +87,7 @@ class OptionGroup extends React.Component {
   };
 
    _renderOptions = ( props ) => {
-    const { children, iconColor, ...rest } = props;
-
-    // console.log(this.state.selectedOptions);
+    const { children, iconColor } = props;
 
     return React.Children.map(children, (item, index) => {
 

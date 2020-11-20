@@ -52,6 +52,9 @@ export default function reducePoll(state = initialState, action) {
         error: false,
       }
 
+    default:
+      return state;
+
   }
   // console.log(state);
   return state;
