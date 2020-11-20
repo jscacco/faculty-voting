@@ -8,7 +8,7 @@ import Jumbo            from '../theme/Jumbo';
 import Body            from '../theme/Body';
 
 import TertiaryCard      from '../format-cards/TertiaryCard';
-import OptionGroup      from '../option-groups/OptionGroup';
+import OptionGroup      from '../groups/OptionGroup';
 import TextOption       from '../options/TextOption';
 import InputOption       from '../options/InputOption';
 import VotingOption       from '../options/VotingOption';

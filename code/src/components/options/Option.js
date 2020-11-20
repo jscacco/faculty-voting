@@ -1,5 +1,4 @@
 import React            from 'react';
-import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
@@ -35,8 +34,7 @@ const defaultProps = {
 
 const bubble = ( props ) => {
 
-  const { iconColor, onClick, clicked,
-          extraSmall, small, medium, large, extraLarge } = props;
+  const { iconColor, onClick, clicked } = props;
 
   return (
     <Bubble color={iconColor} onClick={onClick} clicked={clicked}/>
@@ -45,8 +43,7 @@ const bubble = ( props ) => {
 
 const checkbox = ( props ) => {
 
-  const { iconColor, onClick, clicked,
-          extraSmall, small, medium, large, extraLarge } = props;
+  const { iconColor, onClick, clicked } = props;
 
   return (
     <CheckBox color={iconColor} onClick={onClick} clicked={clicked}/>
@@ -56,8 +53,7 @@ const checkbox = ( props ) => {
 
 const add = ( props ) => {
 
-  const { iconColor, onClick,
-           extraSmall, small, medium, large, extraLarge } = props;
+  const { iconColor, onClick } = props;
 
   return (
     <Icon type={'addCircle'} color={iconColor} onClick={onClick}/>

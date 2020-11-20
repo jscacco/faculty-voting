@@ -72,8 +72,8 @@ const UserPollPage = ( props ) => {
   if ( props.error ) { console.log(props.error); history.replace('/Login') }
 
   return (
-    <MainPage>
-      <ViewportHandler>
+    <ViewportHandler>
+      <MainPage roomcode={roomcode}>
         <PollComponent loading={props.loading}
                        pollData={props.poll}
                        userInput={props.userInput}
@@ -83,8 +83,8 @@ const UserPollPage = ( props ) => {
                        submittedOptions={props.submission}
                        submissionStatus={props.submissionStatus}
                        submitLoading={props.submitLoading}/>
-      </ViewportHandler>
-    </MainPage>
+      </MainPage>
+    </ViewportHandler>
   );
 }
 

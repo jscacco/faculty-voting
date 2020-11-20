@@ -31,6 +31,7 @@ const CardComponent = styled.div`
   ${({height}) => height ?`height: ${height}` : `height: auto`};
   width: ${({width}) => width ? `${width}` : `auto`};
   padding: ${({padding}) => padding}px;
+  /* padding: 5vw; */
   ${({borderColor, borderWidth}) => borderColor ? `border: ${borderWidth}px solid ${borderColor}` : ``};
 `;
 

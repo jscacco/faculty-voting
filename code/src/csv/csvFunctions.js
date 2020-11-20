@@ -9,8 +9,7 @@ const formatResultsAsCSV = (roomResults) => {
     let numVotes = pollResults.optionsOrder.map(id => pollResults.results[id].count);
 
     for (var i = 0; i < options.length; i++) {
-      var row;
-      if (i == 0) {
+      if (i === 0) {
         csv.push([pollResults.title, options[i], numVotes[i]]);
       } else {
         csv.push(["", options[i], numVotes[i]]);

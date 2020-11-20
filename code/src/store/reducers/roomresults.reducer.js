@@ -33,7 +33,10 @@ export default function reduceRoomResult(state = initialState, action) {
         loading: false,
         error: true
       };
-    };
+
+    default:
+      return state;
+  };
   return state;
 }
 

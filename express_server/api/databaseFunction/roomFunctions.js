@@ -147,6 +147,8 @@ const deleteHostRoom = async (host_id, room_id) => {
                 await pollFuncs.deletePoll(host_id, room_id, pollSnap.docs[i].id);
             }
 
+	    await hashFuncs.deleteRoomPeppers(room_id);
+	    
             // delete room
             await roomRef.delete();
 
@@ -424,7 +426,10 @@ const updateRoomStatus = async (host_id, room_id, new_status) => {
                         await pollFuncs.updatePollStatus(host_id, room_id, poll_id, 'closed');
                     }
                 }
-            }
+
+		
+	    }
+		
             // //console.log(room.hosts)
             // //console.log(room['hosts'])
             let roomData = {

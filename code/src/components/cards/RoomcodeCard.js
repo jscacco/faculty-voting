@@ -1,14 +1,14 @@
 import React            from 'react';
-import styled, { css }  from 'styled-components';
+import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
 import Body             from '../theme/Body';
-import Input            from '../inputs/Input';
-import Card             from './Card';
-import Button           from '../buttons/Button';
 import Jumbo             from '../theme/Jumbo';
+
+import Card             from './Card';
+import Input            from '../inputs/Input';
+import Button           from '../buttons/Button';
 
 
 const propTypes = {
@@ -67,8 +67,8 @@ const Title = (props) => {
 };
 
 const CodeInput = (props) => {
-
-  const { label, value, handleChange, handleSubmit,
+  
+  const { label, value, handleChange, handleSubmit, onEnter,
           extraSmall, small, medium, large, extraLarge } = props;
 
   let inputPadding;
@@ -82,7 +82,7 @@ const CodeInput = (props) => {
       <Input type={"inputfield"} value={value} fontColor={Colors.White}
              onChange={handleChange} placeholder={"Enter Room Code"}
              backgroundColor={Colors.Blue} borderColor={Colors.White}
-             placeholderColor={Colors.White}
+             placeholderColor={Colors.White} maxLength={10} onKeyDown={onEnter}
              {...{extraSmall, small, medium, large, extraLarge}}/>
     </TextInputWrapper>
   )

@@ -11,7 +11,7 @@ import logo     from './logo.png';
 const Wrapper = styled.div`
   background: ${Colors.White};
   border-bottom: 5px solid ${Colors.Buff};
-  width: 100%;
+  /* width: 100%; */
   padding: 5px;
   height: 7vh;
 

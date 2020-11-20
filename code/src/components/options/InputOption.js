@@ -48,7 +48,7 @@ const InputOption = ( props ) => {
             extraSmall={extraSmall} small={small} medium={medium} large={large} extraLarge={extraLarge}>
       <Input type={inputType} value={value} onChange={onChange} placeholder={placeholder}
              fontColor={fontColor} backgroundColor={backgroundColor}
-             borderColor={borderColor}
+             borderColor={borderColor} maxLength={100}
              extraSmall={extraSmall} small={small} medium={medium} large={large} extraLarge={extraLarge}/>
     </Option>
   )

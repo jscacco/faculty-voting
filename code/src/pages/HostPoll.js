@@ -131,7 +131,7 @@ const HostPollPage = ( props ) => {
 
   return (
     <ViewportHandler>
-      <SideBarPage sideContent={sideContent}>
+      <SideBarPage sideContent={sideContent} roomcode={roomcode}>
         <PollComponent loading={props.loading}
                        editing={props.editing}
                        pollData={props.poll}

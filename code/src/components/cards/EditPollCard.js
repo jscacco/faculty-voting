@@ -1,26 +1,14 @@
 import React            from 'react';
-import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
-import Jumbo            from '../theme/Jumbo';
-import Body             from '../theme/Body';
 
-import TextOption       from '../options/TextOption';
-import InputOption      from '../options/InputOption';
-import AdderOption      from '../options/AdderOption';
-import Option           from '../options/Option';
-import Button           from '../buttons/Button';
 import Input            from '../inputs/Input';
-import InputField       from '../inputs/InputField';
-import TextArea         from '../inputs/TextArea';
-import EditingOption    from '../options/EditingOption';
 import TertiaryCard      from '../format-cards/TertiaryCard';
 import EditButton       from '../buttons/EditButton';
 import EditingGroup     from '../groups/EditingGroup';
 import AddItem          from '../items/AddItem';
-import EditItem          from '../items/EditItem';
 import HostEditPollOptionItem from '../items/HostEditPollOptionItem'
 
 const propTypes = {
@@ -129,5 +117,8 @@ const EditPollCard = ( props ) => {
                    sections={sections} />
   )
 };
+
+EditPollCard.propTypes = propTypes;
+EditPollCard.defaultProps = defaultProps;
 
 export default EditPollCard;

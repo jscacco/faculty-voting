@@ -18,18 +18,16 @@ export default class Routes extends Component {
     render() {
         return (
             <Router history={history}>
-                <Switch>
-                    <Route path="/Login" exact component={Login}/>
-                    <Route path="/HostDash" exact component={HostDash}/>
-                    <Route path='/Roomcode' exact component={Roomcode}/>
-                    <Route path="/HostAgenda/:roomcode" exact component={HostAgenda}/>
-                    <Route path="/UserAgenda/:roomcode" exact component={UserAgenda}/>
-                    <Route path="/HostPoll/:roomcode/:pollcode" exact component={HostPoll}/>
-                    <Route path="/UserPoll/:roomcode/:pollcode" exact component={UserPoll}/>
-                    <Route path="/PollResults/:roomcode/:pollcode" exact component={PollResults}/>
-                    <Route path="/RoomResults/:roomcode" exact component={RoomResults}/>
-                    <Route path="/:" exact component={Login}/>
-                </Switch>
+                  <Route path="/Login" exact component={Login}/>
+                  <Route path="/HostDash" exact component={HostDash}/>
+                  <Route path='/Roomcode' exact component={Roomcode}/>
+                  <Route path="/HostAgenda/:roomcode" exact component={HostAgenda}/>
+                  <Route path="/UserAgenda/:roomcode" exact component={UserAgenda}/>
+                  <Route path="/HostPoll/:roomcode/:pollcode" exact component={HostPoll}/>
+                  <Route path="/UserPoll/:roomcode/:pollcode" exact component={UserPoll}/>
+                  <Route path="/PollResults/:roomcode/:pollcode" exact component={PollResults}/>
+                  <Route path="/RoomResults/:roomcode" exact component={RoomResults}/>
+                  <Route path="/:" exact component={Login}/>
             </Router>
         )
     }
