@@ -50,7 +50,8 @@ const RoomcodeComponent = ( props ) => {
                      viewport={props.viewport} {...size}
                      value={props.roomcode}
                      handleChange={props.handleChange}
-                     handleSubmit={props.handleSubmit}/>
+                     handleSubmit={props.handleSubmit}
+                     onEnter={props.onEnter}/>
     </RoomcodeWrapper>
   )
 }
@@ -69,13 +70,22 @@ const RoomCodeScreen = ( props ) => {
     }
   }
 
+  const onEnterPress = (e) => {
+    if(e.keyCode == 13 && e.shiftKey == false) {
+      e.preventDefault();
+      console.log("Enter pressed")
+      props.validateCode(props.roomcode)
+    }
+  }
+
   return (
     <ViewportHandler>
        <MainPage color={Colors.Blue}>
            <RoomcodeComponent viewport={props.viewport}
                               value={props.roomcode}
                               handleChange={(event) => props.updateCode(event.target.value)}
-                              handleSubmit={() => props.validateCode(props.roomcode)}/>
+                              handleSubmit={() => props.validateCode(props.roomcode)}
+                              onEnter={onEnterPress}/>
        </MainPage>
     </ViewportHandler>
    );
