@@ -41,20 +41,19 @@ const ResultsComponent = (props) => {
 
 const PollResultsPage = ( props ) => {
 
-  const { roomResults } = props
-
-  const roomcode = props.match.params.roomcode || '0000';
+  const { roomResults, onFetchResults } = props;
+  const roomcode = props.match.params.roomcode;
 
 
   useEffect(() =>  {
-    props.onFetchResults(roomcode);
-  }, [])
+    onFetchResults(roomcode);
+  }, [roomcode, onFetchResults])
 
   console.log(props);
 
   return (
     <ViewportHandler>
-      <MainPage roomcode={roomcode}> 
+      <MainPage roomcode={roomcode}>
         <ResultsComponent roomResults={roomResults}/>
       </MainPage>
     </ViewportHandler>

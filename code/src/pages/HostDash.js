@@ -49,9 +49,12 @@ const DashComponent = ( props ) => {
 }
 
 const HostDashPage = ( props ) => {
+
+  const { onFetchRooms } = props;
+
   useEffect(() =>  {
-    props.onFetchRooms();
-  }, [])
+    onFetchRooms();
+  }, [onFetchRooms])
 
   console.log(props)
 
