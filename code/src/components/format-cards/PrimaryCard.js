@@ -5,8 +5,6 @@ import ExtraPropTypes   from 'react-extra-prop-types';
 
 import Card             from '../cards/Card'
 import { Colors }       from '../theme/Colors';
-import Jumbo            from '../theme/Jumbo';
-import StatusText       from '../format-text/StatusText'
 
 const propTypes = {
   header: PropTypes.string,
@@ -30,11 +28,6 @@ const defaultProps ={
   cardBorderColor: Colors.White,
 };
 
-const ComponentWrapper = styled.div`
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-`;
 
 const SectionWrapper = styled.div`
   padding-bottom: ${({padding}) => padding}px;
@@ -80,17 +73,11 @@ const SecondaryCard = ( props ) => {
           cardColor, cardBorderColor, ...rest } = props;
 
   let padding;
-  let subPadding;
-  if (props.extraSmall) { padding = 40;
-                          subPadding = 14}
-  else if (props.small) { padding = 45;
-                          subPadding = 16}
-  else if (props.large) { padding = 55;
-                          subPadding = 28}
-  else if (props.extraLarge) { padding = 60;
-                              subPadding = 32}
-  else { padding = 50;
-         subPadding = 22}
+  if (props.extraSmall) { padding = 40; }
+  else if (props.small) { padding = 45; }
+  else if (props.large) { padding = 55; }
+  else if (props.extraLarge) { padding = 60; }
+  else { padding = 50; }
 
  const _renderHeader = (
    <HeaderWrapper padding={padding}>

@@ -1,15 +1,23 @@
 import React            from 'react';
 import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from './Colors';
-import Body             from './Body';
 import Jumbo            from './Jumbo';
-import logo     from './logo.png';
+
+const propTypes = {
+  roomcode: PropTypes.number,
+
+  extraSmall: PropTypes.bool,
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
+  large: PropTypes.bool,
+  extraLarge: PropTypes.bool,
+}
+
+const defaultProps = {};
 
 const ComponentWrapper = styled.div`
-  /* width: 100%; */
   padding-top: 2vh;
 
   display: flex;
@@ -17,7 +25,7 @@ const ComponentWrapper = styled.div`
   justify-content: center;
 `;
 
-const PageHeader = ( props ) => {
+const RoomcodeHeader = ( props ) => {
 
   const { roomcode,
           extraSmall, small, medium, large, extraLarge } = props;
@@ -34,5 +42,7 @@ const PageHeader = ( props ) => {
   )
 };
 
+RoomcodeHeader.propTypes = propTypes;
+RoomcodeHeader.defaultProps = defaultProps;
 
-export default PageHeader;
+export default RoomcodeHeader;

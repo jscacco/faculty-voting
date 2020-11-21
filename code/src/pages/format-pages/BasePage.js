@@ -3,8 +3,6 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import { Colors }       from '../../components/theme/Colors';
-
 import PageHeader       from '../../components/theme/PageHeader'
 import PageFooter       from '../../components/theme/PageFooter'
 import RoomcodeHeader   from '../../components/theme/RoomcodeHeader'

@@ -1,14 +1,28 @@
 import React            from 'react';
-import styled           from 'styled-components';
+
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
+
 import { CSVLink }      from "react-csv";
 
 import { Colors }       from '../theme/Colors';
-import Jumbo            from '../theme/Jumbo';
-import Body             from '../theme/Body';
 import Button           from '../buttons/Button';
 
+const propTypes = {
+  buttonColor: ExtraPropTypes.color,
+  textColor: ExtraPropTypes.color,
+
+  extraSmall: PropTypes.bool,
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
+  large: PropTypes.bool,
+  extraLarge: PropTypes.bool,
+};
+
+const defaultProps = {
+  buttonColor: Colors.Blue,
+  textColor: Colors.White
+};
 
 const CSVButton = ( props ) => {
 
@@ -16,11 +30,12 @@ const CSVButton = ( props ) => {
 
   const csvLinkStyle  = {
     'text-decoration': 'none',
-    color: (textColor ? textColor : Colors.White)
+    color: textColor
   };
 
   return (
-    <Button backgroundColor={buttonColor ? buttonColor : Colors.Blue} extraSmall={props.extraSmall} small={props.extraSmall}
+    <Button backgroundColor={buttonColor} 
+            extraSmall={props.extraSmall} small={props.extraSmall}
             medium={props.extraSmall} large={props.large} extraLarge={props.extraLarge}>
       <CSVLink data={props.table} style={csvLinkStyle} filename={'results.csv'}>
         Export CSV
@@ -28,5 +43,8 @@ const CSVButton = ( props ) => {
     </Button>
   )
 };
+
+CSVButton.propTypes = propTypes;
+CSVButton.defaultProps = defaultProps;
 
 export default CSVButton;

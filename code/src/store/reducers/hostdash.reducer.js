@@ -1,4 +1,3 @@
-// import PollItem from '../../components/PollItem';
 import ActionTypes from '../actionTypes';
 
 const initialState = {
@@ -78,8 +77,4 @@ export default function reduceHostDash(state = initialState, action) {
     default:
       return state;
   }
-  // console.log(state);
-  return state;
 }
-
-// export default function;

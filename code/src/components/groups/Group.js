@@ -1,7 +1,6 @@
 import React            from 'react';
 import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
 
 
 const propTypes = {
@@ -30,7 +29,7 @@ const _renderOptions = ( props ) => {
 
   const { children, onClick, ...rest } = props;
 
-  const { extraSmall, small, medium, large, extraLarge } = props;
+  const { extraSmall, small, large, extraLarge } = props;
 
   let padding;
 

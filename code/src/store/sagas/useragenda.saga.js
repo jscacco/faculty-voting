@@ -6,7 +6,7 @@ import { getUserId }     from '../../LoginUtils';
 export function* fetchUserAgenda (action) {
 
 	try {
-		const user_id = yield call(getUserId); //check if viewing access
+		yield call(getUserId); //check if viewing access
 		                                          // host_id
 		const response = yield call(() => fetchAgenda(null, action.room_id))
 		console.log(response);

@@ -1,7 +1,6 @@
 import React            from 'react';
 import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
 import Body             from '../theme/Body';
@@ -87,7 +86,7 @@ const getStatusConfig = ( status ) => {
 };
 
 const getSizeConfig = ( args ) => {
-  const { extraSmall, small, medium, large, extraLarge } = args;
+  const { extraSmall, small, large, extraLarge } = args;
 
   if (extraSmall) { return sizeConfig.extraSmall }
   else if (small) { return sizeConfig.small }

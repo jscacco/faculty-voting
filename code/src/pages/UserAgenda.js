@@ -1,17 +1,17 @@
-import React, { useEffect }                from 'react';
-import styled               from 'styled-components';
+import React, { useEffect } from 'react';
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 import history              from '../history';
 
-import LoadingCard              from '../components/cards/LoadingCard';
+import LoadingCard          from '../components/cards/LoadingCard';
 
 import { Colors }           from '../components/theme/Colors';
 import ViewportHandler      from './format-pages/ViewportHandler';
 import MainPage             from './format-pages/MainPage';
 
 import UserAgendaCard       from '../components/cards/UserAgendaCard';
+
 
 const AgendaComponent = ( props ) => {
 

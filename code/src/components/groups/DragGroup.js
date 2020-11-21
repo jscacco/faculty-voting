@@ -5,7 +5,6 @@ import ExtraPropTypes         from 'react-extra-prop-types';
 import { DragDropContext,
          Droppable }          from "react-beautiful-dnd";
 
-import Icon                   from '../theme/Icon';
 import DragItem               from './DragItem';
 
 const propTypes = {

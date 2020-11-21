@@ -1,36 +1,27 @@
 import React            from 'react';
-import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
-import Jumbo            from '../theme/Jumbo';
 import Body             from '../theme/Body';
 
-import OptionGroup      from '../groups/OptionGroup';
-import TextOption       from '../options/TextOption';
-import InputOption      from '../options/InputOption';
-import AdderOption      from '../options/AdderOption';
-import Option           from '../options/Option';
-import Button           from '../buttons/Button';
-import Input            from '../inputs/Input';
-import InputField       from '../inputs/InputField';
-import TextArea         from '../inputs/TextArea';
-import EditingOption    from '../options/EditingOption';
 import SecondaryCard      from '../format-cards/SecondaryCard';
 
-import PieChart    from '../charts/PieChart';
 import BarChart    from '../charts/BarChart';
 
-import Pdf from "react-to-pdf";
 
-const ref = React.createRef();
+const propTypes = {
+  pollResults: PropTypes.object,
 
+  extraSmall: PropTypes.bool,
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
+  large: PropTypes.bool,
+  extraLarge: PropTypes.bool,
+};
 
-const HiddenWrapper = styled.div`
-  position: absolute;
-  bottom: 20000px;
-`;
+const defaultProps = {
+  pollResults: {},
+};
 
 const PollResultsCard = ( props ) => {
 
@@ -66,5 +57,8 @@ const PollResultsCard = ( props ) => {
                    children={_children}/>
   )
 };
+
+PollResultsCard.propTypes = propTypes;
+PollResultsCard.defaultProps = defaultProps;
 
 export default PollResultsCard;

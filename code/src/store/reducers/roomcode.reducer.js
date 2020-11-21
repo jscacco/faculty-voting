@@ -15,7 +15,6 @@ export default function reducePoll(state = initialState, action) {
 
     case ActionTypes.roomcode.UPDATE_ROOMCODE:
       result = action.value;
-      // console.log(result);
       return {
         ...state,
         roomcode: result,
@@ -30,13 +29,11 @@ export default function reducePoll(state = initialState, action) {
         error: false,
       };
     case ActionTypes.roomcode.CHECK_ROOMCODE_SUCCESS:
-        console.log('j')
       return {
         ...state,
         loading: false,
       };
     case ActionTypes.roomcode.CHECK_ROOMCODE_ERROR:
-      console.log('je')
       return {
         ...state,
         roomcode: '',
@@ -56,8 +53,4 @@ export default function reducePoll(state = initialState, action) {
       return state;
 
   }
-  // console.log(state);
-  return state;
 }
-
-// export default function;

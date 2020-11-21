@@ -3,7 +3,6 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 
 import { Colors }       from '../theme/Colors';
-import Body             from '../theme/Body';
 import Jumbo             from '../theme/Jumbo';
 
 import Card             from './Card';
@@ -67,8 +66,8 @@ const Title = (props) => {
 };
 
 const CodeInput = (props) => {
-  
-  const { label, value, handleChange, handleSubmit, onEnter,
+
+  const { value, handleChange, onEnter,
           extraSmall, small, medium, large, extraLarge } = props;
 
   let inputPadding;

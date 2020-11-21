@@ -1,6 +1,5 @@
 import React                from 'react';
 import styled               from 'styled-components';
-import ParticlesBg          from 'particles-bg';
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';

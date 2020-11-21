@@ -1,17 +1,24 @@
 import React            from 'react';
 import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from './Colors';
-import Body             from './Body';
-import Jumbo            from './Jumbo';
-import logo     from './logo.png';
+
+import logo             from './logo.png';
+
+const propTypes = {
+  extraSmall: PropTypes.bool,
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
+  large: PropTypes.bool,
+  extraLarge: PropTypes.bool,
+}
+
+const defaultProps = {};
 
 const Wrapper = styled.div`
   background: ${Colors.White};
   border-bottom: 5px solid ${Colors.Buff};
-  /* width: 100%; */
   padding: 5px;
   height: 7vh;
 
@@ -29,5 +36,7 @@ const PageHeader = () => {
   )
 };
 
+PageHeader.propTypes = propTypes;
+PageHeader.propTypes = defaultProps;
 
 export default PageHeader;

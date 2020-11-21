@@ -1,4 +1,3 @@
-// import { generatePollId } from '../MockDataFunctions';
 import ActionTypes from '../actionTypes';
 
 const initialState = {
@@ -84,7 +83,7 @@ export default function reduceHostAgenda(state = initialState, action) {
       delete newPolls[action.poll_id];
 
       newOrder = {...state.order}
-      newOrder['pending'] = state.order['pending'].filter(i => i != action.poll_id)
+      newOrder['pending'] = state.order['pending'].filter(i => i !== action.poll_id)
 
       return {
         ...state,
@@ -173,5 +172,4 @@ export default function reduceHostAgenda(state = initialState, action) {
       };
 
   }
-  return state;
 }

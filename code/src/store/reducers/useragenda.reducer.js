@@ -44,5 +44,4 @@ export default function reduceUserAgenda(state = initialState, action) {
       return state;
 
   }
-  return state;
 }

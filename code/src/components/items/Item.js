@@ -3,7 +3,6 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import { Colors }       from '../theme/Colors';
 import Body             from '../theme/Body';
 import Card             from '../cards/Card';
 

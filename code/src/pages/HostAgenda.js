@@ -72,6 +72,7 @@ const AgendaComponent = ( props ) => {
                                onDragEnd={props.onDragEnd}
                                onTitleChange={props.onTitleChange}
                                onPollEditClick={props.onPollEditClick}
+                               onViewClick={props.onViewClickEditing}
                                {...props.cardProps}/>
     );
   }
@@ -92,10 +93,9 @@ const HostRoomPage = ( props ) => {
   const { onFetchAgenda } = props;
 
   useEffect(() =>  {
-    props.onFetchAgenda(roomcode);
+    onFetchAgenda(roomcode);
   }, [roomcode, onFetchAgenda])
 
-  // if ( props.loading ) { return <Loading/> }
   if ( props.error ) { console.log(props.error); history.replace('/Login') }
 
   const cardProps = {
@@ -107,12 +107,16 @@ const HostRoomPage = ( props ) => {
     onEditClick: () => props.onEditClick(roomcode),
   }
 
-
   const onViewClick = (poll_id) => {
     props.polls[poll_id].status === 'closed' ?
       history.push(`/PollResults/${roomcode}/${poll_id}`, {roomStatus: props.status}) :
       history.push(`/HostPoll/${roomcode}/${poll_id}`, {roomStatus: props.status})
   };
+
+  const onViewClickEditing = ( poll_id ) => {
+    props.onEditClick(roomcode);
+    onViewClick(poll_id);
+  }
 
   const onPollEditClick = (poll_id) => {
     props.onEditClick(roomcode);
@@ -137,6 +141,7 @@ const HostRoomPage = ( props ) => {
                          onPollEditClick={onPollEditClick}
                          onStatusClick={(poll_id, newStatus) => props.onUpdatePollStatus(roomcode, poll_id, newStatus)}
                          onViewClick={onViewClick}
+                         onViewClickEditing={onViewClickEditing}
                          cardProps={cardProps}/>
       </SideBarPage>
     </ViewportHandler>
