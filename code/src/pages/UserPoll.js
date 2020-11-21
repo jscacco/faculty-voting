@@ -61,14 +61,14 @@ const PollComponent = ( props ) => {
 
 const UserPollPage = ( props ) => {
 
-  const roomcode = props.match.params.roomcode || '0000';
-  const pollcode = props.match.params.pollcode || '00';
+  const roomcode = props.match.params.roomcode;
+  const pollcode = props.match.params.pollcode;
+  const { onFetchPoll } = props;
 
   useEffect(() =>  {
-    props.onFetchPoll(roomcode, pollcode);
-  }, [])
+    onFetchPoll(roomcode, pollcode);
+  }, [roomcode, pollcode, onFetchPoll])
 
-  // if ( props.loading ) { return <Loading/> }
   if ( props.error ) { console.log(props.error); history.replace('/Login') }
 
   return (

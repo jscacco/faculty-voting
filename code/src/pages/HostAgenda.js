@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import styled               from 'styled-components';
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
@@ -9,7 +8,6 @@ import history              from '../history';
 import LoadingCard              from '../components/cards/LoadingCard';
 
 import { Colors }           from '../components/theme/Colors';
-import RoomcodeHeader       from '../components/theme/RoomcodeHeader';
 import ViewportHandler      from './format-pages/ViewportHandler';
 import SideBarPage          from './format-pages/SideBarPage';
 
@@ -90,12 +88,12 @@ const AgendaComponent = ( props ) => {
 
 const HostRoomPage = ( props ) => {
 
-  const roomcode = props.match.params.roomcode || '0000';
+  const roomcode = props.match.params.roomcode;
+  const { onFetchAgenda } = props;
 
   useEffect(() =>  {
-    // console.log(props);
     props.onFetchAgenda(roomcode);
-  }, [])
+  }, [roomcode, onFetchAgenda])
 
   // if ( props.loading ) { return <Loading/> }
   if ( props.error ) { console.log(props.error); history.replace('/Login') }

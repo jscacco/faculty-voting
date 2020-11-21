@@ -51,13 +51,13 @@ const AgendaComponent = ( props ) => {
 
 const UserAgendaPage = ( props ) => {
 
-  const roomcode = props.match.params.roomcode || '0000'
+  const roomcode = props.match.params.roomcode;
+  const { onFetchAgenda } = props;
 
   useEffect(() =>  {
-    props.onFetchAgenda(roomcode);
-  }, [])
+    onFetchAgenda(roomcode);
+  }, [roomcode, onFetchAgenda])
 
-  // if ( props.loading ) { return <Loading/> }
   if ( props.error ) { console.log(props.error); history.replace('/Login') }
 
   const onViewClick = (poll_id) => {

@@ -45,13 +45,17 @@ const AgendaItem = ( props ) => {
 
   const statusText = <StatusText status={status} {...rest}/>
 
+  const disabled_props = onViewClick === undefined ?
+    { backgroundColor: Colors.LightGrey, disabled: true} :
+    {};
+
   const viewButton = props.extraSmall ?
-    <Button {...rest} onClick={onViewClick}>
+    <Button {...rest} onClick={onViewClick} {...disabled_props}>
       <IconWrapper>
         <Icon type={'view'} color={Colors.White} small/>
       </IconWrapper>
     </Button> :
-    <Button {...rest} onClick={onViewClick}>
+    <Button {...rest} onClick={onViewClick} {...disabled_props}>
       VIEW
     </Button>
 
