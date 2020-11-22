@@ -81,7 +81,8 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
 	    let hashComparison = await hashFuncs.compareHashes(poll, docData['pollHash'], "poll");
         if (!hashComparison) {
             // hash is bad:
-            console.log("!!Warning!! Data fetched from poll " + docData['title'] + " has a bad hash. This means that the data has been tampered with via the Firebase Console!");
+            console.log("\n\n!!Warning!! Data fetched from poll " + docData['title'] + " has a bad hash. This means that the data has been tampered with via the Firebase Console!\n\n");
+	    console.log(JSON.stringify(poll));
             //alert("Bad hash warning - see console for more info.");
         }
         //console.log(poll)
@@ -212,6 +213,9 @@ const addPoll = async (host_id, room_id) => {
                 poll_id = generatePollId();
             }
 
+	    // Set a pepper for this poll
+	    await hashFuncs.addPollPepper(room_id, poll_id);
+	    
             // object we will return
             let poll = pollBase(poll_id);
 
@@ -276,6 +280,8 @@ const addPoll = async (host_id, room_id) => {
                 .doc(room_id)
                 .update({roomHash: newHash});
 
+	    
+	    
             return {
                 newPoll: poll
             };
@@ -422,7 +428,7 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
             const host_id = await roomFuncs.getHost(room_id);
             let poll = await fetchPollData(host_id, room_id, poll_id);
 	    
-	        // voteRef is the collection of all votes, like the "ballot box"
+	    // voteRef is the collection of all votes, like the "ballot box"
             let voteRef = firestore
                             .collection(host_id)
                             .doc(room_id)
@@ -516,24 +522,23 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
 
             if(choice.length > 0) {
                 // generate necessary information
-                //let token = await loginFuncs.getToken();
-
-                // let peppered_token = await hashFuncs.pepperToken(user_id, room_id, poll_id);
-                // let voteHashInfo = { choices: choice };
-                // let voteHash = await hashFuncs.generateVoteHash(voteHashInfo, peppered_token, room_id, poll_id);
+                let token = user_id;
+		
+                let peppered_token = await hashFuncs.pepperToken(user_id, room_id, poll_id);
+                let voteHashInfo = { choices: choice };
+                let voteHash = await hashFuncs.generateVoteHash(voteHashInfo, peppered_token, room_id, poll_id);
 
                 // construct vote object
-                //vote[peppered_token] = {
-                vote[user_id] = {
+                vote[peppered_token] = {
                     choice: choice,
-                    //hash: voteHash
+                    hash: voteHash
                 };
 
                 // upload to firebase
                 // if (docData[user_id]) {//peppered_token]) {
                 //     await voteRef.update(vote);
                 // } else {
-                    await voteRef.set(vote);
+                await voteRef.update(vote);
                 // }
             }
             
@@ -791,6 +796,9 @@ const deletePoll = async (host_id, room_id, poll_id) => {
             let userOptionSnap = await userOptionRef.get();
             let pollOrder = await getPollOrder(host_id, room_id);
 
+	    // delete the poll pepper
+	    await hashFuncs.deletePollPepper(room_id, poll_id);
+	    
             // delete options collection
             for (let x = 0; x < optionSnap.docs.length; x++) {
                 await optionRef.doc(optionSnap.docs[x].id).delete();
@@ -815,6 +823,8 @@ const deletePoll = async (host_id, room_id, poll_id) => {
                     .doc('order')
                     .update(pollOrder);
 
+	    
+	    
             // delete poll
             await pollRef.delete();
         }

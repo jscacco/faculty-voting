@@ -1,5 +1,4 @@
 var crypto = require("crypto");
-//UNCOMMENT ONCE ON SERVER
 const fs = require("fs");
 
 // TODO (Jack): Change this so the key is stored on the server or in the directory
@@ -7,25 +6,14 @@ const fs = require("fs");
 let SECRETKEY = null;
 
 
-/*
 // UNCOMMENT ONCE ON SERVER
 const readSecretKey = async () => {
     // Reads the secret key in from 'secret_key.txt'
     // code from
     // https://stackoverflow.com/questions/5784621/
     // how-to-read-binary-files-byte-by-byte-in-node-js
-    fs.readFile('secret_key.txt', (err, data) => {
-	if (err) {
-	    console.log(err);
-	}
-	SECRETKEY = data;
-    });
-}
-
-*/
-// This is a dummy func since we can't do file reading on react
-const readSecretKey = async () => {
-    SECRETKEY = "placeholder secret key";
+    SECRETKEY =  fs.readFileSync(__dirname + '/hmac_cred.txt', 'utf-8').slice(0,-3);
+    return;
 }
 
     
@@ -83,10 +71,10 @@ const generatePollHash = async (poll) => {
     // Given a poll, generate the hash associated with it
 
     let msg = await generatePollMsg(poll);
-    //console.log("Generating hash of: " + msg);
+    //console.log("\n\n\n\nGenerating hash of: " + msg + "\n\n\n\n");
     
     let hmac = await generateHmac(msg);
-    //console.log("Hash: " + hmac);
+    //console.log("\n\nHash: " + hmac + "\n\n");
     
     return hmac;
 }
@@ -105,25 +93,21 @@ const generateRoomHash = async (room) => {
 
 
 // Reads in the JSON object stored in input_file
-const readJsonFile = async (input_file) => {
-    //console.log("Reading JSON object from " + input_file);
-    fs.readFile(input_file, (err, data) => {
-	if (err) {
-	    console.log(err);
-	    return null;
-	} else {
-	    let parsedData = JSON.parse(data);
-	    //console.log("Retrived JSON object " + JSON.stringify(parsedData));
-	    return parsedData;
-	}
-    });
+function readJsonFile (input_file, encoding){
+    console.log("Reading JSON object from " + input_file);
+    if (typeof (encoding) == 'undefined') {
+	encoding = 'utf-8';
+    }
+    data =  fs.readFileSync(input_file, encoding);
+    console.log("Retrieved JSON object: " + JSON.stringify(JSON.parse(data)));
+    return JSON.parse(data);
 }
 
 
 // Given a room and poll id, get that poll's pepper from peppers.json
 const getPollPepper = async (room_id, poll_id) => {
-    //console.log("Getting pepper for poll " + poll_id + " in room " + room_id + ".");
-    let pepperData = await readJsonFile('peppers.json');
+    console.log("Getting pepper for poll " + poll_id + " in room " + room_id + ".");
+    let pepperData = readJsonFile(__dirname + '/peppers.json');
     if (pepperData !== null) {
         if ((room_id in pepperData) && (poll_id in pepperData[room_id])) {
             return pepperData[room_id][poll_id];
@@ -134,61 +118,84 @@ const getPollPepper = async (room_id, poll_id) => {
         }
     } 
     else {
-        console.log("Unable to read from peppers.json");
+        console.log("Unable to read from ./peppers.json");
         return "";
     }
 }
 
 
-// Given a room id, poll id, and pepper, sets the pepper in peppers.json
-const setPollPepper = async (room_id, poll_id, pepper) => {
-    //console.log("Setting pepper " + pepper + " for poll " + poll_id + " in room " + room_id + ".");
-    let pepperData = await readJsonFile('peppers.json');
+const generateRandomPepper = () => {
+    const buf = crypto.randomBytes(36);
+    const pepper = buf.toString('base64');
+    console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + pepper + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    return pepper;
+}
+
+
+// Given a room id, poll id, and pepper, sets the pepper in ./peppers.json
+const addPollPepper = async (room_id, poll_id) => {
+    console.log("\n\n\n\n\nAdding pepper for poll " + poll_id + " in room " + room_id);
+    let pepperData = readJsonFile(__dirname + '/peppers.json');
+    let pepper = await generateRandomPepper();
+    
     if (pepperData !== null) {
         if ((room_id in pepperData) && (poll_id in pepperData[room_id])) {
             // Case 1: we already have a pepper set for that poll and room
             if (pepperData[room_id][poll_id] === pepper) {
             // Case 1a: it's the pepper we want
-            //console.log("Pepper " + pepper + " already set for poll " + poll_id + " in room " + room_id + ".");
+		console.log("Pepper " + pepper + " already set for poll " + poll_id + " in room " + room_id + ".");
             return;
             } 
             else {
                 // Case 1b: it's not the pepper we want
                 // This is the same code as in Case 2...
                 pepperData[room_id][poll_id] = pepper;
-                fs.writeFileSync('peppers.json', JSON.stringify(pepperData));
+		console.log("\n\nwriting pepper data!\n\n");
+                fs.writeFileSync(__dirname + '/peppers.json', JSON.stringify(pepperData));
                 return;
             }
         } 
         else if (room_id in pepperData) {
             // Case 2: The room already exists, but the poll doesn't
             pepperData[room_id][poll_id] = pepper;
-            fs.writeFileSync('peppers.json', JSON.stringify(pepperData));
+	    console.log("\n\nwriting pepper data!\n\n");
+            fs.writeFileSync(__dirname + '/peppers.json', JSON.stringify(pepperData));
             return;
         } 
         else {
             // Case 3: The room doesn't exist yet.
-            pepperData[room_id] = {poll_id: pepper};
-            fs.writeFileSync('peppers.json', JSON.stringify(pepperData));
+            pepperData[room_id] = {};
+	    pepperData[room_id][poll_id] = pepper;
+	    console.log("\n\nwriting pepper data!\n\n");
+            fs.writeFileSync(__dirname + '/peppers.json', JSON.stringify(pepperData));
             return;
         }
     }
     else {
-        console.log("Unable to read from peppers.json");
+        console.log("Unable to read from ./peppers.json");
         return;
     }
 }
 
+// Delete the peppers for the given room
+const  deleteRoomPeppers = async (room_id) => {
+    let pepperData = await readJsonFile(__dirname + '/peppers.json');
+    if (pepperData !== null) {
+	delete pepperData[room_id];
+	fs.writeFileSync(__dirname + '/peppers.json', JSON.stringify(pepperData));
+    }
+    return;
+}
 
-// Given a room id and poll id, delete that poll from peppers.json
+// Given a room id and poll id, delete that poll from ./peppers.json
 const deletePollPepper = async (room_id, poll_id) => {
-    //console.log("Deleting pepper for poll " + poll_id + " in room " + room_id + ".");
-    let pepperData = await readJsonFile('peppers.json');
+    console.log("Deleting pepper for poll " + poll_id + " in room " + room_id + ".");
+    let pepperData = await readJsonFile(__dirname + '/peppers.json');
     if (pepperData !== null) {
         if ((room_id in pepperData) && (poll_id in pepperData[room_id])) {
             delete pepperData[room_id][poll_id];
-            fs.writeFileSync('peppers.json', JSON.stringify(pepperData));
-            //console.log("Pepper successfully deleted");
+            fs.writeFileSync(__dirname + '/peppers.json', JSON.stringify(pepperData));
+            console.log("Pepper successfully deleted");
             return;
         } 
         else {
@@ -197,7 +204,7 @@ const deletePollPepper = async (room_id, poll_id) => {
         }
     } 
     else {
-	    console.log("Unable to read from peppers.json");
+	    console.log("Unable to read from ./peppers.json");
 	    return;
     }
 }
@@ -206,25 +213,28 @@ const deletePollPepper = async (room_id, poll_id) => {
 // Expects a user_token, poll_id, and room_id
 // Returns the peppered (obscured) token
 const pepperToken = async (user_token, room_id, poll_id) => {
-    //console.log("Peppering " + user_token + " for poll " + poll_id + " in room " + room_id + ".");
+    fs.appendFileSync(__dirname + '/pepperLog.txt', "Peppering " + user_token + " for poll " + poll_id + " in room " + room_id + ".\n\n", {'flags': 'a'});
+    console.log("Peppering " + user_token + " for poll " + poll_id + " in room " + room_id + ".");
     let pepper = await getPollPepper(room_id, poll_id);
+    fs.appendFileSync(__dirname + '/pepperLog.txt', "Pepper: " + pepper + "\n\n", {'flags': 'a'});
     let msg = user_token + pepper;
     let pepperedToken = await generateHmac(msg);
-    //console.log("pepperedToken: " + pepperedToken);
+    fs.appendFileSync(__dirname + '/pepperLog.txt', "pepperedToken: " + pepperedToken + "\n\n\n\n", {'flags': 'a'});
+    console.log("pepperedToken: " + pepperedToken);
     return pepperedToken;
 }
 
 
 // Expects a vote of the format:
 // vote = {
-//     choices: [00, 03],
+//     "choices": [00, 03],
 // }
 // a user token, and the room and poll ids to fetch the pepper
 const generateVoteHash = async (vote, peppered_token, room_id, poll_id) => {
-    //console.log("Generating hash for " + JSON.stringify(vote) + " made by " + user_id);
-    let msg = peppered_token + JSON.stringify(vote[choices]);
+    console.log("Generating hash for " + JSON.stringify(vote) + " made by " + peppered_token);
+    let msg = peppered_token + JSON.stringify(vote["choices"]);
     let voteHash = await generateHmac(msg);
-    //console.log("voteHash: " + voteHash);
+    console.log("voteHash: " + voteHash);
     return voteHash;
 }
 
@@ -258,4 +268,7 @@ exports.generateRoomHash = generateRoomHash;
 exports.compareHashes = compareHashes;
 exports.generateVoteHash = generateVoteHash;
 exports.pepperToken = pepperToken;
+exports.deletePollPepper = deletePollPepper;
+exports.addPollPepper = addPollPepper;
+exports.deleteRoomPeppers = deleteRoomPeppers;
 //module.exports = { generatePollHash, generateRoomHash, compareHashes };
