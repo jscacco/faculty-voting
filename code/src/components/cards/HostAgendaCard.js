@@ -41,9 +41,6 @@ const HostAgendaCard = ( props ) => {
           onEditClick, onStatusClick, onViewClick,
           extraSmall, small, medium, large, extraLarge } = props;
 
-  console.log(props)
-
-
   let allPolls = [];
   let statusList = ['open', 'pending', 'closed'];
   statusList = statusList.filter((status) => order[status] && order[status].length !== 0);

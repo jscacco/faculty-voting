@@ -35,7 +35,6 @@ export default function reduceHostAgenda(state = initialState, action) {
         loading: false,
       };
     case ActionTypes.hostagenda.FETCH_AGENDA_ERROR:
-      console.log('here')
       return {
         ...state,
         loading: false,
@@ -49,7 +48,6 @@ export default function reduceHostAgenda(state = initialState, action) {
       };
 
     case ActionTypes.hostagenda.ADD_POLL_START:
-      console.log('here')
       return { ...state, loading: true, error: null };
 
     case ActionTypes.hostagenda.ADD_POLL_SUCCESS:
@@ -112,7 +110,6 @@ export default function reduceHostAgenda(state = initialState, action) {
         error: true
       };
     case ActionTypes.hostagenda.TOGGLE_EDIT:
-      // console.log('here')
       const editing = !state.editing;
       return {
         ...state,

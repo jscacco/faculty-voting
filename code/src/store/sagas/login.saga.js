@@ -21,7 +21,6 @@ export function* loginHost (action) {
 		});
 
 	} catch(error) {
-    console.log(error)
 		yield put({
 			type: ActionTypes.login.HOST_LOGIN_ERROR,
       error

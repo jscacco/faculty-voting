@@ -109,7 +109,6 @@ class HostEditPanelCard extends React.Component {
     const showResults = this.state.otherSelection['0'];
     const userInputOption = this.state.otherSelection['1'];
 
-    console.log(this.state)
     this.props.updateSettings && this.props.updateSettings({type, showResults, userInputOption})
   }
 

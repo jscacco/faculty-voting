@@ -37,7 +37,6 @@ export function* updateHostPoll (action) {
 
     const pollState = yield select(roomSelector);
 		const response = yield call(() => updatePoll(user_id, action.room_id, action.poll_id, pollState))
-		console.log(response);
 		yield put({
 			type: ActionTypes.hostpoll.UPDATE_POLL_SUCCESS,
 			response

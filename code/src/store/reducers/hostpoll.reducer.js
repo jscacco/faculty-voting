@@ -150,7 +150,6 @@ export default function reduceUserPoll(state = initialState, action) {
 
     case ActionTypes.hostpoll.UPDATE_POLL_STATUS_SUCCESS:
       result = action.poll;
-      console.log(result)
       return {
         ...state,
         poll: {...result},
