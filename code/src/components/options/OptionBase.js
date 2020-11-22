@@ -35,6 +35,7 @@ const IconButtonWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   padding-right: ${({padding}) => padding};
+  cursor: pointer;
 `;
 
 const ExtraIconWrapper = styled.div`

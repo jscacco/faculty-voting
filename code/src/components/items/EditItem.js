@@ -37,6 +37,7 @@ const IconWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   padding-left: ${({padding}) => padding}px;
+  cursor: pointer;
 `;
 
 const EditItem = ( props ) => {

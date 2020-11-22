@@ -30,7 +30,7 @@ const ComponentWrapper = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-  width: 50%;
+  width: 25vw;
 `;
 
 const TextInputWrapper = styled.div`
@@ -38,6 +38,9 @@ const TextInputWrapper = styled.div`
 `;
 
 const TitleWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   padding-bottom: ${({padding}) => padding}px;
 `;
 
@@ -58,7 +61,8 @@ const Title = (props) => {
              small={medium}
              medium={large}
              large={extraLarge}
-             color={Colors.White}>
+             color={Colors.White}
+             center>
         {title}
       </Jumbo>
     </TitleWrapper>
