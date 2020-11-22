@@ -59,8 +59,6 @@ const SideBarComponent = ( props ) => {
 const PollComponent = ( props ) => {
 
   const size = getSize(props.viewport)
-  console.log(props);
-  console.log(size)
 
   if (props.loading) {
     return (

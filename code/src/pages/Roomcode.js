@@ -72,7 +72,6 @@ const RoomCodeScreen = ( props ) => {
   const onEnterPress = (e) => {
     if(e.keyCode === 13 && e.shiftKey === false) {
       e.preventDefault();
-      console.log("Enter pressed")
       props.validateCode(props.roomcode)
     }
   }

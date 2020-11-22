@@ -1,39 +1,51 @@
-import React            from 'react';
+import React from 'react';
 
-import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
+import PropTypes from 'prop-types';
+import ExtraPropTypes from 'react-extra-prop-types';
 
-import { Colors }       from '../theme/Colors';
-import Jumbo            from '../theme/Jumbo';
-import Body             from '../theme/Body';
+import {
+  Colors
+} from '../theme/Colors';
+import Jumbo from '../theme/Jumbo';
+import Body from '../theme/Body';
 
-import {Pie} from 'react-chartjs-2';
+import {
+  Pie
+} from 'react-chartjs-2';
 import 'chartjs-plugin-datalabels';
 
 
 const PieChart = (props) => {
-  const { dataLabels, dataValues} = props;
+  const {
+    dataLabels,
+    dataValues
+  } = props;
 
   const data = {
     labels: dataLabels,
-  	datasets: [{
-  		data: dataValues,
-  		backgroundColor: [
-    		Colors.LightBlue,
+    datasets: [{
+      data: dataValues,
+      backgroundColor: [
+        Colors.LightBlue,
         Colors.Blue,
-    	],
-  	}]
+      ],
+    }]
   };
 
   const options = {
     legend: {
-            display: true
-         }
+      display: true
+    }
   }
 
-  return (
-    <Pie data={data}
-         options={options}/>
+  return ( <
+    Pie data = {
+      data
+    }
+    options = {
+      options
+    }
+    />
   )
 }
 

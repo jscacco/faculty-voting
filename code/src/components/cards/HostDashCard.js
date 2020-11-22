@@ -52,7 +52,6 @@ const SectionGroup = ( props ) => {
                          iconColor={Colors.White}
                          onClick={onAdd}> Add a room </AddItem>);
 
-  console.log(addItems)
   return (
     onAdd ?
       <Group {...rest}>

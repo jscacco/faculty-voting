@@ -30,8 +30,6 @@ const getSize = (viewport) => {
 
 const ResultsComponent = (props) => {
   const size = getSize(props.viewport);
-  console.log('here')
-  console.log(props.viewport)
 
   return <RoomResultsCard {...size} roomResults={props.roomResults}/>
 }
@@ -41,12 +39,9 @@ const PollResultsPage = ( props ) => {
   const { roomResults, onFetchResults } = props;
   const roomcode = props.match.params.roomcode;
 
-
   useEffect(() =>  {
     onFetchResults(roomcode);
   }, [roomcode, onFetchResults])
-
-  console.log(props);
 
   return (
     <ViewportHandler>

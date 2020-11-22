@@ -86,8 +86,6 @@ const renderText = (props) => {
 
   const { buttonConfig, extraSmall, small, medium, large } = props;
 
-  console.log(extraSmall)
-
   return(
     <CenterWrapper>
       <Body twoExtraSmall={extraSmall} extraSmall={small} small={medium} medium={large} color={Colors.Black}>
