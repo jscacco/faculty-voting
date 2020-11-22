@@ -42,7 +42,8 @@ const RoomResultsCard = ( props ) => {
 
       return (
         <>
-          <Body medium>
+          <Body extraSmall={extraSmall} small={small}
+                medium={medium} large={large} extraLarge={extraLarge}>
             {pollResults.title}
           </Body>
           <BarChart dataLabels={pollResults.optionsOrder.map(id => pollResults.options[id].value)}
