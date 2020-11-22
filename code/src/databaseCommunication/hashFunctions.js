@@ -234,12 +234,7 @@ const compareHashes = async (map, fetched, type) => {
 	expectedHash = await generateRoomHash(map);
     }
 
-<<<<<<< HEAD
-   
-    if (expectedHash != fetched) {
-=======
     if (expectedHash !== fetched) {
->>>>>>> c1486600839c3e88e849e55b8d5bce7d101741cc
         // The hashes don't match - bad!
         return false;
     } else {
