@@ -44,7 +44,7 @@ const InputOption = ( props ) => {
 
   return (
     <Option extraIcons={extraIcons} type={iconType} iconColor={iconColor}
-            onClick={onClick} clicked={clicked}
+            onClick={onClick} clicked={clicked} contentWidth={`100%`}
             extraSmall={extraSmall} small={small} medium={medium} large={large} extraLarge={extraLarge}>
       <Input type={inputType} value={value} onChange={onChange} placeholder={placeholder}
              fontColor={fontColor} backgroundColor={backgroundColor}

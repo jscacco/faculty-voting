@@ -79,7 +79,7 @@ const Option = ( props ) => {
   }
 
   return (
-    <OptionBase iconButton={iconButton} extraIcons={extraIcons}
+    <OptionBase iconButton={iconButton} extraIcons={extraIcons} contentWidth={props.contentWidth}
                 extraSmall={extraSmall} small={small} medium={medium} large={large} extraLarge={extraLarge}>
       {children}
     </OptionBase>

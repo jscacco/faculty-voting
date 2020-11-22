@@ -27,7 +27,7 @@ const ChildrenWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 100%;
+  ${({contentWidth}) => contentWidth ? `width: ${contentWidth};` : ``}
 `;
 
 const IconButtonWrapper = styled.div`
@@ -48,7 +48,7 @@ const ExtraIconWrapper = styled.div`
 const OptionWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: auto;
   /* border: 1px solid black; */
 `;
@@ -90,7 +90,7 @@ const OptionBase = (props) => {
       <IconButtonWrapper padding={padding}>
         {React.cloneElement(iconButton, {...itemProps})}
       </IconButtonWrapper>
-      <ChildrenWrapper>
+      <ChildrenWrapper contentWidth={props.contentWidth}>
         {children}
       </ChildrenWrapper>
       { extraIcons ? renderExtraIcons(props, padding) : <div/>}

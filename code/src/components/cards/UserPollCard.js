@@ -35,7 +35,7 @@ const defaultProps = {
 
 const UserPollCard = ( props ) => {
 
-  const { pollData, userInput, submittedOptions, onOptionChange,
+  const { pollData, userInput, selectedOptions, submittedOptions, onOptionChange,
           onSubmit, submissionStatus, onInputChange,
           submitLoading,
           ...rest } = props;
@@ -72,7 +72,8 @@ const UserPollCard = ( props ) => {
 
     return (
       <OptionGroup type={pollData.type} fontColor={Colors.Black}
-                   onSelect={onOptionChange} {...rest}>
+                   onSelect={onOptionChange} selectedOptions={selectedOptions}
+                   {...rest}>
         {optionComponents}
       </OptionGroup>
     );

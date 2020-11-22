@@ -52,6 +52,7 @@ const PollComponent = ( props ) => {
                   onOptionChange={props.onOptionChange}
                   onInputChange={props.onInputChange}
                   onSubmit={props.onSubmit}
+                  selectedOptions={props.selectedOptions}
                   submittedOptions={props.submittedOptions}
                   submissionStatus={props.submissionStatus}
                   submitLoading={props.submitLoading}
@@ -69,6 +70,8 @@ const UserPollPage = ( props ) => {
     onFetchPoll(roomcode, pollcode);
   }, [roomcode, pollcode, onFetchPoll])
 
+  console.log(props);
+
   if ( props.error ) { console.log(props.error); history.replace('/Login') }
 
   return (
@@ -80,6 +83,7 @@ const UserPollPage = ( props ) => {
                        onOptionChange={props.onOptionChange}
                        onInputChange={props.onInputChange}
                        onSubmit={() => props.onSubmit(roomcode, pollcode)}
+                       selectedOptions={props.selection}
                        submittedOptions={props.submission}
                        submissionStatus={props.submissionStatus}
                        submitLoading={props.submitLoading}/>
