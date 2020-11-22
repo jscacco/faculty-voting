@@ -21,6 +21,7 @@ const getSize = (viewport) => {
   switch (viewport) {
     case 'mobile':
     case 'smallMobile':
+    case 'tablet':
       size.extraSmall = true;
       break;
     case 'hdDesktop':
@@ -31,13 +32,13 @@ const getSize = (viewport) => {
       size.small = true;
   }
 
+  size.viewport = viewport;
   return size;
 }
 
 const SideBarComponent = ( props ) => {
 
   const size = getSize(props.viewport)
-  console.log(props)
 
   return ( props.editing ?
     <HostEditPanelCard pollType={props.pollType}

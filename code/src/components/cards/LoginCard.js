@@ -28,8 +28,6 @@ const LoginCard = ( props ) => {
   const { onHostLogin, onUserLogin,
           extraSmall, small, medium, large } = props;
 
-  console.log(props)
-
   let padding;
 
   if ( extraSmall ) { padding = 20 }

@@ -41,6 +41,7 @@ const IconWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   padding-right: ${({padding}) => padding}px;
+  cursor: pointer;
 `;
 
 const AddItem = ( props ) => {

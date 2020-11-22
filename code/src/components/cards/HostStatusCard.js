@@ -122,7 +122,9 @@ const PanelSection = ( props ) => {
   const { disable, editing, loading, status, children,
           onStatusClick, color, size, } = props;
 
-  if (size.extraSmall) {
+  console.log(props.viewport)
+
+  if (props.viewport === 'smallMobile' || props.viewport === 'mobile') {
     return (
       <HorizontalSectionWrapper>
         <StatusText status={loading ? 'loading' : status} color={color} {...size}/>

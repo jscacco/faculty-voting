@@ -136,7 +136,7 @@ const HostPollCard = ( props ) => {
                    cardColor={Colors.White}
                    header={pollData.title}
                    headerColor={Colors.Blue}
-                   headerButton={_editButton}
+                   headerButton={pollData.status === 'open' ? undefined : _editButton}
                    sections={sections}
                    footer={_submitButton}/>
   )

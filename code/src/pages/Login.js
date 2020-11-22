@@ -25,8 +25,8 @@ const LoginComponent = ( props ) => {
       size.small = true;
       break;
     case 'tablet':
-      width = `100%`;
-      size.small = true;
+      width = `75%`;
+      size.extraSmall = true;
       break;
     case 'mobile':
     case 'smallMobile':
@@ -69,7 +69,7 @@ const LoginPage = ( props ) => {
 
   return (
     <ViewportHandler>
-      <MainPage color={Colors.Blue}>
+      <MainPage color={Colors.Blue} policy>
           <LoginComponent {...props}/>
       </MainPage>
     </ViewportHandler>

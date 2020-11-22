@@ -19,6 +19,7 @@ const AgendaComponent = ( props ) => {
   switch (props.viewport) {
     case 'mobile':
     case 'smallMobile':
+    case 'tablet':
       size.extraSmall = true;
       break;
     case 'hdDesktop':

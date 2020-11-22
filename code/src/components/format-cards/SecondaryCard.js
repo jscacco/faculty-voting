@@ -29,7 +29,6 @@ const propTypes = {
 const defaultProps ={
   header: 'Card',
   headerColor: Colors.White,
-  sections: [],
 };
 
 

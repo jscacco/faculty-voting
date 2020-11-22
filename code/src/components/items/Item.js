@@ -31,6 +31,8 @@ const ComponentWrapper = styled.div`
 
 const TextWrapper = styled.div `
   width: 100%;
+  // flex-grow: 2;
+   min-width: 0;
 `;
 
 const ChildWrapper = styled.div`
@@ -60,7 +62,7 @@ const ItemBase = ( props ) => {
     <Card borderSmall {...rest}>
       <ComponentWrapper>
         <TextWrapper>
-          <Body {...rest}>
+          <Body overflowHidden {...rest}>
             {text}
           </Body>
         </TextWrapper>
@@ -68,6 +70,7 @@ const ItemBase = ( props ) => {
       </ComponentWrapper>
     </Card>
   )
+
 
 }
 

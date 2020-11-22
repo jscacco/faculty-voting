@@ -22,6 +22,7 @@ const getSize = (viewport) => {
   switch (viewport) {
     case 'mobile':
     case 'smallMobile':
+    case 'tablet':
       size.extraSmall = true;
       break;
     case 'hdDesktop':
@@ -32,6 +33,7 @@ const getSize = (viewport) => {
       size.small = true;
   }
 
+  size.viewport = viewport;
   return size;
 }
 

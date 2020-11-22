@@ -27,7 +27,8 @@ const defaultProps = {
 const ButtonWrapper = styled.div`
   width: max-content;
   display: flex;
-  flex-direction: column
+  flex-direction: column;
+  cursor: pointer;
 `;
 
 const IconWrapper = styled.div`

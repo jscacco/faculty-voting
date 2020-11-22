@@ -26,7 +26,7 @@ const RoomcodeComponent = ( props ) => {
       break;
     case 'tablet':
       width = `100%`;
-      size.small = true;
+      size.extraSmall = true;
       break;
     case 'mobile':
     case 'smallMobile':

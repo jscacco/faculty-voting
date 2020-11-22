@@ -25,6 +25,7 @@ const defaultProps = {
 }
 
 const CardComponent = styled.div`
+  min-width: 0;
   box-sizing: border-box;
   background-color: ${({color}) => color};
   border-radius: ${({borderRadius}) => borderRadius}px;
