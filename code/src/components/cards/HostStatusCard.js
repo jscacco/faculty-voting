@@ -102,7 +102,6 @@ const StatusButton = ( props ) => {
     newStatus = 'open';
   }
 
-  console.log(props.disable)
   if ( editing || props.disable ) {
     color = Colors.LightGrey;
     disabled = true;
@@ -121,8 +120,6 @@ const PanelSection = ( props ) => {
 
   const { disable, editing, loading, status, children,
           onStatusClick, color, size, } = props;
-
-  console.log(props.viewport)
 
   if (props.viewport === 'smallMobile' || props.viewport === 'mobile') {
     return (

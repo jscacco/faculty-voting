@@ -46,7 +46,6 @@ const UserAgendaCard = ( props ) => {
       <Group>
         {allPolls.map((id) => {
           const poll = polls[id];
-          console.log(poll);
           return (
             <AgendaItem pollTitle={poll.title}
                         status={poll.status}

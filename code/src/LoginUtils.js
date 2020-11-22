@@ -5,9 +5,9 @@ const firestore = firebase.firestore();
 
 const signOutCurrentUser = async () => {
     fireauth.signOut().then(function() {
-	// Sign-out successful.
+	     // Sign-out successful.
     }).catch(function(error) {
-	// An error happened.
+	     // An error happened.
     });
 }
 
@@ -18,7 +18,6 @@ const getCurrentUserEmail = () => {
     } else {
 	email = fireauth.currentUser.email;
     }
-    console.log(email);
     return email;
 }
 
@@ -68,22 +67,16 @@ const getUserId = async () => {
 	throw 'Not logged in.';
     } else {
 	let email = getCurrentUserEmail();
-  console.log('made it')
-  console.log(email)
 	return email.split('@')[0];
     }
 }
 
 
 const userIsHost = (host_id) => {
-    console.log("Checking if host...");
-
     if (getUserId() == host_id) {
-	console.log("User is host.")
-	return true;
+	     return true;
     } else {
-	console.log("User isn't host.");
-	return false;
+	     return false;
     }
 }
 
@@ -91,7 +84,6 @@ const userIsVoter = async () => {
     // Return true if the current user is a voter
     // code from
     // https://stackoverflow.com/questions/53332471/checking-if-a-document-exists-in-a-firestore-collection
-    console.log("Checking if voter...");
     const user_id = await getUserId();
     // try {
 	let docRef = firestore
@@ -101,16 +93,10 @@ const userIsVoter = async () => {
 	let doc = await docRef.get();
 
 	if (doc.exists) {
-	    console.log("User is a voter.");
 	    return user_id;
 	} else {
-	    console.log("User isn't a voter.");
 	    throw 'Not a voter.'
 	}
-  //   } catch(error) {
-	// console.log(error);
-	// return false;
-  //   }
 }
 
 
@@ -134,17 +120,11 @@ const userIsHostOfRoom = async (room_id) => {
 	let doc = await docRef.get();
 
 	if (doc.exists) {
-	    console.log("current user is host of " + room_id);
 	    return currentUser;
 	} else {
-	    console.log("current user isn't host of " + room_id);
 	    // return null;
       throw 'User is not host of room.'
 	}
-  //   } catch(error) {
-	// console.log(error);
-	// return null;
-  //   }
 }
 
 export {userLogin, getUserId, getCurrentUserEmail, signOutCurrentUser, userIsHamiltonian, userIsHost, userIsVoter, userIsLoggedIn, userIsHostOfRoom};

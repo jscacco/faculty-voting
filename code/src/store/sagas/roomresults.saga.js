@@ -3,15 +3,6 @@ import ActionTypes       from '../actionTypes';
 import { getRoomResults }   from '../../databaseCommunication/roomFunctions';
 import { getUserId }				from '../../LoginUtils';
 
-// async function fetchAsync (func) {
-// 	const response = await func();
-// 	if (response) {
-// 		return response;
-// 	}
-//
-// 	throw new Error ('bad');
-// }
-
 export function* fetchRoomResults (action) {
 
 	try {
