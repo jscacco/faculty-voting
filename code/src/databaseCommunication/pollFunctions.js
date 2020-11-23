@@ -22,9 +22,9 @@ import { fetchGet, fetchPost, fetchPut, fetchDelete } from "./fetchFunctions";
 
 const fetchPollData = async (host_id, room_id, poll_id) => {
     try {
-        let url = `http://localhost:4000/poll/fetchPollData?host_id=${host_id}&room_id=${room_id}&poll_id=${poll_id}`;
+        let url = `https://facultyvoting.hamilton.edu:4000/poll/fetchPollData?host_id=${host_id}&room_id=${room_id}&poll_id=${poll_id}`;
         let response = await fetchGet(url);
-        
+
         if(response.status == 200) {
             const data = await response.json();
             return data;
@@ -46,9 +46,9 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
     //     throw "user is not host";
     // } else {
         try {
-            let url = `http://localhost:4000/poll/updatePoll`;
+            let url = `https://facultyvoting.hamilton.edu:4000/poll/updatePoll`;
             let user = firebase.auth().currentUser;
-            
+
             let response = await fetchPut(url, { host_id: host_id,
                                                  room_id: room_id,
                                                  poll_id: poll_id,
@@ -75,7 +75,7 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state) => {
 const fetchAgenda = async (host_id, room_id) => {
 // const fetchAgenda = async (room_id) => {
     try {
-        let url = `http://localhost:4000/poll/fetchAgenda?host_id=${host_id}&room_id=${room_id}`;
+        let url = `https://facultyvoting.hamilton.edu:4000/poll/fetchAgenda?host_id=${host_id}&room_id=${room_id}`;
         let response = await fetchGet(url);
         //console.log(response)
         //console.log(data)
@@ -98,11 +98,11 @@ const fetchAgenda = async (host_id, room_id) => {
 const addPoll = async (host_id, room_id) => {
         try {
             let user = firebase.auth().currentUser;
-            let url = `http://localhost:4000/poll/addPoll`;
+            let url = `https://facultyvoting.hamilton.edu:4000/poll/addPoll`;
             let response = await fetchPost(url, { host_id: host_id,
                                                   room_id: room_id,
                                                   user: user });
-            
+
             if(response.status == 200) {
                 const data = await response.json();
                 return data;
@@ -128,13 +128,13 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
     // } else {
         try {
             let user = firebase.auth().currentUser;
-            let url = `http://localhost:4000/poll/updatePollStatus`;
+            let url = `https://facultyvoting.hamilton.edu:4000/poll/updatePollStatus`;
             let response = await fetchPut(url, { host_id: host_id,
                                                  room_id: room_id,
                                                  poll_id: poll_id,
                                                  new_status: new_status,
                                                  user: user });
-           
+
             if(response.status == 200) {
                 const data = await response.json();
                 return data;
@@ -155,7 +155,7 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status) => {
 
 const getPollResults = async (user_id, room_id, poll_id, host_id = null) => {
     try {
-        let url = `http://localhost:4000/poll/getPollResults?user_id=${user_id}&room_id=${room_id}&poll_id=${poll_id}&host_id=${host_id}`;
+        let url = `https://facultyvoting.hamilton.edu:4000/poll/getPollResults?user_id=${user_id}&room_id=${room_id}&poll_id=${poll_id}&host_id=${host_id}`;
         let response = await fetchGet(url);
         const data = await response.json();
         if(response.status == 200) {
@@ -183,7 +183,7 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
     //     throw "user does not have voting rights";
     // } else {
         try {
-            let url = `http://localhost:4000/poll/submitVote`;
+            let url = `https://facultyvoting.hamilton.edu:4000/poll/submitVote`;
             user_id = firebase.auth().currentUser;
             let response = await fetchPut(url, { user_id: user_id,
                                                  room_id: room_id,
@@ -191,7 +191,7 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
                                                  selection: selection,
                                                  submission: submission,
                                                  userInput: userInput });
-            
+
             if(response.status == 200) {
                 const data = await response.json();
                 return data;
@@ -212,7 +212,7 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
 
 const getPollOrder = async (host_id, room_id) => {
     try {
-        let url = `http://localhost:4000/poll/getPollOrder?host_id=${host_id}&room_id=${room_id}`;
+        let url = `https://facultyvoting.hamilton.edu:4000/poll/getPollOrder?host_id=${host_id}&room_id=${room_id}`;
         let response = await fetchGet(url);
         const data = await response.json();
         if(response.status == 200) {
@@ -238,7 +238,7 @@ const getPollOrder = async (host_id, room_id) => {
 //                         .doc('votes');
 //         let voteSnap = await voteRef.get();
 //         let voteData = voteSnap.data();
-        
+
 //         for(const[key, value] of Object.entries(voteData)) {
 //             let choices = value.choice;
 //             //console.log(choices)
@@ -248,14 +248,14 @@ const getPollOrder = async (host_id, room_id) => {
 //                 }
 //                 else {
 //                     votes[choices[i]] = 1;
-//                 } 
+//                 }
 //             }
 //         }
 
 //         await voteRef.update({
 //             finalVotes: votes
 //         })
-        
+
 //         return;
 //     }
 //     catch (error) {
@@ -265,7 +265,7 @@ const getPollOrder = async (host_id, room_id) => {
 
 const deletePoll = async (host_id, room_id, poll_id) => {
     try {
-        let url = `http://localhost:4000/poll/deletePoll`;
+        let url = `https://facultyvoting.hamilton.edu:4000/poll/deletePoll`;
         let response = await fetchDelete(url, { host_id: host_id,
                                                 room_id: room_id,
                                                 poll_id: poll_id });
