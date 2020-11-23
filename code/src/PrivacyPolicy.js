@@ -7,7 +7,7 @@ const policy = [
   { header: "Security",
     content: "We value your trust in the faculty voting process, thus we are striving to use cryptographically acceptable means of protecting each vote. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security. That being said, we have taken extensive measures in implementing and testing the security protocol of our site, server, and database."},
   { header: "Contact Us",
-    content: "If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us and hamilton.faculty.voting@hamilton.edu."}
+    content: "If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us and hamilton.faculty.voting@gmail.com."}
 ]
 
 export default policy;
