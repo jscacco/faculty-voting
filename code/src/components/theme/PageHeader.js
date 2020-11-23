@@ -30,7 +30,7 @@ const Wrapper = styled.div`
 const PageHeader = () => {
 
   return (
-    <Wrappe
+    <Wrapper>
       <a href="/login">
         <img src={logo} alt={'Logo'} height={'50vh'}/>
       </a>
