@@ -31,7 +31,9 @@ const PageHeader = () => {
 
   return (
     <Wrapper>
-      <img src={logo} alt={'Logo'} height={'50vh'}/>
+      <a href="/login">
+        <img src={logo} alt={'Logo'} height={'50vh'}/>
+      </a>
     </Wrapper>
   )
 };
