@@ -14,6 +14,7 @@ const propTypes = {
 
 	color: ExtraPropTypes.color,
 
+	sixExtraSmall: PropTypes.bool,
 	fiveExtraSmall: PropTypes.bool,
 	fourExtraSmall: PropTypes.bool,
 	threeExtraSmall: PropTypes.bool,
@@ -46,7 +47,8 @@ const fontConfig = {
 	twoExtraSmall: { fontSize: 48, lineHeight: 48},
 	threeExtraSmall: { fontSize: 32, lineHeight: 32},
 	fourExtraSmall: { fontSize: 24, lineHeight: 24},
-	fiveExtraSmall: { fontSize: 20, lineHeight: 20 }
+	fiveExtraSmall: { fontSize: 20, lineHeight: 20 },
+	sixExtraSmall: { fontSize: 16, lineHeight: 16}
 };
 
 const JumboComponent = styled(Text)`
@@ -74,6 +76,7 @@ const Jumbo = ( props ) => {
 					threeExtraSmall,
 					fourExtraSmall,
 					fiveExtraSmall,
+					sixExtraSmall,
 					...rest } = props
 
 	let sizeConfig = {};
@@ -98,6 +101,8 @@ const Jumbo = ( props ) => {
 		sizeConfig = fontConfig.fourExtraSmall;
 	} else if (fiveExtraSmall) {
 		sizeConfig = fontConfig.fiveExtraSmall;
+	} else if (sixExtraSmall) {
+		sizeConfig = fontConfig.sixExtraSmall;
 	} else {
 		sizeConfig = fontConfig.extraLarge;
   }
