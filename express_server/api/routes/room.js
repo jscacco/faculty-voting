@@ -1,7 +1,6 @@
 const roomFuncs = require('../databaseFunction/roomFunctions');
 
 var express = require('express');
-//const { deleteHostRoom, addHostRoom, getHost, updateRoomStatus } = require('../databaseFunction/roomFunctions');
 var router = express.Router();
 
 router.get('/checkRoomcode', async (req, res, next) => {
@@ -79,9 +78,7 @@ router.post('/addHostRoom', async (req, res, next) => {
 
 router.put('/updateRoom', async (req, res, next) => {
     try {
-        // console.log(req.body)
         let status = await roomFuncs.updateRoom(req.body.host_id, req.body.room_id, req.body.room_state, req.body.user);
-        // console.log(status)
         if(typeof status !== 'string') {
             res.status(200).send(status);
         }

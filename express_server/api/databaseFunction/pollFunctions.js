@@ -25,7 +25,6 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
 
     if ( host_id === "null" || host_id === null ){
         host_id = await roomFuncs.getHost(room_id);
-        //console.log(host_id);
     }
 
     try {
@@ -49,8 +48,6 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
             showResults: docData['showResults']
         };
 
-        ////console.log(poll.optionsOrder)
-
         for (let i = 0; i < poll.optionsOrder.length; i++) {
           const option_id = poll.optionsOrder[i];
 
@@ -65,16 +62,12 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
           let optDocSnap = await optionRef.get();
           let optDocData = optDocSnap.data();
 
-          ////console.log(option_id);
-
           var opt = {
               id: optDocData['id'],
               value: optDocData['value'],
-              //count: optDocData['count']
           };
 
           poll.options[option_id] = opt;
-          ////console.log(poll.options);
         }
 
         // Check the hash to make sure it's good
@@ -82,7 +75,7 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
         if (!hashComparison) {
             return `!!Warning!! Data fetched from poll ${docData['title']} has a bad hash. This means that the data has been tampered with via the Firebase Console!`;
         }
-        //console.log(poll)
+
 	    return poll;
     } catch (error) {
         console.log(error);
@@ -97,7 +90,7 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state, user) => {
         try {
             let options = poll_state.options;
             let original_state = {...poll_state};
-            ////console.log(original_state);
+            
             let pollRef = firestore
                             .collection(host_id)
                             .doc(room_id)
@@ -111,36 +104,30 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state, user) => {
             await pollRef.update(poll_state);
 
             for(const [key, value] of Object.entries(options)) {
-                ////console.log(opt)
                 await pollRef.collection('Options').doc(key).set(value);
             }
-            ////console.log(original_state);
+            
             return {
                 ...original_state
             };
         } catch (error) {
-            //console.log(error);
+            console.log(error);
         }
     }
 }
 
 const fetchAgenda = async (host_id, room_id) => {
-// const fetchAgenda = async (room_id) => {
-    
     if ( host_id === "null" || host_id === null ){
         host_id = await roomFuncs.getHost(room_id);
     }
 
     try {
-        // console.log('FETCHING')
         let agenda = { polls: {}, order: {} };
 	    let fetchedHash = "";
 
         let roomSnap = await firestore.collection(host_id).doc(room_id).get();
-        ////console.log(host_id)
-        ////console.log(room_id)
         let roomData = roomSnap.data();
-        ////console.log(roomData)
+        
         agenda['title'] = roomData['title'];
         agenda['status'] = roomData['status'];
         fetchedHash = roomData['roomHash'];
@@ -170,27 +157,22 @@ const fetchAgenda = async (host_id, room_id) => {
             const poll_id = collectData[i].id;
            
             if(poll_id != 'order') {
-                // console.log('B4')
                 agenda['polls'][poll_id] = await fetchPollData(host_id, room_id, poll_id);
-                // console.log('A')
             }
             else {
                 agenda['order'] = collectData[i].data();
             }
         }
 
-        console.log(agenda)
         return agenda;
     } catch (error) {
-        //console.log(error);
+        console.log(error);
     }
 }
 
 const addPoll = async (host_id, room_id, user) => {
-    // console.log("ADDING")
     let user_id = loginFuncs.getUserName(user);
     if (!(await loginFuncs.isHostOfRoom(user_id, room_id))) {
-        // console.log('not host')
         return "You are not the host! Call to addPoll cancelled.";
     } else {
         try {
@@ -243,9 +225,7 @@ const addPoll = async (host_id, room_id, user) => {
 
             // fill out the options of the poll (in the correct location)
             for(const opt of Object.entries(options)) {
-                ////console.log(opt)
                 pollRef.collection('Options').doc(opt[1].id.toString()).set({
-                    //count: 0,
                     id: opt[1].id,
                     value: opt[1].value
                 })
@@ -259,17 +239,15 @@ const addPoll = async (host_id, room_id, user) => {
 
             // update the poll order in firebase
             await firestore
-                .collection(host_id)
-                .doc(room_id)
-                .collection('polls')
-                .doc('order')
-                .update({
-                    pending: adm.firestore.FieldValue.arrayUnion(poll_id)
-                });
+                    .collection(host_id)
+                    .doc(room_id)
+                    .collection('polls')
+                    .doc('order')
+                    .update({
+                        pending: adm.firestore.FieldValue.arrayUnion(poll_id)
+                    });
 
             // Get the room info so we can compute new hash
-            // //console.log(roomFuncs)
-            // //console.log(roomFuncs.fetchRoomData)
             let newRoom = await roomFuncs.fetchRoomData(host_id, room_id);
                 
             // Generate the new hash
@@ -286,13 +264,12 @@ const addPoll = async (host_id, room_id, user) => {
                 newPoll: poll
             };
         } catch (error) {
-                //console.log(error);
+            console.log(error);
         }
     }
 }
 
 const updatePollStatus = async (host_id, room_id, poll_id, new_status, user) => {
-    // NEED TO CHECK DIFFERENCE IN POLLS IN NEW_STATUS AND CURRENT STATE AND THEN DELETE THOSE POLLS
     let user_id = loginFuncs.getUserName(user);
     if (!(await loginFuncs.isHostOfRoom(user_id, room_id))) {
         return "You are not the host! Call to updatePollStatus cancelled.";
@@ -333,22 +310,19 @@ const updatePollStatus = async (host_id, room_id, poll_id, new_status, user) => 
                 order: newOrder
             }
         } catch (error) {
-                //console.log(error);
+            console.log(error);
         }
     }
 }
 
 const getPollResults = async (user_id, room_id, poll_id, host_id = null) => {
-
-    // USE user_id TO CHECK IF THEY CAN SEE RESULTS
     if (host_id !== "null" ) { 
         host_id = host_id 
     }
     else { 
         host_id = await roomFuncs.getHost(room_id); 
     }
-    // const host_id = await getHost(room_id);
-    //console.log(host_id)
+
     try {
         let poll = await fetchPollData(host_id, room_id, poll_id);
         let options = poll.options;
@@ -370,7 +344,6 @@ const getPollResults = async (user_id, room_id, poll_id, host_id = null) => {
                 id: option_id,
                 count: voteData[option_id]
             };
-            ////console.log(results[option_id].count)
         }
 
         let userCollectRef = firestore
@@ -416,7 +389,7 @@ const getPollResults = async (user_id, room_id, poll_id, host_id = null) => {
             results: {...results}
         }
     } catch (error) {
-        //console.log(error);
+        console.log(error);
     }
 }
 
@@ -429,7 +402,8 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
             const host_id = await roomFuncs.getHost(room_id);
             let poll = await fetchPollData(host_id, room_id, poll_id);
             user_id = user_id.uid;
-	    // voteRef is the collection of all votes, like the "ballot box"
+            
+            // voteRef is the collection of all votes, like the "ballot box"
             let voteRef = firestore
                             .collection(host_id)
                             .doc(room_id)
@@ -437,9 +411,6 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
                             .doc(poll_id)
                             .collection('Votes')
                             .doc('votes');
-
-            // let docSnap = await voteRef.get();
-            // let docData = docSnap.data();
 	    
             let vote = {};
             let choice = [];
@@ -452,16 +423,12 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
                     // if we voted on this choice, add it to the list
                     choice.push(option_id);
                 } 
-                // else if(submission[option_id] && !selection[option_id]) {
-                //     // If we have previously submitted but now it's not selected, delete
-                //     // (This seems pointless, since we are defining choice above)
-                //     choice = choice.filter(item => item !== option_id);
-                // }
             }
             
             // Now, go through userInput options
             let inputcode = null; // id
             let exists = false;
+
             // Stores all custom inputs for this poll so far
             let userCollectRef = firestore
                                     .collection(host_id)
@@ -486,13 +453,11 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
             
                 // In this case, the option already exists and fetch the existing id for that value
                 if (Object.keys(vals).includes(userInput.value)) {
-                    //console.log('exists')
                     inputcode = vals[userInput.value];
                     exists = true;
                 }
                 // Otherwise, this is the first time this choice has been submitted
                 else {
-                    //console.log('does not already exist')
                     inputcode = generateUserOptionId();
                     vals[userInput.value] = inputcode;
                     
@@ -535,12 +500,7 @@ const submitVote = async (user_id, room_id, poll_id, selection, submission, user
                     hash: voteHash
                 };
 
-                // upload to firebase
-                // if (docData[user_id]) {//peppered_token]) {
-                //     await voteRef.update(vote);
-                // } else {
                 await voteRef.update(vote);
-                // }
             }
             
             return {
@@ -565,7 +525,7 @@ const getPollOrder = async (host_id, room_id) => {
 	
         return pollSnap.data();
     } catch(error) {
-        //console.log(error);
+        console.log(error);
     }
 }
 
@@ -584,7 +544,7 @@ const countVotes = async (host_id, room_id, poll_id) => {
         
         for(const[key, value] of Object.entries(voteData)) {
             let choices = value.choice;
-            ////console.log(choices)
+
             for(let i = 0; i < choices.length; i++) {
                 if(votes[choices[i]]) {
                     votes[choices[i]]++;
@@ -602,7 +562,7 @@ const countVotes = async (host_id, room_id, poll_id) => {
         return;
     }
     catch (error) {
-        //console.log(error);
+        console.log(error);
     }
 }
 
@@ -655,7 +615,7 @@ const deletePoll = async (host_id, room_id, poll_id) => {
             await pollRef.delete();
         }
     } catch(error) {
-        //console.log(error);
+        console.log(error);
     }
 }
 

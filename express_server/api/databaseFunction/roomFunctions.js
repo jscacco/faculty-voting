@@ -14,14 +14,11 @@ function generateRoomCode() {
     return roomcode.slice(-4);
 }
 
-// const checkRoomcode = async (host_id, room_id) => {
 const checkRoomcode = async (room_id) => {
-    //console.log(`CHECKING ROOM ${room_id}`)
     try {
-        //const host_id = 'cdubin';//await loginFuncs.getHost(room_id);
         const docRef = firestore.collection('openRooms').doc(room_id);
         const doc = await docRef.get();
-        ////console.log(doc.exists)
+
         if(doc.exists) {
             return true;
         }
@@ -29,21 +26,18 @@ const checkRoomcode = async (room_id) => {
             return false;
         }
     } catch(error) {
-        //console.log(error);
+        console.log(error);
     }
 }
 
 const checkRoomStatuses = async (rooms, order) => {
     // Ensure that all rooms' status matches the array they're in in order
     // (if they don't all match, the information was changed without updating the hash
-    ////console.log(typeof rooms);
     for (let roomKey in rooms) {
         let room = rooms[roomKey];
         let roomStatus = room['status'];
         if (!(order[roomStatus].indexOf(room['id']) > -1)) {
             return `!!Warning!! Room status in ${room['title']} has been changed. This means that the data has been tampered with via the Firebase Console!`;
-            //alert("Bad status warning - see console for more info.");
-            //return false;
         }
     }
 
@@ -52,9 +46,6 @@ const checkRoomStatuses = async (rooms, order) => {
 }
 
 const fetchHostRooms = async (host_id) => {
-    // //console.log("checking if user is voter...");
-    // //console.log(await userIsVoter());
-
     try {
         let rooms = {}; //{ openRooms: [], pendingRooms: [], closedRooms: [] };
         let collect = firestore.collection(host_id);
@@ -62,7 +53,6 @@ const fetchHostRooms = async (host_id) => {
         await collect.get().then(snap => {
             snap.forEach(async function (doc) {
                 let room = { title: '', status: '', id: '' };
-                ////console.log(doc)
 
                 if(doc.id !== 'order') {
                     room['id'] = doc.id;
@@ -78,29 +68,22 @@ const fetchHostRooms = async (host_id) => {
                     let orderSnap = await orderRef.get();
 
                     roomWithPollOrder['pollOrder'] = orderSnap.data();
-                    ////console.log(roomWithPollOrder)
-                    ////console.log(doc.data()['roomHash'])
-                    ////console.log(room)
+
                     // make sure the hash of that room is good
                     // room = {'id': '', 'title': '', 'status': '', 'pollOrder': ''}
                     let hashComparison = await hashFuncs.compareHashes(roomWithPollOrder, doc.data()['roomHash'], "room");
                     if (!hashComparison) {
-                        // hash is bad:
                         return `!!Warning!! Data fetched from room ${room['id']} has a bad hash. This means that the data has been tampered with via the Firebase Console!`;
-                        //alert("Bad hash warning - see console for more info.");
 		            }
                 }
                 else {
                     order = doc.data();
                 }
-                ////console.log(room)
             });
         });
-        ////console.log(rooms)
 
         // make sure the order of the rooms hasn't been changed; eliminates the need for hostHash
         const statuses = await checkRoomStatuses(rooms, order);
-        // console.log(statuses)
         if(typeof statuses === 'string') {
             return statuses;
         }
@@ -110,13 +93,12 @@ const fetchHostRooms = async (host_id) => {
             order: order
         }
     } catch (error) {
-        //console.log(error);
+        console.log(error);
     }
 }
 
 const setRoomOrder = async (host_id, new_order) => {
     try {
-        ////console.log(new_order)
         await firestore
                 .collection(host_id)
                 .doc('order')
@@ -124,25 +106,22 @@ const setRoomOrder = async (host_id, new_order) => {
 
         return;
     } catch (error) {
-        //console.log(error);
+        console.log(error);
     }
 }
 
 const deleteHostRoom = async (host_id, room_id) => {
-    //console.log("HERE")
     try {
         let { order, ...rooms } = await fetchHostRooms(host_id);
         rooms = rooms.rooms;
         const room = rooms[room_id];
         if(room !== undefined) {
-            ////console.log(rooms)
             const roomRef = firestore
                                 .collection(host_id)
                                 .doc(room_id);
 
             const newOrder = order[room.status].filter((i) => i !== room_id);
             order[room.status] = newOrder;
-            ////console.log('deleting')
 
             // must individually delete subcollections
             let pollSnap = await roomRef.collection('polls').get();
@@ -168,7 +147,7 @@ const deleteHostRoom = async (host_id, room_id) => {
             order: order
         };
     } catch (error) {
-        //console.log(error);
+        console.log(error);
     }
 }
 
@@ -234,7 +213,6 @@ const addHostRoom = async (host_id, user) => {
             .doc(roomCode)
             .set(room);
 
-        //console.log('adding poll')
         await pollFuncs.addPoll(host_id, roomCode, user);
             
         let orderRef = firestore.collection(host_id).doc(roomCode).collection('polls').doc('order');
@@ -266,30 +244,21 @@ const addHostRoom = async (host_id, user) => {
 }
 
 const updateRoom = async (host_id, room_id, room_state, user) => {
-    // console.log('update called')
     let user_id = loginFuncs.getUserName(user);
     if (!(await loginFuncs.isHostOfRoom(user_id, room_id))) {
-        // console.log('bad')
         return "You are not the host! Call to updateRoom cancelled.";
     } else { 
         try {
-            // console.log('we in')
             let { order, ...hostDash } = await fetchHostRooms(host_id);
-            let room = hostDash['rooms'][room_id];
-            // console.log(room) 
+            let room = hostDash['rooms'][room_id]; 
             let oldPolls = await pollFuncs.fetchAgenda(host_id, room_id);
-            // console.log('AGENDA')
             let newPolls = {...oldPolls.polls,
                             ...room_state.polls,
                             order: room_state.order };
 
             room.title = room_state.title;
             room.status = room_state.status;
-            //room.polls = newPolls;
 
-            // TODO: make sure this still works
-            // Compute the room's hash and update it
-            // If something doens't work, check what room is (room.title)
             let roomHashInfo = {
                 id: room_id,
                 status: room.status,
@@ -298,8 +267,7 @@ const updateRoom = async (host_id, room_id, room_state, user) => {
                 hosts: room.hosts
             }
             room['roomHash'] = await hashFuncs.generateRoomHash(roomHashInfo);
-            // //console.log(host_id)
-            // //console.log(room_id)
+
             await firestore
                 .collection(host_id)
                 .doc(room_id)
@@ -320,8 +288,7 @@ const updateRoom = async (host_id, room_id, room_state, user) => {
             }
 
             await setPollOrder(host_id, room_id, newPolls.order, user);
-            // console.log("WE MADE IT")
-            // console.log(room_state)
+
             return {
                 ...room_state
             }
@@ -332,8 +299,6 @@ const updateRoom = async (host_id, room_id, room_state, user) => {
 }
 
 const setPollOrder = async (host_id, room_id, new_order, user) => {
-    // TODO: move this to roomFunctions.js
-    // changes the order of the polls in the room
     let user_id = loginFuncs.getUserName(user);
     if (!(await loginFuncs.isHostOfRoom(user_id, room_id))) {
         return "You are not the host! Call to updateRoom cancelled.";
@@ -376,7 +341,7 @@ const setPollOrder = async (host_id, room_id, new_order, user) => {
 
             return;
         } catch (error) {
-                //console.log(error);
+            console.log(error);
         }
     }
 }
@@ -391,7 +356,7 @@ const getHost = async (room_id) => {
 
         return docData.host_id;
     } catch(error) {
-        //console.log(error)
+        console.log(error)
     }
 }
 
@@ -417,7 +382,6 @@ const updateRoomStatus = async (host_id, room_id, new_status, user) => {
 
             if (new_status === 'open') {
                 await firestore
-                // change below to Rooms
                     .collection('openRooms')
                     .doc(room_id)
                     .set({ host_id: host_id })
@@ -426,7 +390,8 @@ const updateRoomStatus = async (host_id, room_id, new_status, user) => {
                 // set polls to be closed
                 let newPollsOrder = room.pollOrder;
                 let allPolls = newPollsOrder['closed'].concat(newPollsOrder['open'], newPollsOrder['pending']);
-                // check to see if already closed //////////////////
+                
+                // check to see if already closed 
                 for (let i = 0; i < allPolls.length; i++) {
                     let poll_id = allPolls[i];
 
@@ -434,12 +399,8 @@ const updateRoomStatus = async (host_id, room_id, new_status, user) => {
                         await pollFuncs.updatePollStatus(host_id, room_id, poll_id, 'closed', user);
                     }
                 }
-
-		
-	    }
-		
-            // //console.log(room.hosts)
-            // //console.log(room['hosts'])
+            }
+            
             let roomData = {
                 id: room_id,
                 title: room.title,
@@ -452,9 +413,6 @@ const updateRoomStatus = async (host_id, room_id, new_status, user) => {
                 .collection(host_id)
                 .doc(room_id)
                 .update({ roomHash: await hashFuncs.generateRoomHash(roomData) });
-
-            //let agenda = await fetchAgenda(host_id, room_id);
-            ////console.log(agenda.polls)
 
             const collect = firestore
                                 .collection(host_id)
@@ -483,7 +441,7 @@ const updateRoomStatus = async (host_id, room_id, new_status, user) => {
                 order: new_order
             }
         } catch(error) {
-                //console.log(error)
+            console.log(error)
         }
     }
 }
@@ -501,7 +459,6 @@ const getRoomResults = async (host_id, room_id) => {
         for (let i = 0; i < closedPolls.length; i++) {
             const poll_id = closedPolls[i];
             const poll_result = await pollFuncs.getPollResults(host_id, room_id, poll_id, host_id);
-            ////console.log(poll_result);
             pollsResults[poll_id] = poll_result;
         }
 
@@ -511,7 +468,7 @@ const getRoomResults = async (host_id, room_id) => {
             allResults: pollsResults,
         }
     } catch(error) {
-        //console.log(error);
+        console.log(error);
     }
 }
 
@@ -531,7 +488,7 @@ const fetchRoomData = async (host_id, room_id) => {
             hosts: roomData.hosts
         }
     } catch (error) {
-        //console.log(error);
+        console.log(error);
     }
 }
 
@@ -546,4 +503,3 @@ exports.setPollOrder = setPollOrder;
 exports.updateRoomStatus = updateRoomStatus;
 exports.getRoomResults = getRoomResults;
 exports.getHost = getHost;
-//module.exports =  { fetchRoomData, fetchHostRooms, deleteHostRoom, addHostRoom, updateRoom, setRoomOrder, checkRoomcode, setPollOrder, updateRoomStatus, getRoomResults, getHost };

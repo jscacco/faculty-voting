@@ -1,22 +1,16 @@
 const pollFuncs = require('../databaseFunction/pollFunctions');
-//const roomFuncs = require('../databaseFunction/roomFunctions');
 
 var express = require('express');
-//const e = require('express');
 var router = express.Router();
 
 router.get('/fetchPollData', async function(req, res, next) {
     try {
-        // if(req.query.host_id === null) {
-        //     req.query.host_id = await roomFuncs.getHost(req.query.room_id);
-        // }
-
         let data = await pollFuncs.fetchPollData(req.query.host_id, req.query.room_id, req.query.poll_id);
         if(typeof data !== 'string') {
             res.status(200).send(data);
         }
         else if(data) {
-            res.status(505).send(data); ///////////ALERT IF THIS STATUS
+            res.status(505).send(data);
         }
         else {
             res.status(500).send("Failed to fetch poll data");
@@ -45,10 +39,6 @@ router.put('/updatePoll', async function(req, res, next) {
 
 router.get('/fetchAgenda', async function(req, res, next) {
     try {
-        // if(req.query.host_id === null) {
-        //     req.query.host_id = await roomFuncs.getHost(req.query.room_id);
-        // }
-
         let agenda = await pollFuncs.fetchAgenda(req.query.host_id, req.query.room_id);
         if(typeof agenda !== 'string') {
             res.status(200).send(agenda);
@@ -152,11 +142,3 @@ router.delete('/deletePoll', async (req, res, next) => {
 });
 
 module.exports = router;
-
-// router.get('/fetchPollData', async function(req, res, next) {
-//     try {
-        
-//     } catch(error) {
-//         return next(error);
-//     }
-// });
