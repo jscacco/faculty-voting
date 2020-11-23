@@ -1,12 +1,8 @@
 import React            from 'react';
 import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
 
-import Icon             from '../theme/Icon';
 import { Colors }       from '../theme/Colors';
-import Bubble           from '../buttons/Bubble';
-import CheckBox         from '../buttons/CheckBox';
 
 const propTypes = {
   children: PropTypes.node,
@@ -31,7 +27,7 @@ const ChildrenWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 100%;
+  ${({contentWidth}) => contentWidth ? `width: ${contentWidth};` : ``}
 `;
 
 const IconButtonWrapper = styled.div`
@@ -39,6 +35,7 @@ const IconButtonWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   padding-right: ${({padding}) => padding};
+  cursor: pointer;
 `;
 
 const ExtraIconWrapper = styled.div`
@@ -51,29 +48,11 @@ const ExtraIconWrapper = styled.div`
 const OptionWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: auto;
   /* border: 1px solid black; */
 `;
 
-
-const DummyIcon = styled.div`
-  height: ${({size}) => size};
-  width: ${({size}) => size};
-`;
-
-const optionConfig = {
-  extraSmall: { padding: `10px`,
-               iconSize: '0.75em' },
-  small: { padding: `12px`,
-           iconSize: '1em' },
-  medium: { padding: `16px`,
-           iconSize: '1.5em'},
-  large: { padding: `20px`,
-           iconSize: '1.75em'},
-  extraLarge: { padding: `28px`,
-           iconSize: '2em'},
-};
 
 const renderExtraIcons = ( props, padding ) => {
 
@@ -111,7 +90,7 @@ const OptionBase = (props) => {
       <IconButtonWrapper padding={padding}>
         {React.cloneElement(iconButton, {...itemProps})}
       </IconButtonWrapper>
-      <ChildrenWrapper>
+      <ChildrenWrapper contentWidth={props.contentWidth}>
         {children}
       </ChildrenWrapper>
       { extraIcons ? renderExtraIcons(props, padding) : <div/>}

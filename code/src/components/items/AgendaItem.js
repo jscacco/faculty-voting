@@ -1,7 +1,6 @@
 import React            from 'react';
 import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
 import Icon             from '../theme/Icon';
@@ -45,13 +44,17 @@ const AgendaItem = ( props ) => {
 
   const statusText = <StatusText status={status} {...rest}/>
 
+  const disabled_props = onViewClick === undefined ?
+    { backgroundColor: Colors.LightGrey, disabled: true} :
+    {};
+
   const viewButton = props.extraSmall ?
-    <Button {...rest} onClick={onViewClick}>
+    <Button {...rest} onClick={onViewClick} {...disabled_props}>
       <IconWrapper>
         <Icon type={'view'} color={Colors.White} small/>
       </IconWrapper>
     </Button> :
-    <Button {...rest} onClick={onViewClick}>
+    <Button {...rest} onClick={onViewClick} {...disabled_props}>
       VIEW
     </Button>
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Router, Switch, Route } from "react-router-dom";
+import { Router, Route } from "react-router-dom";
 
 import Login       from "./pages/Login"
 import HostDash    from './pages/HostDash'
@@ -10,6 +10,7 @@ import HostPoll       from "./pages/HostPoll"
 import UserPoll    from './pages/UserPoll'
 import PollResults from './pages/PollResults'
 import RoomResults from './pages/RoomResults'
+import PrivacyPolicy from './pages/PrivacyPolicy'
 
 
 import history from './history';
@@ -27,6 +28,7 @@ export default class Routes extends Component {
                   <Route path="/UserPoll/:roomcode/:pollcode" exact component={UserPoll}/>
                   <Route path="/PollResults/:roomcode/:pollcode" exact component={PollResults}/>
                   <Route path="/RoomResults/:roomcode" exact component={RoomResults}/>
+                  <Route path="/PrivacyPolicy" exact component={PrivacyPolicy}/>
                   <Route path="/:" exact component={Login}/>
             </Router>
         )

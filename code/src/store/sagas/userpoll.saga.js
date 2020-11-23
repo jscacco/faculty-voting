@@ -1,18 +1,14 @@
-import { call, put, select }     from "redux-saga/effects";
-import ActionTypes       from '../actionTypes';
-import { fetchPollData, submitVote }   from '../../databaseCommunication/pollFunctions';
+import { call, put, select }     				from "redux-saga/effects";
+import ActionTypes       								from '../actionTypes';
+import { fetchPollData, submitVote }   	from '../../databaseCommunication/pollFunctions';
 import { getUserId, userIsVoter }				from '../../LoginUtils';
 
 
 export function* fetchUserPoll (action) {
 
 	try {
-		//console.log('here');
 		const user_id = yield call(getUserId)
-		//console.log (user_id)
-		                                             // host_id
 		const response = yield call(() => fetchPollData(null, action.room_id, action.poll_id))
-		//console.log(response);
 		yield put({
 			type: ActionTypes.userpoll.FETCH_POLL_SUCCESS,
 			response

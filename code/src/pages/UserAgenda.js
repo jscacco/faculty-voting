@@ -1,11 +1,10 @@
-import React, { useEffect }                from 'react';
-import styled               from 'styled-components';
+import React, { useEffect } from 'react';
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 import history              from '../history';
 
-import LoadingCard              from '../components/cards/LoadingCard';
+import LoadingCard          from '../components/cards/LoadingCard';
 
 import { Colors }           from '../components/theme/Colors';
 import ViewportHandler      from './format-pages/ViewportHandler';
@@ -13,12 +12,14 @@ import MainPage             from './format-pages/MainPage';
 
 import UserAgendaCard       from '../components/cards/UserAgendaCard';
 
+
 const AgendaComponent = ( props ) => {
 
   let size = {};
   switch (props.viewport) {
     case 'mobile':
     case 'smallMobile':
+    case 'tablet':
       size.extraSmall = true;
       break;
     case 'hdDesktop':
@@ -51,13 +52,13 @@ const AgendaComponent = ( props ) => {
 
 const UserAgendaPage = ( props ) => {
 
-  const roomcode = props.match.params.roomcode || '0000'
+  const roomcode = props.match.params.roomcode;
+  const { onFetchAgenda } = props;
 
   useEffect(() =>  {
-    props.onFetchAgenda(roomcode);
-  }, [])
+    onFetchAgenda(roomcode);
+  }, [roomcode, onFetchAgenda])
 
-  // if ( props.loading ) { return <Loading/> }
   if ( props.error ) { console.log(props.error); history.replace('/Login') }
 
   const onViewClick = (poll_id) => {

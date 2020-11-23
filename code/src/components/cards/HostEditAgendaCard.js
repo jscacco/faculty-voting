@@ -1,6 +1,5 @@
 import React            from 'react';
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }        from '../theme/Colors';
 import Input             from '../inputs/Input';
@@ -65,7 +64,7 @@ const AddComponent = ( props ) => {
 
 const PendingSectionGroup = ( props ) => {
 
-  const { roomcode, polls, order,
+  const { polls, order,
           onDragEnd, onAddClick, onDeleteClick, onEditClick,
           size} = props;
 
@@ -87,14 +86,14 @@ const PendingSectionGroup = ( props ) => {
 }
 
 const SectionGroup = ( props ) => {
-  const { roomcode, polls, order, onViewClick, size} = props;
+  const { polls, order, onViewClick, size } = props;
 
   return (
     <Group {...size}>
       { order.map((id) => {
         const poll = polls[id];
         return (
-        <HostEditAgendaItem text={poll.title} buttonText={'VIEW'} onClick={onViewClick}/>
+        <HostEditAgendaItem text={poll.title} buttonText={'VIEW'} onClick={() => onViewClick(id)}/>
       )}) }
     </Group>
   )
@@ -102,11 +101,10 @@ const SectionGroup = ( props ) => {
 
 const HostEditAgendaCard = ( props ) => {
 
-  const { roomcode, title, status, polls, order,
+  const { roomcode, polls, order,
           onDeleteClick, onViewClick, onEditClick,
           onPollEditClick,
-          onDragEnd, onAddClick,
-          ...rest } = props;
+          onDragEnd, onAddClick, } = props;
 
   const size = {
     extraSmall: props.extraSmall,
@@ -118,7 +116,7 @@ const HostEditAgendaCard = ( props ) => {
 
 
   let statusList = ['open', 'closed'];
-  statusList = statusList.filter((status) => order[status] && order[status].length != 0);
+  statusList = statusList.filter((status) => order[status] && order[status].length !== 0);
 
   let sections = [
     { status: 'pending',
@@ -143,6 +141,7 @@ const HostEditAgendaCard = ( props ) => {
         <SectionGroup roomcode={roomcode}
                       polls={polls}
                       order={order[status]}
+                      onViewClick={onViewClick}
                       size={size}/>
       )
     })

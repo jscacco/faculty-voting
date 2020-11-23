@@ -1,7 +1,6 @@
 import React            from 'react';
 import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
 import Jumbo            from '../theme/Jumbo';
@@ -62,7 +61,7 @@ const PanelHeader = ( props ) => {
 
 const PanelSection = ( props ) => {
 
-  const { title, children, size, ...rest } = props;
+  const { title, children, size, } = props;
 
   return (
     <SectionWrapper>
@@ -110,7 +109,6 @@ class HostEditPanelCard extends React.Component {
     const showResults = this.state.otherSelection['0'];
     const userInputOption = this.state.otherSelection['1'];
 
-    console.log(this.state)
     this.props.updateSettings && this.props.updateSettings({type, showResults, userInputOption})
   }
 

@@ -1,5 +1,4 @@
 import React, { useEffect }                from 'react';
-import styled               from 'styled-components';
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
@@ -22,6 +21,7 @@ const getSize = (viewport) => {
   switch (viewport) {
     case 'mobile':
     case 'smallMobile':
+    case 'tablet':
       size.extraSmall = true;
       break;
     case 'hdDesktop':
@@ -32,13 +32,13 @@ const getSize = (viewport) => {
       size.small = true;
   }
 
+  size.viewport = viewport;
   return size;
 }
 
 const SideBarComponent = ( props ) => {
 
   const size = getSize(props.viewport)
-  console.log(props)
 
   return ( props.editing ?
     <HostEditPanelCard pollType={props.pollType}
@@ -59,8 +59,6 @@ const SideBarComponent = ( props ) => {
 const PollComponent = ( props ) => {
 
   const size = getSize(props.viewport)
-  console.log(props);
-  console.log(size)
 
   if (props.loading) {
     return (
@@ -89,16 +87,14 @@ const PollComponent = ( props ) => {
 
 const HostPollPage = ( props ) => {
 
-  const roomcode = props.match.params.roomcode || '0000';
-  const pollcode = props.match.params.pollcode || '00';
+  const roomcode = props.match.params.roomcode;
+  const pollcode = props.match.params.pollcode;
+  const { onFetchPoll, location } = props;
 
   useEffect(() =>  {
-    console.log(props.location.state);
-    props.onFetchPoll(roomcode, pollcode, props.location.state);
-  }, [])
+    onFetchPoll(roomcode, pollcode, location.state);
+  }, [roomcode, pollcode, onFetchPoll, location])
 
-  console.log(props)
-  // if ( props.loading ) { return <Loading/> }
   if ( props.error ) { console.log(props.error); history.replace('/Login') }
 
   if (props.poll.status === 'closed') {
@@ -116,18 +112,6 @@ const HostPollPage = ( props ) => {
                       updateSettings={props.onUpdateSettings}
                       onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, pollcode, newStatus)}/>
   )
-
-  // props.editing ?
-  //   <HostEditPanelCard pollType={props.poll.type}
-  //                      userInputOption={props.poll.userInputOption}
-  //                      showResults={props.poll.showResults}
-  //                      updateSettings={props.onUpdateSettings}
-  //                      medium
-  //                      /> :
-  //   <HostStatusCard pollStatus={props.poll.status}
-  //                   headerColor={Colors.Blue}
-  //                   onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, pollcode, newStatus)}
-  //                   medium/>
 
   return (
     <ViewportHandler>

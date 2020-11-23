@@ -19,6 +19,7 @@ const DashComponent = ( props ) => {
   switch (props.viewport) {
     case 'mobile':
     case 'smallMobile':
+    case 'tablet':
       size.extraSmall = true;
       break;
     case 'hdDesktop':
@@ -49,17 +50,16 @@ const DashComponent = ( props ) => {
 }
 
 const HostDashPage = ( props ) => {
+
+  const { onFetchRooms } = props;
+
   useEffect(() =>  {
-    props.onFetchRooms();
-  }, [])
+    onFetchRooms();
+  }, [onFetchRooms])
 
-  console.log(props)
-
-  // if ( props.loading ) { return <Loading/> }
-  if ( props.error ) { console.log(props.error); history.replace('/Login') }
+  if ( props.error ) { history.replace('/Login') }
 
   const onViewClick = (roomcode, roomStatus) => {
-    console.log(roomStatus)
     if (roomStatus === 'closed') {
       history.push(`/RoomResults/${roomcode}`)
     }
@@ -81,14 +81,6 @@ const HostDashPage = ( props ) => {
       </MainPage>
     </ViewportHandler>
   );
-
-  // return (
-  //   <ViewportHandler>
-  //     <MainPage>
-  //         <LoadingCard/>
-  //     </MainPage>
-  //   </ViewportHandler>
-  // );
 
 }
 

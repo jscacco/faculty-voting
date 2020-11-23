@@ -1,7 +1,6 @@
 import React            from 'react';
-import styled           from 'styled-components';
+
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
 
@@ -64,7 +63,7 @@ const HostAgendaItem = ( props ) => {
       nextStatus = 'open';
   };
 
-  const statusButton = ( roomStatus === 'pending' )|| (status === 'closed') ?
+  const statusButton = props.extraSmall || (roomStatus === 'pending' )|| (status === 'closed')?
     undefined :
     <Button {...rest} disabled={status === 'closed'} onClick={() => onStatusClick(nextStatus)}
             backgroundColor={config.color} textColor={Colors.White}>

@@ -1,12 +1,8 @@
 import React, { useEffect }                from 'react';
-import styled               from 'styled-components';
-import ReactDOMServer       from "react-dom/server";
-
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 
-import { Colors }           from '../components/theme/Colors';
 import MainPage             from './format-pages/MainPage';
 
 import PollResultsCard         from '../components/cards/PollResultsCard';
@@ -16,9 +12,8 @@ const getSize = (viewport) => {
 
   let size = {};
   switch (viewport) {
+    case 'tablet':
     case 'mobile':
-      size.extraSmall = true;
-      break;
     case 'smallMobile':
       size.extraSmall = true;
       break;
@@ -36,17 +31,18 @@ const getSize = (viewport) => {
 const ResultsComponent = (props) => {
   const size = getSize(props.viewport)
 
-  return <PollResultsCard pollResults={props.pollResults}/>
+  return <PollResultsCard pollResults={props.pollResults} {...size}/>
 }
 
 const PollResultsPage = ( props ) => {
 
-  const roomcode = props.match.params.roomcode || '0000';
-  const pollcode = props.match.params.pollcode || '00';
+  const roomcode = props.match.params.roomcode;
+  const pollcode = props.match.params.pollcode;
+  const { onFetchResults } = props;
 
   useEffect(() =>  {
-    props.onFetchResults(roomcode, pollcode);
-  }, [])
+    onFetchResults(roomcode, pollcode);
+  }, [roomcode, pollcode, onFetchResults])
 
   return (
     <ViewportHandler>

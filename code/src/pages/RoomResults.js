@@ -1,10 +1,8 @@
 import React, { useEffect }                from 'react';
-import styled               from 'styled-components';
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 
-import { Colors }           from '../components/theme/Colors';
 import MainPage             from './format-pages/MainPage';
 
 import RoomResultsCard         from '../components/cards/RoomResultsCard';
@@ -14,9 +12,8 @@ const getSize = (viewport) => {
 
   let size = {};
   switch (viewport) {
+    case 'tablet':
     case 'mobile':
-      size.extraSmall = true;
-      break;
     case 'smallMobile':
       size.extraSmall = true;
       break;
@@ -33,28 +30,22 @@ const getSize = (viewport) => {
 
 const ResultsComponent = (props) => {
   const size = getSize(props.viewport);
-  console.log('here')
-  console.log(props.viewport)
 
   return <RoomResultsCard {...size} roomResults={props.roomResults}/>
 }
 
 const PollResultsPage = ( props ) => {
 
-  const { roomResults } = props
-
-  const roomcode = props.match.params.roomcode || '0000';
-
+  const { roomResults, onFetchResults } = props;
+  const roomcode = props.match.params.roomcode;
 
   useEffect(() =>  {
-    props.onFetchResults(roomcode);
-  }, [])
-
-  console.log(props);
+    onFetchResults(roomcode);
+  }, [roomcode, onFetchResults])
 
   return (
     <ViewportHandler>
-      <MainPage roomcode={roomcode}> 
+      <MainPage roomcode={roomcode}>
         <ResultsComponent roomResults={roomResults}/>
       </MainPage>
     </ViewportHandler>

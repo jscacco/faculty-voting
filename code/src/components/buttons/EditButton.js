@@ -3,12 +3,21 @@ import styled               from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import { Colors }       from '../theme/Colors';
 import Icon             from '../theme/Icon';
 import Body             from '../theme/Body'
 
 const propTypes = {
   type: PropTypes.oneOf(['edit', 'save']),
+  color: ExtraPropTypes.color,
+  onClick: PropTypes.func,
+
+  children: PropTypes.node,
+
+  extraLarge: PropTypes.bool,
+  large: PropTypes.bool,
+  medium: PropTypes.bool,
+  small: PropTypes.bool,
+  extraSmall: PropTypes.bool
 }
 
 const defaultProps = {
@@ -18,7 +27,8 @@ const defaultProps = {
 const ButtonWrapper = styled.div`
   width: max-content;
   display: flex;
-  flex-direction: column
+  flex-direction: column;
+  cursor: pointer;
 `;
 
 const IconWrapper = styled.div`
@@ -27,9 +37,6 @@ const IconWrapper = styled.div`
   justify-content: center;
 `;
 
-const TextWrapper = styled.div`
-  width: auto;
-`
 
 const EditButton = ( props ) => {
 

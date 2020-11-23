@@ -64,8 +64,7 @@ const TextAreaComponent = styled.textarea`
 
 const TextArea = ( props ) => {
 
-  const { placeholder, backgroundColor, borderColor,
-          extraSmall, small, medium, large, extraLarge } = props;
+  const { extraSmall, small, large, extraLarge } = props;
 
   let sizeConfig;
 

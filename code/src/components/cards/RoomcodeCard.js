@@ -3,7 +3,6 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 
 import { Colors }       from '../theme/Colors';
-import Body             from '../theme/Body';
 import Jumbo             from '../theme/Jumbo';
 
 import Card             from './Card';
@@ -31,7 +30,7 @@ const ComponentWrapper = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-  width: 50%;
+  width: 25vw;
 `;
 
 const TextInputWrapper = styled.div`
@@ -39,6 +38,9 @@ const TextInputWrapper = styled.div`
 `;
 
 const TitleWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   padding-bottom: ${({padding}) => padding}px;
 `;
 
@@ -59,7 +61,8 @@ const Title = (props) => {
              small={medium}
              medium={large}
              large={extraLarge}
-             color={Colors.White}>
+             color={Colors.White}
+             center>
         {title}
       </Jumbo>
     </TitleWrapper>
@@ -67,8 +70,8 @@ const Title = (props) => {
 };
 
 const CodeInput = (props) => {
-  
-  const { label, value, handleChange, handleSubmit, onEnter,
+
+  const { value, handleChange, onEnter,
           extraSmall, small, medium, large, extraLarge } = props;
 
   let inputPadding;

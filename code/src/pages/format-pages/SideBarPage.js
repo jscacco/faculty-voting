@@ -27,6 +27,7 @@ const ComponentWrapper = styled.div`
   display: flex;
   flex-direction:row;
   justify-content: space-between;
+  min-width: 0;
   width: 100%;
   margin: ${({roomcode}) => roomcode ? `2vh 5vw 5vh 5vw` : `5vh 5vw`};
   /* height: 80%; */
@@ -34,6 +35,7 @@ const ComponentWrapper = styled.div`
 
 const SideBarWrapper = styled.div`
   width: 40%;
+  min-width: 125px;
   padding-left: 10px;
 `;
 
@@ -47,6 +49,7 @@ const VerticalComponentWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
+  min-width: 0;
   margin: ${({roomcode}) => roomcode ? `2vh 5vw 5vh 5vw` : `5vh 5vw`};
   /* height: 80%; */
 `;
@@ -79,7 +82,7 @@ const VerticalPage = ( props ) => {
   return (
     <>
       {headerComponent}
-      <VerticalComponentWrapper roomcode={props.roomcode}>
+      <VerticalComponentWrapper roomcode={props.roomcode} policy={props.policy}>
         {mainComponent}
       </VerticalComponentWrapper>
     </>
@@ -105,7 +108,7 @@ const HorizontalPage = ( props ) => {
   return (
     <>
       {headerComponent}
-      <ComponentWrapper roomcode={props.roomcode}>
+      <ComponentWrapper roomcode={props.roomcode} policy={props.policy}>
         {mainComponent}
       </ComponentWrapper>
     </>
@@ -117,10 +120,8 @@ const SideBarPage = ( props ) => {
 
   const small = props.viewport === 'mobile' || props.viewport === 'smallMobile';
 
-  console.log(small);
-  console.log(props.roomcode);
   return (
-    <BasePage color={props.color} viewport={props.viewport} roomcode={props.roomcode}>
+    <BasePage color={props.color} viewport={props.viewport} roomcode={props.roomcode} policy={props.policy}>
       {small ? <VerticalPage {...props}/> : <HorizontalPage {...props}/>}
     </BasePage>
   )

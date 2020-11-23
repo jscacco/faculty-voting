@@ -13,6 +13,10 @@ const propTypes = {
 
   color: ExtraPropTypes.color,
 
+  overflowHidden: PropTypes.bool,
+  bottomBorder: PropTypes.bool,
+  borderColor: ExtraPropTypes.color,
+
   extraSmall: PropTypes.bool,
   small: PropTypes.bool,
   medium: PropTypes.bool,
@@ -43,6 +47,17 @@ const BodyWrapper = styled(Text)`
   font-family: ${fontConfig.fontFamily};
   color: ${({color}) => color};
   white-space: pre-line;
+
+  ${({bottomBorder, borderColor}) => bottomBorder ?
+    `border-bottom: 2px solid ${borderColor};
+     cursor: pointer` : ``}
+
+  ${({overflowHidden}) => overflowHidden ?
+    `display: block;
+     max-width: 100%;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     white-space: nowrap;` : ``}
 `;
 
 const Body = ( props ) => {

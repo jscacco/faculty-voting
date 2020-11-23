@@ -1,10 +1,7 @@
 import React            from 'react';
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
-import Jumbo            from '../theme/Jumbo';
-import Body             from '../theme/Body';
 
 import {HorizontalBar} from 'react-chartjs-2';
 import 'chartjs-plugin-datalabels';
@@ -24,7 +21,7 @@ const defaultProps = {};
 
 const BarChart = (props) => {
   const { dataLabels, dataValues,
-          extraSmall, small, medium, large, extraLarge} = props;
+          medium, large, extraLarge} = props;
 
   const data = {
     labels: dataLabels,

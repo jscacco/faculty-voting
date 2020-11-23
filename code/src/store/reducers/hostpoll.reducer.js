@@ -1,4 +1,3 @@
-// import PollItem from '../../components/PollItem';
 import ActionTypes from '../actionTypes';
 import { generateOptionId } from '../MockDataFunctions';
 
@@ -27,7 +26,6 @@ export default function reduceUserPoll(state = initialState, action) {
 
   switch (action.type) {
     case ActionTypes.hostpoll.FETCH_POLL_START:
-      console.log('here');
       return { ...state, loading: true, error: null };
 
     case ActionTypes.hostpoll.FETCH_POLL_SUCCESS:
@@ -63,7 +61,7 @@ export default function reduceUserPoll(state = initialState, action) {
       };
     case ActionTypes.hostpoll.ADD_POLL:
       let option_id = generateOptionId();
-      while (state.poll.options[option_id] != undefined ) {
+      while (state.poll.options[option_id] !== undefined ) {
         option_id = generateOptionId();
       }
 
@@ -123,7 +121,6 @@ export default function reduceUserPoll(state = initialState, action) {
               }
       }
     case ActionTypes.hostpoll.UPDATE_SETTINGS:
-      console.log(action.settings);
       return {
         ...state,
         poll: {...state.poll,
@@ -132,12 +129,10 @@ export default function reduceUserPoll(state = initialState, action) {
     }
 
     case ActionTypes.hostpoll.UPDATE_POLL_START:
-      console.log('here');
       return { ...state, loading: true, error: null };
 
     case ActionTypes.hostpoll.UPDATE_POLL_SUCCESS:
       result = action.response;
-      console.log(result)
       return {
         ...state,
         poll: {...result},
@@ -151,12 +146,10 @@ export default function reduceUserPoll(state = initialState, action) {
       };
 
     case ActionTypes.hostpoll.UPDATE_POLL_STATUS_START:
-      console.log('here 0');
       return { ...state, loading: true, error: null };
 
     case ActionTypes.hostpoll.UPDATE_POLL_STATUS_SUCCESS:
       result = action.poll;
-      console.log(result)
       return {
         ...state,
         poll: {...result},
@@ -173,5 +166,4 @@ export default function reduceUserPoll(state = initialState, action) {
       return state;
 
   }
-  return state;
 }

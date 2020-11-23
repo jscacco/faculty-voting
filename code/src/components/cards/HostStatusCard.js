@@ -5,7 +5,6 @@ import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
 import Jumbo            from '../theme/Jumbo';
-import Body             from '../theme/Body';
 
 import StatusText       from '../format-text/StatusText';
 import Button           from '../buttons/Button';
@@ -75,7 +74,7 @@ const PanelHeader = ( props ) => {
 
 const StatusButton = ( props ) => {
 
-  const { editing, loading, status, onClick, size, ...rest } = props;
+  const { editing, loading, status, onClick, size } = props;
 
   let disabled = false;
   let text;
@@ -103,7 +102,6 @@ const StatusButton = ( props ) => {
     newStatus = 'open';
   }
 
-  console.log(props.disable)
   if ( editing || props.disable ) {
     color = Colors.LightGrey;
     disabled = true;
@@ -121,9 +119,9 @@ const StatusButton = ( props ) => {
 const PanelSection = ( props ) => {
 
   const { disable, editing, loading, status, children,
-          onStatusClick, color, size, ...rest } = props;
+          onStatusClick, color, size, } = props;
 
-  if (size.extraSmall) {
+  if (props.viewport === 'smallMobile' || props.viewport === 'mobile') {
     return (
       <HorizontalSectionWrapper>
         <StatusText status={loading ? 'loading' : status} color={color} {...size}/>

@@ -69,7 +69,7 @@ const InputFieldComponent = styled.textarea`
 
 const InputField = ( props ) => {
 
-  const { extraSmall, small, medium, large, extraLarge } = props;
+  const { extraSmall, small, large, extraLarge } = props;
 
   let sizeConfig;
 

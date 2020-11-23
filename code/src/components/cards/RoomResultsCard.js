@@ -1,14 +1,11 @@
 import React            from 'react';
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
-import { CSVLink }      from "react-csv";
 
 import { Colors }       from '../theme/Colors';
-import Jumbo            from '../theme/Jumbo';
 import Body             from '../theme/Body';
-import Button           from '../buttons/Button';
+
 import SecondaryCard    from '../format-cards/SecondaryCard';
-import PieChart         from '../charts/PieChart';
+
 import BarChart         from '../charts/BarChart';
 import CSVButton        from '../buttons/CSVButton';
 import { formatResultsAsCSV } from '../../csv/csvFunctions.js';
@@ -31,7 +28,7 @@ const RoomResultsCard = ( props ) => {
 
   const { extraSmall, small, medium, large, extraLarge } = props;
 
-  const filename = props.roomResults.title + ".csv"
+  // const filename = props.roomResults.title + ".csv"
 
   const _toCSVButton = (
     <CSVButton table={formatResultsAsCSV(props.roomResults)}
@@ -45,7 +42,8 @@ const RoomResultsCard = ( props ) => {
 
       return (
         <>
-          <Body medium>
+          <Body extraSmall={extraSmall} small={small}
+                medium={medium} large={large} extraLarge={extraLarge}>
             {pollResults.title}
           </Body>
           <BarChart dataLabels={pollResults.optionsOrder.map(id => pollResults.options[id].value)}

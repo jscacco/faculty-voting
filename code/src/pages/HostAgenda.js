@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import styled               from 'styled-components';
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
@@ -9,7 +8,6 @@ import history              from '../history';
 import LoadingCard              from '../components/cards/LoadingCard';
 
 import { Colors }           from '../components/theme/Colors';
-import RoomcodeHeader       from '../components/theme/RoomcodeHeader';
 import ViewportHandler      from './format-pages/ViewportHandler';
 import SideBarPage          from './format-pages/SideBarPage';
 
@@ -24,6 +22,7 @@ const getSize = (viewport) => {
   switch (viewport) {
     case 'mobile':
     case 'smallMobile':
+    case 'tablet':
       size.extraSmall = true;
       break;
     case 'hdDesktop':
@@ -34,6 +33,7 @@ const getSize = (viewport) => {
       size.small = true;
   }
 
+  size.viewport = viewport;
   return size;
 }
 
@@ -74,6 +74,7 @@ const AgendaComponent = ( props ) => {
                                onDragEnd={props.onDragEnd}
                                onTitleChange={props.onTitleChange}
                                onPollEditClick={props.onPollEditClick}
+                               onViewClick={props.onViewClickEditing}
                                {...props.cardProps}/>
     );
   }
@@ -90,14 +91,13 @@ const AgendaComponent = ( props ) => {
 
 const HostRoomPage = ( props ) => {
 
-  const roomcode = props.match.params.roomcode || '0000';
+  const roomcode = props.match.params.roomcode;
+  const { onFetchAgenda } = props;
 
   useEffect(() =>  {
-    // console.log(props);
-    props.onFetchAgenda(roomcode);
-  }, [])
+    onFetchAgenda(roomcode);
+  }, [roomcode, onFetchAgenda])
 
-  // if ( props.loading ) { return <Loading/> }
   if ( props.error ) { console.log(props.error); history.replace('/Login') }
 
   const cardProps = {
@@ -109,12 +109,16 @@ const HostRoomPage = ( props ) => {
     onEditClick: () => props.onEditClick(roomcode),
   }
 
-
   const onViewClick = (poll_id) => {
     props.polls[poll_id].status === 'closed' ?
       history.push(`/PollResults/${roomcode}/${poll_id}`, {roomStatus: props.status}) :
       history.push(`/HostPoll/${roomcode}/${poll_id}`, {roomStatus: props.status})
   };
+
+  const onViewClickEditing = ( poll_id ) => {
+    props.onEditClick(roomcode);
+    onViewClick(poll_id);
+  }
 
   const onPollEditClick = (poll_id) => {
     props.onEditClick(roomcode);
@@ -139,6 +143,7 @@ const HostRoomPage = ( props ) => {
                          onPollEditClick={onPollEditClick}
                          onStatusClick={(poll_id, newStatus) => props.onUpdatePollStatus(roomcode, poll_id, newStatus)}
                          onViewClick={onViewClick}
+                         onViewClickEditing={onViewClickEditing}
                          cardProps={cardProps}/>
       </SideBarPage>
     </ViewportHandler>

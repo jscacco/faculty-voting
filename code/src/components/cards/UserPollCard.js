@@ -1,9 +1,7 @@
 import React            from 'react';
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
-import Jumbo            from '../theme/Jumbo';
 import Body            from '../theme/Body';
 
 import TertiaryCard      from '../format-cards/TertiaryCard';
@@ -11,7 +9,6 @@ import OptionGroup      from '../groups/OptionGroup';
 import TextOption       from '../options/TextOption';
 import InputOption       from '../options/InputOption';
 import VotingOption       from '../options/VotingOption';
-import EditButton       from '../buttons/EditButton';
 import SubmitButton     from '../buttons/SubmitButton';
 
 const propTypes = {
@@ -23,7 +20,7 @@ const propTypes = {
   onSubmit: PropTypes.func,
   submissionStatus: PropTypes.string,
   onInputChange: PropTypes.func,
-  submitLoading: PropTypes. bool,
+  submitLoading: PropTypes.bool,
 
   extraSmall: PropTypes.bool,
   small: PropTypes.bool,
@@ -38,7 +35,7 @@ const defaultProps = {
 
 const UserPollCard = ( props ) => {
 
-  const { pollData, userInput, submittedOptions, onOptionChange,
+  const { pollData, userInput, selectedOptions, submittedOptions, onOptionChange,
           onSubmit, submissionStatus, onInputChange,
           submitLoading,
           ...rest } = props;
@@ -75,7 +72,8 @@ const UserPollCard = ( props ) => {
 
     return (
       <OptionGroup type={pollData.type} fontColor={Colors.Black}
-                   onSelect={onOptionChange} {...rest}>
+                   onSelect={onOptionChange} selectedOptions={selectedOptions}
+                   {...rest}>
         {optionComponents}
       </OptionGroup>
     );

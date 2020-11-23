@@ -49,7 +49,7 @@ const UserAgendaCard = ( props ) => {
           return (
             <AgendaItem pollTitle={poll.title}
                         status={poll.status}
-                        onViewClick={onViewClick ? () => onViewClick(id) : undefined}/>
+                        onViewClick={onViewClick && poll.showResults ? () => onViewClick(id) : undefined}/>
           )
         })}
       </Group>

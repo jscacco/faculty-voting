@@ -1,9 +1,9 @@
 import React            from 'react';
-import styled           from 'styled-components';
+
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
 
 import Breakpoints      from '../../components/theme/Breakpoints';
+
 
 const propTypes = {
   children: PropTypes.node,
@@ -57,7 +57,6 @@ class ViewportHandler extends React.Component {
 
   render () {
 
-    console.log(this.state)
     return (
       <>
         {React.cloneElement(this.props.children, { viewport: this.state.viewport })}

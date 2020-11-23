@@ -5,7 +5,6 @@ import ExtraPropTypes         from 'react-extra-prop-types';
 import { DragDropContext,
          Droppable }          from "react-beautiful-dnd";
 
-import Icon                   from '../theme/Icon';
 import DragItem               from './DragItem';
 
 const propTypes = {
@@ -47,9 +46,6 @@ class InnerList extends React.Component {
   }
 
   render () {
-
-    // console.log(this.props.items);
-
     return (
       this.props.items.map((item, index) =>
         <DragItem key={item.id}
@@ -96,7 +92,6 @@ class DragGroup extends React.Component {
       extraLarge: extraLarge
     }
 
-    // console.log(this.props.items);
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Droppable droppableId="droppable">

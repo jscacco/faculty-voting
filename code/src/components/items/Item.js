@@ -3,7 +3,6 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import { Colors }       from '../theme/Colors';
 import Body             from '../theme/Body';
 import Card             from '../cards/Card';
 
@@ -32,6 +31,8 @@ const ComponentWrapper = styled.div`
 
 const TextWrapper = styled.div `
   width: 100%;
+  // flex-grow: 2;
+   min-width: 0;
 `;
 
 const ChildWrapper = styled.div`
@@ -61,7 +62,7 @@ const ItemBase = ( props ) => {
     <Card borderSmall {...rest}>
       <ComponentWrapper>
         <TextWrapper>
-          <Body {...rest}>
+          <Body overflowHidden {...rest}>
             {text}
           </Body>
         </TextWrapper>
@@ -69,6 +70,7 @@ const ItemBase = ( props ) => {
       </ComponentWrapper>
     </Card>
   )
+
 
 }
 

@@ -1,6 +1,5 @@
 import React                from 'react';
 import styled               from 'styled-components';
-import ParticlesBg          from 'particles-bg';
 
 import { connect }          from 'react-redux';
 import ActionTypes           from '../store/actionTypes';
@@ -18,29 +17,24 @@ const RoomcodeWrapper = styled.div`
 
 const RoomcodeComponent = ( props ) => {
 
-  let width;
+  let width = `100%`;
   let size = {};
   switch (props.viewport) {
     case 'smallDesktop':
-      width = `75%`;
       size.small = true;
       break;
     case 'tablet':
-      width = `100%`;
-      size.small = true;
+      size.extraSmall = true;
       break;
     case 'mobile':
     case 'smallMobile':
-      width = `100%`
       size.extraSmall = true;
       break;
     case 'hdDesktop':
     case 'uhdDesktop':
-      width = `50%`
       size.medium = true;
       break;
     default:
-      width = `50%`
       size.small = true;
   }
 
@@ -58,8 +52,9 @@ const RoomcodeComponent = ( props ) => {
 
 const RoomCodeScreen = ( props ) => {
 
-  if (props.submitted) {
+  if (props.submitted && !props.loading) {
     if (props.error) {
+      props.resetCode();
       alert(`Invalid code, please enter a valid code.`);
     }
     else {
@@ -71,9 +66,8 @@ const RoomCodeScreen = ( props ) => {
   }
 
   const onEnterPress = (e) => {
-    if(e.keyCode == 13 && e.shiftKey == false) {
+    if(e.keyCode === 13 && e.shiftKey === false) {
       e.preventDefault();
-      console.log("Enter pressed")
       props.validateCode(props.roomcode)
     }
   }

@@ -21,7 +21,6 @@ export default function reduceRoomResult(state = initialState, action) {
 
     case ActionTypes.roomresults.FETCH_RESULTS_SUCCESS:
       result = action.response;
-      console.log(result)
       return {
         ...state,
         loading: false,
@@ -37,7 +36,4 @@ export default function reduceRoomResult(state = initialState, action) {
     default:
       return state;
   };
-  return state;
 }
-
-// export default function;

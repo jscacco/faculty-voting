@@ -1,21 +1,34 @@
 import React            from 'react';
 import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
-import ExtraPropTypes   from 'react-extra-prop-types';
 
 import { Colors }       from '../theme/Colors';
-import Jumbo            from '../theme/Jumbo';
 import Body            from '../theme/Body';
 
 import TertiaryCard      from '../format-cards/TertiaryCard';
 import OptionGroup      from '../groups/OptionGroup';
 import TextOption       from '../options/TextOption';
 import InputOption       from '../options/InputOption';
-import VotingOption       from '../options/VotingOption';
 import EditButton       from '../buttons/EditButton';
 import SubmitButton     from '../buttons/SubmitButton';
 
-const PollWrappper = styled.div``;
+
+const propTypes = {
+  pollData: PropTypes.object,
+  onEditClick: PropTypes.func,
+
+  extraSmall: PropTypes.bool,
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
+  large: PropTypes.bool,
+  extraLarge: PropTypes.bool,
+};
+
+const defaultProps = {
+  pollData: {},
+  onEditClick: undefined,
+};
+
 
 const DescriptionWrapper = styled.div`
   ${({padding}) => padding && `padding-bottom: ${padding}px;`}
@@ -123,10 +136,13 @@ const HostPollCard = ( props ) => {
                    cardColor={Colors.White}
                    header={pollData.title}
                    headerColor={Colors.Blue}
-                   headerButton={_editButton}
+                   headerButton={pollData.status === 'open' ? undefined : _editButton}
                    sections={sections}
                    footer={_submitButton}/>
   )
 };
+
+HostPollCard.propTypes = propTypes;
+HostPollCard.defaultProps = defaultProps;
 
 export default HostPollCard;

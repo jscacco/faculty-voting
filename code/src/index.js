@@ -1,16 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
+import React                              from 'react';
+import ReactDOM                           from 'react-dom';
+import { BrowserRouter as Router }        from 'react-router-dom';
 
-import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import createSagaMiddleware from 'redux-saga';
+import { createStore, applyMiddleware }   from 'redux';
+import { Provider }                       from 'react-redux';
+import createSagaMiddleware               from 'redux-saga';
 
-import rootReducer from './store/reducers/index';
-import { watcherSaga }    from './store/sagas/index';
+import rootReducer                        from './store/reducers/index';
+import { watcherSaga }                    from './store/sagas/index';
 
-import App from './App';
-import Routes from './Routes';
+import App                                from './App';
+import Routes                             from './Routes';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -28,13 +28,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
-
-// ReactDOM.render(
-//     <Router>
-//       <div className="App">
-//         <App />
-//         <Routes />
-//       </div>
-//     </Router>,
-//   document.getElementById('root')
-// );

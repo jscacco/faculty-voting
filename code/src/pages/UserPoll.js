@@ -1,5 +1,4 @@
 import React, { useEffect }                from 'react';
-import styled               from 'styled-components';
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
@@ -20,6 +19,7 @@ const getSize = (viewport) => {
   switch (viewport) {
     case 'mobile':
     case 'smallMobile':
+    case 'tablet':
       size.extraSmall = true;
       break;
     case 'hdDesktop':
@@ -52,6 +52,7 @@ const PollComponent = ( props ) => {
                   onOptionChange={props.onOptionChange}
                   onInputChange={props.onInputChange}
                   onSubmit={props.onSubmit}
+                  selectedOptions={props.selectedOptions}
                   submittedOptions={props.submittedOptions}
                   submissionStatus={props.submissionStatus}
                   submitLoading={props.submitLoading}
@@ -61,14 +62,16 @@ const PollComponent = ( props ) => {
 
 const UserPollPage = ( props ) => {
 
-  const roomcode = props.match.params.roomcode || '0000';
-  const pollcode = props.match.params.pollcode || '00';
+  const roomcode = props.match.params.roomcode;
+  const pollcode = props.match.params.pollcode;
+  const { onFetchPoll } = props;
 
   useEffect(() =>  {
-    props.onFetchPoll(roomcode, pollcode);
-  }, [])
+    onFetchPoll(roomcode, pollcode);
+  }, [roomcode, pollcode, onFetchPoll])
 
-  // if ( props.loading ) { return <Loading/> }
+  console.log(props);
+
   if ( props.error ) { console.log(props.error); history.replace('/Login') }
 
   return (
@@ -80,6 +83,7 @@ const UserPollPage = ( props ) => {
                        onOptionChange={props.onOptionChange}
                        onInputChange={props.onInputChange}
                        onSubmit={() => props.onSubmit(roomcode, pollcode)}
+                       selectedOptions={props.selection}
                        submittedOptions={props.submission}
                        submissionStatus={props.submissionStatus}
                        submitLoading={props.submitLoading}/>

@@ -38,6 +38,10 @@ class OptionGroup extends React.Component {
   constructor(props) {
     super(props);
 
+    console.log('this rener')
+
+    console.log(props)
+
     this.state = { selectedOptions: props.selectedOptions ? {...props.selectedOptions} : {} }
 
     this._handleClickMulti = this._handleClickMulti.bind(this);

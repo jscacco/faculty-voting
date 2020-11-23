@@ -82,19 +82,16 @@ export default function reduceUserPoll(state = initialState, action) {
 
   switch (action.type) {
     case ActionTypes.userpoll.FETCH_POLL_START:
-      console.log('here');
       return { ...state, loading: true, error: null };
 
     case ActionTypes.userpoll.FETCH_POLL_SUCCESS:
       result = action.response;
-      console.log(result)
       return {
         ...state,
         poll: {...result},
         loading: false,
       };
     case ActionTypes.userpoll.FETCH_POLL_ERROR:
-      console.log('error')
       return {
         ...state,
         loading: false,
@@ -130,16 +127,13 @@ export default function reduceUserPoll(state = initialState, action) {
       };
 
     case ActionTypes.userpoll.SUBMIT_VOTE_START:
-      console.log('here');
       return { ...state, submitLoading: true, loading: true, error: null };
     case ActionTypes.userpoll.SUBMIT_VOTE_SUCCESS:
 
-      console.log(state);
       result = action.response;
 
       let inputSubmission = state.pollStatus.selection['000'] ? state.userInput.value : null;
 
-      console.log(action)
       newState = {
         ...state,
         userInput: {
@@ -155,8 +149,6 @@ export default function reduceUserPoll(state = initialState, action) {
         submitLoading: false,
         loading: false,
       }
-
-      console.log(newState)
 
       return {
         ...newState,
@@ -175,8 +167,6 @@ export default function reduceUserPoll(state = initialState, action) {
         };
 
     case ActionTypes.userpoll.UPDATE_INPUT:
-
-      console.log(action);
 
       newState = {
         ...state,

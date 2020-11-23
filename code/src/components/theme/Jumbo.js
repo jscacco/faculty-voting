@@ -54,6 +54,7 @@ const JumboComponent = styled(Text)`
 	font-family: ${fontConfig.fontFamily};
 	color: ${({color})=>color};
 	letter-spacing: 0.02em;
+	${({center}) => center ? `text-align: center` : ``}
 `;
 
 

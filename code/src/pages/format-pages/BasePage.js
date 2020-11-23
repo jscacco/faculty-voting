@@ -3,11 +3,11 @@ import styled           from 'styled-components';
 import PropTypes        from 'prop-types';
 import ExtraPropTypes   from 'react-extra-prop-types';
 
-import { Colors }       from '../../components/theme/Colors';
-
 import PageHeader       from '../../components/theme/PageHeader'
 import PageFooter       from '../../components/theme/PageFooter'
 import RoomcodeHeader   from '../../components/theme/RoomcodeHeader'
+import PolicyFooter     from '../../components/theme/PolicyFooter'
+
 
 const propTypes = {
   children: PropTypes.node,
@@ -31,8 +31,9 @@ const PageWrapper = styled.div`
   justify-content: space-between
 `;
 
-const HeaderWrapper = styled.div`
-`;
+const HeaderWrapper = styled.div``;
+
+const FooterWrapper = styled.div``;
 
 const CenterWrapper = styled.div`
   display: flex;
@@ -42,12 +43,12 @@ const CenterWrapper = styled.div`
   flex-grow: 2;
 `;
 
-const RoomcodeText = ( props ) => {
-
+const getSize = ( viewport ) => {
   let size = {};
-  switch (props.viewport) {
+  switch (viewport) {
     case 'mobile':
     case 'smallMobile':
+    case 'tablet':
       size.extraSmall = true;
       break;
     case 'hdDesktop':
@@ -58,9 +59,25 @@ const RoomcodeText = ( props ) => {
       size.small = true;
   }
 
+  return size;
+}
+
+const RoomcodeText = ( props ) => {
+
+  let size = getSize(props.viewport);
+
   return props.roomcode ?
     <RoomcodeHeader roomcode={props.roomcode}
                     {...size}/> :
+    <></>
+}
+
+const PolicyText = ( props ) => {
+
+  let size = getSize(props.viewport);
+
+  return props.policy ?
+    <PolicyFooter {...size}/> :
     <></>
 }
 
@@ -75,7 +92,10 @@ const BasePageWrapper = (props) => {
       <CenterWrapper>
         {props.children}
       </CenterWrapper>
-      <PageFooter />
+      <FooterWrapper>
+        <PolicyText {...props}/>
+        <PageFooter />
+      </FooterWrapper>
     </PageWrapper>
   )
 }

@@ -1,6 +1,5 @@
 import React                from 'react';
 import styled               from 'styled-components';
-import ParticlesBg          from 'particles-bg';
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
@@ -12,47 +11,9 @@ import { Colors }           from '../components/theme/Colors';
 
 import LoginCard            from '../components/cards/LoginCard';
 
-// import {userIsLoggedIn, userLogin, signOutCurrentUser, getCurrentUserEmail, userIsHamiltonian } from '../LoginUtils.js';
-
 const LoginWrapper = styled.div`
   width: ${({width}) => width};
 `;
-
-// const userLoginHandler = async () => {
-//     await userLogin().then(() => {
-// 	if (!userIsHamiltonian()) {
-// 	    console.log("User " + getCurrentUserEmail() + " is not within Hamilton domain. Logging out.");
-// 	    alert("Please log in with a Hamilton account. (And enable pop-ups so the new login window appears)");
-// 	    signOutCurrentUser();
-// 	} else {
-// 	    pushLandingPage("user");
-// 	}
-//     });
-// }
-//
-// const hostLoginHandler = async () => {
-//     await userLogin().then(() => {
-// 	if (!userIsHamiltonian()) {
-// 	    console.log("User " + getCurrentUserEmail() + " is not within Hamilton domain. Logging out.");
-// 	    alert("Please log in with a Hamilton account. (And enable pop-ups if you don't see the login window appear)");
-// 	    signOutCurrentUser();
-// 	} else {
-// 	    pushLandingPage("host");
-// 	}
-//     });
-// }
-//
-// const pushLandingPage = async (userOrHost) => {
-//     if (userIsLoggedIn() && userIsHamiltonian()) {
-// 	if (userOrHost == "user") {
-// 	    history.push('/RoomCode');
-// 	} else {
-// 	    history.push('/HostDash');
-// 	}
-//     } else {
-// 	console.log("Nobody is logged in, but new page was attempted to be loaded. User probably closed pop-up");
-//     }
-// }
 
 const LoginComponent = ( props ) => {
 
@@ -64,8 +25,8 @@ const LoginComponent = ( props ) => {
       size.small = true;
       break;
     case 'tablet':
-      width = `100%`;
-      size.small = true;
+      width = `75%`;
+      size.extraSmall = true;
       break;
     case 'mobile':
     case 'smallMobile':
@@ -94,8 +55,6 @@ const LoginComponent = ( props ) => {
 
 const LoginPage = ( props ) => {
 
-  console.log(props)
-
   if (props.error) {
     props.onLogout();
     alert("Please log in with a Hamilton account. (And enable pop-ups if you don't see the login window appear)");
@@ -110,7 +69,7 @@ const LoginPage = ( props ) => {
 
   return (
     <ViewportHandler>
-      <MainPage color={Colors.Blue}>
+      <MainPage color={Colors.Blue} policy>
           <LoginComponent {...props}/>
       </MainPage>
     </ViewportHandler>
@@ -135,5 +94,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
-
-// export default LoginPage;

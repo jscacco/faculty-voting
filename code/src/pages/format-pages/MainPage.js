@@ -24,16 +24,15 @@ const ComponentWrapper = styled.div`
   align-items: center;
   width: 100%;
   margin: ${({roomcode}) => roomcode ? `2vh 5vw 5vh 5vw` : `5vh 5vw`};
+  ${({policy}) => policy ? `margin: 5vh 5vw 2vh 5vw;` : ``}
 `;
 
 
 const MainPage = ( props ) => {
 
-  console.log(props);
-
   return (
-    <BasePage color={props.color} viewport={props.viewport} roomcode={props.roomcode}>
-      <ComponentWrapper roomcode={props.roomcode}>
+    <BasePage color={props.color} viewport={props.viewport} roomcode={props.roomcode} policy={props.policy}>
+      <ComponentWrapper roomcode={props.roomcode} policy={props.policy}>
         {React.cloneElement(props.children, { viewport: props.viewport })}
       </ComponentWrapper>
     </BasePage>

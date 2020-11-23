@@ -35,5 +35,4 @@ export default function reducePoll(state = initialState, action) {
     default:
       return state;
   }
-  return state;
 }
