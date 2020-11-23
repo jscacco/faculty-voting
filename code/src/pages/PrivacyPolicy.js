@@ -41,8 +41,8 @@ const PolicyComponent = ( props ) => {
 
   return (
     <PrivacyPolicyCard  viewport={props.viewport}
+                        policyContent={policy}
                         {...size}>
-      {policy}
     </PrivacyPolicyCard>
   )
 }
