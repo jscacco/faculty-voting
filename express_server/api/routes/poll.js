@@ -12,8 +12,11 @@ router.get('/fetchPollData', async function(req, res, next) {
         // }
 
         let data = await pollFuncs.fetchPollData(req.query.host_id, req.query.room_id, req.query.poll_id);
-        if(data) {
+        if(typeof data !== 'string') {
             res.status(200).send(data);
+        }
+        else if(data) {
+            res.status(505).send(data); ///////////ALERT IF THIS STATUS
         }
         else {
             res.status(500).send("Failed to fetch poll data");
@@ -26,8 +29,11 @@ router.get('/fetchPollData', async function(req, res, next) {
 router.put('/updatePoll', async function(req, res, next) {
     try {
         let new_poll = await pollFuncs.updatePoll(req.body.host_id, req.body.room_id, req.body.poll_id, req.body.poll_state, req.body.user);
-        if(new_poll) {
+        if(typeof new_poll !== 'string') {
             res.status(200).send(new_poll);
+        }
+        else if(new_poll) {
+            res.status(505).send(new_poll);
         }
         else {
             res.status(500).send("Failed to update poll");
@@ -44,8 +50,11 @@ router.get('/fetchAgenda', async function(req, res, next) {
         // }
 
         let agenda = await pollFuncs.fetchAgenda(req.query.host_id, req.query.room_id);
-        if(agenda) {
+        if(typeof agenda !== 'string') {
             res.status(200).send(agenda);
+        }
+        else if(agenda) {
+            res.status(505).send(agenda);
         }
         else {
             res.status(500).send("Failed to fetch agenda");
@@ -57,9 +66,12 @@ router.get('/fetchAgenda', async function(req, res, next) {
 
 router.post('/addPoll', async function(req, res, next) {
     try {
-        let new_poll = await pollFuncs.addPoll(req.body.host_id, req.body.room_id);
-        if(new_poll) {
+        let new_poll = await pollFuncs.addPoll(req.body.host_id, req.body.room_id, req.body.user);
+        if(typeof new_poll !== 'string') {
             res.status(200).send(new_poll);
+        }
+        else if(new_poll) {
+            res.status(505).send(new_poll);
         }
         else {
             res.status(500).send("Failed to add poll");
@@ -71,9 +83,12 @@ router.post('/addPoll', async function(req, res, next) {
 
 router.put('/updatePollStatus', async (req, res, next) => {
     try {
-        let status = await pollFuncs.updatePollStatus(req.body.host_id, req.body.room_id, req.body.poll_id, req.body.new_status);
-        if(status) {
+        let status = await pollFuncs.updatePollStatus(req.body.host_id, req.body.room_id, req.body.poll_id, req.body.new_status, req.body.user);
+        if(typeof status !== 'string') {
             res.status(200).send(status);
+        }
+        else if(status) {
+            res.status(505).send(status);
         }
         else {
             res.status(500).send("Failed to update poll status");
@@ -100,8 +115,11 @@ router.get('/getPollResults', async (req, res, next) => {
 router.put('/submitVote', async (req, res, next) => {
     try {
         let vote = await pollFuncs.submitVote(req.body.user_id, req.body.room_id, req.body.poll_id, req.body.selection, req.body.submission, req.body.userInput);
-        if(vote) {
+        if(typeof vote !== 'string') {
             res.status(200).send(vote);
+        }
+        else if(vote) {
+            res.status(505).send(vote);
         }
         else {
             res.status(500).send("Failed to submit vote");

@@ -1,4 +1,4 @@
-// import firebase from './permissions.js';
+import firebase from './permissions.js';
 // import { roomBase } from '../store/dataBases';
 // import { addPoll, fetchAgenda, updatePollStatus, fetchPollData, getPollResults, getPollOrder, deletePoll } from './pollFunctions';
 // import { generateRoomHash, generatePollHash, compareHashes } from './hashFunctions';
@@ -20,7 +20,7 @@ import { fetchGet, fetchPost, fetchPut, fetchDelete } from "./fetchFunctions";
 // const checkRoomcode = async (host_id, room_id) => {
 const checkRoomcode = async (room_id) => {
     try {
-        let url = `https://facultyvoting.hamilton.edu:4000/room/CheckRoomcode?room_id=${room_id}`;
+        let url = `http://localhost:4000/room/CheckRoomcode?room_id=${room_id}`; //https://facultyvoting.hamilton.edu
         let response = await fetchGet(url);
         if(response.status === 200) {
             const data = await response.json();
@@ -54,10 +54,16 @@ const checkRoomcode = async (room_id) => {
 
 const fetchHostRooms = async (host_id) => {
     try {
-        let url = `https://facultyvoting.hamilton.edu:4000/room/fetchHostRooms?host_id=${host_id}`;
+        let url = `http://localhost:4000/room/fetchHostRooms?host_id=${host_id}`;
         let response = await fetchGet(url);
-        if(response.status === 200) {
-            return await response.json();
+
+        if(response.status == 200) {
+            const data = await response.json();
+            return data;
+        }
+        else if(response.status == 505) {
+            const data = await response.text();
+            alert(data);
         }
         else {
             throw `Failed to fetch rooms for host ${host_id}`;
@@ -70,7 +76,7 @@ const fetchHostRooms = async (host_id) => {
 const setRoomOrder = async (host_id, new_order) => {
     try {
         //console.log(new_order)
-        let url = `https://facultyvoting.hamilton.edu:4000/room/fetchHostRooms`;
+        let url = `http://localhost:4000/room/fetchHostRooms`;
         let response = await fetchPut(url, { host_id: host_id,
                                              new_order: new_order });
         const data = await response.json();
@@ -87,7 +93,7 @@ const setRoomOrder = async (host_id, new_order) => {
 
 const deleteHostRoom = async (host_id, room_id) => {
     try {
-        let url = `https://facultyvoting.hamilton.edu:4000/room/deleteHostRoom`;
+        let url = `http://localhost:4000/room/deleteHostRoom`;
         let response = await fetchDelete(url, { host_id: host_id, 
                                                 room_id: room_id });
         const data = await response.json();
@@ -102,14 +108,15 @@ const deleteHostRoom = async (host_id, room_id) => {
     }
 }
 
-const addHostRoom = async (host_id) => {
+const addHostRoom = async (host_id, user) => {
     // if (!userIsHost(host_id)) {
 	//     throw "user is not host";
     // } else {
         try {
-            let url = `https://facultyvoting.hamilton.edu:4000/room/addHostRoom`;
-            let response = await fetchPost(url, { //user_id: getToken(),
-                                                  host_id: host_id });
+            let user = firebase.auth().currentUser;
+            let url = `http://localhost:4000/room/addHostRoom`;
+            let response = await fetchPost(url, { host_id: host_id,
+                                                  user: user });
             const data = await response.json();
             if(response.status == 200) {
                 return data;
@@ -128,16 +135,23 @@ const updateRoom = async (host_id, room_id, room_state) => {
     //     throw "user is not host";
     // } else {
         try {
-            let url = `https://facultyvoting.hamilton.edu:4000/room/updateRoom`;
+            let user = firebase.auth().currentUser;
+            let url = `http://localhost:4000/room/updateRoom`;
             let response = await fetchPut(url, { host_id: host_id, 
                                                  room_id: room_id, 
-                                                 room_state: room_state });
-            const data = await response.json();
+                                                 room_state: room_state,
+                                                 user: user });
+            
+            // console.log(response)
             if(response.status == 200) {
+                const data = await response.json();
                 return data;
             }
+            else if(response.status == 505) {
+                const data = await response.text();
+                alert(data);
+            }
             else {
-                console.log(data)
                 throw `Failed to update room ${room_id} for host ${host_id}`;
             }
         } catch (error) {
@@ -155,13 +169,20 @@ const setPollOrder = async (host_id, room_id, new_order) => {
 	//     throw "user is not host";
     // } else {
         try {
-            let url = `https://facultyvoting.hamilton.edu:4000/room/setPollOrder`;
+            let user = firebase.auth().currentUser;
+            let url = `http://localhost:4000/room/setPollOrder`;
             let response = await fetchPut(url, { host_id: host_id, 
                                                  room_id: room_id, 
-                                                 new_order: new_order });
-            const data = await response.json();
+                                                 new_order: new_order,
+                                                 user: user });
+            
             if(response.status == 200) {
+                const data = await response.json();
                 return data;
+            }
+            else if(response.status == 505) {
+                const data = await response.text();
+                alert(data);
             }
             else {
                 throw `Failed to set poll order in room ${room_id} for host ${host_id}`;
@@ -175,7 +196,7 @@ const setPollOrder = async (host_id, room_id, new_order) => {
 
 const getHost = async (room_id) => {
     try {
-        let url = `https://facultyvoting.hamilton.edu:4000/room/getHost?room_id=${room_id}`;
+        let url = `http://localhost:4000/room/getHost?room_id=${room_id}`;
         let response = await fetchGet(url);
         const data = await response.json();
         if(response.status == 200) {
@@ -194,13 +215,20 @@ const updateRoomStatus = async (host_id, room_id, new_status) => {
 	//     throw "user is not host";
     // } else {
         try {
-            let url = `https://facultyvoting.hamilton.edu:4000/room/updateRoomStatus`;
+            let user = firebase.auth().currentUser;
+            let url = `http://localhost:4000/room/updateRoomStatus`;
             let response = await fetchPut(url, { host_id: host_id, 
                                                  room_id: room_id, 
-                                                 new_status: new_status });
-            const data = await response.json();
+                                                 new_status: new_status,
+                                                 user: user });
+            
             if(response.status == 200) {
+                const data = await response.json();
                 return data;
+            }
+            else if(response.status == 505) {
+                const data = await response.text();
+                alert(data);
             }
             else {
                 throw `Failed to update room status for room ${room_id} for host ${host_id}`;
@@ -214,7 +242,7 @@ const updateRoomStatus = async (host_id, room_id, new_status) => {
 
 const getRoomResults = async (host_id, room_id) => {
     try {
-        let url = `https://facultyvoting.hamilton.edu:4000/room/getRoomResults?host_id=${host_id}&room_id=${room_id}`;
+        let url = `http://localhost:4000/room/getRoomResults?host_id=${host_id}&room_id=${room_id}`;
         let response = await fetchGet(url);
         const data = await response.json();
         if(response.status == 200) {
@@ -230,7 +258,7 @@ const getRoomResults = async (host_id, room_id) => {
 
 const fetchRoomData = async (host_id, room_id) => {
     try {
-        let url = `https://facultyvoting.hamilton.edu:4000/room/fetchRoomData?host_id=${host_id}&room_id=${room_id}`;
+        let url = `http://localhost:4000/room/fetchRoomData?host_id=${host_id}&room_id=${room_id}`;
         let response = await fetchGet(url);
         const data = await response.json();
         if(response.status == 200) {

@@ -219,7 +219,7 @@ const generateVoteHash = async (vote, peppered_token, room_id, poll_id) => {
     console.log("voteHash: " + voteHash);
     return voteHash;
 }
-*/
+
 
 const compareHashes = async (map, fetched, type) => {
     // Given a map and a fetched hash, see if the hash is good.

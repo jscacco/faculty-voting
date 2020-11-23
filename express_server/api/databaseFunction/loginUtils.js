@@ -95,26 +95,26 @@ const userIsHost = async (user_token, host_id) => {
     }
 }
 
-const userIsVoter = async () => {
+const userIsVoter = async (user) => {
     // Return true if the current user is a voter
     // code from
     // https://stackoverflow.com/questions/53332471/checking-if-a-document-exists-in-a-firestore-collection
     //console.log("Checking if voter...");
     
     try {
-	let docRef = firestore
-	    .collection("voting")
-	    .doc(getUserId())
+		let docRef = firestore
+			.collection("voting")
+			.doc(getUserName(user))
 
-	let doc = await docRef.get();
+		let doc = await docRef.get();
 
-	if (doc.exists) {
-	    //console.log("User is a voter.");
-	    return true;
-	} else {
-	    //console.log("User isn't a voter.");
-	    return false;
-	}
+		if (doc.exists) {
+			//console.log("User is a voter.");
+			return true;
+		} else {
+			//console.log("User isn't a voter.");
+			return false;
+		}
     } catch(error) {
 	//console.log(error);
 	return false;
@@ -161,7 +161,8 @@ const isHostOfRoom = async (user_id, room_id) => {
 						.doc(room_id);
 
 		let doc = await docRef.get();
-
+		// console.log(user_id)
+		// console.log(room_id)
 		if (doc.exists) {
 			//console.log("current user is host of " + room_id);
 			return true;

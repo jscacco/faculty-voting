@@ -21,8 +21,11 @@ router.get('/checkRoomcode', async (req, res, next) => {
 router.get('/fetchHostRooms', async (req, res, next) => {
     try {
         let hostRooms = await roomFuncs.fetchHostRooms(req.query.host_id);
-        if(hostRooms) {
+        if(typeof hostRooms !== 'string') {
             res.status(200).send(hostRooms);
+        }
+        else if(hostRooms) {
+            res.status(505).send(hostRooms);
         }
         else {
             res.status(500).send("Failed to fetch host rooms!");
@@ -62,7 +65,7 @@ router.delete('/deleteHostRoom', async (req, res, next) => {
 
 router.post('/addHostRoom', async (req, res, next) => {
     try {
-        let hostRoom = await roomFuncs.addHostRoom(req.body.host_id);
+        let hostRoom = await roomFuncs.addHostRoom(req.body.host_id, req.body.user);
         if(hostRoom) {
             res.status(200).send(hostRoom);
         }
@@ -76,11 +79,14 @@ router.post('/addHostRoom', async (req, res, next) => {
 
 router.put('/updateRoom', async (req, res, next) => {
     try {
-        //console.log(req.body)
-        let status = await roomFuncs.updateRoom(req.body.host_id, req.body.room_id, req.body.room_state);
-        //console.log(status)
-        if(status) {
-            res.status(200).json(status);
+        // console.log(req.body)
+        let status = await roomFuncs.updateRoom(req.body.host_id, req.body.room_id, req.body.room_state, req.body.user);
+        // console.log(status)
+        if(typeof status !== 'string') {
+            res.status(200).send(status);
+        }
+        else if(status) {
+            res.status(505).send(status);
         }
         else {
             res.status(500).send("Failed to update Room!");
@@ -92,9 +98,12 @@ router.put('/updateRoom', async (req, res, next) => {
 
 router.put('/setPollOrder', async (req, res, next) => {
     try {
-        let order = await roomFuncs.setPollOrder(req.body.host_id, req.body.room_id, req.body.new_order);
-        if(order) {
+        let order = await roomFuncs.setPollOrder(req.body.host_id, req.body.room_id, req.body.new_order, req.body.user);
+        if(typeof order !== 'string') {
             res.status(200).send(order);
+        }
+        else if(order) {
+            res.status(505).send(order);
         }
         else {
             res.status(500).send("Failed to set poll order!");
@@ -120,9 +129,12 @@ router.get('/getHost', async (req, res, next) => {
 
 router.put('/updateRoomStatus', async (req, res, next) => {
     try {
-        let status = await roomFuncs.updateRoomStatus(req.body.host_id, req.body.room_id, req.body.new_status);
-        if(status) {
+        let status = await roomFuncs.updateRoomStatus(req.body.host_id, req.body.room_id, req.body.new_status, req.body.user);
+        if(typeof status !== 'string') {
             res.status(200).send(status);
+        }
+        else if(status) {
+            res.status(505).send(status);
         }
         else {
             res.status(500).send("Failed to update room status");
