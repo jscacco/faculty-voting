@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
+import { UserContext } from "../UserProvider";
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
@@ -52,13 +53,23 @@ const AgendaComponent = ( props ) => {
 
 const UserAgendaPage = ( props ) => {
 
+  const user = useContext(UserContext);
+  console.log('here')
+  console.log(user);
+
   const roomcode = props.match.params.roomcode;
   const { onFetchAgenda } = props;
 
   useEffect(() =>  {
+    if (user === null) {
+      console.log(user)}
+      // alert('Must login with Hamilton email');
+      // history.replace('/Login')}
+    // else { onFetchAgenda(roomcode); }
     onFetchAgenda(roomcode);
-  }, [roomcode, onFetchAgenda])
+  }, [user, roomcode, onFetchAgenda])
 
+  // if (user === null) { alert('Must login with Hamilton email'); history.replace('/Login')}
   if ( props.error ) { console.log(props.error); history.replace('/Login') }
 
   const onViewClick = (poll_id) => {

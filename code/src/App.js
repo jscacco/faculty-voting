@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
+
+import UserProvider from "./UserProvider";
 import Login from './pages/Login';
 
 class App extends Component {
   render(){
     return (
-      <Login />
+      <UserProvider>
+        <Login />
+      </UserProvider>
     );
   }
 }

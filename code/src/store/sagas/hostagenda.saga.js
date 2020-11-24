@@ -2,12 +2,14 @@ import { select, call, put }     												from "redux-saga/effects";
 import ActionTypes       																from '../actionTypes';
 import { fetchAgenda, addPoll, updatePollStatus } 		  from '../../databaseCommunication/pollFunctions';
 import { updateRoom, updateRoomStatus } 		  					from '../../databaseCommunication/roomFunctions';
-import { getUserId, userIsHostOfRoom } 									from '../../LoginUtils';
+import { getUser, getUserId, userIsHostOfRoom } 									from '../../LoginUtils';
 
 
 export function* fetchHostAgenda (action) {
 
 	try {
+		const user = yield call(getUser)
+		console.log(user)
 		const user_id = yield call(getUserId);
 		const response = yield call(() => fetchAgenda(user_id, action.room_id))
 
