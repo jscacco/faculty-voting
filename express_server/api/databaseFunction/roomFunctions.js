@@ -73,6 +73,7 @@ const fetchHostRooms = async (host_id) => {
                     // room = {'id': '', 'title': '', 'status': '', 'pollOrder': ''}
                     let hashComparison = await hashFuncs.compareHashes(roomWithPollOrder, doc.data()['roomHash'], "room");
                     if (!hashComparison) {
+                        closeRoom(host_id, doc.id);
                         return `!!Warning!! Data fetched from room ${room['id']} has a bad hash. This means that the data has been tampered with via the Firebase Console!`;
 		            }
                 }
@@ -360,6 +361,83 @@ const getHost = async (room_id) => {
     }
 }
 
+const closeRoom = async (host_id, room_id) => {
+    try {
+        const rooms = await fetchHostRooms(host_id)
+        const room = rooms.rooms[room_id];
+        const currentStatus = room.status;
+        const order = rooms.order;
+        order[currentStatus] = order[currentStatus].filter((i) => i !== room_id);
+        order['closed'].push(room_id);
+
+        await firestore
+                .collection('openRooms')
+                .doc(room_id)
+                .set({ host_id: host_id })
+
+        await firestore
+            .collection(host_id)
+            .doc(room_id)
+            .update({ status: 'closed' });
+
+        await setRoomOrder(host_id, order);
+
+        let newPollsOrder = room.pollOrder;
+        let allPolls = newPollsOrder['closed'].concat(newPollsOrder['open'], newPollsOrder['pending']);
+        
+        // check to see if already closed 
+        for (let i = 0; i < allPolls.length; i++) {
+            let poll_id = allPolls[i];
+
+            if(!newPollsOrder['closed'].includes(poll_id)) {
+                await pollFuncs.closePoll(host_id, room_id, poll_id);
+            }
+        }
+        
+        let roomData = {
+            id: room_id,
+            title: room.title,
+            status: 'closed',
+            hosts: room['hosts'],
+            pollOrder: await pollFuncs.getPollOrder(host_id, room_id)
+        }
+
+        await firestore
+            .collection(host_id)
+            .doc(room_id)
+            .update({ roomHash: await hashFuncs.generateRoomHash(roomData) });
+
+        const collect = firestore
+                            .collection(host_id)
+                            .doc(room_id)
+                            .collection('polls');
+
+        const collectSnap = await collect.get();
+        const collectData = collectSnap.docs;
+        const polls = {};
+        let new_order = {};
+
+        for (let i = 0; i < collectData.length; i++) {
+            const poll_id = collectData[i].id;
+
+            if(poll_id != 'order') {
+                polls[poll_id] = await pollFuncs.fetchPollData(host_id, room_id, poll_id);
+            }
+            else {
+                new_order = collectData[i].data();
+            }
+        }
+
+        return {
+            status: 'closed',
+            polls: {...polls},
+            order: new_order
+        }
+    } catch(error) {
+        console.log(error)
+    }
+}
+
 const updateRoomStatus = async (host_id, room_id, new_status, user) => {
     let user_id = loginFuncs.getUserName(user);
     if (!(await loginFuncs.isHostOfRoom(user_id, room_id))) {
@@ -503,3 +581,4 @@ exports.setPollOrder = setPollOrder;
 exports.updateRoomStatus = updateRoomStatus;
 exports.getRoomResults = getRoomResults;
 exports.getHost = getHost;
+exports.closeRoom = closeRoom;
