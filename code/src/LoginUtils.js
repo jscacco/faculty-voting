@@ -14,57 +14,56 @@ const signOutCurrentUser = async () => {
 const getCurrentUserEmail = () => {
     let email = "";
     if (fireauth.currentUser === null) {
-		email = "null";
+	email = "null";
     } else {
-		email = fireauth.currentUser.email;
+	email = fireauth.currentUser.email;
     }
     return email;
 }
 
-const getToken = () => {
-	if (fireauth.currentUser === null) {
-		return null;
-    } else {
-		return fireauth.currentUser.uid;
-    }
+
+const setPersistence = () => {
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
 }
 
+
 const userLogin = async () => {
-	//await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
     var provider = new firebase.auth.GoogleAuthProvider();
     provider.setCustomParameters({
 	'prompt': 'select_account'
     });
 
-    await fireauth.signInWithPopup(provider).then(function(result) {
-		// This gives you a Google Access Token. You can use it to access the Google API.
-		var token = result.credential.accessToken;
-		// The signed-in user info.
-		var user = result.user;
-		// ...
-    }).catch(function(error) {
-		// Handle Errors here.
-		var errorCode = error.code;
-		var errorMessage = error.message;
-		// The email of the user's account used.
-		var email = error.email;
-		// The firebase.auth.AuthCredential type that was used.
-		var credential = error.credential;
-		// ...
+    await fireauth.signInWithPopup(provider)
 
-		console.log(error);  // Handle Errors here.
-		var errorCode = error.code;
-		console.log(errorCode);
-
-		var errorMessage = error.message;
-		console.log(errorMessage);
-
-		signOutCurrentUser();
-    });
+    // await fireauth.signInWithPopup(provider).then(function(result) {
+// 	// This gives you a Google Access Token. You can use it to access the Google API.
+// 	var token = result.credential.accessToken;
+// 	// The signed-in user info.
+// 	var user = result.user;
+// 	// ...
+//     }).catch(function(error) {
+// 	// Handle Errors here.
+// 	var errorCode = error.code;
+// 	var errorMessage = error.message;
+// 	// The email of the user's account used.
+// 	var email = error.email;
+// 	// The firebase.auth.AuthCredential type that was used.
+// 	var credential = error.credential;
+// 	// ...
+//
+// 	console.log(error);  // Handle Errors here.
+// 	var errorCode = error.code;
+// 	console.log(errorCode);
+//
+// 	var errorMessage = error.message;
+// 	console.log(errorMessage);
+//
+// 	signOutCurrentUser();
+//     });
 }
 
-const userIsHamiltonian = async () => {
-    let email = await getCurrentUserEmail();
+const userIsHamiltonian = () => {
+    let email = getCurrentUserEmail();
     let result = (email.split('@')[1] == "hamilton.edu");
     return result;
 }
@@ -96,7 +95,7 @@ const userIsVoter = async () => {
     // try {
 	let docRef = firestore
 	    .collection("voting")
-	    .doc(user_id);
+	    .doc(user_id)
 
 	let doc = await docRef.get();
 
@@ -135,4 +134,14 @@ const userIsHostOfRoom = async (room_id) => {
 	}
 }
 
-export {userLogin, getUserId, getCurrentUserEmail, signOutCurrentUser, userIsHamiltonian, userIsHost, userIsVoter, getToken, userIsLoggedIn, userIsHostOfRoom};
+const getUser = async () => {
+  // return fireauth.currentUser
+  await firebase.auth().onAuthStateChanged((user) => {
+      if (user === null) { return Error('error')}
+        // set a local state as we do not have the current user yet
+      else { console.log('here'); return user }
+        // only now will  app.auth().currentUser give you a valid user
+ });
+}
+
+export { getUser, setPersistence, userLogin, getUserId, getCurrentUserEmail, signOutCurrentUser, userIsHamiltonian, userIsHost, userIsVoter, userIsLoggedIn, userIsHostOfRoom};

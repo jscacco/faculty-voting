@@ -1,5 +1,8 @@
 
 const ActionTypes = {
+    app: {
+      UPDATE_USER: 'UPDATE_USER'
+    },
     login: {
       HOST_LOGIN_START: 'HOST_LOGIN_START',
       HOST_LOGIN_SUCCESS: 'HOST_LOGIN_SUCCESS',

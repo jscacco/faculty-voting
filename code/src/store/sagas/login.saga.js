@@ -1,21 +1,27 @@
 import { call, put }     from "redux-saga/effects";
 import ActionTypes       from '../actionTypes';
-import { userLogin, signOutCurrentUser, userIsHamiltonian } from '../../LoginUtils.js';
+import { getUser, setPersistence, userLogin, signOutCurrentUser, userIsHamiltonian } from '../../LoginUtils.js';
+
+import firebase from '../../databaseCommunication/permissions.js'
+const fireauth = firebase.auth();
 
 
 const loginHandler = async () => {
-    await userLogin().then(() => {
-    	if (! userIsHamiltonian()) {
-          throw Error('Not a valid email.')
-    	}
-    });
+
 }
 
 export function* loginHost (action) {
 
 	try {
 
-    yield call(loginHandler);
+		// let user = yield call(getUser);
+		// console.log(user)
+		yield call(setPersistence);
+		// console.log('here')
+		yield call(userLogin);
+		// console.log('success')
+		//  user = yield call(getUser);
+		// console.log(user)
 		yield put({
 			type: ActionTypes.login.HOST_LOGIN_SUCCESS,
 		});
@@ -29,17 +35,27 @@ export function* loginHost (action) {
 	}
 };
 
+// const login_tester = ( provider ) => {
+//   try
+// }
+
 export function* loginUser (action) {
 
   	try {
-
-      yield call(loginHandler);
-
+			// let user = yield call(getUser);
+			// console.log(user)
+      yield call(setPersistence);
+      // console.log('here')
+      yield call(userLogin);
+      // console.log('success')
+			//  user = yield call(getUser);
+			// console.log(user)
   		yield put({
   			type: ActionTypes.login.USER_LOGIN_SUCCESS,
   		});
 
   	} catch(error) {
+      console.log(error)
   		yield put({
   			type: ActionTypes.login.USER_LOGIN_ERROR,
         error

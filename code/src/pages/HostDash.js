@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
+import { UserContext } from "../UserProvider";
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
@@ -51,13 +52,19 @@ const DashComponent = ( props ) => {
 
 const HostDashPage = ( props ) => {
 
-  const { onFetchRooms } = props;
+  // const user = useContext(UserContext);
+  const { user, onFetchRooms } = props;
 
   useEffect(() =>  {
+    console.log(user)
+    // if ( user === null ) {
+    //   history.replace('/Login', [])
+    // }
+    // else { onFetchRooms() };
     onFetchRooms();
-  }, [onFetchRooms])
+  }, [user, onFetchRooms])
 
-  if ( props.error ) { history.replace('/Login') }
+  if ( props.error && !props.loading ) { history.replace('/Login') }
 
   const onViewClick = (roomcode, roomStatus) => {
     if (roomStatus === 'closed') {
@@ -88,9 +95,10 @@ const HostDashPage = ( props ) => {
 const mapStateToProps = (state) => {
 
   return {
+    user: state.app.user,
     rooms: state.hostdash.rooms,
     order: state.hostdash.order,
-    loading: state.hostdash.loading,
+    loading: state.app.loading || state.hostdash.loading,
     error: state.hostdash.error,
   }
 }

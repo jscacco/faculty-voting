@@ -1,4 +1,4 @@
-import { call, put }     					from "redux-saga/effects";
+import { call, put, select }     					from "redux-saga/effects";
 import ActionTypes       					from '../actionTypes';
 import { fetchHostRooms,
 		 deleteHostRoom,
@@ -6,11 +6,26 @@ import { fetchHostRooms,
 import { getUserId,
          userIsHostOfRoom } 			from '../../LoginUtils';
 
+const userSelector = ( state ) => {
+	return { user: state.app.user,
+					 loading: state.user.app,
+	       }
+}
+
+const collectUserId = ( user ) => {
+	if (!user) { throw Error('Not logged in.') }
+
+	let email = user.email;
+	return email.split('@')[0];
+}
 
 export function* fetchRooms (action) {
 
 	try {
-		const user_id = yield call(getUserId);
+		const user= yield select(userSelector);
+		console.log('here')
+		const user_id = yield call(collectUserId, user);
+		console.log(user_id)
 		const response = yield call(fetchHostRooms, user_id);
 		yield put({
 			type: ActionTypes.hostdash.FETCH_ROOMS_SUCCESS,
