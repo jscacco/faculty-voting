@@ -9,6 +9,7 @@ const initialState = {
     'closed': [],
     'pending': []
   },
+  fileUploaded: null,
   editing: false,
   loading: false,
   error: null,
@@ -126,8 +127,6 @@ export default function reduceHostAgenda(state = initialState, action) {
         ...state,
         order: newOrder
       }
-    default:
-      return state;
 
     case ActionTypes.hostagenda.UPDATE_POLL_STATUS_START:
       return { ...state, loading: true, error: null };
@@ -168,5 +167,24 @@ export default function reduceHostAgenda(state = initialState, action) {
         error: result.error
       };
 
+    case ActionTypes.hostagenda.UPDATE_VOTERS_START:
+      return { ...state, loading: true, error: null };
+
+    case ActionTypes.hostagenda.UPDATE_VOTERS_SUCCESS:
+
+      return {
+        ...state,
+        fileUploaded: action.filename,
+        loading: false,
+      };
+    case ActionTypes.hostagenda.UPDATE_VOTERS_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: result.error
+      };
+
+    default:
+      return state;
   }
 }

@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import { Router, Route } from "react-router-dom";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
+import UserProvider from "./UserProvider";
+
+import { connect }          from 'react-redux';
 
 import Login       from "./pages/Login"
 import HostDash    from './pages/HostDash'
@@ -12,16 +15,14 @@ import PollResults from './pages/PollResults'
 import RoomResults from './pages/RoomResults'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 
-
-import history from './history';
-
 export default class Routes extends Component {
     render() {
         return (
-            <Router history={history}>
+            <Switch>
+                  <Route path="/" exact component={Login}/>
                   <Route path="/Login" exact component={Login}/>
                   <Route path="/HostDash" exact component={HostDash}/>
-                  <Route path='/Roomcode' exact component={Roomcode}/>
+                  <Route path="/Roomcode" exact component={Roomcode}/>
                   <Route path="/HostAgenda/:roomcode" exact component={HostAgenda}/>
                   <Route path="/UserAgenda/:roomcode" exact component={UserAgenda}/>
                   <Route path="/HostPoll/:roomcode/:pollcode" exact component={HostPoll}/>
@@ -30,7 +31,7 @@ export default class Routes extends Component {
                   <Route path="/RoomResults/:roomcode" exact component={RoomResults}/>
                   <Route path="/PrivacyPolicy" exact component={PrivacyPolicy}/>
                   <Route path="/:" exact component={Login}/>
-            </Router>
+            </Switch>
         )
     }
 }

@@ -2,7 +2,6 @@ import React, { useEffect }                from 'react';
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
-import history              from '../history';
 
 import LoadingCard              from '../components/cards/LoadingCard';
 
@@ -64,11 +63,15 @@ const UserPollPage = ( props ) => {
 
   const roomcode = props.match.params.roomcode;
   const pollcode = props.match.params.pollcode;
-  const { onFetchPoll } = props;
+  const { user, onFetchPoll, history } = props;
 
   useEffect(() =>  {
-    onFetchPoll(roomcode, pollcode);
-  }, [roomcode, pollcode, onFetchPoll])
+    if ( user === null) {
+      alert('Please login with Hamilton affiliated email to access.')
+      history.replace('/Login', [])
+    }
+    else if ( user !== undefined ){ onFetchPoll(roomcode, pollcode); }
+  }, [user, roomcode, pollcode, onFetchPoll, history])
 
   console.log(props);
 
@@ -95,13 +98,14 @@ const UserPollPage = ( props ) => {
 const mapStateToProps = (state) => {
 
   return {
+    user: state.auth.user,
     poll: state.userpoll.poll,
     userInput: state.userpoll.userInput,
     selection: state.userpoll.pollStatus.selection,
     submission: state.userpoll.pollStatus.submission,
     submissionStatus: state.userpoll.pollStatus.submitStatus,
     submitloading: state.userpoll.submitLoading,
-    loading: state.userpoll.loading,
+    loading: state.auth.user === undefined || state.hostagenda.loading,
     error: state.userpoll.error,
   }
 }
