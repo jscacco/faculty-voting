@@ -5,6 +5,10 @@ import PropTypes        from 'prop-types';
 import { Colors }       from './Colors';
 
 import logo             from './logo.png';
+import Button           from '../buttons/Button';
+import history          from '../../history';
+
+import { signOutCurrentUser } from '../../LoginUtils';
 
 const propTypes = {
   extraSmall: PropTypes.bool,
@@ -24,16 +28,29 @@ const Wrapper = styled.div`
 
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: space-between;
 `;
 
-const PageHeader = () => {
+const ButtonWrapper = styled.div`
+  position: relative;
+  /* minWidth: 200px; */
+`;
+
+const PageHeader = (props) => {
 
   return (
     <Wrapper>
       <a href="/login">
         <img src={logo} alt={'Logo'} height={'50vh'}/>
       </a>
+      <ButtonWrapper>
+        <a href="/login">
+          <Button twoExtraSmall onClick={signOutCurrentUser}>
+            Sign Out
+          </Button>
+        </a>
+      </ButtonWrapper>
     </Wrapper>
   )
 };
