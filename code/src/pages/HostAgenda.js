@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import styled                from 'styled-components';
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
@@ -12,6 +13,11 @@ import SideBarPage          from './format-pages/SideBarPage';
 import HostAgendaCard       from '../components/cards/HostAgendaCard';
 import HostEditAgendaCard   from '../components/cards/HostEditAgendaCard';
 import HostStatusCard       from '../components/cards/HostStatusCard'
+import HostUploadVotersCard from '../components/cards/HostUploadVotersCard';
+
+const SidePanelComponentWrapper = styled.div`
+  padding-bottom: 1vh;
+`;
 
 
 const getSize = (viewport) => {
@@ -40,6 +46,7 @@ const SideBarComponent = ( props ) => {
   const size = getSize(props.viewport)
 
   return (
+    props.editing ?
     <HostStatusCard editing={props.editing}
                     loading={props.loading}
                     pollStatus={props.pollStatus}
@@ -47,7 +54,26 @@ const SideBarComponent = ( props ) => {
                     headerColor={Colors.White}
                     textColor={Colors.White}
                     cardColor={`none`} borderColor={Colors.White}
-                    {...size}/>
+                    {...size}/> :
+    <>
+      <SidePanelComponentWrapper>
+        <HostStatusCard editing={props.editing}
+                        loading={props.loading}
+                        pollStatus={props.pollStatus}
+                        onStatusClick={props.onStatusClick}
+                        headerColor={Colors.White}
+                        textColor={Colors.White}
+                        cardColor={`none`} borderColor={Colors.White}
+                        {...size}/>
+      </SidePanelComponentWrapper>
+      <HostUploadVotersCard loading={props.loading}
+                            onUpload={props.onUpload}
+                            headerColor={Colors.White}
+                            textColor={Colors.White}
+                            cardColor={`none`} borderColor={Colors.White}
+                            fileUploaded={props.fileUploaded}
+                            {...size}/>
+  </>
   )
 }
 
@@ -102,6 +128,8 @@ const HostRoomPage = ( props ) => {
 
   if ( props.error ) { alert('Error! Please try again.'); history.replace('/HostDash') }
 
+  console.log(props)
+
   const cardProps = {
     roomcode: roomcode,
     title: props.title,
@@ -130,7 +158,9 @@ const HostRoomPage = ( props ) => {
   const sideContent = <SideBarComponent editing={props.editing}
                                         loading={props.loading}
                                         pollStatus={props.status}
-                                        onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, newStatus)}/>
+                                        onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, newStatus)}
+                                        onUpload={(filename, voters) => props.onUploadVoters(roomcode, filename, voters)}
+                                        fileUploaded={props.fileUploaded}/>
 
   return (
     <ViewportHandler>
@@ -161,6 +191,7 @@ const mapStateToProps = (state) => {
     status: state.hostagenda.status,
     polls: state.hostagenda.polls,
     order: state.hostagenda.order,
+    fileUploaded: state.hostagenda.fileUploaded,
     editing: state.hostagenda.editing,
     loading: state.auth.user === undefined || state.hostagenda.loading,
     error: state.hostagenda.error,
@@ -186,6 +217,8 @@ const mapDispatchToProps = dispatch => {
                                                               room_id, poll_id, newStatus }),
     onUpdateStatus: (room_id, newStatus) => dispatch({ type:ActionTypes.hostagenda.UPDATE_ROOM_STATUS_START,
                                                     room_id, newStatus }),
+    onUploadVoters: (room_id, filename, voters) => dispatch({ type:ActionTypes.hostagenda.UPDATE_VOTERS_START,
+                                                              room_id, voters, filename }),
 
   }
 }

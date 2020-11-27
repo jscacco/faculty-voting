@@ -120,3 +120,24 @@ export function* changeRoomStatus (action) {
 
 	}
 };
+
+export function* updateVoters ( action ) {
+	try {
+		// yield call(uploadVoters, action.room_id, action.voters)
+		console.log(action.room_id)
+		console.log(action.voters)
+		const filename = action.filename
+		yield put({
+			type: ActionTypes.hostagenda.UPDATE_VOTERS_SUCCESS,
+			filename
+		});
+
+	} catch(error) {
+
+		yield put({
+			type: ActionTypes.hostagenda.UPDATE_VOTERS_ERROR,
+					error
+		});
+
+	}
+}
