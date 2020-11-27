@@ -1,7 +1,7 @@
 import { select, call, put }     												from "redux-saga/effects";
 import ActionTypes       																from '../actionTypes';
 import { fetchAgenda, addPoll, updatePollStatus } 		  from '../../databaseCommunication/pollFunctions';
-import { updateRoom, updateRoomStatus } 		  					from '../../databaseCommunication/roomFunctions';
+import { updateRoom, updateRoomStatus, uploadVoters } 		  					from '../../databaseCommunication/roomFunctions';
 import { getUserId, userIsHostOfRoom } 									from '../../LoginUtils';
 
 
@@ -123,9 +123,9 @@ export function* changeRoomStatus (action) {
 
 export function* updateVoters ( action ) {
 	try {
-		// yield call(uploadVoters, action.room_id, action.voters)
-		console.log(action.room_id)
-		console.log(action.voters)
+		yield call(uploadVoters, action.room_id, action.voters)
+		// console.log(action.room_id)
+		// console.log(action.voters)
 		const filename = action.filename
 		yield put({
 			type: ActionTypes.hostagenda.UPDATE_VOTERS_SUCCESS,

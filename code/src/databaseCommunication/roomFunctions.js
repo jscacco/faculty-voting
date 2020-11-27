@@ -272,4 +272,23 @@ const fetchRoomData = async (host_id, room_id) => {
     }
 }
 
-export { fetchRoomData, fetchHostRooms, deleteHostRoom, addHostRoom, updateRoom, setRoomOrder, checkRoomcode, setPollOrder, updateRoomStatus, getRoomResults, getHost }
+const uploadVoters = async (room_id, voters) => {
+    try {
+        let url = `http://localhost:4000/room/uploadVoters`;
+        let response = await fetchPut(url, {
+                                                room_id: room_id,
+                                                voters: voters
+                                           });
+        const data = await response.json();
+        if(response.status == 200) {
+            return data;
+        }
+        else {
+            throw `Failed to fetch upload voters for room ${room_id}`;
+        }
+    } catch(error) {
+        console.log(error);
+    }
+}
+
+export { fetchRoomData, fetchHostRooms, deleteHostRoom, addHostRoom, updateRoom, setRoomOrder, checkRoomcode, setPollOrder, updateRoomStatus, getRoomResults, getHost, uploadVoters }
