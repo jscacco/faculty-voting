@@ -6,17 +6,20 @@ import { getUserId, userIsHostOfRoom } 									from '../../LoginUtils';
 
 
 export function* fetchHostAgenda (action) {
-
+	console.log('what')
 	try {
+		console.log('here')
 		const user_id = yield call(getUserId);
+		console.log(user_id)
 		const response = yield call(() => fetchAgenda(user_id, action.room_id))
-
+		console.log(response)
 		yield put({
 			type: ActionTypes.hostagenda.FETCH_AGENDA_SUCCESS,
 			response
 		});
 
 	} catch(error) {
+		console.log('error')
 		yield put({
 			type: ActionTypes.hostagenda.FETCH_AGENDA_ERROR,
       error

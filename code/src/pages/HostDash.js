@@ -53,18 +53,19 @@ const DashComponent = ( props ) => {
 const HostDashPage = ( props ) => {
 
   // const user = useContext(UserContext);
-  const { user, onFetchRooms } = props;
+  console.log(props);
+  const { user, onFetchRooms, history } = props;
 
   useEffect(() =>  {
     console.log(user)
-    // if ( user === null ) {
-    //   history.replace('/Login', [])
-    // }
-    // else { onFetchRooms() };
-    onFetchRooms();
-  }, [user, onFetchRooms])
+    if ( user === null) {
+      alert('Please login with Hamilton affiliated email to access.')
+      history.replace('/Login', [])
+    }
+    else if ( user !== undefined ){ onFetchRooms() };
+  }, [user, onFetchRooms, history])
 
-  if ( props.error && !props.loading ) { history.replace('/Login') }
+  if ( props.error ) { alert('Error! Please try again.'); history.replace('/HostDash') }
 
   const onViewClick = (roomcode, roomStatus) => {
     if (roomStatus === 'closed') {
@@ -95,10 +96,10 @@ const HostDashPage = ( props ) => {
 const mapStateToProps = (state) => {
 
   return {
-    user: state.app.user,
+    user: state.auth.user,
     rooms: state.hostdash.rooms,
     order: state.hostdash.order,
-    loading: state.app.loading || state.hostdash.loading,
+    loading: state.auth.user === undefined || state.hostdash.loading,
     error: state.hostdash.error,
   }
 }

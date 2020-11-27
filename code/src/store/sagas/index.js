@@ -1,6 +1,8 @@
-import { takeLatest }             from "redux-saga/effects";
+import { takeLatest, fork, take, }             from "redux-saga/effects";
+
 import ActionTypes                from '../actionTypes';
 
+import { syncUser } from './auth.saga'
 import { loginHost, loginUser }  from './login.saga';
 import { validateRoomcode }   from './roomcode.saga'
 import { fetchRooms,
@@ -24,6 +26,7 @@ import { fetchRoomResults } from './roomresults.saga';
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 
 export function* watcherSaga() {
+    yield fork(syncUser)
     yield takeLatest(ActionTypes.login.HOST_LOGIN_START, loginHost);
     yield takeLatest(ActionTypes.login.USER_LOGIN_START, loginUser);
     yield takeLatest(ActionTypes.roomcode.CHECK_ROOMCODE_START, validateRoomcode);

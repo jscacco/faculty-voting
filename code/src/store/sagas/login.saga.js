@@ -18,7 +18,7 @@ export function* loginHost (action) {
 		// console.log(user)
 		yield call(setPersistence);
 		// console.log('here')
-		yield call(userLogin);
+		yield call(userLogin, 'host');
 		// console.log('success')
 		//  user = yield call(getUser);
 		// console.log(user)
@@ -46,7 +46,7 @@ export function* loginUser (action) {
 			// console.log(user)
       yield call(setPersistence);
       // console.log('here')
-      yield call(userLogin);
+      yield call(userLogin, 'user');
       // console.log('success')
 			//  user = yield call(getUser);
 			// console.log(user)

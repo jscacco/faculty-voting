@@ -55,16 +55,18 @@ const LoginComponent = ( props ) => {
 
 const LoginPage = ( props ) => {
 
+  console.log(props)
+
   if (props.error) {
     props.onLogout();
     alert("Please log in with a Hamilton account. (And enable pop-ups if you don't see the login window appear)");
   }
 
   if (props.loginType === 'host') {
-    history.push('/HostDash');
+    props.history.push('/HostDash');
   }
   else if (props.loginType === 'user') {
-    history.push('/Roomcode')
+    props.history.push('/Roomcode')
   }
 
   return (

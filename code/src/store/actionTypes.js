@@ -1,6 +1,6 @@
 
 const ActionTypes = {
-    app: {
+    auth: {
       UPDATE_USER: 'UPDATE_USER'
     },
     login: {

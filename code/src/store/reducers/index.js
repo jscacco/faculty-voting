@@ -1,5 +1,5 @@
 import { combineReducers } 	  from 'redux';
-import app                    from './app.reducer'
+import auth                    from './auth.reducer'
 import login                  from './login.reducer';
 import roomcode               from './roomcode.reducer'
 import hostdash  						  from './hostdash.reducer';
@@ -11,7 +11,7 @@ import pollresults            from './pollresults.reducer';
 import roomresults            from './roomresults.reducer';
 
 export default combineReducers({
-  app,
+  auth,
   login,
   roomcode,
   hostdash,

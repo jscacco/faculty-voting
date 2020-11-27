@@ -3,8 +3,6 @@ import React, { useEffect } from 'react';
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
 
-import history              from '../history';
-
 import LoadingCard              from '../components/cards/LoadingCard';
 
 import { Colors }           from '../components/theme/Colors';
@@ -92,13 +90,17 @@ const AgendaComponent = ( props ) => {
 const HostRoomPage = ( props ) => {
 
   const roomcode = props.match.params.roomcode;
-  const { onFetchAgenda } = props;
+  const { user, onFetchAgenda, history } = props;
 
   useEffect(() =>  {
-    onFetchAgenda(roomcode);
-  }, [roomcode, onFetchAgenda])
+    if ( user === null) {
+      alert('Please login with Hamilton affiliated email to access.')
+      history.replace('/Login', [])
+    }
+    else if ( user !== undefined ){ onFetchAgenda(roomcode); }
+  }, [user, roomcode, onFetchAgenda, history])
 
-  if ( props.error ) { console.log(props.error); history.replace('/Login') }
+  if ( props.error ) { alert('Error! Please try again.'); history.replace('/HostDash') }
 
   const cardProps = {
     roomcode: roomcode,
@@ -154,12 +156,13 @@ const HostRoomPage = ( props ) => {
 const mapStateToProps = (state) => {
 
   return {
+    user: state.auth.user,
     title: state.hostagenda.title,
     status: state.hostagenda.status,
     polls: state.hostagenda.polls,
     order: state.hostagenda.order,
     editing: state.hostagenda.editing,
-    loading: state.hostagenda.loading,
+    loading: state.auth.user === undefined || state.hostagenda.loading,
     error: state.hostagenda.error,
   }
 }

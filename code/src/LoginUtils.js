@@ -27,10 +27,10 @@ const setPersistence = () => {
 }
 
 
-const userLogin = async () => {
+const userLogin = async (loginType) => {
     var provider = new firebase.auth.GoogleAuthProvider();
     provider.setCustomParameters({
-	'prompt': 'select_account'
+	     'prompt': 'select_account'
     });
 
     await fireauth.signInWithPopup(provider)

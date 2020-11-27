@@ -36,12 +36,16 @@ const ResultsComponent = (props) => {
 
 const PollResultsPage = ( props ) => {
 
-  const { roomResults, onFetchResults } = props;
+  const { user, roomResults, onFetchResults, history } = props;
   const roomcode = props.match.params.roomcode;
 
   useEffect(() =>  {
-    onFetchResults(roomcode);
-  }, [roomcode, onFetchResults])
+    if ( user === null) {
+      alert('Please login with Hamilton affiliated email to access.')
+      history.replace('/Login', [])
+    }
+    else if ( user !== undefined ){ onFetchResults(roomcode); }
+  }, [user, roomcode, onFetchResults, history])
 
   return (
     <ViewportHandler>
@@ -55,8 +59,9 @@ const PollResultsPage = ( props ) => {
 const mapStateToProps = (state) => {
 
   return {
+    user: state.auth.user,
     roomResults: state.roomresults.roomResults,
-    loading: state.roomresults.loading
+    loading: state.auth.user === undefined || state.hostagenda.loading,
   }
 }
 
