@@ -279,9 +279,9 @@ const uploadVoters = async (room_id, voters) => {
                                                 room_id: room_id,
                                                 voters: voters
                                            });
-        const data = await response.json();
+        //const data = await response.json();
         if(response.status == 200) {
-            return data;
+            return;
         }
         else {
             throw `Failed to fetch upload voters for room ${room_id}`;

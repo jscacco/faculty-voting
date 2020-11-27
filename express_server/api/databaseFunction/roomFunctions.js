@@ -580,12 +580,17 @@ const fetchRoomData = async (host_id, room_id) => {
 
 const uploadVoters = async (room_id, voters) => {
     try {
+        voters = voters.flat();
+        voters = voters.filter((i) => i !== '');
+
         await firestore
                 .collection('voting')
                 .doc(room_id)
                 .set({
                     voters: voters
                 });
+
+        return true;
     } catch(error) {
         console.log(error);
     }

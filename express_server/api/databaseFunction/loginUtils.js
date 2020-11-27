@@ -92,7 +92,6 @@ const userIsHost = async (user_token, host_id) => {
 
 const userIsVoter = async (room_id, user) => {
     // Return true if the current user is a voter
-
     try {
 		let docSnap = await firestore
 								.collection("voting")
@@ -100,6 +99,7 @@ const userIsVoter = async (room_id, user) => {
 								.get();
 
 		let voters = docSnap.data()['voters'];
+		console.log(voters)
 		let user_id = getUserName(user);
 
 		// if no group of voters has been specified, allow everyone to vote

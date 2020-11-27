@@ -470,7 +470,7 @@ const getPollResults = async (user_id, room_id, poll_id, host_id = null) => {
 }
 
 const submitVote = async (user_id, room_id, poll_id, selection, submission, userInput) => {
-    if(!await loginFuncs.userIsVoter(user_id)) {
+    if(!await loginFuncs.userIsVoter(room_id, user_id)) {
         return "You are not elligible to vote";
     }
     else {

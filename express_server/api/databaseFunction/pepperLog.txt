@@ -30,3 +30,11 @@ pepperedToken: 2526d523977d0f902e42c59cc9a57843021c2d4cdfa4b8d94c0aecd09c96dc0b
 
 
 
+Peppering 0GdL6XwmarfIOlXTTHDR7CcLZC32 for poll 07 in room 1157.
+
+Pepper: 5L9l2MybVvbsRSQ2ps2kWb7MgMEHhld59qfeTef4J4PTmDM0
+
+pepperedToken: c96f5aea2bef37fa9294e46751bf7ada2207f44b63e6eadd967d38c517cb2ccd
+
+
+

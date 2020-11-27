@@ -169,4 +169,19 @@ router.get('/fetchRoomData', async (req, res, next) => {
     }
 });
 
+router.put('/uploadVoters', async (req, res, next) => {
+    try {
+        
+        let data = await roomFuncs.uploadVoters(req.body.room_id, req.body.voters);
+        if(data) {
+            res.status(200).send(data);
+        }
+        else {
+            res.status(500).send("Failed to upload voters");
+        }
+    } catch (error) {
+        return next(error);
+    }
+});
+
 module.exports = router;
