@@ -1,9 +1,8 @@
-import React                from 'react';
+import React, { useEffect }                 from 'react';
 import styled               from 'styled-components';
 
 import { connect }          from 'react-redux';
 import ActionTypes           from '../store/actionTypes';
-import history              from '../history';
 
 import ViewportHandler      from './format-pages/ViewportHandler';
 import { Colors }           from '../components/theme/Colors';
@@ -52,6 +51,15 @@ const RoomcodeComponent = ( props ) => {
 
 const RoomCodeScreen = ( props ) => {
 
+  const { user, history } = props;
+
+  useEffect(() =>  {
+    if ( user === null) {
+      alert('Please login with Hamilton affiliated email to access.')
+      history.replace('/Login', [])
+    }
+  }, [user, history])
+
   if (props.submitted && !props.loading) {
     if (props.error) {
       props.resetCode();
@@ -89,9 +97,10 @@ const RoomCodeScreen = ( props ) => {
 const mapStateToProps = (state) => {
 
   return {
+    user: state.auth.user,
     roomcode: state.roomcode.roomcode,
     submitted: state.roomcode.submitted,
-    loading: state.roomcode.loading,
+    loading: state.auth.user === undefined || state.hostagenda.loading,
     error: state.roomcode.error
   }
 }

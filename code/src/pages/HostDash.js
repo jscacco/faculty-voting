@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
+import { UserContext } from "../UserProvider";
 
 import { connect }          from 'react-redux';
 import ActionTypes          from '../store/actionTypes';
@@ -51,13 +52,20 @@ const DashComponent = ( props ) => {
 
 const HostDashPage = ( props ) => {
 
-  const { onFetchRooms } = props;
+  // const user = useContext(UserContext);
+  console.log(props);
+  const { user, onFetchRooms, history } = props;
 
   useEffect(() =>  {
-    onFetchRooms();
-  }, [onFetchRooms])
+    console.log(user)
+    if ( user === null) {
+      alert('Please login with Hamilton affiliated email to access.')
+      history.replace('/Login', [])
+    }
+    else if ( user !== undefined ){ onFetchRooms() };
+  }, [user, onFetchRooms, history])
 
-  if ( props.error ) { history.replace('/Login') }
+  if ( props.error ) { alert('Error! Please try again.'); history.replace('/HostDash') }
 
   const onViewClick = (roomcode, roomStatus) => {
     if (roomStatus === 'closed') {
@@ -88,9 +96,10 @@ const HostDashPage = ( props ) => {
 const mapStateToProps = (state) => {
 
   return {
+    user: state.auth.user,
     rooms: state.hostdash.rooms,
     order: state.hostdash.order,
-    loading: state.hostdash.loading,
+    loading: state.auth.user === undefined || state.hostdash.loading,
     error: state.hostdash.error,
   }
 }

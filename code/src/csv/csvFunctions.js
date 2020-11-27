@@ -20,4 +20,16 @@ const formatResultsAsCSV = (roomResults) => {
   return csv
 }
 
-export  { formatResultsAsCSV };
+const convertCSVtoList = ( data ) => {
+
+  const newList = [];
+
+  for ( let i = 0; i < data.length; i++) {
+    newList.push(data[i])
+  }
+
+  return newList
+
+}
+
+export  { formatResultsAsCSV, convertCSVtoList };

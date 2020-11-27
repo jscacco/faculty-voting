@@ -9,8 +9,7 @@ import createSagaMiddleware               from 'redux-saga';
 import rootReducer                        from './store/reducers/index';
 import { watcherSaga }                    from './store/sagas/index';
 
-import App                                from './App';
-import Routes                             from './Routes';
+import App                             from './App';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -22,7 +21,6 @@ ReactDOM.render(
     <Router>
       <div className="App">
         <App />
-        <Routes />
       </div>
     </Router>
   </Provider>,

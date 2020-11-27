@@ -1,22 +1,25 @@
 import { select, call, put }     												from "redux-saga/effects";
 import ActionTypes       																from '../actionTypes';
 import { fetchAgenda, addPoll, updatePollStatus } 		  from '../../databaseCommunication/pollFunctions';
-import { updateRoom, updateRoomStatus } 		  					from '../../databaseCommunication/roomFunctions';
+import { updateRoom, updateRoomStatus, uploadVoters } 		  					from '../../databaseCommunication/roomFunctions';
 import { getUserId, userIsHostOfRoom } 									from '../../LoginUtils';
 
 
 export function* fetchHostAgenda (action) {
-
+	console.log('what')
 	try {
+		console.log('here')
 		const user_id = yield call(getUserId);
+		console.log(user_id)
 		const response = yield call(() => fetchAgenda(user_id, action.room_id))
-
+		console.log(response)
 		yield put({
 			type: ActionTypes.hostagenda.FETCH_AGENDA_SUCCESS,
 			response
 		});
 
 	} catch(error) {
+		console.log('error')
 		yield put({
 			type: ActionTypes.hostagenda.FETCH_AGENDA_ERROR,
       error
@@ -117,3 +120,24 @@ export function* changeRoomStatus (action) {
 
 	}
 };
+
+export function* updateVoters ( action ) {
+	try {
+		yield call(uploadVoters, action.room_id, action.voters)
+		// console.log(action.room_id)
+		// console.log(action.voters)
+		const filename = action.filename
+		yield put({
+			type: ActionTypes.hostagenda.UPDATE_VOTERS_SUCCESS,
+			filename
+		});
+
+	} catch(error) {
+
+		yield put({
+			type: ActionTypes.hostagenda.UPDATE_VOTERS_ERROR,
+					error
+		});
+
+	}
+}

@@ -6,11 +6,10 @@ import { fetchHostRooms,
 import { getUserId,
          userIsHostOfRoom } 			from '../../LoginUtils';
 
-
 export function* fetchRooms (action) {
 
 	try {
-		const user_id = yield call(getUserId);
+		const user_id = yield call(getUserId)
 		const response = yield call(fetchHostRooms, user_id);
 		yield put({
 			type: ActionTypes.hostdash.FETCH_ROOMS_SUCCESS,
@@ -18,6 +17,7 @@ export function* fetchRooms (action) {
 		});
 
 	} catch(error) {
+		console.log('error')
 		yield put({
 			type: ActionTypes.hostdash.FETCH_ROOMS_ERROR,
       		error

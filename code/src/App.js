@@ -1,12 +1,11 @@
-import React, {Component} from 'react';
-import Login from './pages/Login';
+import React  from 'react';
+import Routes from "./Routes";
 
-class App extends Component {
-  render(){
-    return (
-      <Login />
-    );
-  }
+
+const App = ( props ) => {
+
+  return (
+      <Routes/>
+    )
 }
-
 export default App;
