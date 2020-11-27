@@ -339,15 +339,11 @@ const closePoll = async (host_id, room_id, poll_id) => {
                     status: 'closed',
                     pollHash: newHash
                 });
-
-        const polls = await fetchAgenda(host_id, room_id);
         
         await countVotes(host_id, room_id, poll_id);
         
-        return {
-            polls: polls['polls'],
-            order: newOrder
-        }
+        return await fetchPollData(host_id, room_id, poll_id, true);
+
     } catch (error) {
         console.log(error);
     }
