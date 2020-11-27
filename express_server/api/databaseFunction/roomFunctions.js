@@ -16,7 +16,7 @@ function generateRoomCode() {
 
 const checkRoomcode = async (room_id) => {
     try {
-        const docRef = firestore.collection('openRooms').doc(room_id);
+        const docRef = firestore.collection('liveRooms').doc(room_id);
         const doc = await docRef.get();
 
         if(doc.exists) {
@@ -73,7 +73,7 @@ const fetchHostRooms = async (host_id) => {
                     // room = {'id': '', 'title': '', 'status': '', 'pollOrder': ''}
                     let hashComparison = await hashFuncs.compareHashes(roomWithPollOrder, doc.data()['roomHash'], "room");
                     if (!hashComparison) {
-                        closeRoom(host_id, doc.id);
+                        await closeRoom(host_id, doc.id);
                         return `!!Warning!! Data fetched from room ${room['id']} has a bad hash. This means that the data has been tampered with via the Firebase Console!`;
 		            }
                 }
@@ -140,7 +140,8 @@ const deleteHostRoom = async (host_id, room_id) => {
             await setRoomOrder(host_id, order);
             delete rooms[room_id];
 
-            await firestore.collection('openRooms').doc(room_id).delete();
+            await firestore.collection('liveRooms').doc(room_id).delete();
+            await firestore.collection('voting').doc(room_id).delete();
         }
 
         return {
@@ -210,9 +211,16 @@ const addHostRoom = async (host_id, user) => {
             });
 
         await firestore
-            .collection(host_id)
-            .doc(roomCode)
-            .set(room);
+                .collection(host_id)
+                .doc(roomCode)
+                .set(room);
+            
+        await firestore
+                .collection('voting')
+                .doc(roomCode)
+                .set({
+                    voting: []
+                });
 
         await pollFuncs.addPoll(host_id, roomCode, user);
             
@@ -350,7 +358,7 @@ const setPollOrder = async (host_id, room_id, new_order, user) => {
 const getHost = async (room_id) => {
     try {
         let docRef = firestore
-                        .collection('openRooms')
+                        .collection('liveRooms')
                         .doc(room_id);
         let docSnap = await docRef.get();
         let docData = docSnap.data();
@@ -371,7 +379,7 @@ const closeRoom = async (host_id, room_id) => {
         order['closed'].push(room_id);
 
         await firestore
-                .collection('openRooms')
+                .collection('liveRooms')
                 .doc(room_id)
                 .set({ host_id: host_id })
 
@@ -460,7 +468,7 @@ const updateRoomStatus = async (host_id, room_id, new_status, user) => {
 
             if (new_status === 'open') {
                 await firestore
-                    .collection('openRooms')
+                    .collection('liveRooms')
                     .doc(room_id)
                     .set({ host_id: host_id })
             }
@@ -570,6 +578,19 @@ const fetchRoomData = async (host_id, room_id) => {
     }
 }
 
+const uploadVoters = async (room_id, voters) => {
+    try {
+        await firestore
+                .collection('voting')
+                .doc(room_id)
+                .set({
+                    voters: voters
+                });
+    } catch(error) {
+        console.log(error);
+    }
+}
+
 exports.fetchRoomData = fetchRoomData;
 exports.fetchHostRooms = fetchHostRooms;
 exports.deleteHostRoom = deleteHostRoom;
@@ -582,3 +603,4 @@ exports.updateRoomStatus = updateRoomStatus;
 exports.getRoomResults = getRoomResults;
 exports.getHost = getHost;
 exports.closeRoom = closeRoom;
+exports.uploadVoters = uploadVoters;

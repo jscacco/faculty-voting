@@ -20,6 +20,21 @@ router.get('/fetchPollData', async function(req, res, next) {
     }
 });
 
+router.get('/closePoll', async function(req, res, next) {
+    try {
+        let data = await pollFuncs.closePoll(req.query.host_id, req.query.room_id, req.query.poll_id);
+
+        if(data) {
+            res.status(200).send(data);
+        }
+        else {
+            res.status(500).send("Failed to fetch poll data");
+        }
+    } catch(error) {
+        return next(error);
+    }
+});
+
 router.put('/updatePoll', async function(req, res, next) {
     try {
         let new_poll = await pollFuncs.updatePoll(req.body.host_id, req.body.room_id, req.body.poll_id, req.body.poll_state, req.body.user);

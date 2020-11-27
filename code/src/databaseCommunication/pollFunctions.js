@@ -32,9 +32,28 @@ const fetchPollData = async (host_id, room_id, poll_id) => {
         else if(response.status == 505) {
             const data = await response.text();
             alert(data);
+            return await closePoll(host_id, room_id, poll_id);
         }
         else {
             throw `Failed to fetch poll data for poll ${poll_id} in room ${room_id} from host ${host_id}`;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const closePoll = async (host_id, room_id, poll_id) => {
+    try {
+        let url = `http://localhost:4000/poll/closePoll?host_id=${host_id}&room_id=${room_id}&poll_id=${poll_id}`;
+        let response = await fetchGet(url);
+
+        if(response.status == 200) {
+            const data = await response.json();
+            console.log(data)
+            return data;
+        }
+        else {
+            throw `Failed to close poll ${poll_id} in room ${room_id} from host ${host_id}`;
         }
     } catch (error) {
         console.log(error);

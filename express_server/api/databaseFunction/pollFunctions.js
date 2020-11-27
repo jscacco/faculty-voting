@@ -75,7 +75,7 @@ const fetchPollData = async (host_id, room_id, poll_id, fetch=false) => {
         
         if (!hashComparison && !fetch) {
             // roomFuncs.closeRoom(host_id, room_id);
-            closePoll(host_id, room_id, poll_id);
+            // await closePoll(host_id, room_id, poll_id);
             return `!!Warning!! Data fetched from poll ${docData['title']} has a bad hash. This means that the data has been tampered with via the Firebase Console!`;
         }
 
@@ -145,7 +145,7 @@ const fetchAgenda = async (host_id, room_id) => {
 
         let hashComparison = await hashFuncs.compareHashes(room, fetchedHash, "room");
         if (!hashComparison) {
-            roomFuncs.closeRoom(host_id, room_id);
+            await roomFuncs.closeRoom(host_id, room_id);
             return `!!Warning!! Data fetched from agenda ${room['id']} has a bad hash. This means that the data has been tampered with via the Firebase Console!`;
         }
 
@@ -276,7 +276,7 @@ const addPoll = async (host_id, room_id, user) => {
 const closePoll = async (host_id, room_id, poll_id) => {
     try {
         await firestore
-                .collection('openRooms')
+                .collection('liveRooms')
                 .doc(room_id)
                 .set({ host_id: host_id })
 
@@ -404,7 +404,7 @@ const getPollResults = async (user_id, room_id, poll_id, host_id = null) => {
         host_id = await roomFuncs.getHost(room_id);
     }
     try {
-        let poll = await fetchPollData(host_id, room_id, poll_id);
+        let poll = await fetchPollData(host_id, room_id, poll_id, true);
         let options = poll.options;
         let results = {};
         let voteRef = firestore

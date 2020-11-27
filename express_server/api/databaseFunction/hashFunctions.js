@@ -199,7 +199,7 @@ const deletePollPepper = async (room_id, poll_id) => {
             return;
         } 
         else {
-            console.alert("No pepper data to delete for poll " + poll_id + " in " + room_id + ".");
+            //console.alert("No pepper data to delete for poll " + poll_id + " in " + room_id + ".");
             return;
         }
     } 

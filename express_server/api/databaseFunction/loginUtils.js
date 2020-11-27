@@ -90,21 +90,23 @@ const userIsHost = async (user_token, host_id) => {
     }
 }
 
-const userIsVoter = async (user) => {
+const userIsVoter = async (room_id, user) => {
     // Return true if the current user is a voter
-    // code from
-    // https://stackoverflow.com/questions/53332471/checking-if-a-document-exists-in-a-firestore-collection
-   
+
     try {
-		let docRef = firestore
-			.collection("voting")
-			.doc(getUserName(user))
+		let docSnap = await firestore
+								.collection("voting")
+								.doc(room_id)
+								.get();
 
-		let doc = await docRef.get();
+		let voters = docSnap.data()['voters'];
+		let user_id = getUserName(user);
 
-		if (doc.exists) {
+		// if no group of voters has been specified, allow everyone to vote
+		if(voters.length < 1 || voters.includes(user_id)) {
 			return true;
-		} else {
+		} 
+		else {
 			return false;
 		}
     } catch(error) {
