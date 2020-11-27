@@ -65,7 +65,11 @@ const userLogin = async (loginType) => {
 const userIsHamiltonian = () => {
     let email = getCurrentUserEmail();
     let result = (email.split('@')[1] == "hamilton.edu");
+
+    if (!result) throw "Not Hamiltonian"
+
     return result;
+
 }
 
 

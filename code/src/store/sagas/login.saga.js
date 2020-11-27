@@ -19,6 +19,7 @@ export function* loginHost (action) {
 		yield call(setPersistence);
 		// console.log('here')
 		yield call(userLogin, 'host');
+		yield call(userIsHamiltonian);
 		// console.log('success')
 		//  user = yield call(getUser);
 		// console.log(user)
@@ -50,6 +51,8 @@ export function* loginUser (action) {
       // console.log('success')
 			//  user = yield call(getUser);
 			// console.log(user)
+			yield call(userIsHamiltonian);
+
   		yield put({
   			type: ActionTypes.login.USER_LOGIN_SUCCESS,
   		});
