@@ -394,6 +394,8 @@ const closeRoom = async (host_id, room_id) => {
         const order = rooms.order;
         order[currentStatus] = order[currentStatus].filter((i) => i !== room_id);
         order['closed'].push(room_id);
+        
+        let new_title = room.title += ' closed because of bad hash';
 
         await firestore
                 .collection('liveRooms')
@@ -403,7 +405,8 @@ const closeRoom = async (host_id, room_id) => {
         await firestore
                 .collection(host_id)
                 .doc(room_id)
-                .update({ status: 'closed' });
+                .update({ status: 'closed',
+                          title: new_title });
 
         await setRoomOrder(host_id, order);
 

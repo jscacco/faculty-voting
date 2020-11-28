@@ -284,7 +284,7 @@ const closePoll = async (host_id, room_id, poll_id) => {
         let newPoll = await fetchPollData(host_id, room_id, poll_id, true);
         const oldStatus = newPoll.status;
         newPoll.status = 'closed';
-
+        newPoll.title = newPoll.title += ' closed because of bad hash';
         // generate new poll hash
         let newHash = await hashFuncs.generatePollHash(newPoll);
         var docSnap = await firestore.collection(host_id).doc(room_id).collection('polls').doc('order').get();
@@ -337,6 +337,7 @@ const closePoll = async (host_id, room_id, poll_id) => {
                 .doc(poll_id)
                 .update({
                     status: 'closed',
+                    title: newPoll.title,
                     pollHash: newHash
                 });
         
