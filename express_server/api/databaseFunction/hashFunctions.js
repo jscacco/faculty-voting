@@ -242,7 +242,6 @@ const generateVoteHash = async (vote, peppered_token, room_id, poll_id) => {
 const compareHashes = async (map, fetched, type) => {
     // Given a map and a fetched hash, see if the hash is good.
     // Output: true if good, false if bad
-
     let expectedHash = "";
     
     // See what we would expect hash to be

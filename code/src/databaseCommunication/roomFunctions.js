@@ -52,9 +52,9 @@ const checkRoomcode = async (room_id) => {
 //     return true;
 // }
 
-const fetchHostRooms = async (host_id) => {
+const fetchHostRooms = async (host_id, fetching=false) => {
     try {
-        let url = `http://localhost:4000/room/fetchHostRooms?host_id=${host_id}`;
+        let url = `http://localhost:4000/room/fetchHostRooms?host_id=${host_id}&fetch=${fetching}`;
         let response = await fetchGet(url);
 
         if(response.status == 200) {
@@ -64,6 +64,7 @@ const fetchHostRooms = async (host_id) => {
         else if(response.status == 505) {
             const data = await response.text();
             alert(data);
+            return await fetchHostRooms(host_id, true);
         }
         else {
             throw `Failed to fetch rooms for host ${host_id}`;

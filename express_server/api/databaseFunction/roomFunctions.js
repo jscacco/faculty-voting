@@ -45,50 +45,67 @@ const checkRoomStatuses = async (rooms, order) => {
     return true;
 }
 
-const fetchHostRooms = async (host_id) => {
+const fetchHostRooms = async (host_id, fetching=false) => {
     try {
         let rooms = {}; //{ openRooms: [], pendingRooms: [], closedRooms: [] };
         let collect = firestore.collection(host_id);
+        let collectSnap = await collect.get();
         let order = { open: [], pending: [], closed: [] };
-        await collect.get().then(snap => {
-            snap.forEach(async function (doc) {
-                let room = { title: '', status: '', id: '' };
 
-                if(doc.id !== 'order') {
-                    room['id'] = doc.id;
-                    room['title'] = doc.data()['title'];
-                    room['status'] = doc.data()['status'];
-		            room['hosts'] = doc.data()['hosts'];
-                    rooms[doc.id] = room;
+        if(fetching === 'false') {
+            fetching = false;
+        }
+        else if(fetching === 'true') {
+            fetching = true;
+        }
+        else if(fetching) {
+            fetching = fetching;
+        }
+        else {
+            fetching = false;
+        }
 
-                    // add in polls['order'] so we can factor that into the hash
-                    let roomWithPollOrder = room;
+        let docs = collectSnap.docs;
+        for(let i = 0; i < docs.length; i++) {
+            let doc = docs[i];
+            let room = { title: '', status: '', id: '' };
 
-                    let orderRef = firestore.collection(host_id).doc(doc.id).collection('polls').doc('order');
-                    let orderSnap = await orderRef.get();
+            if(doc.id !== 'order') {
+                room['id'] = doc.id;
+                room['title'] = doc.data()['title'];
+                room['status'] = doc.data()['status'];
+                room['hosts'] = doc.data()['hosts'];
+                rooms[doc.id] = room;
 
-                    roomWithPollOrder['pollOrder'] = orderSnap.data();
+                // add in polls['order'] so we can factor that into the hash
+                let roomWithPollOrder = room;
 
-                    // make sure the hash of that room is good
-                    // room = {'id': '', 'title': '', 'status': '', 'pollOrder': ''}
-                    let hashComparison = await hashFuncs.compareHashes(roomWithPollOrder, doc.data()['roomHash'], "room");
-                    if (!hashComparison) {
-                        await closeRoom(host_id, doc.id);
-                        return `!!Warning!! Data fetched from room ${room['id']} has a bad hash. This means that the data has been tampered with via the Firebase Console!`;
-		            }
+                let orderRef = firestore.collection(host_id).doc(doc.id).collection('polls').doc('order');
+                let orderSnap = await orderRef.get();
+
+                roomWithPollOrder['pollOrder'] = orderSnap.data();
+
+                // make sure the hash of that room is good
+                // room = {'id': '', 'title': '', 'status': '', 'pollOrder': ''}
+                let hashComparison = await hashFuncs.compareHashes(roomWithPollOrder, doc.data()['roomHash'], "room");
+
+                if (!hashComparison && !fetching) {
+                    // console.log("CLKSOING")
+                    await closeRoom(host_id, doc.id);
+                    return `!!Warning!! Data fetched from room ${room['id']} has a bad hash. This means that the data has been tampered with via the Firebase Console!${doc.id}`;
                 }
-                else {
-                    order = doc.data();
-                }
-            });
-        });
+            }
+            else {
+                order = doc.data();
+            }
+        }
 
         // make sure the order of the rooms hasn't been changed; eliminates the need for hostHash
         const statuses = await checkRoomStatuses(rooms, order);
         if(typeof statuses === 'string') {
             return statuses;
         }
-
+        
         return {
             rooms: rooms,
             order: order
@@ -371,7 +388,7 @@ const getHost = async (room_id) => {
 
 const closeRoom = async (host_id, room_id) => {
     try {
-        const rooms = await fetchHostRooms(host_id)
+        const rooms = await fetchHostRooms(host_id, true);
         const room = rooms.rooms[room_id];
         const currentStatus = room.status;
         const order = rooms.order;
@@ -384,9 +401,9 @@ const closeRoom = async (host_id, room_id) => {
                 .set({ host_id: host_id })
 
         await firestore
-            .collection(host_id)
-            .doc(room_id)
-            .update({ status: 'closed' });
+                .collection(host_id)
+                .doc(room_id)
+                .update({ status: 'closed' });
 
         await setRoomOrder(host_id, order);
 
@@ -411,35 +428,13 @@ const closeRoom = async (host_id, room_id) => {
         }
 
         await firestore
-            .collection(host_id)
-            .doc(room_id)
-            .update({ roomHash: await hashFuncs.generateRoomHash(roomData) });
-
-        const collect = firestore
-                            .collection(host_id)
-                            .doc(room_id)
-                            .collection('polls');
-
-        const collectSnap = await collect.get();
-        const collectData = collectSnap.docs;
-        const polls = {};
-        let new_order = {};
-
-        for (let i = 0; i < collectData.length; i++) {
-            const poll_id = collectData[i].id;
-
-            if(poll_id != 'order') {
-                polls[poll_id] = await pollFuncs.fetchPollData(host_id, room_id, poll_id);
-            }
-            else {
-                new_order = collectData[i].data();
-            }
-        }
+                .collection(host_id)
+                .doc(room_id)
+                .update({ roomHash: await hashFuncs.generateRoomHash(roomData) });
 
         return {
-            status: 'closed',
-            polls: {...polls},
-            order: new_order
+            rooms: rooms,
+            order: order
         }
     } catch(error) {
         console.log(error)
