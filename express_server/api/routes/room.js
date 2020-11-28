@@ -20,7 +20,6 @@ router.get('/checkRoomcode', async (req, res, next) => {
 router.get('/fetchHostRooms', async (req, res, next) => {
     try {
         let hostRooms = await roomFuncs.fetchHostRooms(req.query.host_id, req.query.fetch);
-        console.log(hostRooms)
         if(typeof hostRooms !== 'string') {
             res.status(200).send(hostRooms);
         }

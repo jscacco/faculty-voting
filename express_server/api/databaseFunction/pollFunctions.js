@@ -102,6 +102,12 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state, user) => {
 
             delete poll_state.options;
 
+            for(const [key, value, type] of Object.entries(original_state.options)) {
+                if(value.optionType) {
+                    delete original_state.options[key].optionType
+                }
+            }
+
             poll_state['pollHash'] = await hashFuncs.generatePollHash(original_state);
             
             await pollRef.update(poll_state);
@@ -284,7 +290,7 @@ const closePoll = async (host_id, room_id, poll_id) => {
         let newPoll = await fetchPollData(host_id, room_id, poll_id, true);
         const oldStatus = newPoll.status;
         newPoll.status = 'closed';
-        newPoll.title = newPoll.title += ' closed because of bad hash';
+        newPoll.title = newPoll.title += ' | closed because of bad hash';
         // generate new poll hash
         let newHash = await hashFuncs.generatePollHash(newPoll);
         var docSnap = await firestore.collection(host_id).doc(room_id).collection('polls').doc('order').get();

@@ -30,12 +30,12 @@ const generatePollMsg = async (poll) => {
     msg += "options={";
     const optKeys = Object.keys(poll['options']).sort();
     optKeys.forEach((key, index) => {
-	msg += "" + key + ":{";
-	const optKeys2 = Object.keys(poll['options'][key]).sort();
-	optKeys2.forEach((key2, index2) => {
-	    msg += "" + key2 + ":" + poll['options'][key][key2] + "";
-	});
-	msg += "}";
+        msg += "" + key + ":{";
+        const optKeys2 = Object.keys(poll['options'][key]).sort();
+        optKeys2.forEach((key2, index2) => {
+            msg += "" + key2 + ":" + poll['options'][key][key2] + "";
+        });
+        msg += "}";
     });
     msg += "};";
     return msg;
@@ -245,17 +245,18 @@ const compareHashes = async (map, fetched, type) => {
     let expectedHash = "";
     
     // See what we would expect hash to be
-    if (type == "poll") {
+    if (type === "poll") {
 	    expectedHash = await generatePollHash(map);
     } 
-    else if (type == "room") {
+    else if (type === "room") {
 	    expectedHash = await generateRoomHash(map);
     }
-   
+    
     if (expectedHash != fetched) {
         // The hashes don't match - bad!
         return false;
-    } else {
+    } 
+    else {
         // The hashes match - good.
         return true;
     }
