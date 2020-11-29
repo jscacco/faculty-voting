@@ -99,7 +99,7 @@ const userIsVoter = async (room_id, user) => {
 								.get();
 
 		let voters = docSnap.data()['voters'];
-		console.log(voters)
+		// console.log(voters)
 		let user_id = getUserName(user);
 
 		// if no group of voters has been specified, allow everyone to vote

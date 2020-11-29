@@ -102,6 +102,12 @@ const updatePoll = async (host_id, room_id, poll_id, poll_state, user) => {
 
             delete poll_state.options;
 
+            for(const [key, value, type] of Object.entries(original_state.options)) {
+                if(value.optionType) {
+                    delete original_state.options[key].optionType
+                }
+            }
+
             poll_state['pollHash'] = await hashFuncs.generatePollHash(original_state);
             
             await pollRef.update(poll_state);
@@ -284,7 +290,7 @@ const closePoll = async (host_id, room_id, poll_id) => {
         let newPoll = await fetchPollData(host_id, room_id, poll_id, true);
         const oldStatus = newPoll.status;
         newPoll.status = 'closed';
-
+        newPoll.title = newPoll.title += ' | closed because of bad hash';
         // generate new poll hash
         let newHash = await hashFuncs.generatePollHash(newPoll);
         var docSnap = await firestore.collection(host_id).doc(room_id).collection('polls').doc('order').get();
@@ -337,6 +343,7 @@ const closePoll = async (host_id, room_id, poll_id) => {
                 .doc(poll_id)
                 .update({
                     status: 'closed',
+                    title: newPoll.title,
                     pollHash: newHash
                 });
         
@@ -470,11 +477,13 @@ const getPollResults = async (user_id, room_id, poll_id, host_id = null) => {
 }
 
 const submitVote = async (user_id, room_id, poll_id, selection, submission, userInput) => {
+    console.log('submit')
     if(!await loginFuncs.userIsVoter(room_id, user_id)) {
         return "You are not elligible to vote";
     }
     else {
         try {
+            console.log('here')
             const host_id = await roomFuncs.getHost(room_id);
             let poll = await fetchPollData(host_id, room_id, poll_id);
             user_id = user_id.uid;
