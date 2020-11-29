@@ -418,7 +418,7 @@ const closeRoom = async (host_id, room_id) => {
             let poll_id = allPolls[i];
 
             if(!newPollsOrder['closed'].includes(poll_id)) {
-                await pollFuncs.closePoll(host_id, room_id, poll_id);
+                await pollFuncs.closePoll(host_id, room_id, poll_id, true);
             }
         }
         
