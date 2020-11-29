@@ -31,7 +31,7 @@ const PolicyFooter = ( props ) => {
     <ComponentWrapper>
       <Body color={Colors.Buff}
             bottomBorder borderColor={Colors.Buff}
-            onClick={() => history.push('/PrivacyPolicy')}
+            onClick={() => props.history.push('/PrivacyPolicy')}
             {...props}>
         Privacy Policy
       </Body>

@@ -46,7 +46,7 @@ const SideBarComponent = ( props ) => {
   const size = getSize(props.viewport)
 
   return (
-    props.editing ?
+    props.editing || props.roomStatus !== 'pending' ?
     <HostStatusCard editing={props.editing}
                     loading={props.loading}
                     pollStatus={props.pollStatus}
@@ -155,7 +155,8 @@ const HostRoomPage = ( props ) => {
     history.push(`/HostPoll/${roomcode}/${poll_id}`, {roomStatus: props.status, editing: true})
   }
 
-  const sideContent = <SideBarComponent editing={props.editing}
+  const sideContent = <SideBarComponent roomStatus={props.status}
+                                        editing={props.editing}
                                         loading={props.loading}
                                         pollStatus={props.status}
                                         onStatusClick={(newStatus) => props.onUpdateStatus(roomcode, newStatus)}
