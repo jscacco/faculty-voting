@@ -2,7 +2,8 @@ import { call, put, select }     				from "redux-saga/effects";
 import ActionTypes       								from '../actionTypes';
 import { fetchPollData, submitVote }   	from '../../databaseCommunication/pollFunctions';
 import { getUserId, userIsVoter }				from '../../LoginUtils';
-
+import firebase from '../../databaseCommunication/permissions.js'
+const fireauth = firebase.auth();
 
 export function* fetchUserPoll (action) {
 
@@ -35,7 +36,8 @@ export const pollSelector = ( state ) => {
 export function* sendVote (action) {
 
 	try {
-		const user_id = yield call(userIsVoter);
+		//console.log('sendVote')
+		const user_id = fireauth.currentUser;
 
 		const currentPoll = yield select(pollSelector);
 		const response = yield call(() => submitVote(user_id, action.room_id, action.poll_id,

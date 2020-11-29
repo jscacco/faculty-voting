@@ -477,11 +477,13 @@ const getPollResults = async (user_id, room_id, poll_id, host_id = null) => {
 }
 
 const submitVote = async (user_id, room_id, poll_id, selection, submission, userInput) => {
+    console.log('submit')
     if(!await loginFuncs.userIsVoter(room_id, user_id)) {
         return "You are not elligible to vote";
     }
     else {
         try {
+            console.log('here')
             const host_id = await roomFuncs.getHost(room_id);
             let poll = await fetchPollData(host_id, room_id, poll_id);
             user_id = user_id.uid;
