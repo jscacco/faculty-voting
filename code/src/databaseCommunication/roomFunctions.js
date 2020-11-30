@@ -20,7 +20,7 @@ import { fetchGet, fetchPost, fetchPut, fetchDelete } from "./fetchFunctions";
 // const checkRoomcode = async (host_id, room_id) => {
 const checkRoomcode = async (room_id) => {
     try {
-        let url = `http://localhost:4000/room/CheckRoomcode?room_id=${room_id}`; //https://facultyvoting.hamilton.edu
+        let url = `https://facultyvoting.hamilton.edu:4000/room/CheckRoomcode?room_id=${room_id}`; //https://facultyvoting.hamilton.edu
         let response = await fetchGet(url);
         if(response.status === 200) {
             const data = await response.json();
@@ -54,7 +54,7 @@ const checkRoomcode = async (room_id) => {
 
 const fetchHostRooms = async (host_id, fetching=false) => {
     try {
-        let url = `http://localhost:4000/room/fetchHostRooms?host_id=${host_id}&fetch=${fetching}`;
+        let url = `https://facultyvoting.hamilton.edu:4000/room/fetchHostRooms?host_id=${host_id}&fetch=${fetching}`;
         let response = await fetchGet(url);
 
         if(response.status == 200) {
@@ -77,7 +77,7 @@ const fetchHostRooms = async (host_id, fetching=false) => {
 const setRoomOrder = async (host_id, new_order) => {
     try {
         //console.log(new_order)
-        let url = `http://localhost:4000/room/fetchHostRooms`;
+        let url = `https://facultyvoting.hamilton.edu:4000/room/fetchHostRooms`;
         let response = await fetchPut(url, { host_id: host_id,
                                              new_order: new_order });
         const data = await response.json();
@@ -94,8 +94,8 @@ const setRoomOrder = async (host_id, new_order) => {
 
 const deleteHostRoom = async (host_id, room_id) => {
     try {
-        let url = `http://localhost:4000/room/deleteHostRoom`;
-        let response = await fetchDelete(url, { host_id: host_id, 
+        let url = `https://facultyvoting.hamilton.edu:4000/room/deleteHostRoom`;
+        let response = await fetchDelete(url, { host_id: host_id,
                                                 room_id: room_id });
         const data = await response.json();
         if(response.status == 200) {
@@ -115,7 +115,7 @@ const addHostRoom = async (host_id, user) => {
     // } else {
         try {
             let user = firebase.auth().currentUser;
-            let url = `http://localhost:4000/room/addHostRoom`;
+            let url = `https://facultyvoting.hamilton.edu:4000/room/addHostRoom`;
             let response = await fetchPost(url, { host_id: host_id,
                                                   user: user });
             const data = await response.json();
@@ -137,12 +137,12 @@ const updateRoom = async (host_id, room_id, room_state) => {
     // } else {
         try {
             let user = firebase.auth().currentUser;
-            let url = `http://localhost:4000/room/updateRoom`;
-            let response = await fetchPut(url, { host_id: host_id, 
-                                                 room_id: room_id, 
+            let url = `https://facultyvoting.hamilton.edu:4000/room/updateRoom`;
+            let response = await fetchPut(url, { host_id: host_id,
+                                                 room_id: room_id,
                                                  room_state: room_state,
                                                  user: user });
-            
+
             // console.log(response)
             if(response.status == 200) {
                 const data = await response.json();
@@ -171,12 +171,12 @@ const setPollOrder = async (host_id, room_id, new_order) => {
     // } else {
         try {
             let user = firebase.auth().currentUser;
-            let url = `http://localhost:4000/room/setPollOrder`;
-            let response = await fetchPut(url, { host_id: host_id, 
-                                                 room_id: room_id, 
+            let url = `https://facultyvoting.hamilton.edu:4000/room/setPollOrder`;
+            let response = await fetchPut(url, { host_id: host_id,
+                                                 room_id: room_id,
                                                  new_order: new_order,
                                                  user: user });
-            
+
             if(response.status == 200) {
                 const data = await response.json();
                 return data;
@@ -197,7 +197,7 @@ const setPollOrder = async (host_id, room_id, new_order) => {
 
 const getHost = async (room_id) => {
     try {
-        let url = `http://localhost:4000/room/getHost?room_id=${room_id}`;
+        let url = `https://facultyvoting.hamilton.edu:4000/room/getHost?room_id=${room_id}`;
         let response = await fetchGet(url);
         const data = await response.json();
         if(response.status == 200) {
@@ -217,12 +217,12 @@ const updateRoomStatus = async (host_id, room_id, new_status) => {
     // } else {
         try {
             let user = firebase.auth().currentUser;
-            let url = `http://localhost:4000/room/updateRoomStatus`;
-            let response = await fetchPut(url, { host_id: host_id, 
-                                                 room_id: room_id, 
+            let url = `https://facultyvoting.hamilton.edu:4000/room/updateRoomStatus`;
+            let response = await fetchPut(url, { host_id: host_id,
+                                                 room_id: room_id,
                                                  new_status: new_status,
                                                  user: user });
-            
+
             if(response.status == 200) {
                 const data = await response.json();
                 return data;
@@ -243,7 +243,7 @@ const updateRoomStatus = async (host_id, room_id, new_status) => {
 
 const getRoomResults = async (host_id, room_id) => {
     try {
-        let url = `http://localhost:4000/room/getRoomResults?host_id=${host_id}&room_id=${room_id}`;
+        let url = `https://facultyvoting.hamilton.edu:4000/room/getRoomResults?host_id=${host_id}&room_id=${room_id}`;
         let response = await fetchGet(url);
         const data = await response.json();
         if(response.status == 200) {
@@ -259,7 +259,7 @@ const getRoomResults = async (host_id, room_id) => {
 
 const fetchRoomData = async (host_id, room_id) => {
     try {
-        let url = `http://localhost:4000/room/fetchRoomData?host_id=${host_id}&room_id=${room_id}`;
+        let url = `https://facultyvoting.hamilton.edu:4000/room/fetchRoomData?host_id=${host_id}&room_id=${room_id}`;
         let response = await fetchGet(url);
         const data = await response.json();
         if(response.status == 200) {
@@ -275,7 +275,7 @@ const fetchRoomData = async (host_id, room_id) => {
 
 const uploadVoters = async (room_id, voters) => {
     try {
-        let url = `http://localhost:4000/room/uploadVoters`;
+        let url = `https://facultyvoting.hamilton.edu:4000/room/uploadVoters`;
         let response = await fetchPut(url, {
                                                 room_id: room_id,
                                                 voters: voters
