@@ -38,10 +38,6 @@ class OptionGroup extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log('this rener')
-
-    console.log(props)
-
     this.state = { selectedOptions: props.selectedOptions ? {...props.selectedOptions} : {} }
 
     this._handleClickMulti = this._handleClickMulti.bind(this);
@@ -98,7 +94,7 @@ class OptionGroup extends React.Component {
       const id = item.props.id;
 
       const onClick = (event) => this._handleClick(event, id);
-      const clicked = this.state.selectedOptions[id];
+      const clicked = this.props.selectedOptions ? this.props.selectedOptions[id] : this.state.selectedOptions[id];
       const iconType = (this.props.type === 'multiple') ? 'checkbox' : 'bubble';
 
       const itemProps = { onClick: onClick,

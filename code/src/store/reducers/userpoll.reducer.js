@@ -82,7 +82,7 @@ export default function reduceUserPoll(state = initialState, action) {
 
   switch (action.type) {
     case ActionTypes.userpoll.FETCH_POLL_START:
-      return { ...state, loading: true, error: null };
+      return { ...initialState, loading: true, error: null };
 
     case ActionTypes.userpoll.FETCH_POLL_SUCCESS:
       result = action.response;
