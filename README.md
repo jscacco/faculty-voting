@@ -6,8 +6,16 @@ In order to use this project, a few keys and authentication files must be genera
 - First, you must generate secret hash key to be stored on the server. Here's how it's done:
  To start, ssh into the server, navigate to the project directory, then /express_server/api/databaseFunction. This is where we will be storing the key we use; delete the file 'hmac_cred.txt' if it already exists (NOTE: this will invalidate all currently existing rooms + polls). Next, use OpenSSL to generate the key and store it in 'hmac_cred.txt' by issuing the following command: 'openssl rand -out hmac_cred.txt -base64 -36'.
  - Next, we need to set a private key for the firebase project and download the JSON file from the firebase console. Follow the instructions here: https://firebase.google.com/docs/admin/setup
+ - NOTE: there are two files on the server and on the frontend which contain sensitive information regarding the firebase project, such as api keys. We have removed them from this repository for the sake of security.
+ - CHAD IF YOU THINK THERE IS ANYTHING ELSE THAT NEEDS TO BE SAID HERE, PLEASE DO SO.
  
- Once these two steps are completed the project will work and you will have unique keys generated.
+ Once these steps are completed the project will work and you will have unique keys generated. Now, move onto the next section for instructions on how to run the program!
+ 
+ ## HOW TO RUN THE PROGRAM
+ There are two main programs which need to run in order to get the project running. (NOTE: you must download 'npm' to run the code. Follow these instructions: https://www.npmjs.com/get-npm) If you are using this project on the server, you don't need to worry about either step. However, if you would like to test this project on localhost, do the following:
+ - First, navgate to the project's directory and then '/code'. Then, issue the following two commands: 'npm install', then 'npm start'. This will start the frontend. 
+ - Now, open a new terminal and navigate to to the project's directory and then '/express_server/api/'. Then, run 'npm start'. This will start the backend.
+ - CHAD PLEASE WRITE HOW TO CHANGE THE URLS FROM THE ACTUAL ADDRESS TO localhost
  
 ### Fleshed-Out Proposal
 #### Pre-Session
