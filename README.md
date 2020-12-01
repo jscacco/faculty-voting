@@ -1,22 +1,14 @@
 # faculty-voting
 CS 410, Fall 2020
 
-### Initial Meeting:
-- Ask for their overall vision and don't try to impose any restrictions; it's a time to listen and not judge.
-- Actively ask questions (Lead, you're in charge of keeping the meeting going, but everyone should be comfortable asking questions), and (Scribe) take notes; we want to understand and document the vision.
-  * What are you doing now to solve this problem? (Try to assess and feel the client's needs and challenges and capture them)
-  * Ideal user experience?
-  * What did you like/disklike about the previous version?
-  * Platform? Web-based, app, both?
-  * Priority for platforms?
-  * Key features you want?
-  * Things to avoid?
-  
-- Think big: ask questions to gauge the scope of the project, and what the ultimate goals are.
-
-- **Let the client know that you are going to come up with a proposal and that you would like to meet next week to discuss it.**
-- **Set up the next meeting before ending. Middle of the week is better so that I can meet with you before and after.**
-
+## IMPORTANT INFO - HOW TO SETUP
+In order to use this project, a few keys and authentication files must be generated and moved to specific directories before the project can work.
+- First, you must generate secret hash key to be stored on the server. Here's how it's done:
+ To start, ssh into the server, navigate to the project directory, then /express_server/api/databaseFunction. This is where we will be storing the key we use; delete the file 'hmac_cred.txt' if it already exists (NOTE: this will invalidate all currently existing rooms + polls). Next, use OpenSSL to generate the key and store it in 'hmac_cred.txt' by issuing the following command: 'openssl rand -out hmac_cred.txt -base64 -36'.
+ - Next, we need to set a private key for the firebase project and download the JSON file from the firebase console. Follow the instructions here: https://firebase.google.com/docs/admin/setup
+ 
+ Once these two steps are completed the project will work and you will have unique keys generated.
+ 
 ### Fleshed-Out Proposal
 #### Pre-Session
 ##### Login 
@@ -48,8 +40,8 @@ CS 410, Fall 2020
   * User recieves session room code from the Host and enters a session similar to Kahoot (system checks to see if can enter/what type of room user)
   * User enters session room by clicking on the active session on their dashboard
 
-##### Anonimity 
-- Anonimity begins as soon as a user enters a session
+##### Anonymity 
+- Anonymity begins as soon as a user enters a session
 - Whether or not the user is a viewer or voter is assest exterior to the voting room, once inside knowledge of a non-host user is binary: view or voter
 - **Discuss: should a host be aware of who has entered the room (not what they vote) or how many people are in the room**
 
