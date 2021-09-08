@@ -1,3 +1,6 @@
+## Welcome!
+This project was created by Louise Thompson, Chad Dubin, Connor Cates, and Jack Scacco for their Fall 2020 senior seminar project. It is currently out of use and serves as a working proof of concept for a secure, anonymous faculty voting web application. All keys found in this project are deprecated, the firebase project is closed, and the files no longer reside on the server. As such, please consider this project a showcase of skill rather than a deployed project. Our final presentation on the project can be found here: https://docs.google.com/presentation/d/1PncjNWyqTFLcZPNvRafsBNj1wX2cobH3ApibsYnvXCw/edit?usp=sharing 
+
 # faculty-voting
 CS 410, Fall 2020
 
